@@ -5,7 +5,11 @@
 SET search_path TO aikovrr, public;
 
 -- Insert Application Users (for logging into AIKovrr app)
--- Password for all users is 'password123' (hashed with bcrypt)
+-- IMPORTANT: Passwords are set by setup-backend.sh script (see backend/setup-backend.sh)
+-- Default passwords:
+--   admin: Khri2025
+--   or/shai/liran/yakir: password123
+-- These placeholder hashes are replaced during setup
 -- In production, use proper password hashing via Django
 INSERT INTO auth_app_user (id, username, email, password_hash, first_name, last_name, role, is_superuser) VALUES
 (1, 'admin', 'admin@aikovrr.com', 'pbkdf2_sha256$600000$placeholder', 'Admin', 'User', 'admin', TRUE),

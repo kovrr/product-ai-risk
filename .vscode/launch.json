@@ -16,7 +16,12 @@
       "justMyCode": false,
       "cwd": "${workspaceFolder}/backend",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/backend"
+        "PYTHONPATH": "${workspaceFolder}/backend",
+        "DB_HOST": "localhost",
+        "DB_USER": "postgres",
+        "DB_PASSWORD": "postgres",
+        "DB_NAME": "aikovrr",
+        "DB_PORT": "5432"
       },
       "console": "integratedTerminal"
     },
@@ -28,7 +33,15 @@
       "program": "${file}",
       "console": "integratedTerminal",
       "justMyCode": false,
-      "cwd": "${workspaceFolder}/backend"
+      "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend",
+        "DB_HOST": "localhost",
+        "DB_USER": "postgres",
+        "DB_PASSWORD": "postgres",
+        "DB_NAME": "aikovrr",
+        "DB_PORT": "5432"
+      }
     },
     {
       "name": "Python: Attach to Django",
@@ -58,6 +71,14 @@
       "django": true,
       "justMyCode": false,
       "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend",
+        "DB_HOST": "localhost",
+        "DB_USER": "postgres",
+        "DB_PASSWORD": "postgres",
+        "DB_NAME": "aikovrr",
+        "DB_PORT": "5432"
+      },
       "console": "integratedTerminal"
     },
     {
@@ -72,6 +93,14 @@
       "django": true,
       "justMyCode": false,
       "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend",
+        "DB_HOST": "localhost",
+        "DB_USER": "postgres",
+        "DB_PASSWORD": "postgres",
+        "DB_NAME": "aikovrr",
+        "DB_PORT": "5432"
+      },
       "console": "integratedTerminal"
     },
     {
@@ -86,6 +115,14 @@
       "django": true,
       "justMyCode": false,
       "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend",
+        "DB_HOST": "localhost",
+        "DB_USER": "postgres",
+        "DB_PASSWORD": "postgres",
+        "DB_NAME": "aikovrr",
+        "DB_PORT": "5432"
+      },
       "console": "integratedTerminal"
     }
   ],

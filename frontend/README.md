@@ -34,7 +34,7 @@ Modern React frontend for the AIKovrr AI governance platform with Kovrr design s
 ### 1. Install Dependencies
 
 ```bash
-cd /Users/liransorani/CascadeProjects/aikovrr/frontend
+cd frontend
 npm install
 ```
 

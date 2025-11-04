@@ -10,33 +10,72 @@ Complete full-stack application for AI governance and compliance management.
 
 ## 🚀 Quick Start
 
-### 1. Start PostgreSQL Database
+### Automated Setup (Recommended)
 
-Make sure PostgreSQL is running and import the database:
+Run the automated setup script that handles everything:
+
+```bash
+./setup.sh
+```
+
+This will:
+- ✅ Create PostgreSQL database with demo data
+- ✅ Set up Python virtual environment
+- ✅ Install all dependencies
+- ✅ Run Django migrations
+- ✅ Configure demo user accounts
+
+### Manual Setup
+
+<details>
+<summary>Click to expand manual setup instructions</summary>
+
+#### 1. Environment Setup
+
+```bash
+cp .env.example .env
+# Edit .env if needed (defaults work for local development)
+```
+
+#### 2. Database Setup
 
 ```bash
 cd database
-psql -U liransorani -d postgres -f aikovrr_schema.sql
-psql -U liransorani -d aikovrr -f aikovrr_data.sql
+./setup-db.sh
 ```
 
-### 2. Start Django Backend
+#### 3. Backend Setup
 
 ```bash
 cd backend
-python3.9 manage.py runserver
+./setup-backend.sh
 ```
 
-Backend will run at: `http://localhost:8000`
+#### 4. Frontend Setup
 
-### 3. Start React Frontend
+```bash
+cd frontend
+npm install
+```
 
+</details>
+
+### Running the Application
+
+**Start Backend:**
+```bash
+cd backend
+source venv/bin/activate
+python manage.py runserver
+```
+Backend: `http://localhost:8000`
+
+**Start Frontend:**
 ```bash
 cd frontend
 npm run dev
 ```
-
-Frontend will run at: `http://localhost:5173`
+Frontend: `http://localhost:5173`
 
 ## 🔐 Login Credentials
 

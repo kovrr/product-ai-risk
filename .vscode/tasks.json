@@ -91,10 +91,23 @@
       }
     },
     {
+      "label": "Database: Create Database",
+      "type": "shell",
+      "command": "createdb",
+      "args": ["-U", "postgres", "aikovrr"],
+      "options": {
+        "cwd": "${workspaceFolder}/database"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
       "label": "Database: Import Schema",
       "type": "shell",
       "command": "psql",
-      "args": ["-U", "liransorani", "-d", "postgres", "-f", "aikovrr_schema.sql"],
+      "args": ["-U", "postgres", "-d", "aikovrr", "-f", "aikovrr_schema.sql"],
       "options": {
         "cwd": "${workspaceFolder}/database"
       },
@@ -107,7 +120,7 @@
       "label": "Database: Import Data",
       "type": "shell",
       "command": "psql",
-      "args": ["-U", "liransorani", "-d", "aikovrr", "-f", "aikovrr_data.sql"],
+      "args": ["-U", "postgres", "-d", "aikovrr", "-f", "aikovrr_data.sql"],
       "options": {
         "cwd": "${workspaceFolder}/database"
       },
