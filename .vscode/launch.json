@@ -1,0 +1,105 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    
+    {
+      "name": "Django: Backend Server",
+      "type": "debugpy",
+      "request": "launch",
+      "python": "/opt/homebrew/bin/python3.9",
+      "program": "${workspaceFolder}/backend/manage.py",
+      "args": [
+        "runserver",
+        "8000"
+      ],
+      "django": true,
+      "justMyCode": false,
+      "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/backend"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Django: Current File",
+      "type": "debugpy",
+      "request": "launch",
+      "python": "/opt/homebrew/bin/python3.9",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "cwd": "${workspaceFolder}/backend"
+    },
+    {
+      "name": "Python: Attach to Django",
+      "type": "debugpy",
+      "request": "attach",
+      "connect": {
+        "host": "localhost",
+        "port": 5678
+      },
+      "pathMappings": [
+        {
+          "localRoot": "${workspaceFolder}/backend",
+          "remoteRoot": "."
+        }
+      ]
+    },
+    {
+      "name": "Django: Run Tests",
+      "type": "debugpy",
+      "request": "launch",
+      "python": "/opt/homebrew/bin/python3.9",
+      "program": "${workspaceFolder}/backend/manage.py",
+      "args": [
+        "test",
+        "--keepdb"
+      ],
+      "django": true,
+      "justMyCode": false,
+      "cwd": "${workspaceFolder}/backend",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Django: Migrations",
+      "type": "debugpy",
+      "request": "launch",
+      "python": "/opt/homebrew/bin/python3.9",
+      "program": "${workspaceFolder}/backend/manage.py",
+      "args": [
+        "makemigrations"
+      ],
+      "django": true,
+      "justMyCode": false,
+      "cwd": "${workspaceFolder}/backend",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Django: Shell",
+      "type": "debugpy",
+      "request": "launch",
+      "python": "/opt/homebrew/bin/python3.9",
+      "program": "${workspaceFolder}/backend/manage.py",
+      "args": [
+        "shell"
+      ],
+      "django": true,
+      "justMyCode": false,
+      "cwd": "${workspaceFolder}/backend",
+      "console": "integratedTerminal"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Full Stack: Django + React",
+      "configurations": ["Django: Backend Server"],
+      "presentation": {
+        "hidden": false,
+        "group": "fullstack",
+        "order": 1
+      },
+      "stopAll": true,
+      "preLaunchTask": "Start React Dev Server"
+    }
+  ]
+}
