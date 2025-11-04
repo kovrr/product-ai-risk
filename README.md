@@ -7,10 +7,33 @@ Complete full-stack application for AI governance and compliance management.
 - **Frontend**: React 19 + Vite + TailwindCSS (Kovrr Design System)
 - **Backend**: Django 4.2 + Django REST Framework
 - **Database**: PostgreSQL with demo data
+- **Deployment**: Docker + Docker Compose
 
 ## 🚀 Quick Start
 
-### Automated Setup (Recommended)
+### Option 1: Docker (Recommended) 🐳
+
+The easiest way to run AIKovrr with consistent environment:
+
+```bash
+# 1. Create environment file
+cp .env.example .env
+
+# 2. Update .env for Docker
+# Set: DB_HOST=db
+# Set: DB_PASSWORD=postgres
+
+# 3. Start all services
+docker-compose up
+```
+
+**Access the application:**
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:8000/api
+
+**📖 See [DOCKER.md](DOCKER.md) for complete Docker documentation**
+
+### Option 2: Local Setup (Automated)
 
 Run the automated setup script that handles everything:
 
@@ -21,7 +44,7 @@ Run the automated setup script that handles everything:
 This will:
 - ✅ Create PostgreSQL database with demo data
 - ✅ Set up Python virtual environment
-- ✅ Install all dependencies
+- ✅ Install all dependencies (backend + frontend)
 - ✅ Run Django migrations
 - ✅ Configure demo user accounts
 
