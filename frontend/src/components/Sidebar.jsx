@@ -3,21 +3,23 @@ import {
   LayoutDashboard, 
   Eye, 
   AlertTriangle, 
-  BarChart3, 
+  DollarSign, 
   Link2, 
   Shield,
-  ClipboardCheck 
+  ClipboardCheck,
+  Activity
 } from 'lucide-react';
 
 const Sidebar = () => {
   const navItems = [
-    { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+    { path: '/dashboard', icon: LayoutDashboard, label: 'Hero Dashboard' },
     { path: '/assets', icon: Eye, label: 'Assets Visibility' },
     { path: '/risk-register', icon: AlertTriangle, label: 'Risk Register' },
-    { path: '/quantification', icon: BarChart3, label: 'Quantification' },
-    { path: '/supply-chain', icon: Link2, label: 'Supply Chain' },
-    { path: '/controls', icon: Shield, label: 'Controls Maturity' },
-    { path: '/self-assessment', icon: ClipboardCheck, label: 'Self-Assessment' },
+    { path: '/compliance-readiness', icon: ClipboardCheck, label: 'Compliance Readiness' },
+    { path: '/ai-assurance-plan', icon: Shield, label: 'AI Assurance Plan' },
+    { path: '/governance-monitoring', icon: Activity, label: 'Governance & Monitoring' },
+    { path: '/integration-hub', icon: Link2, label: 'Integration Hub' },
+    { path: '/financial-quantification', icon: DollarSign, label: 'Financial Quantification' },
   ];
 
   return (

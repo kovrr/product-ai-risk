@@ -161,6 +161,78 @@ class ScenarioControl(models.Model):
         return f"{self.scenario.name} - {self.control.control_id}"
 
 
+class ControlAssessment(models.Model):
+    """Control-by-control assessment for AI Assurance Plan."""
+    
+    IMPLEMENTATION_STATUS_CHOICES = [
+        ('Implemented', 'Implemented'),
+        ('Partial', 'Partial'),
+        ('Missing', 'Missing'),
+        ('Not Applicable', 'Not Applicable'),
+    ]
+    
+    PRIORITY_CHOICES = [
+        ('Critical', 'Critical'),
+        ('High', 'High'),
+        ('Medium', 'Medium'),
+        ('Low', 'Low'),
+    ]
+    
+    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, db_column='tenant_id')
+    control = models.ForeignKey(Control, on_delete=models.CASCADE, db_column='control_id')
+    implementation_status = models.CharField(max_length=50, choices=IMPLEMENTATION_STATUS_CHOICES, default='Missing')
+    gap_description = models.TextField(blank=True, null=True)
+    priority = models.CharField(max_length=50, choices=PRIORITY_CHOICES, default='Medium')
+    assessed_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, db_column='assessed_by_id')
+    assessment_date = models.DateField(auto_now_add=True)
+    target_completion_date = models.DateField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        managed = False
+        db_table = 'risk_control_assessment'
+        ordering = ['-priority', '-assessment_date']
+
+
+class ActionPlan(models.Model):
+    """Action plan items for control enhancements."""
+    
+    STATUS_CHOICES = [
+        ('Not Started', 'Not Started'),
+        ('In Progress', 'In Progress'),
+        ('Blocked', 'Blocked'),
+        ('Completed', 'Completed'),
+    ]
+    
+    PRIORITY_CHOICES = [
+        ('Critical', 'Critical'),
+        ('High', 'High'),
+        ('Medium', 'Medium'),
+        ('Low', 'Low'),
+    ]
+    
+    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, db_column='tenant_id')
+    control_assessment = models.ForeignKey(ControlAssessment, on_delete=models.CASCADE, db_column='control_assessment_id')
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    priority = models.CharField(max_length=50, choices=PRIORITY_CHOICES, default='Medium')
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Not Started')
+    assigned_to = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, db_column='assigned_to_id')
+    due_date = models.DateField(null=True, blank=True)
+    estimated_effort = models.CharField(max_length=100, blank=True, null=True)  # e.g., "2 weeks", "40 hours"
+    estimated_cost = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True)
+    completion_date = models.DateField(null=True, blank=True)
+    notes = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        managed = False
+        db_table = 'risk_action_plan'
+        ordering = ['-priority', 'due_date']
+
+
 class Note(models.Model):
     """Notes/comments on risk scenarios."""
     

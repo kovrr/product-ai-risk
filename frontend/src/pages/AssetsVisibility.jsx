@@ -52,7 +52,7 @@ const AssetsVisibility = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-neutral-800">Assets Visibility</h1>
-          <p className="text-neutral-600 mt-1">AI tools and applications inventory</p>
+          <p className="text-neutral-600 mt-1">Discover and inventory all AI tools, models, and services (Third Party Inside)</p>
         </div>
         <button className="btn btn-primary">
           <Eye size={18} />

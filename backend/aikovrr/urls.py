@@ -12,6 +12,7 @@ urlpatterns = [
     path('api/visibility/', include('visibility.urls')),
     path('api/risk/', include('risk.urls')),
     path('api/governance/', include('governance.urls')),
+    path('api/monitoring/', include('monitoring.urls')),
     path('api/reports/', include('reports.urls')),
 ]
 

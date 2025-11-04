@@ -1,8 +1,9 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from .models import Category, Framework, Control, RiskScenario, ScenarioControl, Note
+from .models import Category, Framework, Control, RiskScenario, ScenarioControl, Note, ControlAssessment, ActionPlan
 from .serializers import (CategorySerializer, FrameworkSerializer, ControlSerializer,
-                          RiskScenarioSerializer, ScenarioControlSerializer, NoteSerializer)
+                          RiskScenarioSerializer, ScenarioControlSerializer, NoteSerializer,
+                          ControlAssessmentSerializer, ActionPlanSerializer)
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -44,3 +45,19 @@ class NoteViewSet(viewsets.ModelViewSet):
     serializer_class = NoteSerializer
     permission_classes = [IsAuthenticated]
     filterset_fields = ['scenario', 'author']
+
+
+class ControlAssessmentViewSet(viewsets.ModelViewSet):
+    queryset = ControlAssessment.objects.select_related('tenant', 'control', 'control__framework', 'assessed_by').prefetch_related('actionplan_set').all()
+    serializer_class = ControlAssessmentSerializer
+    permission_classes = [IsAuthenticated]
+    filterset_fields = ['tenant', 'control', 'implementation_status', 'priority']
+    search_fields = ['gap_description']
+
+
+class ActionPlanViewSet(viewsets.ModelViewSet):
+    queryset = ActionPlan.objects.select_related('tenant', 'control_assessment', 'control_assessment__control', 'assigned_to').all()
+    serializer_class = ActionPlanSerializer
+    permission_classes = [IsAuthenticated]
+    filterset_fields = ['tenant', 'control_assessment', 'status', 'priority', 'assigned_to']
+    search_fields = ['title', 'description']

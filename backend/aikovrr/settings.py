@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'visibility',
     'risk',
     'governance',
+    'monitoring',
     'reports',
 ]
 

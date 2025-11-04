@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Framework, Control, RiskScenario, ScenarioControl, Note
+from .models import Category, Framework, Control, RiskScenario, ScenarioControl, Note, ControlAssessment, ActionPlan
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -37,6 +37,27 @@ class ScenarioControlSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = ScenarioControl
+        fields = '__all__'
+
+
+class ActionPlanSerializer(serializers.ModelSerializer):
+    assigned_to_name = serializers.CharField(source='assigned_to.name', read_only=True)
+    control_id = serializers.CharField(source='control_assessment.control.control_id', read_only=True)
+    
+    class Meta:
+        model = ActionPlan
+        fields = '__all__'
+
+
+class ControlAssessmentSerializer(serializers.ModelSerializer):
+    control_id = serializers.CharField(source='control.control_id', read_only=True)
+    control_description = serializers.CharField(source='control.description', read_only=True)
+    framework_name = serializers.CharField(source='control.framework.name', read_only=True)
+    assessed_by_name = serializers.CharField(source='assessed_by.name', read_only=True)
+    action_plans = ActionPlanSerializer(many=True, read_only=True, source='actionplan_set')
+    
+    class Meta:
+        model = ControlAssessment
         fields = '__all__'
 
 

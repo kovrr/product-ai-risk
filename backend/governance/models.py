@@ -32,6 +32,48 @@ class SelfAssessmentTask(models.Model):
         return self.title
 
 
+class ComplianceReadiness(models.Model):
+    """Compliance readiness assessment for frameworks."""
+    
+    MATURITY_LEVELS = [
+        ('Initial', 'Initial'),
+        ('Developing', 'Developing'),
+        ('Defined', 'Defined'),
+        ('Managed', 'Managed'),
+        ('Optimizing', 'Optimizing'),
+    ]
+    
+    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, db_column='tenant_id')
+    framework = models.ForeignKey(Framework, on_delete=models.CASCADE, db_column='framework_id')
+    readiness_score = models.DecimalField(max_digits=5, decimal_places=2, default=0)  # 0-100
+    maturity_level = models.CharField(max_length=50, choices=MATURITY_LEVELS, default='Initial')
+    assessment_date = models.DateField(auto_now_add=True)
+    assessed_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, db_column='assessed_by_id')
+    notes = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        managed = False
+        db_table = 'governance_compliance_readiness'
+        ordering = ['-assessment_date']
+
+
+class MaturityAssessment(models.Model):
+    """Detailed maturity assessment per control domain."""
+    
+    compliance_readiness = models.ForeignKey(ComplianceReadiness, on_delete=models.CASCADE, db_column='compliance_readiness_id')
+    domain = models.CharField(max_length=255)  # e.g., 'Risk Management', 'Data Governance'
+    score = models.DecimalField(max_digits=5, decimal_places=2, default=0)  # 0-100
+    strengths = models.TextField(blank=True, null=True)
+    weaknesses = models.TextField(blank=True, null=True)
+    recommendations = models.TextField(blank=True, null=True)
+    
+    class Meta:
+        managed = False
+        db_table = 'governance_maturity_assessment'
+
+
 class CustomField(models.Model):
     """Custom fields for extensibility."""
     
