@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-neutral-200;
+  }
+  
+  body {
+    @apply bg-neutral-50 text-neutral-800 font-sans;
+  }
+}
+
+@layer components {
+  /* Kovrr Button Styles */
+  .btn {
+    @apply px-4 py-2 rounded font-semibold transition-all duration-200 inline-flex items-center justify-center gap-2;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary-dark active:bg-primary-dark;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-white hover:bg-secondary-dark active:bg-secondary-dark;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-primary text-primary hover:bg-primary hover:text-white;
+  }
+  
+  .btn-ghost {
+    @apply text-primary hover:bg-primary/10;
+  }
+  
+  /* Kovrr Card Styles */
+  .card {
+    @apply bg-white rounded-lg shadow p-6;
+  }
+  
+  .card-header {
+    @apply text-xl font-semibold text-neutral-800 mb-4;
+  }
+  
+  /* Kovrr Input Styles */
+  .input {
+    @apply w-full px-3 py-2 border border-neutral-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+  }
+  
+  /* Kovrr Table Styles */
+  .table {
+    @apply w-full border-collapse;
+  }
+  
+  .table th {
+    @apply bg-neutral-100 text-left px-4 py-3 font-semibold text-sm text-neutral-700 border-b-2 border-neutral-200;
+  }
+  
+  .table td {
+    @apply px-4 py-3 border-b border-neutral-200;
+  }
+  
+  .table tbody tr:hover {
+    @apply bg-neutral-50;
+  }
+  
+  /* Kovrr Badge Styles */
+  .badge {
+    @apply inline-flex items-center px-2 py-1 rounded text-xs font-semibold;
+  }
+  
+  .badge-success {
+    @apply bg-success/10 text-success;
+  }
+  
+  .badge-warning {
+    @apply bg-warning/10 text-warning;
+  }
+  
+  .badge-error {
+    @apply bg-error/10 text-error;
+  }
+  
+  .badge-info {
+    @apply bg-info/10 text-info;
+  }
+}
