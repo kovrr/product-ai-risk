@@ -1,25 +1,24 @@
-import { useEffect, useState } from 'react';
-import { riskService } from '../services/auth';
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AlertTriangle, Plus } from 'lucide-react';
+import { mockRisks, getRiskAssets, getAssetById } from '../data';
+import { Badge } from '../components/atoms/Badge';
 
 const RiskRegister = () => {
-  const [scenarios, setScenarios] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    loadScenarios();
+  // Calculate affected assets for each risk
+  const risksWithAssets = useMemo(() => {
+    return mockRisks.map(risk => {
+      const assetIds = getRiskAssets(risk.id);
+      const assets = assetIds.map(id => getAssetById(id)).filter(Boolean);
+      return {
+        ...risk,
+        affectedAssets: assets,
+        assetCount: assets.length,
+      };
+    });
   }, []);
-
-  const loadScenarios = async () => {
-    try {
-      const data = await riskService.getScenarios();
-      setScenarios(data.results || data || []);
-    } catch (error) {
-      console.error('Failed to load scenarios:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const getPriorityBadge = (priority) => {
     const badges = {
@@ -30,17 +29,6 @@ const RiskRegister = () => {
     };
     return badges[priority] || 'badge-info';
   };
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-neutral-600">Loading risk scenarios...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-6">
@@ -66,28 +54,52 @@ const RiskRegister = () => {
                 <th>Impact</th>
                 <th>Status</th>
                 <th>Owner</th>
+                <th>Affected Assets</th>
               </tr>
             </thead>
             <tbody>
-              {scenarios.length === 0 ? (
+              {risksWithAssets.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="text-center py-8 text-neutral-500">
+                  <td colSpan="7" className="text-center py-8 text-neutral-500">
                     No risk scenarios found
                   </td>
                 </tr>
               ) : (
-                scenarios.map((scenario) => (
-                  <tr key={scenario.id}>
-                    <td className="font-medium">{scenario.name}</td>
+                risksWithAssets.map((risk) => (
+                  <tr 
+                    key={risk.id}
+                    className="hover:bg-neutral-50"
+                  >
+                    <td className="font-medium">{risk.name}</td>
                     <td>
-                      <span className={`badge ${getPriorityBadge(scenario.priority)}`}>
-                        {scenario.priority}
+                      <span className={`badge ${getPriorityBadge(risk.priority)}`}>
+                        {risk.priority}
                       </span>
                     </td>
-                    <td>{scenario.likelihood || 'N/A'}</td>
-                    <td>{scenario.impact || 'N/A'}</td>
-                    <td>{scenario.status}</td>
-                    <td>{scenario.owner_name || 'Unassigned'}</td>
+                    <td>{risk.likelihood || 'N/A'}</td>
+                    <td>{risk.impact || 'N/A'}</td>
+                    <td>{risk.status}</td>
+                    <td>{risk.owner_name || 'Unassigned'}</td>
+                    <td>
+                      {risk.assetCount > 0 ? (
+                        <div className="flex items-center gap-2">
+                          <Badge variant="secondary">
+                            {risk.assetCount} {risk.assetCount === 1 ? 'asset' : 'assets'}
+                          </Badge>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/assets?risk=${risk.id}`);
+                            }}
+                            className="text-xs text-blue-600 hover:underline"
+                          >
+                            View →
+                          </button>
+                        </div>
+                      ) : (
+                        <span className="text-neutral-400 text-sm">No assets</span>
+                      )}
+                    </td>
                   </tr>
                 ))
               )}

@@ -150,17 +150,21 @@ Provide a comprehensive, at-a-glance view of the organization's AI governance po
 ---
 
 ### 2.2 Assets Visibility (Third Party Inside)
-**Status**: ✅ Implemented  
+**Status**: 🔄 Enhanced with Comprehensive Data Model  
 **Route**: `/assets`  
-**User Personas**: IT Security, Risk Managers, Compliance Officers
+**User Personas**: IT Security, Risk Managers, Compliance Officers, Business Owners, Technical Owners  
+**Version**: v2.0  
+**Last Updated**: November 5, 2025
 
 #### Purpose
-Provide complete visibility into all AI tools, models, and services being used across the organization, including both sanctioned (approved) and shadow AI (unapproved), enabling risk assessment and governance.
+Provide complete visibility into all AI tools, models, and services being used across the organization, including identity, ownership, business context, lifecycle, data facts, access/security, and compliance/risk attributes—enabling comprehensive governance, risk assessment, and regulatory compliance.
 
 #### User Stories
-1. **As an IT Security Manager**, I want to see all AI tools in use so that I can identify unauthorized shadow AI and assess security risks.
-2. **As a Risk Manager**, I want to categorize AI assets by type so that I can apply appropriate risk frameworks.
-3. **As a Compliance Officer**, I want to track when AI assets were first discovered so that I can ensure timely risk assessments.
+1. **As an IT Security Manager**, I want to see all AI tools with their access permissions and security posture so that I can identify unauthorized shadow AI and assess security risks.
+2. **As a Risk Manager**, I want to categorize AI assets by type, lifecycle stage, and risk tier so that I can apply appropriate risk frameworks and prioritize remediation.
+3. **As a Compliance Officer**, I want to track regulatory applicability and control coverage so that I can ensure timely risk assessments and demonstrate compliance.
+4. **As a Business Owner**, I want to document business purpose and projected value so that I can justify AI investments and track ROI.
+5. **As a Technical Owner**, I want to track deployment details and integrations so that I can manage the asset lifecycle and dependencies.
 
 #### Features
 
@@ -271,39 +275,112 @@ Provide complete visibility into all AI tools, models, and services being used a
 └─────────────────────────────────────────────────────┘
 ```
 
-#### Data Model
-```javascript
-AIAsset {
-  id: integer (PK)
-  tenant_id: integer (FK → Tenant)
-  name: string (max 255, required)
-  vendor: string (max 255, required)
-  category: enum (required)
-    - 'GenAI'
-    - 'ML Model'
-    - 'Automation'
-    - 'Data Analytics'
-    - 'Code Generation'
-    - 'Other'
-  status: enum (required)
-    - 'Sanctioned' (approved for use)
-    - 'Shadow' (discovered, not approved)
-    - 'Unknown' (pending review)
-  domain: string (max 255, optional)
-    - URL/domain where asset is used
-  description: text (optional)
-  first_seen: date (auto-set on creation)
-  last_seen: date (auto-updated)
-  risk_profile_id: integer (FK → RiskProfile, optional)
-  created_at: timestamp
-  updated_at: timestamp
-}
+#### Data Model (Aligned with Risk Register, AI Assurance Plan, Compliance Readiness)
 
-// Relationships
-AIAsset → Tenant (many-to-one)
-AIAsset → RiskProfile (many-to-one, optional)
-AIAsset → UsageIndicators (one-to-many, future)
-AIAsset → AssetRelationships (one-to-many, tracks user connections)
+```python
+AIAsset:
+  # Core Identity
+  - id: integer (PK)
+  - tenant: FK Tenant
+  - name: string (display name, business-friendly)
+  - asset_type: enum (model, app, agent, dataset, service)
+  
+  # Ownership (aligned with RiskScenario.owner, ControlAssessment.owner)
+  - owner: FK User (business owner)
+  - technical_owner: FK User
+  - owning_org_unit: string
+  
+  # Vendor & Source
+  - vendor_source: enum (internal, third_party, open_source)
+  - vendor_name: string
+  
+  # Status (aligned with RiskScenario.status, ControlAssessment.status)
+  - status: enum (sanctioned, shadow, under_review, blocked, retired)
+  
+  # Business Context
+  - use_case: string
+  - description: text (aligned with RiskScenario.description)
+  - intended_users: JSON ['employees', 'customers', 'public']
+  - projected_value: string (KPI/ROI)
+  
+  # Lifecycle
+  - lifecycle_stage: enum (idea, development, testing, pilot, production, retired)
+  - deployment_platform: enum (cloud, on_premises, saas, hybrid)
+  - environment: JSON ['dev', 'test', 'prod']
+  
+  # Risk Scoring (aligned with RiskScenario.priority, ControlAssessment.priority_score)
+  - risk_tier: enum (low, medium, high, critical)  # Aligned with RiskScenario.priority
+  - risk_score: decimal (0-100)  # Aligned with ControlAssessment.priority_score
+  - inherent_risk_score: decimal (0-100)  # Before controls
+  - residual_risk_score: decimal (0-100)  # After controls
+  
+  # Data Sensitivity
+  - personal_data_used: boolean
+  - sensitive_categories: JSON ['special_category', 'children', 'biometrics', 'health', 'financial']
+  
+  # Compliance (aligned with ComplianceReadiness)
+  - regulatory_applicability: JSON ['eu_ai_act_high_risk', 'gdpr', 'hipaa', 'ccpa']
+  - control_coverage: JSON ['explainability', 'human_oversight', 'access_control', 'monitoring']
+  
+  # Model Specifics (for asset_type='model')
+  - model_provider: string (OpenAI, Anthropic, Azure OpenAI, Internal)
+  - model_version: string
+  
+  # Integration Data (auto-populated from AAD, Zscaler, EDR)
+  - service_principal_id: string (from AAD)
+  - aad_permissions: JSON (from AAD)
+  - user_assignments: JSON (from AAD)
+  - network_destinations: JSON (from Zscaler)
+  
+  # Dates (aligned with all modules)
+  - first_seen: date (discovery date)
+  - last_seen: date (last activity)
+  - first_deployment_date: date
+  - created_at: timestamp
+  - updated_at: timestamp
+  
+  # Cross-Module Relationships
+  - related_risks: M2M RiskScenario
+  - related_controls: M2M Control
+  - compliance_assessments: M2M ComplianceReadiness
+
+AssetEvidence:
+  - asset: FK AIAsset
+  - evidence_type: enum (dpia, risk_assessment, approval, audit_report, test_results)
+  - title: string
+  - file_url: URL
+  - uploaded_file: file
+  - uploaded_by: FK User
+  - uploaded_at: timestamp
+
+AssetNote:
+  - asset: FK AIAsset
+  - note: text
+  - created_by: FK User
+  - created_at: timestamp
+
+AssetIntegration:
+  - asset: FK AIAsset
+  - integration_type: enum (aad, zscaler, edr, casb)
+  - last_sync: timestamp
+  - sync_status: enum (success, failed, pending)
+  - sync_details: JSON
+```
+
+**Risk Scoring Algorithm** (aligned with ControlAssessment.priority_score):
+```
+Risk Score (0-100) = 
+  Data Sensitivity (0-30) +
+  User Impact (0-30) +
+  Lifecycle Stage (0-20) +
+  Vendor Risk (0-20) -
+  Control Coverage (0-50 reduction)
+
+Risk Tier:
+  - Critical: 75-100
+  - High: 50-74
+  - Medium: 25-49
+  - Low: 0-24
 ```
 
 #### Business Rules
@@ -671,45 +748,228 @@ MaturityAssessment:
 
 ---
 
-### 2.5 AI Assurance Plan
-**Status**: ✅ Implemented  
-**Route**: `/ai-assurance-plan`
+### 2.5 AI Assurance Plan (Controls Gap Analysis & Prioritization)
+**Status**: 🔄 Enhanced with Prioritization & ROSI  
+**Route**: `/ai-assurance-plan`  
+**Owner**: Or Amir (Product)  
+**Version**: v2.0  
+**Last Updated**: November 5, 2025  
+**User Personas**: Risk Managers, Compliance Officers, CISOs, CFOs, Legal Counsel, Ethics Officers
+
+#### Mission Statement
+Empower organizations to transform AI governance self-assessments into defensible, stakeholder-aligned action plans by providing transparent prioritization, explainable scoring methodology, and quantifiable ROI analysis—enabling teams to confidently allocate resources, demonstrate compliance, and accelerate AI maturity.
 
 #### Description
-Detailed control-by-control evaluation that identifies missing or weak controls and generates prioritized action plans for control enhancements.
+Comprehensive control gap analysis with data-driven prioritization, multi-stakeholder weighted scoring, ROSI calculation, and AI-powered remediation guidance. Transforms self-assessment results into actionable, justified implementation plans.
 
-#### Features
-- **Summary Cards**:
-  - Total controls assessed
-  - Breakdown by status (Implemented/Partial/Missing)
-- **Control Assessments List**:
-  - Control ID and description
-  - Implementation status with icons
-  - Priority badges
-  - Gap descriptions
-  - Target completion dates
-  - Linked action plans
-- **Action Plan View**:
-  - Prioritized list of actions
-  - Status tracking
-  - Effort and cost estimates
-  - Assignment and due dates
-- **Gap Report Summary**:
-  - Count of gaps by priority
+#### Problem Statement
+Organizations completing AI governance self-assessments face critical challenges:
+- **Lack of Actionable Prioritization**: Teams assess 15-50+ controls but struggle to decide which to tackle first
+- **Inability to Justify Investment**: CFOs demand ROI justification for governance spend
+- **Siloed Stakeholder Perspectives**: CISO, Legal, and Ethics teams have conflicting priorities
+- **Lack of Traceability**: No system of record for tracking status, ownership, or implementation progress
+- **Manual, Time-Intensive Process**: Spreadsheet-based scoring requires hours of manual calculation
 
-#### Data Model
+#### Key Features
+
+##### 1. Controls Maturity Gap Analysis Table
+**Display**:
+- Assessment dropdown (select from completed self-assessments)
+- Sortable/filterable table with columns:
+  - Control ID (e.g., GOVERN-1)
+  - Control Name
+  - Framework (NIST AI RMF, ISO/IEC 42001, EU AI Act)
+  - Current Maturity (1-5)
+  - Target Maturity (1-5)
+  - Gap (0-100%, normalized)
+  - **Priority Score (0-100)** ⭐ NEW
+  - **ROSI %** ⭐ NEW
+  - Status Badge (Draft, In Progress, Completed)
+  - Owner (assigned user)
+
+**Interactions**:
+- Click row → Opens right-drawer with 3 tabs
+- Sort by Priority (descending), Gap, ROSI
+- Filter by Framework, Status, Owner
+- Search by control name/ID
+
+**Visual Design**:
+- Priority score color-coded:
+  - 80-100: Red (Critical)
+  - 60-79: Orange (High)
+  - 40-59: Yellow (Medium)
+  - 0-39: Green (Low)
+
+##### 2. Right-Drawer: Control Details (3 Tabs) ⭐ NEW
+
+**Tab 1: Scoring & Prioritization**
+- **KPI Tiles**: Priority Score, Gap %, Regulatory Urgency, Benefit Share
+- **Maturity Adjustment**: Current/Target maturity sliders
+- **Multi-Stakeholder Configuration**:
+  - Add stakeholders (e.g., CISO, Legal, Ethics)
+  - Set Influence % per stakeholder (must sum to 100%)
+  - Set Criterion Weights per stakeholder: Impact, Regulatory, Ethical, Cost, Effort (must sum to 100%)
+  - Set Criterion Scores per stakeholder (1-5 rating)
+  - "Normalize" helpers
+- **Contributions Breakdown**: Visual showing how each criterion contributes to final priority
+- **Actions**: Recalculate, Apply to Table, Reset to Defaults
+
+**Tab 2: Remediation Guidance & ROSI**
+- **AI Chat Interface**: 
+  - Ask AI for implementation guidance
+  - Get step-by-step recommendations
+  - Tool suggestions and best practices
+- **ROSI Calculator**:
+  - Currency selector (USD, EUR, GBP, etc.)
+  - Investment period (1-5 years)
+  - **Implementation Costs** (expandable):
+    - People: Implementation Labor, Ongoing Management
+    - Technology: Licensing, Infrastructure
+    - Services: Implementation Support, Training, Change Management
+    - Other: Monitoring, Opportunity Cost
+  - **Annual Savings/Benefits** (expandable):
+    - Operational Benefits: Efficiency Gains, Fewer Incidents, Tool Consolidation, Reduced Downtime
+    - Risk Mitigation Value: Strategic, Operational, Technical, Privacy, Security, Ethical, Legal/Compliance, Safety, Insurance, Third-Party
+  - **Calculation Display**: Total Costs, Annual Savings, Total Savings, ROSI %, Net Benefit, Payback Period
+  - **Visual Output**: ROSI % (color-coded), bar chart (Costs vs. Savings)
+  - **Actions**: Calculate ROSI, Save to Control, Export Report
+
+**Tab 3: Notes & Attachments**
+- Rich text notes with timestamp and author
+- Owner assignment with avatar
+- File attachments (upload, download, delete)
+- Audit trail for decisions
+
+**Drawer Header**:
+- Control ID and Name
+- Framework badge
+- Status dropdown (Draft → In Progress → Completed)
+- Close button
+
+##### 3. Kovrr Insights: AI-Based Prioritization ⭐ NEW
+- AI-powered recommendations based on:
+  - Industry data (implementation patterns)
+  - Control dependencies (blocking relationships)
+  - Strategic initiatives (bundling opportunities)
+- Activation: Requires minimum 2 controls with calculated priorities
+- Display: Collapsible insights panel with recommendations
+- Actions: Apply Recommendation, Dismiss
+
+##### 4. Action Plan View (Existing)
+- Prioritized list of actions linked to controls
+- Status tracking (Not Started, In Progress, Blocked, Completed)
+- Assignment and due dates
+- Effort and cost estimates
+- Progress tracking
+
+#### Prioritization Methodology ⭐ NEW
+
+Uses a **gap-adjusted weighted scoring model** that combines:
+1. **Maturity Gap**: (Target - Current) / 4
+2. **Stakeholder Influence**: Organizational power weighting (e.g., CISO 40%, Legal 35%, Ethics 25%)
+3. **Criterion Weights**: Impact, Regulatory, Ethical, Cost, Effort (per stakeholder, must sum to 100%)
+4. **Criterion Scores**: 1-5 rating per criterion (per stakeholder)
+
+**Formula**:
 ```
+Step 1: Gap = (Target - Current) / 4
+Step 2: Global Weight (Criterion C) = Σ(Stakeholder Influence × Stakeholder Weight for C)
+Step 3: Adjusted Score = Raw Score × (1 + Gap)  [for benefits]
+        Adjusted Score = (6 - Raw Score) × (1 + Gap)  [for costs, inverted]
+Step 4: Blended Score (C) = Σ(Stakeholder Influence × Adjusted Score for C)
+Step 5: Contribution (C) = Global Weight (C) × Blended Score (C)
+Step 6: Priority Score = (Σ Contributions / Max Possible) × 100
+```
+
+**Why This Methodology?**
+- **Transparent & Explainable**: Every number traces back to explicit inputs
+- **Stakeholder Alignment**: Blends perspectives democratically
+- **Gap-Adjusted**: Larger gaps get higher urgency
+- **Cost-Conscious**: Cost/Effort inverted (lower cost = higher score)
+
+#### ROSI Calculation Model ⭐ NEW
+
+**Formula**:
+```
+Total Costs = Σ(Implementation Costs)
+Annual Savings = Σ(Operational Benefits + Risk Mitigation Value)
+Total Savings = Annual Savings × Investment Period (years)
+ROSI % = ((Total Savings - Total Costs) / Total Costs) × 100
+Net Benefit = Total Savings - Total Costs
+Payback Period = Total Costs / Annual Savings (years)
+```
+
+**Cost Categories**: People, Technology, Services, Other (9 subcategories)  
+**Savings Categories**: Operational Benefits + Risk Mitigation Value (14 subcategories)
+
+#### Data Model (Enhanced)
+
+```python
 ControlAssessment:
+  # Existing fields
   - tenant: FK
   - control: FK
   - implementation_status: enum (Implemented, Partial, Missing, Not Applicable)
   - gap_description: text
-  - priority: enum (Critical, High, Medium, Low)
   - assessed_by: FK User
   - assessment_date: date
   - target_completion_date: date
+  
+  # NEW: Maturity fields
+  - current_maturity: int (1-5)
+  - target_maturity: int (1-5)
+  - gap_normalized: decimal (0-1)
+  
+  # NEW: Prioritization fields
+  - priority_score: decimal (0-100)
+  - status: enum (draft, in_progress, completed)
+  - owner: FK User
+  
+  # NEW: ROSI fields
+  - rosi_percentage: decimal
+  - total_costs: decimal
+  - annual_savings: decimal
+  - net_benefit: decimal
+  - investment_period_years: int (default 3)
+  - currency: string (default 'USD')
 
-ActionPlan:
+StakeholderPrioritization (NEW):
+  - assessment: FK ControlAssessment
+  - stakeholder_name: string
+  - influence_percentage: decimal (0-100)
+  
+  # Criterion weights (must sum to 100%)
+  - weight_impact: decimal
+  - weight_regulatory: decimal
+  - weight_ethical: decimal
+  - weight_cost: decimal
+  - weight_effort: decimal
+  
+  # Criterion scores (1-5)
+  - score_impact: int
+  - score_regulatory: int
+  - score_ethical: int
+  - score_cost: int
+  - score_effort: int
+
+ROSICostItem (NEW):
+  - assessment: FK ControlAssessment
+  - category: enum (people_implementation, people_ongoing, tech_licensing, 
+                    tech_infrastructure, services_implementation, services_training,
+                    services_change, other_monitoring, other_opportunity)
+  - amount: decimal
+  - description: text
+
+ROSISavingsItem (NEW):
+  - assessment: FK ControlAssessment
+  - category: enum (operational_efficiency, operational_incidents, operational_tools,
+                    operational_downtime, risk_strategic, risk_operational, risk_technical,
+                    risk_privacy, risk_security, risk_ethical, risk_legal, risk_safety,
+                    risk_insurance, risk_thirdparty)
+  - amount: decimal (annual)
+  - description: text
+
+ActionPlan (Existing):
   - tenant: FK
   - control_assessment: FK
   - title: string
@@ -724,14 +984,54 @@ ActionPlan:
   - notes: text
 ```
 
-#### Future Enhancements
-- [ ] Auto-generate action plans from gaps
-- [ ] Control assessment wizard
-- [ ] Progress tracking dashboard
-- [ ] Resource allocation view
+#### User Flow
+
+1. **Select Assessment**: Choose completed self-assessment from dropdown
+2. **Review Gap Analysis**: Scan table showing all controls with gaps
+3. **Configure Prioritization** (per control):
+   - Adjust maturity levels
+   - Add stakeholders with influence %
+   - Set criterion weights and scores
+   - Recalculate priority
+4. **Calculate ROSI** (per control):
+   - Enter implementation costs
+   - Enter annual savings/benefits
+   - Calculate ROSI %
+   - Save to control
+5. **Get AI Guidance**: Chat with AI for implementation recommendations
+6. **Document Decisions**: Add notes, assign owner, attach files
+7. **Update Status**: Draft → In Progress → Completed
+8. **Review Insights**: Apply AI-powered prioritization recommendations
+9. **Create Action Plans**: Link prioritized controls to action items
+10. **Track Progress**: Monitor implementation status across all controls
+
+#### Scope
+
+**Enhanced in v2.0**:
+- ✅ Multi-stakeholder weighted scoring engine
+- ✅ ROSI calculator with detailed cost/benefit categories
+- ✅ AI-powered remediation guidance (chat interface)
+- ✅ Maturity level tracking (current → target)
+- ✅ Priority score calculation (0-100)
+- ✅ Status workflow (Draft → In Progress → Completed)
+- ✅ Owner assignment and notes/attachments
+- ✅ Kovrr Insights (AI-based prioritization recommendations)
+
+**Future Enhancements**:
+- [ ] CSV/PDF export of prioritization report
+- [ ] Control dependency mapping & sequencing
+- [ ] What-If scenario comparison (side-by-side)
+- [ ] Integration with Risk Register (auto-populate ALE values)
+- [ ] Cross-framework mapping (NIST + ISO + EU AI Act in one view)
+- [ ] AI-assisted weighting suggestions
+- [ ] Historical trending (priority changes over time)
 - [ ] Integration with Jira/ServiceNow
 - [ ] Timeline/Gantt chart view
-- [ ] Cost-benefit analysis per action
+- [ ] Resource allocation view
+
+#### Full Specification
+Complete requirements with detailed features, user flows, methodology, ROSI calculations, wireframes, and technical specifications available in:
+- **`/product/CONTROLS_PRIORITIZATION_FULL_SPEC.md`**
 
 ---
 

@@ -1,32 +1,38 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Shield, CheckCircle, AlertCircle, XCircle, Plus, ArrowRight } from 'lucide-react';
+import { mockControls, getControlAssets, getAssetById } from '../data';
+import { Badge } from '../components/atoms/Badge';
 
 const AIAssurancePlan = () => {
-  const [assessments, setAssessments] = useState([]);
-  const [actionPlans, setActionPlans] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedStatus, setSelectedStatus] = useState('all');
-  const [selectedPriority, setSelectedPriority] = useState('all');
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    loadData();
+  // Calculate applicable assets for each control
+  const controlsWithAssets = useMemo(() => {
+    return mockControls.map(control => {
+      const assetIds = getControlAssets(control.id);
+      const assets = assetIds.map(id => getAssetById(id)).filter(Boolean);
+      return {
+        ...control,
+        applicableAssets: assets,
+        assetCount: assets.length,
+      };
+    });
   }, []);
 
-  const loadData = async () => {
-    try {
-      // TODO: Implement API calls when backend is ready
-      // const assessmentsData = await riskService.getControlAssessments();
-      // const actionPlansData = await riskService.getActionPlans();
-      
-      // Mock data for now
-      setAssessments([]);
-      setActionPlans([]);
-    } catch (error) {
-      console.error('Failed to load AI Assurance Plan data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Calculate stats
+  const stats = useMemo(() => {
+    const implemented = controlsWithAssets.filter(c => c.status === 'Implemented').length;
+    const inProgress = controlsWithAssets.filter(c => c.status === 'In Progress').length;
+    const planned = controlsWithAssets.filter(c => c.status === 'Planned').length;
+    
+    return {
+      total: controlsWithAssets.length,
+      implemented,
+      inProgress,
+      planned,
+    };
+  }, [controlsWithAssets]);
 
   const getStatusIcon = (status) => {
     const icons = {
@@ -68,17 +74,6 @@ const AIAssurancePlan = () => {
     return badges[status] || 'badge-info';
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-neutral-600">Loading AI Assurance Plan...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -98,7 +93,7 @@ const AIAssurancePlan = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-neutral-600">Total Controls</p>
-              <p className="text-2xl font-bold text-neutral-800 mt-1">0</p>
+              <p className="text-2xl font-bold text-neutral-800 mt-1">{stats.total}</p>
             </div>
             <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
               <Shield className="text-primary" size={24} />
@@ -110,7 +105,7 @@ const AIAssurancePlan = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-neutral-600">Implemented</p>
-              <p className="text-2xl font-bold text-success mt-1">0</p>
+              <p className="text-2xl font-bold text-success mt-1">{stats.implemented}</p>
             </div>
             <CheckCircle className="text-success" size={32} />
           </div>
@@ -119,8 +114,8 @@ const AIAssurancePlan = () => {
         <div className="card">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-neutral-600">Partial</p>
-              <p className="text-2xl font-bold text-warning mt-1">0</p>
+              <p className="text-sm text-neutral-600">In Progress</p>
+              <p className="text-2xl font-bold text-warning mt-1">{stats.inProgress}</p>
             </div>
             <AlertCircle className="text-warning" size={32} />
           </div>
@@ -129,174 +124,89 @@ const AIAssurancePlan = () => {
         <div className="card">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-neutral-600">Missing</p>
-              <p className="text-2xl font-bold text-error mt-1">0</p>
+              <p className="text-sm text-neutral-600">Planned</p>
+              <p className="text-2xl font-bold text-info mt-1">{stats.planned}</p>
             </div>
-            <XCircle className="text-error" size={32} />
+            <XCircle className="text-info" size={32} />
           </div>
         </div>
       </div>
 
-      {/* Filters */}
-      <div className="card">
-        <div className="flex items-center gap-4">
-          <div className="flex-1">
-            <label className="block text-sm font-medium text-neutral-700 mb-1">Status</label>
-            <select 
-              className="input"
-              value={selectedStatus}
-              onChange={(e) => setSelectedStatus(e.target.value)}
-            >
-              <option value="all">All Statuses</option>
-              <option value="Implemented">Implemented</option>
-              <option value="Partial">Partial</option>
-              <option value="Missing">Missing</option>
-              <option value="Not Applicable">Not Applicable</option>
-            </select>
-          </div>
-          <div className="flex-1">
-            <label className="block text-sm font-medium text-neutral-700 mb-1">Priority</label>
-            <select 
-              className="input"
-              value={selectedPriority}
-              onChange={(e) => setSelectedPriority(e.target.value)}
-            >
-              <option value="all">All Priorities</option>
-              <option value="Critical">Critical</option>
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      {/* Control Assessments */}
+      {/* Controls Table */}
       <div className="card">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-neutral-800">Control Assessments</h2>
-          <span className="text-sm text-neutral-600">0 controls assessed</span>
-        </div>
-
-        <div className="space-y-4">
-          {/* Sample Control Assessment */}
-          <div className="border border-neutral-200 rounded-lg p-4 hover:border-primary/50 transition-colors">
-            <div className="flex items-start justify-between mb-3">
-              <div className="flex items-start gap-3 flex-1">
-                {getStatusIcon('Partial')}
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-semibold text-neutral-800">NIST.AI.1.1 - AI Governance Structure</h3>
-                    <span className="badge badge-warning">Partial</span>
-                    <span className="badge badge-error">High Priority</span>
-                  </div>
-                  <p className="text-sm text-neutral-600 mb-2">
-                    Establish and document organizational AI governance structure with clear roles and responsibilities
-                  </p>
-                  <div className="flex items-center gap-4 text-xs text-neutral-500">
-                    <span>Framework: NIST AI RMF</span>
-                    <span>•</span>
-                    <span>Assessed: Oct 15, 2024</span>
-                    <span>•</span>
-                    <span>Target: Dec 31, 2024</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-warning/5 border border-warning/20 rounded p-3 mb-3">
-              <p className="text-sm text-neutral-700">
-                <span className="font-medium">Gap:</span> Governance structure exists but lacks formal documentation and clear escalation paths for AI-related decisions.
-              </p>
-            </div>
-
-            {/* Action Plans */}
-            <div className="border-t border-neutral-200 pt-3">
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="text-sm font-semibold text-neutral-700">Action Plans (2)</h4>
-                <button className="text-sm text-primary hover:text-primary/80 font-medium">
-                  View All
-                </button>
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center gap-3 p-2 bg-neutral-50 rounded">
-                  <span className="badge badge-warning text-xs">In Progress</span>
-                  <span className="text-sm text-neutral-700 flex-1">Document AI governance framework and roles</span>
-                  <span className="text-xs text-neutral-500">Due: Nov 30</span>
-                  <ArrowRight size={16} className="text-neutral-400" />
-                </div>
-                <div className="flex items-center gap-3 p-2 bg-neutral-50 rounded">
-                  <span className="badge badge-error text-xs">Not Started</span>
-                  <span className="text-sm text-neutral-700 flex-1">Create escalation procedures for AI incidents</span>
-                  <span className="text-xs text-neutral-500">Due: Dec 15</span>
-                  <ArrowRight size={16} className="text-neutral-400" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Empty State */}
-          <div className="text-center py-12 border-2 border-dashed border-neutral-200 rounded-lg">
-            <Shield className="mx-auto text-neutral-400" size={48} />
-            <p className="text-neutral-600 mt-4">No control assessments found</p>
-            <p className="text-sm text-neutral-500 mt-2">Start assessing controls to identify gaps and generate action plans</p>
-            <button className="btn btn-outline mt-4">
-              <Plus size={18} />
-              Start Assessment
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Action Plan Summary */}
-      <div className="card">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-neutral-800">Prioritized Action Plan</h2>
-          <button className="btn btn-outline">
-            Export Plan
-          </button>
+          <h2 className="text-xl font-bold text-neutral-800">Controls & Applicable Assets</h2>
+          <span className="text-sm text-neutral-600">{stats.total} controls</span>
         </div>
 
         <div className="overflow-x-auto">
           <table className="table">
             <thead>
               <tr>
-                <th>Priority</th>
-                <th>Action</th>
-                <th>Control</th>
+                <th>Control ID</th>
+                <th>Control Name</th>
+                <th>Category</th>
                 <th>Status</th>
-                <th>Assigned To</th>
-                <th>Due Date</th>
-                <th>Effort</th>
+                <th>Maturity</th>
+                <th>Applicable Assets</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td colSpan="7" className="text-center py-8 text-neutral-500">
-                  No action plans generated yet
-                </td>
-              </tr>
+              {controlsWithAssets.map((control) => (
+                <tr 
+                  key={control.id}
+                  className="hover:bg-neutral-50"
+                >
+                  <td className="font-medium">{control.control_id}</td>
+                  <td>
+                    <div>
+                      <div className="font-medium text-neutral-800">{control.name}</div>
+                      <div className="text-xs text-neutral-500">{control.framework}</div>
+                    </div>
+                  </td>
+                  <td>
+                    <span className="badge badge-info text-xs">{control.category}</span>
+                  </td>
+                  <td>
+                    <span className={`badge ${getStatusBadge(control.status)} text-xs`}>
+                      {control.status}
+                    </span>
+                  </td>
+                  <td>
+                    {control.current_maturity && control.target_maturity ? (
+                      <div className="text-sm">
+                        <span className="text-neutral-600">{control.current_maturity}</span>
+                        <span className="text-neutral-400 mx-1">→</span>
+                        <span className="text-neutral-800 font-medium">{control.target_maturity}</span>
+                      </div>
+                    ) : (
+                      <span className="text-neutral-400 text-sm">-</span>
+                    )}
+                  </td>
+                  <td>
+                    {control.assetCount > 0 ? (
+                      <div className="flex items-center gap-2">
+                        <Badge variant="secondary">
+                          {control.assetCount} {control.assetCount === 1 ? 'asset' : 'assets'}
+                        </Badge>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/assets?control=${control.id}`);
+                          }}
+                          className="text-xs text-blue-600 hover:underline"
+                        >
+                          View →
+                        </button>
+                      </div>
+                    ) : (
+                      <span className="text-neutral-400 text-sm">No assets</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
-        </div>
-      </div>
-
-      {/* Gap Report Summary */}
-      <div className="card bg-gradient-to-br from-neutral-50 to-white">
-        <h2 className="text-xl font-bold text-neutral-800 mb-4">Gap Report Summary</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="text-center p-4 bg-white rounded-lg border border-neutral-200">
-            <p className="text-3xl font-bold text-error">0</p>
-            <p className="text-sm text-neutral-600 mt-1">Critical Gaps</p>
-          </div>
-          <div className="text-center p-4 bg-white rounded-lg border border-neutral-200">
-            <p className="text-3xl font-bold text-warning">0</p>
-            <p className="text-sm text-neutral-600 mt-1">High Priority Gaps</p>
-          </div>
-          <div className="text-center p-4 bg-white rounded-lg border border-neutral-200">
-            <p className="text-3xl font-bold text-info">0</p>
-            <p className="text-sm text-neutral-600 mt-1">Medium Priority Gaps</p>
-          </div>
         </div>
       </div>
     </div>

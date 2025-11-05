@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kovrr · GenAI Quantification Model</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --primary-blue: rgb(85, 81, 247);
+    --primary-blue-light: rgb(97, 94, 251);
+    --success-green: rgb(13, 199, 131);
+    --warning-orange: rgb(255, 153, 0);
+    --error-red: rgb(255, 35, 35);
+    --bg-white: rgb(255, 255, 255);
+    --bg-light: rgb(245, 247, 255);
+    --bg-blue: rgb(236, 242, 252);
+    --bg-gray: rgb(237, 242, 247);
+    --text-dark: rgb(26, 32, 44);
+    --text-medium-dark: rgb(48, 48, 69);
+    --text-medium: rgb(74, 85, 104);
+    --text-light: rgb(113, 118, 126);
+    --divider: rgb(220, 229, 242);
+    --border-gray: rgb(163, 173, 181);
+    --shadow-sm: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  }
+  
+  * { box-sizing: border-box; }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-light);
+    color: var(--text-medium-dark);
+    font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  .wrap {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 30px;
+  }
+  
+  .page-title {
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+  }
+  
+  .page-subtitle {
+    font-size: 16px;
+    color: var(--text-medium);
+    margin: 0 0 24px 0;
+  }
+  
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .toolbar-right {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .btn {
+    font-family: "Source Sans Pro";
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+  .btn-primary {
+    background-color: var(--primary-blue);
+    color: var(--bg-white);
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--primary-blue-light);
+  }
+  
+  .btn-secondary {
+    background-color: var(--bg-white);
+    color: var(--primary-blue);
+    border: 1px solid var(--primary-blue);
+  }
+  
+  .btn-secondary:hover {
+    background-color: var(--bg-blue);
+  }
+  
+  .alert {
+    background: rgba(255, 153, 0, 0.1);
+    border: 1px solid var(--warning-orange);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    color: var(--text-medium);
+  }
+  
+  .alert strong {
+    color: var(--text-dark);
+  }
+  
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .kpi-tile {
+    background: var(--bg-white);
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  
+  .kpi-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .kpi-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-dark);
+  }
+  
+  .grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  
+  .card {
+    background: var(--bg-white);
+    border-radius: 15px;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  
+  .card-content {
+    padding: 24px;
+  }
+  
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 20px 0;
+  }
+  
+  .tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid var(--divider);
+    margin-bottom: 24px;
+  }
+  
+  .tab {
+    font-family: "Source Sans Pro";
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-medium);
+    padding: 12px 20px;
+    border: none;
+    background: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: -1px;
+  }
+  
+  .tab.active {
+    color: var(--primary-blue);
+    border-bottom-color: var(--primary-blue);
+  }
+  
+  .tab-content {
+    display: none;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+  
+  .chart-container {
+    position: relative;
+    height: 300px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: left;
+    padding: 12px 16px;
+    background-color: var(--bg-gray);
+    border-bottom: 1px solid var(--divider);
+  }
+  
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--divider);
+    color: var(--text-medium-dark);
+    font-size: 14px;
+  }
+  
+  tbody tr {
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  
+  tbody tr:hover {
+    background-color: var(--bg-blue);
+  }
+  
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  
+  .badge-success {
+    background-color: rgba(13, 199, 131, 0.1);
+    color: var(--success-green);
+  }
+  
+  .badge-warning {
+    background-color: rgba(255, 153, 0, 0.1);
+    color: var(--warning-orange);
+  }
+  
+  .badge-error {
+    background-color: rgba(255, 35, 35, 0.1);
+    color: var(--error-red);
+  }
+  
+  .vector-card {
+    background: var(--bg-white);
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  
+  .vector-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--divider);
+  }
+  
+  .vector-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+  }
+  
+  .vector-code {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-top: 4px;
+  }
+  
+  .vector-aal {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary-blue);
+  }
+  
+  .drawer-toggle {
+    font-size: 13px;
+    color: var(--primary-blue);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+    margin-bottom: 12px;
+  }
+  
+  .drawer-content {
+    display: none;
+    padding: 12px;
+    background: var(--bg-gray);
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+  
+  .drawer-content.open {
+    display: block;
+  }
+  
+  .mitigation-section {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--divider);
+  }
+  
+  .mitigation-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+  }
+  
+  .mitigation-item {
+    padding: 12px;
+    background: var(--bg-gray);
+    border-radius: 6px;
+    margin-bottom: 12px;
+  }
+  
+  .mitigation-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgb(21, 77, 171);
+    margin-bottom: 6px;
+  }
+  
+  .mitigation-text {
+    font-size: 13px;
+    color: var(--text-medium);
+    line-height: 1.5;
+  }
+  
+  @media (max-width: 1024px) {
+    .grid-2col {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="toolbar">
+      <div>
+        <h1 class="page-title">GenAI Quantification Model</h1>
+        <p class="page-subtitle">AI Risk Assessment - Overview</p>
+      </div>
+      <div class="toolbar-right">
+        <button onclick="downloadJSON()" class="btn btn-secondary">Download JSON</button>
+        <a href="entity_exposure.html" class="btn btn-primary">Re-run</a>
+      </div>
+    </div>
+
+    <div class="alert">
+      <strong>Beta Disclaimer:</strong> This module is under active development. Results are based on current assumptions and may change. Only one version is stored at a time.
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-tile">
+        <div class="kpi-label">AAL</div>
+        <div class="kpi-value">$6.2M</div>
+      </div>
+      <div class="kpi-tile">
+        <div class="kpi-label">1:100</div>
+        <div class="kpi-value">$85M</div>
+      </div>
+      <div class="kpi-tile">
+        <div class="kpi-label">Annual Likelihood</div>
+        <div class="kpi-value">18%</div>
+      </div>
+      <div class="kpi-tile">
+        <div class="kpi-label">Inherent Risk AAL</div>
+        <div class="kpi-value">$12.5M</div>
+      </div>
+      <div class="kpi-tile">
+        <div class="kpi-label">Inherent Risk 1:100</div>
+        <div class="kpi-value">$190M</div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('overview')">Overview</button>
+      <button class="tab" onclick="switchTab('vectors')">Attack Vectors</button>
+      <button class="tab" onclick="switchTab('events')">Event Types</button>
+      <button class="tab" onclick="switchTab('damages')">Damage Types</button>
+      <button class="tab" onclick="switchTab('controls')">Controls</button>
+    </div>
+
+    <!-- Overview Tab -->
+    <div id="overview-tab" class="tab-content active">
+      <div class="grid-2col">
+        <div class="card">
+          <div class="card-content">
+            <h2>Expected Loss Curve</h2>
+            <div class="chart-container">
+              <canvas id="epCurve"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content">
+            <h2>Model Information</h2>
+            <table>
+              <tr>
+                <td style="font-weight: 600;">Model</td>
+                <td>GPT-4</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 600;">Run Time</td>
+                <td>07-31-2025 15:42</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 600;">Model Version</td>
+                <td>ai-v2025.1-beta.1</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attack Vectors Tab -->
+    <div id="vectors-tab" class="tab-content">
+      <div class="grid-2col">
+        <div class="card">
+          <div class="card-content">
+            <h2>Initial Access Vectors</h2>
+            <div class="chart-container">
+              <canvas id="vectorsChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content">
+            <h2>Summary Table</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Vector</th>
+                  <th>AAL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Phishing</td><td>$1.86M</td></tr>
+                <tr><td>Exploit Public-Facing</td><td>$1.24M</td></tr>
+                <tr><td>AI Supply Chain</td><td>$930K</td></tr>
+                <tr><td>Evade AI Model</td><td>$930K</td></tr>
+                <tr><td>Drive-by</td><td>$620K</td></tr>
+                <tr><td>Valid Accounts</td><td>$620K</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 24px;">
+        <div class="card-content">
+          <h2>Vector Details & Mitigations</h2>
+          
+          <div class="vector-card">
+            <div class="vector-header">
+              <div>
+                <div class="vector-name">Phishing</div>
+                <div class="vector-code">AML.T0052</div>
+              </div>
+              <div class="vector-aal">$1.86M</div>
+            </div>
+            <button class="drawer-toggle" onclick="toggleDrawer(this)">View Details →</button>
+            <div class="drawer-content">
+              <strong>1:100 Year Loss:</strong> $25.5M<br>
+              <strong>Annual Likelihood:</strong> 5.4%
+            </div>
+            <div class="mitigation-section">
+              <div class="mitigation-title">Recommended Mitigations</div>
+              <div class="mitigation-item">
+                <div class="mitigation-name">No specific mitigations available</div>
+                <div class="mitigation-text">
+                  Adversaries may send phishing messages to gain access. Implement security awareness training and email filtering.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="vector-card">
+            <div class="vector-header">
+              <div>
+                <div class="vector-name">Exploit Public-Facing Application</div>
+                <div class="vector-code">AML.T0049</div>
+              </div>
+              <div class="vector-aal">$1.24M</div>
+            </div>
+            <button class="drawer-toggle" onclick="toggleDrawer(this)">View Details →</button>
+            <div class="drawer-content">
+              <strong>1:100 Year Loss:</strong> $17M<br>
+              <strong>Annual Likelihood:</strong> 3.6%
+            </div>
+            <div class="mitigation-section">
+              <div class="mitigation-title">Recommended Mitigations</div>
+              <div class="mitigation-item">
+                <div class="mitigation-name">No specific mitigations available</div>
+                <div class="mitigation-text">
+                  Adversaries exploit weaknesses in Internet-facing applications. Implement regular security audits and patching.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="vector-card">
+            <div class="vector-header">
+              <div>
+                <div class="vector-name">AI Supply Chain Compromise</div>
+                <div class="vector-code">AML.T0010</div>
+              </div>
+              <div class="vector-aal">$930K</div>
+            </div>
+            <button class="drawer-toggle" onclick="toggleDrawer(this)">View Details →</button>
+            <div class="drawer-content">
+              <strong>1:100 Year Loss:</strong> $12.75M<br>
+              <strong>Annual Likelihood:</strong> 2.7%
+            </div>
+            <div class="mitigation-section">
+              <div class="mitigation-title">Recommended Mitigations</div>
+              <div class="mitigation-item">
+                <div class="mitigation-name">Verify AI Artifacts (AML.M0014)</div>
+                <div class="mitigation-text">
+                  Verify cryptographic checksum of all AI artifacts to ensure files were not modified by an attacker.
+                </div>
+              </div>
+              <div class="mitigation-item">
+                <div class="mitigation-name">Generative AI Guardrails (AML.M0020)</div>
+                <div class="mitigation-text">
+                  Place safety controls between the AI model and output shared with users to prevent undesired inputs/outputs.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="vector-card">
+            <div class="vector-header">
+              <div>
+                <div class="vector-name">Evade AI Model</div>
+                <div class="vector-code">AML.T0015</div>
+              </div>
+              <div class="vector-aal">$930K</div>
+            </div>
+            <button class="drawer-toggle" onclick="toggleDrawer(this)">View Details →</button>
+            <div class="drawer-content">
+              <strong>1:100 Year Loss:</strong> $12.75M<br>
+              <strong>Annual Likelihood:</strong> 2.7%
+            </div>
+            <div class="mitigation-section">
+              <div class="mitigation-title">Recommended Mitigations</div>
+              <div class="mitigation-item">
+                <div class="mitigation-name">Model Hardening (AML.M0003)</div>
+                <div class="mitigation-text">
+                  Use adversarial training or network distillation to make AI models robust to adversarial inputs.
+                </div>
+              </div>
+              <div class="mitigation-item">
+                <div class="mitigation-name">Adversarial Input Detection (AML.M0015)</div>
+                <div class="mitigation-text">
+                  Detect and block adversarial inputs or atypical queries that deviate from known benign behavior.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="vector-card">
+            <div class="vector-header">
+              <div>
+                <div class="vector-name">Drive-by Compromise</div>
+                <div class="vector-code">AML.T0078</div>
+              </div>
+              <div class="vector-aal">$620K</div>
+            </div>
+            <button class="drawer-toggle" onclick="toggleDrawer(this)">View Details →</button>
+            <div class="drawer-content">
+              <strong>1:100 Year Loss:</strong> $8.5M<br>
+              <strong>Annual Likelihood:</strong> 1.8%
+            </div>
+            <div class="mitigation-section">
+              <div class="mitigation-title">Recommended Mitigations</div>
+              <div class="mitigation-item">
+                <div class="mitigation-name">No specific mitigations available</div>
+                <div class="mitigation-text">
+                  Adversaries gain access through users browsing websites. Implement browser security controls.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="vector-card">
+            <div class="vector-header">
+              <div>
+                <div class="vector-name">Valid Accounts</div>
+                <div class="vector-code">AML.T0012</div>
+              </div>
+              <div class="vector-aal">$620K</div>
+            </div>
+            <button class="drawer-toggle" onclick="toggleDrawer(this)">View Details →</button>
+            <div class="drawer-content">
+              <strong>1:100 Year Loss:</strong> $8.5M<br>
+              <strong>Annual Likelihood:</strong> 1.8%
+            </div>
+            <div class="mitigation-section">
+              <div class="mitigation-title">Recommended Mitigations</div>
+              <div class="mitigation-item">
+                <div class="mitigation-name">No specific mitigations available</div>
+                <div class="mitigation-text">
+                  Adversaries obtain credentials of existing accounts. Implement MFA and account monitoring.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Event Types Tab -->
+    <div id="events-tab" class="tab-content">
+      <div class="grid-2col">
+        <div class="card">
+          <div class="card-content">
+            <h2>Event Types Distribution</h2>
+            <div class="chart-container">
+              <canvas id="eventsChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content">
+            <h2>Summary Table</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Event Type</th>
+                  <th>AAL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Data Exfiltration</td><td>$2.48M</td></tr>
+                <tr><td>Model Integrity</td><td>$1.86M</td></tr>
+                <tr><td>Model Availability</td><td>$1.24M</td></tr>
+                <tr><td>Model Wastage</td><td>$620K</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Damage Types Tab -->
+    <div id="damages-tab" class="tab-content">
+      <div class="card">
+        <div class="card-content">
+          <h2>Damage Types</h2>
+          <div class="chart-container" style="height: 400px;">
+            <canvas id="damagesChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-top: 24px;">
+        <div class="card-content">
+          <h2>Complete Breakdown</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Damage Type</th>
+                <th>AAL</th>
+                <th>1:100</th>
+                <th>Annual Likelihood</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Lost Income</td><td>$930,000</td><td>$12,750,000</td><td>2.7%</td></tr>
+              <tr><td>Settlements</td><td>$744,000</td><td>$10,200,000</td><td>2.16%</td></tr>
+              <tr><td>Business Interruption Recovery Expense</td><td>$620,000</td><td>$8,500,000</td><td>1.8%</td></tr>
+              <tr><td>Regulatory</td><td>$558,000</td><td>$7,650,000</td><td>1.62%</td></tr>
+              <tr><td>Legal Defense</td><td>$496,000</td><td>$6,800,000</td><td>1.44%</td></tr>
+              <tr><td>Public Relations Repairment</td><td>$434,000</td><td>$5,950,000</td><td>1.26%</td></tr>
+              <tr><td>Data Recovery</td><td>$372,000</td><td>$5,100,000</td><td>1.08%</td></tr>
+              <tr><td>Forensics</td><td>$372,000</td><td>$5,100,000</td><td>1.08%</td></tr>
+              <tr><td>Regulatory Legal Defense</td><td>$372,000</td><td>$5,100,000</td><td>1.08%</td></tr>
+              <tr><td>Extortion Payment</td><td>$310,000</td><td>$4,250,000</td><td>0.9%</td></tr>
+              <tr><td>Notifications</td><td>$310,000</td><td>$4,250,000</td><td>0.9%</td></tr>
+              <tr><td>Business Interruption Forensics</td><td>$248,000</td><td>$3,400,000</td><td>0.72%</td></tr>
+              <tr><td>Monitoring Services</td><td>$248,000</td><td>$3,400,000</td><td>0.72%</td></tr>
+              <tr><td>Extortion Recovery Expenses</td><td>$186,000</td><td>$2,550,000</td><td>0.54%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls Tab -->
+    <div id="controls-tab" class="tab-content">
+      <div class="card">
+        <div class="card-content">
+          <h2>Top Recommended Controls</h2>
+          <p style="font-size: 13px; color: var(--text-medium); margin-bottom: 16px;">
+            Implementing these NIST AI RMF controls will reduce your risk exposure
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Control</th>
+                <th>Current Status</th>
+                <th>Target</th>
+                <th>AAL Reduction</th>
+                <th>1:100 Reduction</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>GOVERN-1</strong></td>
+                <td><span class="badge badge-error">Not Implemented</span></td>
+                <td><span class="badge badge-success">Fully Implemented</span></td>
+                <td>−$320,000</td>
+                <td>−$5,000,000</td>
+              </tr>
+              <tr>
+                <td><strong>GOVERN-2</strong></td>
+                <td><span class="badge badge-error">Not Implemented</span></td>
+                <td><span class="badge badge-success">Fully Implemented</span></td>
+                <td>−$280,000</td>
+                <td>−$4,200,000</td>
+              </tr>
+              <tr>
+                <td><strong>GOVERN-3</strong></td>
+                <td><span class="badge badge-error">Not Implemented</span></td>
+                <td><span class="badge badge-success">Fully Implemented</span></td>
+                <td>−$260,000</td>
+                <td>−$3,900,000</td>
+              </tr>
+              <tr>
+                <td><strong>GOVERN-4</strong></td>
+                <td><span class="badge badge-error">Not Implemented</span></td>
+                <td><span class="badge badge-success">Fully Implemented</span></td>
+                <td>−$250,000</td>
+                <td>−$3,600,000</td>
+              </tr>
+              <tr>
+                <td><strong>MANAGE-1</strong></td>
+                <td><span class="badge badge-error">Not Implemented</span></td>
+                <td><span class="badge badge-success">Fully Implemented</span></td>
+                <td>−$240,000</td>
+                <td>−$3,300,000</td>
+              </tr>
+              <tr>
+                <td><strong>MAP-2</strong></td>
+                <td><span class="badge badge-warning">Partially Implemented</span></td>
+                <td><span class="badge badge-success">Fully Implemented</span></td>
+                <td>−$230,000</td>
+                <td>−$3,100,000</td>
+              </tr>
+              <tr>
+                <td><strong>MAP-4</strong></td>
+                <td><span class="badge badge-error">Not Implemented</span></td>
+                <td><span class="badge badge-success">Fully Implemented</span></td>
+                <td>−$210,000</td>
+                <td>−$2,900,000</td>
+              </tr>
+              <tr>
+                <td><strong>MEASURE-1</strong></td>
+                <td><span class="badge badge-error">Not Implemented</span></td>
+                <td><span class="badge badge-success">Fully Implemented</span></td>
+                <td>−$190,000</td>
+                <td>−$2,800,000</td>
+              </tr>
+              <tr>
+                <td><strong>MEASURE-2</strong></td>
+                <td><span class="badge badge-warning">Partially Implemented</span></td>
+                <td><span class="badge badge-success">Fully Implemented</span></td>
+                <td>−$180,000</td>
+                <td>−$2,500,000</td>
+              </tr>
+              <tr>
+                <td><strong>MEASURE-4</strong></td>
+                <td><span class="badge badge-error">Not Implemented</span></td>
+                <td><span class="badge badge-success">Fully Implemented</span></td>
+                <td>−$170,000</td>
+                <td>−$2,300,000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // EP Curve
+    const epData = [
+      { loss: 2500000, aep: 100.00 },
+      { loss: 5000000, aep: 50.00 },
+      { loss: 7000000, aep: 33.33 },
+      { loss: 10000000, aep: 20.00 },
+      { loss: 18000000, aep: 10.00 },
+      { loss: 30000000, aep: 4.00 },
+      { loss: 42000000, aep: 2.00 },
+      { loss: 60000000, aep: 1.00 }
+    ];
+
+    new Chart(document.getElementById('epCurve'), {
+      type: 'line',
+      data: {
+        labels: epData.map(d => '$' + (d.loss/1000000).toFixed(1) + 'M'),
+        datasets: [{
+          label: 'Annual Exceedance Probability (%)',
+          data: epData.map(d => d.aep),
+          borderColor: 'rgb(85, 81, 247)',
+          backgroundColor: 'rgba(85, 81, 247, 0.1)',
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            title: { display: true, text: 'AEP (%)' },
+            beginAtZero: true
+          },
+          x: {
+            title: { display: true, text: 'Loss (USD)' }
+          }
+        }
+      }
+    });
+
+    // Vectors Chart
+    new Chart(document.getElementById('vectorsChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Phishing', 'Exploit Public', 'AI Supply Chain', 'Evade Model', 'Drive-by', 'Valid Accounts'],
+        datasets: [{
+          data: [1860000, 1240000, 930000, 930000, 620000, 620000],
+          backgroundColor: 'rgb(85, 81, 247)'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: {
+            ticks: {
+              callback: function(value) {
+                return '$' + (value/1000000).toFixed(1) + 'M';
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // Events Chart (Donut)
+    new Chart(document.getElementById('eventsChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Data Exfiltration', 'Model Integrity', 'Model Availability', 'Model Wastage'],
+        datasets: [{
+          data: [2480000, 1860000, 1240000, 620000],
+          backgroundColor: [
+            'rgb(85, 81, 247)',
+            'rgb(139, 159, 248)',
+            'rgb(187, 186, 252)',
+            'rgb(220, 229, 242)'
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right'
+          }
+        }
+      }
+    });
+
+    // Damages Chart
+    new Chart(document.getElementById('damagesChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Lost Income', 'Settlements', 'BI Recovery', 'Regulatory', 'Legal', 'PR', 'Data Rec', 'Forensics', 'Reg Legal', 'Extortion', 'Notif', 'BI Forensics', 'Monitoring', 'Ext Rec'],
+        datasets: [{
+          data: [930000, 744000, 620000, 558000, 496000, 434000, 372000, 372000, 372000, 310000, 310000, 248000, 248000, 186000],
+          backgroundColor: 'rgb(85, 81, 247)'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: {
+            ticks: {
+              callback: function(value) {
+                return '$' + (value/1000).toFixed(0) + 'K';
+              }
+            }
+          }
+        }
+      }
+    });
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      
+      event.target.classList.add('active');
+      document.getElementById(tabName + '-tab').classList.add('active');
+    }
+
+    function toggleDrawer(btn) {
+      const content = btn.nextElementSibling;
+      if (content.classList.contains('open')) {
+        content.classList.remove('open');
+        btn.textContent = 'View Details →';
+      } else {
+        content.classList.add('open');
+        btn.textContent = 'Hide Details';
+      }
+    }
+
+    function downloadJSON() {
+      const data = {
+        model: "GPT-4",
+        runTime: "2025-07-31T15:42:00Z",
+        summary: {
+          annualLikelihood: "18%",
+          aal: "$6.2M",
+          oneInHundred: "$85M",
+          inherentRiskAAL: "$12.5M",
+          inherentRisk1in100: "$190M"
+        }
+      };
+      
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'genai-risk-results.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>

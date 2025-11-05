@@ -4,12 +4,14 @@ import Layout from './components/Layout';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import AssetsVisibility from './pages/AssetsVisibility';
+import { AssetDetailView } from './pages/AssetsVisibility/AssetDetailView';
 import RiskRegister from './pages/RiskRegister';
 import GovernanceMonitoring from './pages/GovernanceMonitoring';
 import ComplianceReadiness from './pages/ComplianceReadiness';
 import AIAssurancePlan from './pages/AIAssurancePlan';
 import IntegrationHub from './pages/IntegrationHub';
 import FinancialQuantification from './pages/FinancialQuantification';
+import { ComponentTest } from './pages/ComponentTest';
 
 // Protected Route wrapper
 const ProtectedRoute = ({ children }) => {
@@ -53,12 +55,14 @@ function App() {
             <Route index element={<Navigate to="/dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="assets" element={<AssetsVisibility />} />
+            <Route path="assets/:id" element={<AssetDetailView />} />
             <Route path="risk-register" element={<RiskRegister />} />
             <Route path="compliance-readiness" element={<ComplianceReadiness />} />
             <Route path="ai-assurance-plan" element={<AIAssurancePlan />} />
             <Route path="governance-monitoring" element={<GovernanceMonitoring />} />
             <Route path="integration-hub" element={<IntegrationHub />} />
             <Route path="financial-quantification" element={<FinancialQuantification />} />
+            <Route path="component-test" element={<ComponentTest />} />
           </Route>
         </Routes>
       </AuthProvider>
