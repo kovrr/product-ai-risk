@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:14-alpine
+    container_name: aikovrr-db
+    environment:
+      POSTGRES_DB: ${DB_NAME:-aikovrr}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+    volumes:
+      # Persistent database storage
+      - postgres_data:/var/lib/postgresql/data
+      # Database initialization scripts (run in order)
+      - ./database/init-db.sh:/docker-entrypoint-initdb.d/01-init.sh
+      - ./database/aikovrr_schema.sql:/docker-entrypoint-initdb.d/02-schema.sql
+      - ./database/aikovrr_data.sql:/docker-entrypoint-initdb.d/03-data.sql
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - aikovrr-network
+
+  # Django Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: aikovrr-backend
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      # Database connection
+      DB_HOST: db
+      DB_NAME: ${DB_NAME:-aikovrr}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_PORT: 5432
+      # Django settings
+      SECRET_KEY: ${SECRET_KEY:-django-insecure-dev-key-change-in-production}
+      DEBUG: ${DEBUG:-True}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,127.0.0.1,backend}
+    volumes:
+      # Mount code for hot-reload in development
+      - ./backend:/app
+      # Exclude venv from mount
+      - /app/venv
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - aikovrr-network
+    restart: unless-stopped
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: aikovrr-frontend
+    environment:
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:8000/api}
+    volumes:
+      # Mount code for hot-reload in development
+      - ./frontend:/app
+      # Use anonymous volume for node_modules to preserve installed packages
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - aikovrr-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  aikovrr-network:
+    driver: bridge

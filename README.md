@@ -7,36 +7,98 @@ Complete full-stack application for AI governance and compliance management.
 - **Frontend**: React 19 + Vite + TailwindCSS (Kovrr Design System)
 - **Backend**: Django 4.2 + Django REST Framework
 - **Database**: PostgreSQL with demo data
+- **Deployment**: Docker + Docker Compose
 
 ## 🚀 Quick Start
 
-### 1. Start PostgreSQL Database
+### Option 1: Docker (Recommended) 🐳
 
-Make sure PostgreSQL is running and import the database:
+The easiest way to run AIKovrr with consistent environment:
+
+```bash
+# 1. Create environment file
+cp .env.example .env
+
+# 2. Update .env for Docker
+# Set: DB_HOST=db
+# Set: DB_PASSWORD=postgres
+
+# 3. Start all services
+docker-compose up
+```
+
+**Access the application:**
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:8000/api
+
+**📖 See [DOCKER.md](DOCKER.md) for complete Docker documentation**
+
+### Option 2: Local Setup (Automated)
+
+Run the automated setup script that handles everything:
+
+```bash
+./setup.sh
+```
+
+This will:
+- ✅ Create PostgreSQL database with demo data
+- ✅ Set up Python virtual environment
+- ✅ Install all dependencies (backend + frontend)
+- ✅ Run Django migrations
+- ✅ Configure demo user accounts
+
+### Manual Setup
+
+<details>
+<summary>Click to expand manual setup instructions</summary>
+
+#### 1. Environment Setup
+
+```bash
+cp .env.example .env
+# Edit .env if needed (defaults work for local development)
+```
+
+#### 2. Database Setup
 
 ```bash
 cd database
-psql -U liransorani -d postgres -f aikovrr_schema.sql
-psql -U liransorani -d aikovrr -f aikovrr_data.sql
+./setup-db.sh
 ```
 
-### 2. Start Django Backend
+#### 3. Backend Setup
 
 ```bash
 cd backend
-python3.9 manage.py runserver
+./setup-backend.sh
 ```
 
-Backend will run at: `http://localhost:8000`
+#### 4. Frontend Setup
 
-### 3. Start React Frontend
+```bash
+cd frontend
+npm install
+```
 
+</details>
+
+### Running the Application
+
+**Start Backend:**
+```bash
+cd backend
+source venv/bin/activate
+python manage.py runserver
+```
+Backend: `http://localhost:8000`
+
+**Start Frontend:**
 ```bash
 cd frontend
 npm run dev
 ```
-
-Frontend will run at: `http://localhost:5173`
+Frontend: `http://localhost:5173`
 
 ## 🔐 Login Credentials
 

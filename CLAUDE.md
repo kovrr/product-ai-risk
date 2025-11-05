@@ -55,45 +55,44 @@ The application is organized into four main Django apps:
 
 ## Development Commands
 
-### Docker (Recommended)
+### Quick Setup (Automated)
+
+Run the automated setup script for first-time setup:
 ```bash
-# Start all services (PostgreSQL + Django + React)
-docker-compose up
-
-# Run in background
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
-
-# Stop services
-docker-compose down
-
-# Rebuild after dependency changes
-docker-compose up --build
+./setup.sh
 ```
 
-Access:
-- Frontend: http://localhost:5173
-- Backend: http://localhost:8000
-- Database: localhost:5432
+This script:
+- Creates PostgreSQL database and imports schema/data
+- Sets up Python virtual environment
+- Installs dependencies
+- Runs Django migrations
+- Configures demo user passwords
 
-### Manual Development
+### Individual Setup Scripts
 
 **Database Setup:**
 ```bash
 cd database
-psql -U liransorani -d postgres -f aikovrr_schema.sql
-psql -U liransorani -d aikovrr -f aikovrr_data.sql
+./setup-db.sh
 ```
+
+**Backend Setup:**
+```bash
+cd backend
+./setup-backend.sh
+```
+
+### Manual Development
 
 **Backend (Django):**
 ```bash
 cd backend
-python3.9 manage.py runserver          # Start dev server
-python3.9 manage.py makemigrations     # Create migrations (rarely needed)
-python3.9 manage.py migrate            # Apply migrations (rarely needed)
-python3.9 manage.py createsuperuser    # Create admin user
+source venv/bin/activate              # Activate virtual environment
+python manage.py runserver             # Start dev server
+python manage.py makemigrations        # Create migrations (rarely needed)
+python manage.py migrate               # Apply migrations
+python manage.py createsuperuser       # Create admin user
 ```
 
 **Frontend (React):**
@@ -128,14 +127,16 @@ Base URL: `http://localhost:8000/api`
 ## Configuration Notes
 
 ### Database Connection
-Settings default to local PostgreSQL with user `liransorani`. Override via environment variables:
+Configuration is managed via environment variables (see `.env.example`):
 - `DB_NAME` (default: aikovrr)
-- `DB_USER` (default: liransorani)
+- `DB_USER` (default: postgres)
 - `DB_PASSWORD` (default: empty)
-- `DB_HOST` (default: localhost)
+- `DB_HOST` (default: localhost, use 'db' for Docker)
 - `DB_PORT` (default: 5432)
 
 Database uses schema `aikovrr` with search path: `aikovrr,public`
+
+Copy `.env.example` to `.env` and modify as needed for your environment.
 
 ### Django Settings (Development)
 - `DEBUG = True`

@@ -12,32 +12,51 @@ This directory contains PostgreSQL database schema and demo data for the AIKovrr
 ### 1. Create the Database (if not already created)
 
 ```bash
+# Using default postgres user
+createdb -U postgres aikovrr
+
+# Or using your system user (macOS with Homebrew)
 createdb aikovrr
 ```
 
 ### 2. Import Schema
 
 ```bash
+# Navigate to database directory
+cd database
+
+# Using default postgres user
+psql -U postgres -d aikovrr -f aikovrr_schema.sql
+
+# Or using your system user (macOS with Homebrew)
 psql -d aikovrr -f aikovrr_schema.sql
 ```
 
 ### 3. Import Demo Data
 
 ```bash
+# Using default postgres user
+psql -U postgres -d aikovrr -f aikovrr_data.sql
+
+# Or using your system user (macOS with Homebrew)
 psql -d aikovrr -f aikovrr_data.sql
 ```
 
 ### 4. Verify Import
 
 ```bash
-psql -d aikovrr -c "SELECT COUNT(*) FROM core_tenant;"
-psql -d aikovrr -c "SELECT COUNT(*) FROM visibility_ai_asset;"
-psql -d aikovrr -c "SELECT COUNT(*) FROM core_user;"
+psql -U postgres -d aikovrr -c "SELECT COUNT(*) FROM aikovrr.core_tenant;"
+psql -U postgres -d aikovrr -c "SELECT COUNT(*) FROM aikovrr.visibility_ai_asset;"
+psql -U postgres -d aikovrr -c "SELECT COUNT(*) FROM aikovrr.core_user;"
 ```
 
 ## One-Line Import (All at Once)
 
 ```bash
+# Using postgres user
+psql -U postgres -d aikovrr -f aikovrr_schema.sql && psql -U postgres -d aikovrr -f aikovrr_data.sql
+
+# Using system user
 psql -d aikovrr -f aikovrr_schema.sql && psql -d aikovrr -f aikovrr_data.sql
 ```
 
@@ -45,30 +64,32 @@ psql -d aikovrr -f aikovrr_schema.sql && psql -d aikovrr -f aikovrr_data.sql
 
 - **Database Name**: `aikovrr`
 - **Schema Name**: `aikovrr`
-- **Host**: `localhost` (default)
+- **Host**: `localhost` (default) or `db` (for Docker)
 - **Port**: `5432` (default)
-- **User**: Your PostgreSQL user
-- **Password**: None (as specified)
+- **User**: `postgres` (recommended) or your system username
+- **Password**: Empty for local development (configure via environment variables)
 
 ## Django Configuration
 
-Update your Django `settings.py`:
+Django settings are now configured via environment variables. Copy `.env.example` to `.env` and update:
 
-```python
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'aikovrr',
-        'USER': 'your_postgres_user',
-        'PASSWORD': '',  # No password
-        'HOST': 'localhost',
-        'PORT': '5432',
-        'OPTIONS': {
-            'options': '-c search_path=aikovrr,public'
-        },
-    }
-}
+```bash
+# Copy the example environment file
+cp .env.example .env
+
+# Edit with your database credentials
+# For local development with postgres user:
+DB_USER=postgres
+DB_PASSWORD=
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=aikovrr
+
+# For Docker:
+DB_HOST=db
 ```
+
+The Django `settings.py` automatically reads these environment variables with sensible defaults.
 
 ## Demo Data Overview
 

@@ -7,14 +7,19 @@ Django + PostgreSQL backend for the AIKovrr AI governance platform.
 ### 1. Install Dependencies
 
 ```bash
-cd /Users/liransorani/CascadeProjects/aikovrr/backend
+cd backend
 pip install -r requirements.txt
 ```
 
 ### 2. Configure Database
 
-The app is configured to connect to PostgreSQL database `aikovrr` with no password.
-Update `aikovrr/settings.py` if your setup is different.
+Configuration is managed via environment variables. Copy `.env.example` to `.env` in the project root:
+
+```bash
+cp ../.env.example ../.env
+```
+
+The defaults work for local PostgreSQL with the `postgres` user and no password.
 
 ### 3. Run Migrations (Optional - tables already exist)
 
