@@ -1,11 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { NotificationProvider } from './contexts/NotificationContext';
 import Layout from './components/Layout';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import AssetsVisibility from './pages/AssetsVisibility';
 import { AssetDetailView } from './pages/AssetsVisibility/AssetDetailView';
 import RiskRegister from './pages/RiskRegister';
+import { RiskDetailView } from './pages/RiskDetailView';
 import GovernanceMonitoring from './pages/GovernanceMonitoring';
 import ComplianceReadiness from './pages/ComplianceReadiness';
 import AIAssurancePlan from './pages/AIAssurancePlan';
@@ -42,7 +44,8 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Routes>
+        <NotificationProvider>
+          <Routes>
           <Route path="/login" element={<Login />} />
           <Route
             path="/"
@@ -57,6 +60,7 @@ function App() {
             <Route path="assets" element={<AssetsVisibility />} />
             <Route path="assets/:id" element={<AssetDetailView />} />
             <Route path="risk-register" element={<RiskRegister />} />
+            <Route path="risk-register/:id" element={<RiskDetailView />} />
             <Route path="compliance-readiness" element={<ComplianceReadiness />} />
             <Route path="ai-assurance-plan" element={<AIAssurancePlan />} />
             <Route path="governance-monitoring" element={<GovernanceMonitoring />} />
@@ -65,6 +69,7 @@ function App() {
             <Route path="component-test" element={<ComponentTest />} />
           </Route>
         </Routes>
+        </NotificationProvider>
       </AuthProvider>
     </BrowserRouter>
   );

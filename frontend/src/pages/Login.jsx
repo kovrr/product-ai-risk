@@ -27,11 +27,15 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
       <div className="card max-w-md w-full">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-primary mb-2">AIKovrr</h1>
-          <p className="text-neutral-600">AI Governance Platform</p>
+          <img 
+            src="/kovrr-logo.svg" 
+            alt="Kovrr" 
+            className="h-10 mx-auto mb-6"
+          />
+          <h2 className="text-2xl font-semibold text-neutral-800 mb-2">Sign-in</h2>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">

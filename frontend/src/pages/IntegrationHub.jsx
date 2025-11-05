@@ -25,68 +25,125 @@ const IntegrationHub = () => {
 
   const availableConnectors = [
     {
+      id: 'kovrr',
+      name: 'Kovrr Platform',
+      description: 'Core Kovrr.ai platform - AI governance and risk management',
+      icon: '🎯',
+      iconBg: 'bg-gradient-to-br from-purple-500 to-purple-700',
+      iconColor: 'text-white',
+      category: 'Core Platform',
+      status: 'connected',
+      vendor: 'Kovrr',
+    },
+    {
       id: 'entra-id',
       name: 'Microsoft Entra ID',
       description: 'Sync users, groups, and authentication data from Azure AD',
       icon: '🔐',
+      iconBg: 'bg-gradient-to-br from-blue-500 to-blue-700',
+      iconColor: 'text-white',
       category: 'Identity',
       status: 'available',
+      vendor: 'Microsoft',
     },
     {
-      id: 'casb',
-      name: 'CASB (Cloud Access Security Broker)',
-      description: 'Monitor and control cloud application usage',
-      icon: '☁️',
-      category: 'Security',
-      status: 'available',
-    },
-    {
-      id: 'dlp',
-      name: 'Data Loss Prevention (DLP)',
-      description: 'Track sensitive data exposure and policy violations',
-      icon: '🛡️',
-      category: 'Security',
-      status: 'available',
+      id: 'github',
+      name: 'GitHub',
+      description: 'Track AI models and code repositories',
+      icon: '💻',
+      iconBg: 'bg-gradient-to-br from-gray-800 to-black',
+      iconColor: 'text-white',
+      category: 'Development',
+      status: 'connected',
+      vendor: 'GitHub',
     },
     {
       id: 'jira',
       name: 'Jira',
       description: 'Sync risk scenarios and action plans with Jira tickets',
       icon: '📋',
+      iconBg: 'bg-gradient-to-br from-blue-600 to-blue-800',
+      iconColor: 'text-white',
       category: 'Project Management',
-      status: 'available',
-    },
-    {
-      id: 'servicenow',
-      name: 'ServiceNow',
-      description: 'Integrate with IT service management workflows',
-      icon: '🔧',
-      category: 'ITSM',
-      status: 'available',
+      status: 'connected',
+      vendor: 'Atlassian',
     },
     {
       id: 'slack',
       name: 'Slack',
       description: 'Send alerts and notifications to Slack channels',
       icon: '💬',
+      iconBg: 'bg-gradient-to-br from-purple-600 to-pink-600',
+      iconColor: 'text-white',
       category: 'Communication',
+      status: 'connected',
+      vendor: 'Slack',
+    },
+    {
+      id: 'casb',
+      name: 'CASB (Cloud Access Security Broker)',
+      description: 'Monitor and control cloud application usage',
+      icon: '☁️',
+      iconBg: 'bg-gradient-to-br from-cyan-500 to-blue-600',
+      iconColor: 'text-white',
+      category: 'Security',
       status: 'available',
+      vendor: 'Security',
+    },
+    {
+      id: 'dlp',
+      name: 'Data Loss Prevention (DLP)',
+      description: 'Track sensitive data exposure and policy violations',
+      icon: '🛡️',
+      iconBg: 'bg-gradient-to-br from-green-500 to-emerald-700',
+      iconColor: 'text-white',
+      category: 'Security',
+      status: 'available',
+      vendor: 'Security',
+    },
+    {
+      id: 'servicenow',
+      name: 'ServiceNow',
+      description: 'Integrate with IT service management workflows',
+      icon: '🔧',
+      iconBg: 'bg-gradient-to-br from-teal-600 to-teal-800',
+      iconColor: 'text-white',
+      category: 'ITSM',
+      status: 'available',
+      vendor: 'ServiceNow',
+    },
+    {
+      id: 'aws',
+      name: 'AWS',
+      description: 'Monitor AI workloads and resources on Amazon Web Services',
+      icon: '☁️',
+      iconBg: 'bg-gradient-to-br from-orange-500 to-orange-700',
+      iconColor: 'text-white',
+      category: 'Cloud',
+      status: 'available',
+      vendor: 'Amazon',
     },
     {
       id: 'api',
       name: 'Custom API',
       description: 'Connect custom data sources via REST API',
       icon: '🔌',
+      iconBg: 'bg-gradient-to-br from-indigo-500 to-purple-600',
+      iconColor: 'text-white',
       category: 'Custom',
       status: 'available',
+      vendor: 'Custom',
     },
     {
       id: 'siem',
       name: 'SIEM Integration',
       description: 'Send security events to SIEM platforms',
       icon: '🔍',
+      iconBg: 'bg-gradient-to-br from-red-500 to-red-700',
+      iconColor: 'text-white',
       category: 'Security',
       status: 'coming-soon',
+      vendor: 'Security',
     },
   ];
 
@@ -142,7 +199,8 @@ const IntegrationHub = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-neutral-600">Active Connections</p>
-              <p className="text-2xl font-bold text-neutral-800 mt-1">0</p>
+              <p className="text-2xl font-bold text-green-600 mt-1">{availableConnectors.filter(c => c.status === 'connected').length}</p>
+              <p className="text-xs text-neutral-500 mt-1">Connected & syncing</p>
             </div>
             <div className="w-12 h-12 bg-success/10 rounded-lg flex items-center justify-center">
               <CheckCircle className="text-success" size={24} />
@@ -153,11 +211,12 @@ const IntegrationHub = () => {
         <div className="card">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-neutral-600">Data Synced Today</p>
-              <p className="text-2xl font-bold text-neutral-800 mt-1">0</p>
+              <p className="text-sm text-neutral-600">Total Integrations</p>
+              <p className="text-2xl font-bold text-neutral-800 mt-1">{availableConnectors.length}</p>
+              <p className="text-xs text-neutral-500 mt-1">Including Kovrr</p>
             </div>
             <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-              <RefreshCw className="text-primary" size={24} />
+              <Link2 className="text-primary" size={24} />
             </div>
           </div>
         </div>
@@ -165,11 +224,12 @@ const IntegrationHub = () => {
         <div className="card">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-neutral-600">Available Connectors</p>
-              <p className="text-2xl font-bold text-neutral-800 mt-1">{availableConnectors.filter(c => c.status === 'available').length}</p>
+              <p className="text-sm text-neutral-600">Available to Connect</p>
+              <p className="text-2xl font-bold text-blue-600 mt-1">{availableConnectors.filter(c => c.status === 'available').length}</p>
+              <p className="text-xs text-neutral-500 mt-1">Ready to configure</p>
             </div>
             <div className="w-12 h-12 bg-info/10 rounded-lg flex items-center justify-center">
-              <Link2 className="text-info" size={24} />
+              <Plus className="text-info" size={24} />
             </div>
           </div>
         </div>
@@ -177,11 +237,12 @@ const IntegrationHub = () => {
         <div className="card">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-neutral-600">Errors</p>
-              <p className="text-2xl font-bold text-neutral-800 mt-1">0</p>
+              <p className="text-sm text-neutral-600">Coming Soon</p>
+              <p className="text-2xl font-bold text-neutral-800 mt-1">{availableConnectors.filter(c => c.status === 'coming-soon').length}</p>
+              <p className="text-xs text-neutral-500 mt-1">In development</p>
             </div>
-            <div className="w-12 h-12 bg-error/10 rounded-lg flex items-center justify-center">
-              <XCircle className="text-error" size={24} />
+            <div className="w-12 h-12 bg-warning/10 rounded-lg flex items-center justify-center">
+              <RefreshCw className="text-warning" size={24} />
             </div>
           </div>
         </div>
@@ -208,10 +269,12 @@ const IntegrationHub = () => {
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <div className="text-3xl">{connector.icon}</div>
+                  <div className={`w-14 h-14 ${connector.iconBg} rounded-xl flex items-center justify-center text-2xl shadow-lg`}>
+                    {connector.icon}
+                  </div>
                   <div>
                     <h3 className="font-semibold text-neutral-800">{connector.name}</h3>
-                    <span className="text-xs text-neutral-500">{connector.category}</span>
+                    <span className="text-xs text-neutral-500">{connector.vendor} • {connector.category}</span>
                   </div>
                 </div>
                 <span className={`badge ${getStatusBadge(connector.status)} text-xs`}>

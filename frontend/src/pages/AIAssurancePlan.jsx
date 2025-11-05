@@ -7,15 +7,23 @@ import { Badge } from '../components/atoms/Badge';
 const AIAssurancePlan = () => {
   const navigate = useNavigate();
 
-  // Calculate applicable assets for each control
+  // Calculate applicable assets and risk scores for each control
   const controlsWithAssets = useMemo(() => {
     return mockControls.map(control => {
       const assetIds = getControlAssets(control.id);
       const assets = assetIds.map(id => getAssetById(id)).filter(Boolean);
+      
+      // Calculate risk score based on maturity gap and asset count
+      const maturityGap = control.target_maturity && control.current_maturity 
+        ? control.target_maturity - control.current_maturity 
+        : 0;
+      const riskScore = Math.min(100, (maturityGap * 20) + (assets.length * 5));
+      
       return {
         ...control,
         applicableAssets: assets,
         assetCount: assets.length,
+        riskScore,
       };
     });
   }, []);
@@ -54,14 +62,18 @@ const AIAssurancePlan = () => {
     return badges[status] || 'badge-info';
   };
 
-  const getPriorityBadge = (priority) => {
-    const badges = {
-      'Critical': 'badge-error',
-      'High': 'badge-warning',
-      'Medium': 'badge-info',
-      'Low': 'badge-success',
-    };
-    return badges[priority] || 'badge-info';
+  const getRiskScoreBadge = (score) => {
+    if (score >= 75) return 'badge-error';
+    if (score >= 50) return 'badge-warning';
+    if (score >= 25) return 'badge-info';
+    return 'badge-success';
+  };
+
+  const getRiskScoreLabel = (score) => {
+    if (score >= 75) return 'Critical';
+    if (score >= 50) return 'High';
+    if (score >= 25) return 'Medium';
+    return 'Low';
   };
 
   const getActionStatusBadge = (status) => {
@@ -146,8 +158,9 @@ const AIAssurancePlan = () => {
                 <th>Control ID</th>
                 <th>Control Name</th>
                 <th>Category</th>
+                <th>Risk Score</th>
                 <th>Status</th>
-                <th>Maturity</th>
+                <th>Maturity Gap</th>
                 <th>Applicable Assets</th>
               </tr>
             </thead>
@@ -166,6 +179,16 @@ const AIAssurancePlan = () => {
                   </td>
                   <td>
                     <span className="badge badge-info text-xs">{control.category}</span>
+                  </td>
+                  <td>
+                    <div className="flex items-center gap-2">
+                      <span className={`badge ${getRiskScoreBadge(control.riskScore)} text-xs font-semibold`}>
+                        {control.riskScore}
+                      </span>
+                      <span className="text-xs text-neutral-500">
+                        {getRiskScoreLabel(control.riskScore)}
+                      </span>
+                    </div>
                   </td>
                   <td>
                     <span className={`badge ${getStatusBadge(control.status)} text-xs`}>

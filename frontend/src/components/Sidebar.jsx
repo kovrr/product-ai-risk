@@ -19,14 +19,18 @@ const Sidebar = () => {
     { path: '/ai-assurance-plan', icon: Shield, label: 'AI Assurance Plan' },
     { path: '/governance-monitoring', icon: Activity, label: 'Governance & Monitoring' },
     { path: '/integration-hub', icon: Link2, label: 'Integration Hub' },
-    { path: '/financial-quantification', icon: DollarSign, label: 'Financial Quantification' },
+    { path: '/financial-quantification', icon: DollarSign, label: 'GenAI Exposure' },
   ];
 
   return (
     <aside className="w-64 bg-white border-r border-neutral-200 h-screen flex flex-col">
       <div className="p-6 border-b border-neutral-200">
-        <h1 className="text-2xl font-bold text-primary">AIKovrr</h1>
-        <p className="text-xs text-neutral-500 mt-1">AI Governance Platform</p>
+        <img 
+          src="/kovrr-logo.svg" 
+          alt="Kovrr" 
+          className="h-8 mb-2"
+        />
+        <p className="text-xs text-neutral-500">Kovrr.ai - AI Governance Platform</p>
       </div>
 
       <nav className="flex-1 p-4 space-y-1">

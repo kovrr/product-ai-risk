@@ -47,8 +47,8 @@ const FinancialQuantification = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-neutral-800">Financial Quantification</h1>
-          <p className="text-neutral-600 mt-1">Financial quantification of risks per gaps identified</p>
+          <h1 className="text-3xl font-bold text-neutral-800">GenAI Exposure - Financial Quantification</h1>
+          <p className="text-neutral-600 mt-1">Financial quantification of GenAI risks and exposure</p>
         </div>
         <button className="btn btn-primary">
           <DollarSign size={18} />

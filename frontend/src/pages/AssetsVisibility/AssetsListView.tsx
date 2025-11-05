@@ -18,6 +18,7 @@ export const AssetsListView: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [riskFilter, setRiskFilter] = useState<string>('all');
+  const [showDiscoveryModal, setShowDiscoveryModal] = useState(false);
 
   // Filter and search assets
   const filteredAssets = useMemo(() => {
@@ -204,8 +205,8 @@ export const AssetsListView: React.FC = () => {
               Manage and monitor all AI assets across your organization
             </p>
           </div>
-          <Button variant="primary" onClick={() => navigate('/assets/new')}>
-            + Add Asset
+          <Button variant="primary" onClick={() => setShowDiscoveryModal(true)}>
+            + Discover Assets
           </Button>
         </div>
 
@@ -326,6 +327,99 @@ export const AssetsListView: React.FC = () => {
           />
         )}
       </div>
+
+      {/* Asset Discovery Modal - Two Paths */}
+      {showDiscoveryModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-[15px] p-8 max-w-4xl w-full mx-4 shadow-2xl">
+            <h2 className="text-2xl font-bold text-neutral-800 mb-2">Discover AI Assets</h2>
+            <p className="text-neutral-600 mb-8">Choose how you'd like to discover and add AI assets to your inventory</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              {/* Manual Discovery */}
+              <div 
+                className="border-2 border-neutral-200 rounded-xl p-6 hover:border-primary hover:shadow-lg transition-all cursor-pointer group"
+                onClick={() => {
+                  setShowDiscoveryModal(false);
+                  navigate('/assets/new');
+                }}
+              >
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+                  📝
+                </div>
+                <h3 className="text-xl font-semibold text-neutral-800 mb-2">Manual Discovery</h3>
+                <p className="text-sm text-neutral-600 mb-4">
+                  Fill out a questionnaire to manually add AI assets. Similar to Dave's assessment process.
+                </p>
+                <ul className="text-sm text-neutral-600 space-y-2">
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600 mt-0.5">✓</span>
+                    <span>Guided questionnaire</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600 mt-0.5">✓</span>
+                    <span>Detailed asset profiling</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600 mt-0.5">✓</span>
+                    <span>Best for new or undocumented assets</span>
+                  </li>
+                </ul>
+                <div className="mt-6">
+                  <button className="btn btn-primary w-full">
+                    Start Manual Discovery →
+                  </button>
+                </div>
+              </div>
+
+              {/* Automated Discovery */}
+              <div 
+                className="border-2 border-neutral-200 rounded-xl p-6 hover:border-primary hover:shadow-lg transition-all cursor-pointer group"
+                onClick={() => {
+                  setShowDiscoveryModal(false);
+                  navigate('/integration-hub');
+                }}
+              >
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+                  🔌
+                </div>
+                <h3 className="text-xl font-semibold text-neutral-800 mb-2">Automated Discovery</h3>
+                <p className="text-sm text-neutral-600 mb-4">
+                  Connect integrations to automatically discover assets from your existing tools and platforms.
+                </p>
+                <ul className="text-sm text-neutral-600 space-y-2">
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600 mt-0.5">✓</span>
+                    <span>Real-time synchronization</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600 mt-0.5">✓</span>
+                    <span>Automatic updates</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-600 mt-0.5">✓</span>
+                    <span>Connect GitHub, Jira, Slack, and more</span>
+                  </li>
+                </ul>
+                <div className="mt-6">
+                  <button className="btn btn-secondary w-full">
+                    View Integrations →
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-end">
+              <button 
+                className="btn btn-outline"
+                onClick={() => setShowDiscoveryModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

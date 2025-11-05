@@ -22,3 +22,12 @@ export type { ColumnCustomizerProps, ColumnConfig } from './ColumnCustomizer';
 
 export { EmptyState } from './EmptyState';
 export type { EmptyStateProps } from './EmptyState';
+
+// Category Badge
+export { CategoryBadge } from './CategoryBadge';
+
+// MITRE Badge
+export { MitreBadge } from './MitreBadge';
+
+// Export Menu
+export { ExportMenu } from './ExportMenu';
