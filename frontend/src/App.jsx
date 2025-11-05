@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import AssetsVisibility from './pages/AssetsVisibility';
 import { AssetDetailView } from './pages/AssetsVisibility/AssetDetailView';
+import ManualAssetWizard from './pages/AssetsVisibility/ManualAssetWizard';
 import RiskRegister from './pages/RiskRegister';
 import { RiskDetailView } from './pages/RiskDetailView';
 import GovernanceMonitoring from './pages/GovernanceMonitoring';
@@ -58,6 +59,7 @@ function App() {
             <Route index element={<Navigate to="/dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="assets" element={<AssetsVisibility />} />
+            <Route path="assets/new" element={<ManualAssetWizard />} />
             <Route path="assets/:id" element={<AssetDetailView />} />
             <Route path="risk-register" element={<RiskRegister />} />
             <Route path="risk-register/:id" element={<RiskDetailView />} />
