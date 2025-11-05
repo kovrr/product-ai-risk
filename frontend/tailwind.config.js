@@ -8,40 +8,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Base colors from design system
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
-        },
-        primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
-        },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
-        },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
-        },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
-        },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
-        },
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
+        // Base tokens (light mode)
+        background: '#ffffff',
+        foreground: '#1c1c2d',
+        card: '#ffffff',
+        'card-foreground': '#1c1c2d',
+        primary: '#5551f7',
+        'primary-foreground': '#ffffff',
+        secondary: '#f5f7ff',
+        destructive: '#eb491f',
+        border: '#f1f1f1',
+        input: '#ced7de',
+        ring: '#5551f7',
         
         // Fill colors
         'fill-base-n1': '#f8f8f8',
@@ -128,10 +106,18 @@ export default {
         'xl': '64px',
       },
       borderRadius: {
-        'sm': 'calc(var(--radius) - 4px)',
-        'md': 'calc(var(--radius) - 2px)',
-        'lg': 'var(--radius)',
-        DEFAULT: 'var(--radius)',
+        sm: 'calc(var(--radius, 0.5rem) - 4px)',
+        md: 'calc(var(--radius, 0.5rem) - 2px)',
+        lg: 'var(--radius, 0.5rem)',
+        // Explicit pixel radii frequently used in the project
+        '10': '10px',
+        '15': '15px',
+        '20': '20px',
+      },
+      fontWeight: {
+        400: '400',
+        600: '600',
+        700: '700',
       },
       keyframes: {
         'accordion-down': {

@@ -1,9 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { cn } from '../../lib/utils';
-import { Button, Input } from '../../components/atoms';
+import { cn } from '@/lib/utils';
+import { Button } from '@/newComponents/atoms/button';
+import { Input } from '@/newComponents/atoms/input';
+import { DataTable } from '../../components/molecules';
 import {
-  DataTable,
   StatusBadge,
   RiskScoreBadge,
   RiskScoreProgress,
@@ -58,7 +59,7 @@ export const AssetsListView: React.FC = () => {
       sortable: true,
       width: '200px',
       render: (_, asset) => (
-        <div className="flex items-center gap-[8px]">
+        <div className="flex items-center gap-xs">
           <div className="flex flex-col">
             <span className="text-[14px] font-[600] text-text-base-primary">
               {asset.name}
@@ -133,12 +134,12 @@ export const AssetsListView: React.FC = () => {
       key: 'regulatory_applicability',
       label: 'Regulatory',
       render: (value: string[]) => (
-        <div className="flex gap-[4px] flex-wrap">
+        <div className="flex gap-xs flex-wrap">
           {value && value.length > 0 ? (
             value.map((reg) => (
               <span
                 key={reg}
-                className="px-[6px] py-[2px] bg-fill-info/10 text-fill-info text-[11px] font-[600] rounded-[4px] uppercase"
+                className="px-[6px] py-[2px] bg-fill-info/10 text-fill-info text-[11px] font-[600] rounded-[10px] uppercase"
               >
                 {reg}
               </span>
@@ -192,67 +193,68 @@ export const AssetsListView: React.FC = () => {
   };
 
   return (
-    <div className="h-full flex flex-col bg-fill-base-primary">
+    <div className="min-h-screen flex flex-col bg-fill-base-1">
       {/* Header */}
-      <div className="border-b border-stroke-base-secondary bg-fill-base-primary px-[32px] py-[24px]">
-        <div className="flex items-center justify-between mb-[20px]">
-          <div>
-            <h1 className="text-[28px] font-[700] text-text-base-primary mb-[4px]">
+      <div className="bg-background border-b border-stroke-base-secondary px-md py-md">
+        <div className="flex items-center justify-between mb-sm">
+          <div className="space-y-xs">
+            <h1 className="text-[32px] font-[700] text-text-base-primary">
               AI Assets Visibility
             </h1>
             <p className="text-[14px] text-text-base-secondary">
               Manage and monitor all AI assets across your organization
             </p>
           </div>
-          <Button variant="primary" onClick={() => navigate('/assets/new')}>
+          <Button variant="primary" onClick={() => navigate('/assets/new')} className="rounded-[15px] px-md">
             + Add Asset
           </Button>
         </div>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-5 gap-[16px]">
-          <div className="bg-fill-base-secondary rounded-[10px] p-[16px]">
-            <div className="text-[24px] font-[700] text-text-base-primary">
+        <div className="grid grid-cols-5 gap-sm">
+          <div className="bg-card rounded-[15px] p-md border-0 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-default">
+            <div className="text-[32px] font-[700] text-text-base-primary leading-none mb-xs">
               {stats.total}
             </div>
-            <div className="text-[12px] text-text-base-secondary">Total Assets</div>
+            <div className="text-[12px] text-text-base-secondary font-[600] uppercase tracking-wide">Total Assets</div>
           </div>
-          <div className="bg-fill-base-secondary rounded-[10px] p-[16px]">
-            <div className="text-[24px] font-[700] text-fill-success">
+          <div className="bg-card rounded-[15px] p-md border-0 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-default">
+            <div className="text-[32px] font-[700] text-fill-information-success leading-none mb-xs">
               {stats.sanctioned}
             </div>
-            <div className="text-[12px] text-text-base-secondary">Sanctioned</div>
+            <div className="text-[12px] text-text-base-secondary font-[600] uppercase tracking-wide">Sanctioned</div>
           </div>
-          <div className="bg-fill-base-secondary rounded-[10px] p-[16px]">
-            <div className="text-[24px] font-[700] text-fill-error">
+          <div className="bg-card rounded-[15px] p-md border-0 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-default">
+            <div className="text-[32px] font-[700] text-fill-information-error leading-none mb-xs">
               {stats.shadow}
             </div>
-            <div className="text-[12px] text-text-base-secondary">Shadow AI</div>
+            <div className="text-[12px] text-text-base-secondary font-[600] uppercase tracking-wide">Shadow AI</div>
           </div>
-          <div className="bg-fill-base-secondary rounded-[10px] p-[16px]">
-            <div className="text-[24px] font-[700] text-fill-warning">
+          <div className="bg-card rounded-[15px] p-md border-0 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-default">
+            <div className="text-[32px] font-[700] text-fill-information-warning leading-none mb-xs">
               {stats.underReview}
             </div>
-            <div className="text-[12px] text-text-base-secondary">Under Review</div>
+            <div className="text-[12px] text-text-base-secondary font-[600] uppercase tracking-wide">Under Review</div>
           </div>
-          <div className="bg-fill-base-secondary rounded-[10px] p-[16px]">
-            <div className="text-[24px] font-[700] text-fill-error">
+          <div className="bg-card rounded-[15px] p-md border-0 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-default">
+            <div className="text-[32px] font-[700] text-fill-information-error leading-none mb-xs">
               {stats.highRisk}
             </div>
-            <div className="text-[12px] text-text-base-secondary">High Risk</div>
+            <div className="text-[12px] text-text-base-secondary font-[600] uppercase tracking-wide">High Risk</div>
           </div>
         </div>
       </div>
 
       {/* Filters and Search */}
-      <div className="border-b border-stroke-base-secondary bg-fill-base-primary px-[32px] py-[16px]">
-        <div className="flex items-center gap-[16px]">
+      <div className="bg-background border-b border-stroke-base-secondary px-md py-sm">
+        <div className="flex items-center gap-sm">
           {/* Search */}
           <div className="flex-1">
             <Input
               value={searchQuery}
               onChange={(e: any) => setSearchQuery(e.target.value)}
               placeholder="Search assets by name, vendor, or use case..."
+              className="rounded-[15px] border-stroke-base-secondary focus:border-fill-brand-primary"
             />
           </div>
 
@@ -260,7 +262,7 @@ export const AssetsListView: React.FC = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-[16px] py-[10px] bg-fill-base-primary border border-stroke-base-secondary rounded-[10px] text-[14px] text-text-base-primary"
+            className="px-sm py-xs bg-card border border-stroke-base-secondary rounded-[15px] text-[14px] text-text-base-primary font-[600] hover:border-fill-brand-primary focus:border-fill-brand-primary focus:ring-2 focus:ring-fill-brand-primary/20 transition-all outline-none"
           >
             <option value="all">All Status</option>
             <option value="sanctioned">Sanctioned</option>
@@ -273,7 +275,7 @@ export const AssetsListView: React.FC = () => {
           <select
             value={riskFilter}
             onChange={(e) => setRiskFilter(e.target.value)}
-            className="px-[16px] py-[10px] bg-fill-base-primary border border-stroke-base-secondary rounded-[10px] text-[14px] text-text-base-primary"
+            className="px-sm py-xs bg-card border border-stroke-base-secondary rounded-[15px] text-[14px] text-text-base-primary font-[600] hover:border-fill-brand-primary focus:border-fill-brand-primary focus:ring-2 focus:ring-fill-brand-primary/20 transition-all outline-none"
           >
             <option value="all">All Risk Levels</option>
             <option value="critical">Critical</option>
@@ -284,27 +286,28 @@ export const AssetsListView: React.FC = () => {
 
           {/* Clear Filters */}
           {(searchQuery || statusFilter !== 'all' || riskFilter !== 'all') && (
-            <button
+            <Button
+              variant="ghost"
               onClick={() => {
                 setSearchQuery('');
                 setStatusFilter('all');
                 setRiskFilter('all');
               }}
-              className="text-[14px] text-fill-brand-primary hover:underline"
+              className="text-[12px] hover:bg-fill-base-1 rounded-[15px]"
             >
               Clear Filters
-            </button>
+            </Button>
           )}
         </div>
 
         {/* Active Filters Count */}
-        <div className="mt-[12px] text-[12px] text-text-base-secondary">
-          Showing {filteredAssets.length} of {stats.total} assets
+        <div className="mt-xs text-[12px] text-text-base-secondary font-[600]">
+          Showing <span className="text-fill-brand-primary">{filteredAssets.length}</span> of {stats.total} assets
         </div>
       </div>
 
       {/* Table */}
-      <div className="flex-1 overflow-auto px-[32px] py-[24px]">
+      <div className="flex-1 overflow-auto px-md py-sm">
         {filteredAssets.length === 0 ? (
           <EmptyState
             title="No assets found"

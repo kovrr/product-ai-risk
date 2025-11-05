@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye, AlertTriangle, TrendingUp, Shield } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '../components/atoms/Card';
-import { Button } from '../components/atoms/Button';
-import { Badge } from '../components/atoms/Badge';
+import { Card, CardHeader, CardTitle, CardContent } from '@/newComponents/atoms/card';
+import { Button } from '@/newComponents/atoms/button';
+import { Badge } from '@/newComponents/atoms/badge';
 import { mockAssets, getHighRiskAssets, getShadowAIAssets } from '../data';
 import { StatusBadge, RiskScoreBadge, UserAvatar } from '../components/molecules';
 import { getUserById } from '../data';
@@ -80,30 +80,31 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="space-y-sm">
-      <div>
-        <h1 className="text-3xl font-[700] text-text-base-primary">Dashboard</h1>
-        <p className="text-text-base-secondary mt-1">Overview of your AI governance metrics</p>
+    <div className="min-h-screen bg-fill-base-1 p-md space-y-md">
+      {/* Page Header */}
+      <div className="space-y-xs">
+        <h1 className="text-[32px] font-[700] text-text-base-primary">Dashboard</h1>
+        <p className="text-[14px] text-text-base-secondary">Overview of your AI governance metrics</p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-sm">
         {statCards.map((stat) => (
-          <Card 
+          <Card
             key={stat.title}
-            className="cursor-pointer hover:shadow-lg transition-shadow"
+            className="cursor-pointer hover:shadow-lg transition-all hover:scale-[1.02] border-0"
             onClick={stat.onClick}
           >
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-text-base-secondary font-[600]">{stat.title}</p>
-                <p className="text-3xl font-[700] text-text-base-primary mt-2">{stat.value}</p>
+              <div className="space-y-xs">
+                <p className="text-[12px] text-text-base-secondary font-[600] uppercase tracking-wide">{stat.title}</p>
+                <p className="text-[32px] font-[700] text-text-base-primary leading-none">{stat.value}</p>
                 {stat.subtitle && (
-                  <p className="text-xs text-text-base-tertiary mt-1">{stat.subtitle}</p>
+                  <p className="text-[11px] text-text-base-tertiary">{stat.subtitle}</p>
                 )}
               </div>
-              <div className={`p-3 rounded-lg ${stat.bgColor}`}>
-                <stat.icon className={stat.color} size={24} />
+              <div className={`p-sm rounded-[15px] ${stat.bgColor}`}>
+                <stat.icon className={stat.color} size={28} />
               </div>
             </div>
           </Card>
@@ -113,14 +114,14 @@ const Dashboard = () => {
       {/* Asset Widgets */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-sm">
         {/* Recent Assets */}
-        <Card>
+        <Card className="border-0 shadow-sm">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle>Recent Assets</CardTitle>
-              <Button 
-                variant="ghost" 
+              <CardTitle className="text-[20px]">Recent Assets</CardTitle>
+              <Button
+                variant="ghost"
                 onClick={() => navigate('/assets')}
-                className="text-xs"
+                className="text-[12px] h-auto py-xs px-sm hover:bg-fill-base-1"
               >
                 View All →
               </Button>
@@ -131,19 +132,19 @@ const Dashboard = () => {
               {recentAssets.map((asset) => {
                 const owner = getUserById(asset.owner_id);
                 return (
-                  <div 
+                  <div
                     key={asset.id}
-                    className="flex items-center gap-3 p-3 bg-fill-base-1 rounded-[10px] cursor-pointer hover:bg-fill-base-2 transition-colors"
+                    className="flex items-center gap-sm p-sm bg-fill-base-1 rounded-[15px] cursor-pointer hover:bg-fill-base-2 transition-all hover:shadow-sm border border-transparent hover:border-stroke-base-secondary"
                     onClick={() => navigate(`/assets/${asset.id}`)}
                   >
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
+                      <div className="flex items-center gap-xs mb-1">
                         <p className="text-sm font-[600] text-text-base-primary truncate">
                           {asset.name}
                         </p>
                         <StatusBadge status={asset.status} size="sm" />
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-xs">
                         <p className="text-xs text-text-base-tertiary">{asset.vendor_name}</p>
                         {owner && (
                           <>
@@ -162,14 +163,14 @@ const Dashboard = () => {
         </Card>
 
         {/* High-Risk Assets */}
-        <Card>
+        <Card className="border-0 shadow-sm">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle>High-Risk Assets</CardTitle>
-              <Button 
-                variant="ghost" 
+              <CardTitle className="text-[20px]">High-Risk Assets</CardTitle>
+              <Button
+                variant="ghost"
                 onClick={() => navigate('/assets?risk=high')}
-                className="text-xs"
+                className="text-[12px] h-auto py-xs px-sm hover:bg-fill-base-1"
               >
                 View All →
               </Button>
@@ -180,19 +181,19 @@ const Dashboard = () => {
               {topHighRiskAssets.map((asset) => {
                 const owner = getUserById(asset.owner_id);
                 return (
-                  <div 
+                  <div
                     key={asset.id}
-                    className="flex items-center gap-3 p-3 bg-fill-base-1 rounded-[10px] cursor-pointer hover:bg-fill-base-2 transition-colors"
+                    className="flex items-center gap-sm p-sm bg-fill-base-1 rounded-[15px] cursor-pointer hover:bg-fill-base-2 transition-all hover:shadow-sm border border-transparent hover:border-stroke-base-secondary"
                     onClick={() => navigate(`/assets/${asset.id}`)}
                   >
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
+                      <div className="flex items-center gap-xs mb-1">
                         <p className="text-sm font-[600] text-text-base-primary truncate">
                           {asset.name}
                         </p>
                         <StatusBadge status={asset.status} size="sm" />
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-xs">
                         <p className="text-xs text-text-base-tertiary">
                           Score: {asset.risk_score.toFixed(0)}/100
                         </p>
@@ -208,27 +209,43 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-0 shadow-sm lg:col-span-2">
           <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
+            <CardTitle className="text-[20px]">Quick Actions</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 gap-xs">
-              <Button variant="outline" className="justify-start">
-                <Eye size={18} />
-                View Assets
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-sm">
+              <Button
+                variant="outline"
+                className="justify-start h-auto py-sm flex-col items-center gap-xs hover:bg-fill-base-1 hover:border-fill-brand-primary hover:text-fill-brand-primary transition-all rounded-[15px]"
+                onClick={() => navigate('/assets')}
+              >
+                <Eye size={24} />
+                <span className="text-[12px] font-[600]">View Assets</span>
               </Button>
-              <Button variant="outline" className="justify-start">
-                <AlertTriangle size={18} />
-                Risk Register
+              <Button
+                variant="outline"
+                className="justify-start h-auto py-sm flex-col items-center gap-xs hover:bg-fill-base-1 hover:border-fill-brand-primary hover:text-fill-brand-primary transition-all rounded-[15px]"
+                onClick={() => navigate('/risk-register')}
+              >
+                <AlertTriangle size={24} />
+                <span className="text-[12px] font-[600]">Risk Register</span>
               </Button>
-              <Button variant="outline" className="justify-start">
-                <Shield size={18} />
-                Controls
+              <Button
+                variant="outline"
+                className="justify-start h-auto py-sm flex-col items-center gap-xs hover:bg-fill-base-1 hover:border-fill-brand-primary hover:text-fill-brand-primary transition-all rounded-[15px]"
+                onClick={() => navigate('/ai-assurance-plan')}
+              >
+                <Shield size={24} />
+                <span className="text-[12px] font-[600]">Controls</span>
               </Button>
-              <Button variant="outline" className="justify-start">
-                <TrendingUp size={18} />
-                Reports
+              <Button
+                variant="outline"
+                className="justify-start h-auto py-sm flex-col items-center gap-xs hover:bg-fill-base-1 hover:border-fill-brand-primary hover:text-fill-brand-primary transition-all rounded-[15px]"
+                onClick={() => navigate('/compliance-readiness')}
+              >
+                <TrendingUp size={24} />
+                <span className="text-[12px] font-[600]">Compliance</span>
               </Button>
             </div>
           </CardContent>

@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { ClipboardCheck, TrendingUp, Shield, CheckCircle, AlertCircle } from 'lucide-react';
+import { Button } from '@/newComponents/atoms/button';
+import { Card } from '@/newComponents/atoms/card';
+import { Badge } from '@/newComponents/atoms/badge';
 
 const ComplianceReadiness = () => {
   const [assessments, setAssessments] = useState([]);
@@ -58,64 +61,64 @@ const ComplianceReadiness = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="min-h-screen bg-fill-base-1 p-md space-y-sm">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-neutral-800">Compliance Readiness</h1>
-          <p className="text-neutral-600 mt-1">High-level governance & maturity self-evaluation aligned to frameworks</p>
+        <div className="space-y-xs">
+          <h1 className="text-[32px] font-[700] text-text-base-primary">Compliance Readiness</h1>
+          <p className="text-[14px] text-text-base-secondary">High-level governance & maturity self-evaluation aligned to frameworks</p>
         </div>
-        <button className="btn btn-primary">
+        <Button variant="primary" className="rounded-[15px] px-md">
           <ClipboardCheck size={18} />
           New Assessment
-        </button>
+        </Button>
       </div>
 
       {/* Overall Readiness Score */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="card bg-gradient-to-br from-primary to-primary/80 text-white">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-sm">
+        <Card className="bg-gradient-to-br from-fill-brand-primary to-fill-brand-primary/80 text-white border-0 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-default">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm opacity-90">Overall Readiness Score</p>
-              <p className="text-4xl font-bold mt-2">--</p>
-              <p className="text-sm opacity-75 mt-1">Out of 100</p>
+              <p className="text-[12px] font-[600] uppercase tracking-wide opacity-90">Overall Readiness Score</p>
+              <p className="text-[40px] font-[700] leading-none mt-xs">--</p>
+              <p className="text-[12px] opacity-75 mt-xs">Out of 100</p>
             </div>
-            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
+            <div className="w-16 h-16 bg-white/20 rounded-[15px] flex items-center justify-center">
               <TrendingUp size={32} />
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="card">
+        <Card className="border-0 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-default">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-neutral-600">Maturity Level</p>
-              <p className="text-2xl font-bold text-neutral-800 mt-1">Initial</p>
-              <p className="text-sm text-neutral-500 mt-1">Starting journey</p>
+              <p className="text-[12px] text-text-base-secondary font-[600] uppercase tracking-wide">Maturity Level</p>
+              <p className="text-[32px] font-[700] text-text-base-primary leading-none mt-xs">Initial</p>
+              <p className="text-[12px] text-text-base-tertiary mt-xs">Starting journey</p>
             </div>
-            <div className="w-12 h-12 bg-warning/10 rounded-lg flex items-center justify-center">
-              <Shield className="text-warning" size={24} />
+            <div className="w-12 h-12 bg-fill-information-warning/10 rounded-[15px] flex items-center justify-center">
+              <Shield className="text-fill-information-warning" size={24} />
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="card">
+        <Card className="border-0 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] cursor-default">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-neutral-600">Frameworks Assessed</p>
-              <p className="text-2xl font-bold text-neutral-800 mt-1">0</p>
-              <p className="text-sm text-neutral-500 mt-1">NIST, ISO, EU AI Act</p>
+              <p className="text-[12px] text-text-base-secondary font-[600] uppercase tracking-wide">Frameworks Assessed</p>
+              <p className="text-[32px] font-[700] text-text-base-primary leading-none mt-xs">0</p>
+              <p className="text-[12px] text-text-base-tertiary mt-xs">NIST, ISO, EU AI Act</p>
             </div>
-            <div className="w-12 h-12 bg-info/10 rounded-lg flex items-center justify-center">
-              <CheckCircle className="text-info" size={24} />
+            <div className="w-12 h-12 bg-fill-info/10 rounded-[15px] flex items-center justify-center">
+              <CheckCircle className="text-fill-info" size={24} />
             </div>
           </div>
-        </div>
+        </Card>
       </div>
 
       {/* Framework Selection */}
-      <div className="card">
+      <Card className="border-0 shadow-sm">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-neutral-800">Framework Assessments</h2>
+          <h2 className="text-[20px] font-[700] text-text-base-primary">Framework Assessments</h2>
           <select 
             className="input w-64"
             value={selectedFramework}
@@ -207,12 +210,12 @@ const ComplianceReadiness = () => {
             </button>
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Maturity Level Guide */}
-      <div className="card">
-        <h2 className="text-xl font-bold text-neutral-800 mb-4">Maturity Levels Guide</h2>
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+      <Card className="border-0 shadow-sm">
+        <h2 className="text-[20px] font-[700] text-text-base-primary mb-sm">Maturity Levels Guide</h2>
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-sm">
           <div className="text-center">
             <div className="w-12 h-12 bg-error/10 rounded-full flex items-center justify-center mx-auto mb-2">
               <span className="text-error font-bold">1</span>
@@ -249,7 +252,7 @@ const ComplianceReadiness = () => {
             <p className="text-xs text-neutral-500 mt-1">Continuous improvement</p>
           </div>
         </div>
-      </div>
+      </Card>
     </div>
   );
 };
