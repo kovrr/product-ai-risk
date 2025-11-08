@@ -106,146 +106,81 @@ export const RiskMetricsSidebar: React.FC<RiskMetricsSidebarProps> = ({ risks, c
   };
 
   return (
-    <div className={`space-y-4 ${className}`}>
-      {/* Total Risks Card */}
-      <div className="bg-fill-base-primary border border-stroke-base-secondary rounded-[10px] p-4">
-        <div className="text-xs font-semibold text-text-base-secondary mb-1">Total Risk Scenarios</div>
-        <div className="text-3xl font-bold text-text-base-primary">{metrics.totalRisks}</div>
-      </div>
-
-      {/* Financial Exposure Card */}
-      <div className="bg-fill-base-primary border border-stroke-base-secondary rounded-[10px] p-4">
-        <div className="text-xs font-semibold text-text-base-secondary mb-3">Financial Exposure</div>
-        <div className="space-y-2">
-          <div>
-            <div className="text-xs text-text-base-tertiary">Total Impact</div>
-            <div className="text-xl font-bold text-text-base-primary">
-              {formatCurrency(metrics.totalFinancialImpact)}
-            </div>
+    <div className={`flex flex-col gap-[20px] ${className}`}>
+      {/* Card 1: Top AI Assets by Risk Count */}
+      {metrics.topAssets.length > 0 && (
+        <div className="bg-white p-[20px] rounded-[12px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
+          <div className="text-[14px] font-[600] text-[rgb(74,85,104)] mb-[12px]">
+            Top AI Assets by Risk Count
           </div>
-          <div>
-            <div className="text-xs text-text-base-tertiary">Expected Annual Loss</div>
-            <div className="text-xl font-bold text-orange-600">
-              {formatCurrency(metrics.totalEAL)}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Priority Breakdown Card */}
-      <div className="bg-fill-base-primary border border-stroke-base-secondary rounded-[10px] p-4">
-        <div className="text-xs font-semibold text-text-base-secondary mb-3">Priority Breakdown</div>
-        <div className="space-y-2">
-          {['Critical', 'High', 'Medium', 'Low'].map(priority => {
-            const count = metrics.priorityBreakdown[priority] || 0;
-            const percentage = metrics.totalRisks > 0 ? (count / metrics.totalRisks) * 100 : 0;
-            
-            return (
-              <div key={priority}>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs text-text-base-secondary">{priority}</span>
-                  <span className="text-xs font-semibold text-text-base-primary">{count}</span>
-                </div>
-                <div className="w-full bg-fill-base-tertiary rounded-full h-2">
-                  <div
-                    className={`h-2 rounded-full ${getPriorityColor(priority)}`}
-                    style={{ width: `${percentage}%` }}
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Category Distribution Card */}
-      <div className="bg-fill-base-primary border border-stroke-base-secondary rounded-[10px] p-4">
-        <div className="text-xs font-semibold text-text-base-secondary mb-3">Risk Categories</div>
-        <div className="space-y-2">
-          {Object.entries(metrics.categoryBreakdown)
-            .sort(([, a], [, b]) => b - a)
-            .map(([category, count]) => (
-              <div key={category} className="flex items-center justify-between">
-                <span className="text-xs text-text-base-secondary truncate flex-1">{category}</span>
-                <span className="text-xs font-semibold text-text-base-primary ml-2">{count}</span>
-              </div>
-            ))}
-        </div>
-      </div>
-
-      {/* Status Overview Card */}
-      <div className="bg-fill-base-primary border border-stroke-base-secondary rounded-[10px] p-4">
-        <div className="text-xs font-semibold text-text-base-secondary mb-3">Status Overview</div>
-        <div className="space-y-2">
-          {Object.entries(metrics.statusBreakdown).map(([status, count]) => (
-            <div key={status} className="flex items-center justify-between">
-              <span className={`text-xs px-2 py-1 rounded ${getStatusColor(status)}`}>
-                {status}
-              </span>
-              <span className="text-xs font-semibold text-text-base-primary">{count}</span>
+          {metrics.topAssets.slice(0, 3).map((item) => (
+            <div
+              key={item.asset!.id}
+              className="flex items-center justify-between py-[8px] border-b border-[rgb(237,242,247)] last:border-b-0 text-[13px]"
+            >
+              <span className="text-[rgb(48,48,69)]">{item.asset!.name}</span>
+              <span className="font-[600] text-[rgb(85,81,247)]">{item.riskCount} risks</span>
             </div>
           ))}
         </div>
+      )}
+
+      {/* Card 2: Most Common MITRE ATLAS Tactics */}
+      <div className="bg-white p-[20px] rounded-[12px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
+        <div className="text-[14px] font-[600] text-[rgb(74,85,104)] mb-[12px]">
+          Most Common MITRE ATLAS Tactics
+        </div>
+        <div className="flex items-center justify-between py-[8px] border-b border-[rgb(237,242,247)] text-[13px]">
+          <span className="text-[rgb(48,48,69)]">Phishing (AML.T0052)</span>
+          <span className="font-[600] text-[rgb(85,81,247)]">3</span>
+        </div>
+        <div className="flex items-center justify-between py-[8px] border-b border-[rgb(237,242,247)] text-[13px]">
+          <span className="text-[rgb(48,48,69)]">AI Supply Chain: Model</span>
+          <span className="font-[600] text-[rgb(85,81,247)]">2</span>
+        </div>
+        <div className="flex items-center justify-between py-[8px] text-[13px]">
+          <span className="text-[rgb(48,48,69)]">Evade AI Model</span>
+          <span className="font-[600] text-[rgb(85,81,247)]">3</span>
+        </div>
       </div>
 
-      {/* Top Assets by Risk Card */}
-      {metrics.topAssets.length > 0 && (
-        <div className="bg-fill-base-primary border border-stroke-base-secondary rounded-[10px] p-4">
-          <div className="text-xs font-semibold text-text-base-secondary mb-3">
-            Top Assets by Risk Count
-          </div>
-          <div className="space-y-2">
-            {metrics.topAssets.map((item, index) => (
-              <div
-                key={item.asset!.id}
-                className="flex items-center justify-between p-2 hover:bg-fill-base-secondary rounded cursor-pointer transition-colors"
-                onClick={() => navigate(`/assets/${item.asset!.id}`)}
-              >
-                <div className="flex items-center gap-2 flex-1 min-w-0">
-                  <div className="w-6 h-6 rounded-full bg-fill-brand-primary text-white flex items-center justify-center text-xs font-bold flex-shrink-0">
-                    {index + 1}
-                  </div>
-                  <span className="text-xs text-text-base-primary truncate">
-                    {item.asset!.name}
-                  </span>
-                </div>
-                <span className="text-xs font-semibold text-text-base-primary ml-2 flex-shrink-0">
-                  {item.riskCount} risks
-                </span>
-              </div>
-            ))}
-          </div>
+      {/* Card 3: Impact Type Distribution */}
+      <div className="bg-white p-[20px] rounded-[12px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
+        <div className="text-[14px] font-[600] text-[rgb(74,85,104)] mb-[12px]">
+          Impact Type Distribution
         </div>
-      )}
+        <div className="flex items-center justify-between py-[8px] border-b border-[rgb(237,242,247)] text-[13px]">
+          <span className="text-[rgb(48,48,69)]">Financial Loss</span>
+          <span className="font-[600] text-[rgb(85,81,247)]">7</span>
+        </div>
+        <div className="flex items-center justify-between py-[8px] border-b border-[rgb(237,242,247)] text-[13px]">
+          <span className="text-[rgb(48,48,69)]">Privacy Violation</span>
+          <span className="font-[600] text-[rgb(85,81,247)]">4</span>
+        </div>
+        <div className="flex items-center justify-between py-[8px] text-[13px]">
+          <span className="text-[rgb(48,48,69)]">Regulatory Non-Compliance</span>
+          <span className="font-[600] text-[rgb(85,81,247)]">9</span>
+        </div>
+      </div>
 
-      {/* Upcoming Mitigations Card */}
-      {metrics.upcomingMitigations.length > 0 && (
-        <div className="bg-fill-base-primary border border-stroke-base-secondary rounded-[10px] p-4">
-          <div className="text-xs font-semibold text-text-base-secondary mb-3">
-            Upcoming Mitigations
-          </div>
-          <div className="space-y-2">
-            {metrics.upcomingMitigations.map(risk => (
-              <div
-                key={risk.id}
-                className="p-2 hover:bg-fill-base-secondary rounded cursor-pointer transition-colors"
-                onClick={() => navigate(`/risk-register/${risk.id}`)}
-              >
-                <div className="text-xs font-semibold text-text-base-primary truncate">
-                  {risk.risk_id} - {risk.name}
-                </div>
-                <div className="text-xs text-text-base-tertiary mt-1">
-                  Due: {new Date(risk.mitigation_timeline!).toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                    year: 'numeric',
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
+      {/* Card 4: Controls Mapped to Multiple Scenarios */}
+      <div className="bg-white p-[20px] rounded-[12px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
+        <div className="text-[14px] font-[600] text-[rgb(74,85,104)] mb-[12px]">
+          Controls Mapped to Multiple Scenarios
         </div>
-      )}
+        <div className="flex items-center justify-between py-[8px] border-b border-[rgb(237,242,247)] text-[13px]">
+          <span className="text-[rgb(48,48,69)]">GOVERN 1.1 (NIST AI RMF)</span>
+          <span className="font-[600] text-[rgb(85,81,247)]">5 scenarios</span>
+        </div>
+        <div className="flex items-center justify-between py-[8px] border-b border-[rgb(237,242,247)] text-[13px]">
+          <span className="text-[rgb(48,48,69)]">MAP 1.1 (NIST AI RMF)</span>
+          <span className="font-[600] text-[rgb(85,81,247)]">4 scenarios</span>
+        </div>
+        <div className="flex items-center justify-between py-[8px] text-[13px]">
+          <span className="text-[rgb(48,48,69)]">MEASURE 2.3 (NIST AI RMF)</span>
+          <span className="font-[600] text-[rgb(85,81,247)]">3 scenarios</span>
+        </div>
+      </div>
     </div>
   );
 };

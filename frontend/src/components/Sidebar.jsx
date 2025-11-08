@@ -17,9 +17,9 @@ const Sidebar = () => {
     { path: '/risk-register', icon: AlertTriangle, label: 'Risk Register' },
     { path: '/compliance-readiness', icon: ClipboardCheck, label: 'Compliance Readiness' },
     { path: '/ai-assurance-plan', icon: Shield, label: 'AI Assurance Plan' },
+    { path: '/financial-quantification', icon: DollarSign, label: 'GenAI Exposure - Financial Quantification' },
     { path: '/governance-monitoring', icon: Activity, label: 'Governance & Monitoring' },
     { path: '/integration-hub', icon: Link2, label: 'Integration Hub' },
-    { path: '/financial-quantification', icon: DollarSign, label: 'GenAI Exposure' },
   ];
 
   return (

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kovrr · AI Risk Management Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary-blue: rgb(85, 81, 247);
+    --primary-blue-light: rgb(97, 94, 251);
+    --success-green: rgb(13, 199, 131);
+    --warning-orange: rgb(255, 153, 0);
+    --error-red: rgb(255, 35, 35);
+    --bg-white: rgb(255, 255, 255);
+    --bg-light: rgb(245, 247, 255);
+    --bg-blue: rgb(236, 242, 252);
+    --bg-gray: rgb(237, 242, 247);
+    --text-dark: rgb(26, 32, 44);
+    --text-medium-dark: rgb(48, 48, 69);
+    --text-medium: rgb(74, 85, 104);
+    --text-light: rgb(113, 118, 126);
+    --divider: rgb(220, 229, 242);
+    --border-gray: rgb(163, 173, 181);
+    --shadow-sm: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+    --shadow-md: rgba(0, 0, 0, 0.1) 0px 4px 20px 0px;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html, body {
+    height: 100%;
+    background: var(--bg-light);
+    color: var(--text-medium-dark);
+    font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  .app-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 280px;
+    background: var(--bg-white);
+    border-right: 1px solid var(--divider);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+  
+  .logo-container {
+    padding: 24px 20px;
+    border-bottom: 1px solid var(--divider);
+  }
+  
+  .logo-image {
+    width: 120px;
+    height: auto;
+    margin-bottom: 4px;
+  }
+  
+  .logo {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--text-dark);
+    letter-spacing: -1px;
+    margin-bottom: 2px;
+  }
+  
+  .logo-subtitle {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-medium);
+    letter-spacing: 0.5px;
+  }
+  
+  .nav-menu {
+    flex: 1;
+    padding: 16px 0;
+    overflow-y: auto;
+  }
+  
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    color: var(--text-medium);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+  }
+  
+  .nav-item:hover {
+    background: var(--bg-light);
+    color: var(--text-dark);
+  }
+  
+  .nav-item.active {
+    background: var(--bg-blue);
+    color: var(--primary-blue);
+    font-weight: 600;
+    border-left-color: var(--primary-blue);
+  }
+  
+  .nav-icon {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+    opacity: 0.7;
+  }
+  
+  .nav-item.active .nav-icon {
+    opacity: 1;
+  }
+  
+  .nav-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  
+  /* Main Content */
+  .main-content {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .content-header {
+    padding: 30px 30px 0 30px;
+    flex-shrink: 0;
+  }
+  
+  .content-body {
+    flex: 1;
+    overflow: hidden;
+    padding: 0;
+  }
+  
+  /* Dashboard View (default) */
+  .dashboard-view {
+    padding: 30px;
+    overflow-y: auto;
+    height: 100%;
+  }
+  
+  /* Module Frame */
+  .module-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: none;
+    background: var(--bg-light);
+  }
+  
+  .module-frame.active {
+    display: block;
+  }
+  
+  .page-header {
+    margin-bottom: 32px;
+  }
+  
+  .page-title {
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+  }
+  
+  .page-subtitle {
+    font-size: 16px;
+    color: var(--text-medium);
+    margin: 0;
+  }
+  
+  /* Dashboard Grid */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  
+  .stat-card {
+    background: var(--bg-white);
+    border-radius: 15px;
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .stat-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  
+  .stat-value {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+  }
+  
+  .stat-change {
+    font-size: 13px;
+    color: var(--success-green);
+    font-weight: 600;
+  }
+  
+  .stat-change.negative {
+    color: var(--error-red);
+  }
+  
+  /* Module Cards */
+  .modules-section {
+    margin-bottom: 32px;
+  }
+  
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 16px 0;
+  }
+  
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  .module-card {
+    background: var(--bg-white);
+    border-radius: 15px;
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  
+  .module-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .module-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-light));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  
+  .module-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+  }
+  
+  .module-description {
+    font-size: 14px;
+    color: var(--text-medium);
+    line-height: 1.5;
+  }
+  
+  /* Welcome Banner */
+  .welcome-banner {
+    background: var(--bg-white);
+    border-radius: 15px;
+    padding: 32px;
+    margin-bottom: 32px;
+    border-left: 4px solid var(--primary-blue);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .welcome-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+  }
+  
+  .welcome-text {
+    font-size: 16px;
+    color: var(--text-medium);
+  }
+  
+  /* Action Buttons */
+  .action-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  
+  .btn {
+    font-family: "Source Sans Pro";
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+  
+  .btn-primary {
+    background-color: var(--primary-blue);
+    color: var(--bg-white);
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--primary-blue-light);
+    transform: translateY(-1px);
+  }
+  
+  .btn-secondary {
+    background-color: var(--bg-white);
+    color: var(--text-medium-dark);
+    border: 1px solid var(--divider);
+  }
+  
+  .btn-secondary:hover {
+    background-color: var(--bg-light);
+    border-color: var(--border-gray);
+  }
+  
+  .btn-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  
+  /* Under Design Placeholder */
+  .under-design {
+    background: var(--bg-white);
+    border-radius: 15px;
+    padding: 60px 32px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 32px;
+  }
+  
+  .under-design-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 8px;
+  }
+  
+  .under-design-text {
+    font-size: 14px;
+    color: var(--text-light);
+  }
+</style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo-container">
+        <!-- Replace with your PNG logo -->
+        <!-- <img src="kovrr-logo.png" alt="Kovrr" class="logo-image"> -->
+        <div class="logo">KOVRR</div>
+        <div class="logo-subtitle">Kovrr.AI</div>
+      </div>
+      
+      <nav class="nav-menu">
+        <a class="nav-item active" data-page="dashboard">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </span>
+          <span>Hero Dashboard</span>
+        </a>
+        <a class="nav-item" data-page="assets">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </span>
+          <span>Assets Visibility</span>
+        </a>
+        <a class="nav-item" data-page="risk-register">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </span>
+          <span>Risk Register</span>
+        </a>
+        <a class="nav-item" data-page="compliance">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>
+          <span>Compliance Readiness</span>
+        </a>
+        <a class="nav-item" data-page="assurance">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </span>
+          <span>Assurance Plan</span>
+        </a>
+        <a class="nav-item" data-page="genai">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+          </span>
+          <span>GenAI Exposure - Financial Quantification</span>
+        </a>
+        <a class="nav-item" data-page="integrations">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M6 3v12"/><circle cx="18" cy="9" r="3"/><circle cx="6" cy="21" r="3"/><path d="M15 9a9 9 0 0 0-9 9"/></svg>
+          </span>
+          <span>Integrations Hub</span>
+        </a>
+      </nav>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Dashboard View (Default) -->
+      <div id="dashboard-view" class="dashboard-view">
+        <div class="welcome-banner">
+          <div class="welcome-title">Welcome to Kovrr AI Risk Management</div>
+          <div class="welcome-text">Comprehensive AI risk quantification and governance platform</div>
+        </div>
+        
+        <div class="page-header">
+          <h1 class="page-title">Dashboard Overview</h1>
+          <p class="page-subtitle">Real-time insights into your AI risk posture</p>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button class="btn btn-primary">
+            <span class="btn-icon">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+            New Assessment
+          </button>
+          <button class="btn btn-secondary">
+            <span class="btn-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </span>
+            Export Report
+          </button>
+          <button class="btn btn-secondary">
+            <span class="btn-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </span>
+            Schedule Review
+          </button>
+          <button class="btn btn-secondary">
+            <span class="btn-icon">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </span>
+            Generate Documentation
+          </button>
+          <button class="btn btn-secondary">
+            <span class="btn-icon">
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </span>
+            Team Management
+          </button>
+          <button class="btn btn-secondary">
+            <span class="btn-icon">
+              <svg viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+            </span>
+            Settings
+          </button>
+        </div>
+        
+        <!-- Under Design Placeholder -->
+        <div class="under-design">
+          <div class="under-design-title">Dashboard Content</div>
+          <div class="under-design-text">Under Design</div>
+        </div>
+      </div>
+      
+      <!-- Module iFrame Container -->
+      <div class="content-body">
+        <iframe id="module-frame" class="module-frame" src=""></iframe>
+      </div>
+    </main>
+  </div>
+  
+  <script>
+    // Module file mapping
+    const moduleFiles = {
+      'dashboard': null, // Show dashboard view
+      'assets': 'modules/assets-visibility.html',
+      'risk-register': 'modules/ai-risk-register-table-v4.html',
+      'compliance': 'modules/compliance-readiness-fixed.html',
+      'assurance': 'modules/ai-assurance-plan-fixed.html',
+      'genai': 'modules/genai-index.html',
+      'integrations': 'modules/integrations-hub.html'
+    };
+    
+    // Navigation functionality
+    const navItems = document.querySelectorAll('.nav-item');
+    const dashboardView = document.getElementById('dashboard-view');
+    const moduleFrame = document.getElementById('module-frame');
+    
+    navItems.forEach(item => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const page = this.getAttribute('data-page');
+        
+        // Update active state in sidebar
+        navItems.forEach(nav => nav.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Load appropriate content
+        if (page === 'dashboard') {
+          // Show dashboard view
+          dashboardView.style.display = 'block';
+          moduleFrame.classList.remove('active');
+        } else {
+          // Load module in iframe
+          dashboardView.style.display = 'none';
+          moduleFrame.classList.add('active');
+          moduleFrame.src = moduleFiles[page];
+        }
+      });
+    });
+  </script>
+</body>
+</html>

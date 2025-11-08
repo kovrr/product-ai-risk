@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kovrr · GenAI Exposure - Financial Quantification</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary-blue: rgb(85, 81, 247);
+    --primary-blue-light: rgb(97, 94, 251);
+    --success-green: rgb(13, 199, 131);
+    --warning-orange: rgb(255, 153, 0);
+    --error-red: rgb(255, 35, 35);
+    --bg-white: rgb(255, 255, 255);
+    --bg-light: rgb(245, 247, 255);
+    --bg-blue: rgb(236, 242, 252);
+    --bg-gray: rgb(237, 242, 247);
+    --text-dark: rgb(26, 32, 44);
+    --text-medium-dark: rgb(48, 48, 69);
+    --text-medium: rgb(74, 85, 104);
+    --text-light: rgb(113, 118, 126);
+    --divider: rgb(220, 229, 242);
+    --border-gray: rgb(163, 173, 181);
+    --shadow-sm: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  }
+  
+  * { box-sizing: border-box; }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-light);
+    color: var(--text-medium-dark);
+    font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  .wrap {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 30px;
+  }
+  
+  .page-title {
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+  }
+  
+  .page-subtitle {
+    font-size: 16px;
+    color: var(--text-medium);
+    margin: 0 0 24px 0;
+  }
+  
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .toolbar-right {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .card {
+    background: var(--bg-white);
+    border-radius: 15px;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  
+  .card-content {
+    padding: 24px;
+  }
+  
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 20px 0;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-medium);
+    margin-bottom: 6px;
+  }
+  
+  .required {
+    color: var(--error-red);
+  }
+  
+  .form-input, .form-select {
+    font-family: "Source Sans Pro";
+    font-size: 14px;
+    color: var(--text-medium-dark);
+    background: var(--bg-white);
+    border: 1px solid var(--border-gray);
+    border-radius: 6px;
+    padding: 10px 12px;
+    transition: all 0.2s;
+  }
+  
+  .form-input:focus, .form-select:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+  }
+  
+  .form-hint {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-top: 4px;
+  }
+  
+  .checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+  
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .checkbox-item input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+  
+  .checkbox-item label {
+    font-size: 14px;
+    color: var(--text-medium-dark);
+    cursor: pointer;
+  }
+  
+  .btn {
+    font-family: "Source Sans Pro";
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+  .btn-primary {
+    background-color: var(--primary-blue);
+    color: var(--bg-white);
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--primary-blue-light);
+  }
+  
+  .btn-secondary {
+    background-color: var(--bg-white);
+    color: var(--primary-blue);
+    border: 1px solid var(--primary-blue);
+  }
+  
+  .btn-secondary:hover {
+    background-color: var(--bg-blue);
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1 class="page-title">GenAI Exposure - Financial Quantification</h1>
+    <p class="page-subtitle">Entity Exposure Assessment</p>
+
+    <form id="entityForm">
+      <div class="card">
+        <div class="card-content">
+          <h2>Company Information</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Industry<span class="required">*</span></label>
+              <select class="form-select" required>
+                <option value="">Select industry...</option>
+                <option value="financial_services">Financial Services</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="technology" selected>Technology</option>
+                <option value="retail">Retail</option>
+                <option value="manufacturing">Manufacturing</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Country<span class="required">*</span></label>
+              <select class="form-select" required>
+                <option value="">Select country...</option>
+                <option value="us" selected>United States</option>
+                <option value="uk">United Kingdom</option>
+                <option value="eu">European Union</option>
+                <option value="ca">Canada</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Annual Revenue (USD)<span class="required">*</span></label>
+              <input type="number" class="form-input" value="50000000" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Regulatory Compliance<span class="required">*</span></label>
+              <select class="form-select" required>
+                <option value="">Select...</option>
+                <option value="gdpr">GDPR</option>
+                <option value="ccpa" selected>CCPA</option>
+                <option value="hipaa">HIPAA</option>
+                <option value="eu_ai_act">EU AI Act</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-content">
+          <h2>AI Model</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Model<span class="required">*</span></label>
+              <select class="form-select" required>
+                <option value="">Select model...</option>
+                <option value="gpt-4" selected>OpenAI GPT-4</option>
+                <option value="gpt-4o">OpenAI GPT-4o</option>
+                <option value="claude-3">Anthropic Claude 3</option>
+                <option value="gemini-1.5">Google Gemini 1.5</option>
+                <option value="llama-3">Meta LLaMA 3</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Web Access<span class="required">*</span></label>
+              <select class="form-select" required>
+                <option value="">Select...</option>
+                <option value="true" selected>Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Public Facing App<span class="required">*</span></label>
+              <select class="form-select" required>
+                <option value="">Select...</option>
+                <option value="true" selected>Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-content">
+          <h2>Data Exposure</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">PII Records</label>
+              <input type="number" class="form-input" value="250000" min="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label">PCI Records</label>
+              <input type="number" class="form-input" value="50000" min="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label">PHI Records</label>
+              <input type="number" class="form-input" value="0" min="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Custom Data Records</label>
+              <input type="number" class="form-input" value="100000" min="0">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-content">
+          <h2>Operational Reliance</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Outage Tolerance (Hours)<span class="required">*</span></label>
+              <input type="number" class="form-input" value="24" required>
+              <span class="form-hint">How long can you operate without the model?</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Revenue Exposure (%)<span class="required">*</span></label>
+              <input type="number" class="form-input" value="35" min="0" max="100" required>
+              <span class="form-hint">What % of revenue depends on this model?</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Recovery Time (Hours)<span class="required">*</span></label>
+              <input type="number" class="form-input" value="48" required>
+              <span class="form-hint">Time to fully recover from an incident</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-content">
+          <h2>NIST AI RMF Controls</h2>
+          <p style="font-size: 13px; color: var(--text-medium); margin-bottom: 16px;">Select controls currently implemented</p>
+          <div class="checkbox-grid">
+            <div class="checkbox-item"><input type="checkbox" id="gov1"><label for="gov1">GOVERN-1</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="gov2"><label for="gov2">GOVERN-2</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="gov3"><label for="gov3">GOVERN-3</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="gov4"><label for="gov4">GOVERN-4</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="gov5"><label for="gov5">GOVERN-5</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="gov6"><label for="gov6">GOVERN-6</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="man1"><label for="man1">MANAGE-1</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="man2"><label for="man2">MANAGE-2</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="man3"><label for="man3">MANAGE-3</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="man4"><label for="man4">MANAGE-4</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="map1"><label for="map1">MAP-1</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="map2" checked><label for="map2">MAP-2</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="map3"><label for="map3">MAP-3</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="map4"><label for="map4">MAP-4</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="map5"><label for="map5">MAP-5</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="mea1"><label for="mea1">MEASURE-1</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="mea2" checked><label for="mea2">MEASURE-2</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="mea3"><label for="mea3">MEASURE-3</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="mea4"><label for="mea4">MEASURE-4</label></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <a href="assumptions.html" class="btn btn-secondary">Advanced: Assumptions Studio</a>
+        <button type="submit" class="btn btn-primary">Run Quantification</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('entityForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      window.location.href = 'pending.html';
+    });
+  </script>
+</body>
+</html>

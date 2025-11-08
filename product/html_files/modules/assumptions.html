@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kovrr · GenAI Exposure - Financial Quantification</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary-blue: rgb(85, 81, 247);
+    --primary-blue-light: rgb(97, 94, 251);
+    --warning-orange: rgb(255, 153, 0);
+    --bg-white: rgb(255, 255, 255);
+    --bg-light: rgb(245, 247, 255);
+    --bg-blue: rgb(236, 242, 252);
+    --bg-gray: rgb(237, 242, 247);
+    --text-dark: rgb(26, 32, 44);
+    --text-medium-dark: rgb(48, 48, 69);
+    --text-medium: rgb(74, 85, 104);
+    --text-light: rgb(113, 118, 126);
+    --divider: rgb(220, 229, 242);
+    --border-gray: rgb(163, 173, 181);
+    --shadow-sm: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  }
+  
+  * { box-sizing: border-box; }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-light);
+    color: var(--text-medium-dark);
+    font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  .wrap {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 30px;
+  }
+  
+  .page-title {
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+  }
+  
+  .page-subtitle {
+    font-size: 16px;
+    color: var(--text-medium);
+    margin: 0 0 24px 0;
+  }
+  
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+  }
+  
+  .alert {
+    background: rgba(255, 153, 0, 0.1);
+    border: 1px solid var(--warning-orange);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    color: var(--text-medium);
+  }
+  
+  .alert strong {
+    color: var(--text-dark);
+  }
+  
+  .card {
+    background: var(--bg-white);
+    border-radius: 15px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 24px;
+  }
+  
+  .card-content {
+    padding: 24px;
+  }
+  
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 20px 0;
+  }
+  
+  .form-group {
+    margin-bottom: 24px;
+  }
+  
+  .form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-medium);
+    margin-bottom: 6px;
+    display: block;
+  }
+  
+  .form-input {
+    font-family: "Source Sans Pro";
+    font-size: 14px;
+    color: var(--text-medium-dark);
+    background: var(--bg-white);
+    border: 1px solid var(--border-gray);
+    border-radius: 6px;
+    padding: 10px 12px;
+    width: 100%;
+    transition: all 0.2s;
+  }
+  
+  .form-input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+  }
+  
+  .form-hint {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-top: 4px;
+    display: block;
+  }
+  
+  .collapsible {
+    border: 1px solid var(--divider);
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+  
+  .collapsible-header {
+    padding: 16px;
+    cursor: pointer;
+    background: var(--bg-gray);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.2s;
+  }
+  
+  .collapsible-header:hover {
+    background: var(--divider);
+  }
+  
+  .collapsible-header input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+  
+  .collapsible-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    flex: 1;
+  }
+  
+  .collapsible-content {
+    display: none;
+    padding: 20px;
+    background: var(--bg-white);
+  }
+  
+  .collapsible-content.active {
+    display: block;
+  }
+  
+  .input-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+  }
+  
+  .input-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  
+  .input-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-medium);
+    margin-bottom: 6px;
+    display: block;
+  }
+  
+  .btn {
+    font-family: "Source Sans Pro";
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+  .btn-primary {
+    background-color: var(--primary-blue);
+    color: var(--bg-white);
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--primary-blue-light);
+  }
+  
+  .btn-secondary {
+    background-color: var(--bg-white);
+    color: var(--primary-blue);
+    border: 1px solid var(--primary-blue);
+  }
+  
+  .btn-secondary:hover {
+    background-color: var(--bg-blue);
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1 class="page-title">GenAI Exposure - Financial Quantification</h1>
+    <p class="page-subtitle">Assumptions Studio (Advanced)</p>
+
+    <div class="alert">
+      <strong>Advanced Users Only:</strong> Modifying these parameters affects the underlying risk model. Only adjust if you have expertise in quantitative risk modeling.
+    </div>
+
+    <div class="card">
+      <div class="card-content">
+        <h2>Base Frequency</h2>
+        <div class="form-group">
+          <label class="form-label">Global Modeling Factor</label>
+          <input type="number" class="form-input" placeholder="0" step="1" value="0">
+          <span class="form-hint">Percentage adjustment (e.g., 10 for 10% increase, -10 for 10% decrease)</span>
+        </div>
+
+        <div class="collapsible">
+          <div class="collapsible-header">
+            <input type="checkbox" onchange="toggleCollapsible('initialAccess')">
+            <div class="collapsible-title">Weight by Initial Access Vectors (must total 100%)</div>
+          </div>
+          <div id="initialAccess" class="collapsible-content">
+            <div class="input-grid">
+              <div>
+                <label class="input-label">AI Supply Chain Compromise (%)</label>
+                <input type="number" class="form-input" placeholder="15" min="0" max="100" value="15">
+              </div>
+              <div>
+                <label class="input-label">Valid Accounts (%)</label>
+                <input type="number" class="form-input" placeholder="10" min="0" max="100" value="10">
+              </div>
+              <div>
+                <label class="input-label">Evade AI Model (%)</label>
+                <input type="number" class="form-input" placeholder="15" min="0" max="100" value="15">
+              </div>
+              <div>
+                <label class="input-label">Exploit Public-Facing App (%)</label>
+                <input type="number" class="form-input" placeholder="20" min="0" max="100" value="20">
+              </div>
+              <div>
+                <label class="input-label">Phishing (%)</label>
+                <input type="number" class="form-input" placeholder="30" min="0" max="100" value="30">
+              </div>
+              <div>
+                <label class="input-label">Drive-by Compromise (%)</label>
+                <input type="number" class="form-input" placeholder="10" min="0" max="100" value="10">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="collapsible">
+          <div class="collapsible-header">
+            <input type="checkbox" onchange="toggleCollapsible('eventTypes')">
+            <div class="collapsible-title">Weight by Event Types (must total 100%)</div>
+          </div>
+          <div id="eventTypes" class="collapsible-content">
+            <div class="input-grid">
+              <div>
+                <label class="input-label">Data Exfiltration (%)</label>
+                <input type="number" class="form-input" placeholder="40" min="0" max="100" value="40">
+              </div>
+              <div>
+                <label class="input-label">Model Integrity (%)</label>
+                <input type="number" class="form-input" placeholder="30" min="0" max="100" value="30">
+              </div>
+              <div>
+                <label class="input-label">Model Availability (%)</label>
+                <input type="number" class="form-input" placeholder="20" min="0" max="100" value="20">
+              </div>
+              <div>
+                <label class="input-label">Model Wastage (%)</label>
+                <input type="number" class="form-input" placeholder="10" min="0" max="100" value="10">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-content">
+        <h2>Base Severity</h2>
+        <div class="form-group">
+          <label class="form-label">Global Modeling Factor</label>
+          <input type="number" class="form-input" placeholder="0" step="1" value="0">
+          <span class="form-hint">Percentage adjustment for severity</span>
+        </div>
+
+        <div class="collapsible">
+          <div class="collapsible-header">
+            <input type="checkbox" onchange="toggleCollapsible('dataScale')">
+            <div class="collapsible-title">Data Scale Distribution</div>
+          </div>
+          <div id="dataScale" class="collapsible-content">
+            <div class="input-grid-3">
+              <div>
+                <label class="input-label">Minimum (records)</label>
+                <input type="number" class="form-input" placeholder="1000" value="1000">
+              </div>
+              <div>
+                <label class="input-label">Median (records)</label>
+                <input type="number" class="form-input" placeholder="50000" value="50000">
+              </div>
+              <div>
+                <label class="input-label">Maximum (records)</label>
+                <input type="number" class="form-input" placeholder="500000" value="500000">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="collapsible">
+          <div class="collapsible-header">
+            <input type="checkbox" onchange="toggleCollapsible('duration')">
+            <div class="collapsible-title">Duration Distribution</div>
+          </div>
+          <div id="duration" class="collapsible-content">
+            <div class="input-grid-3">
+              <div>
+                <label class="input-label">Minimum (hours)</label>
+                <input type="number" class="form-input" placeholder="1" value="1">
+              </div>
+              <div>
+                <label class="input-label">Median (hours)</label>
+                <input type="number" class="form-input" placeholder="24" value="24">
+              </div>
+              <div>
+                <label class="input-label">Maximum (hours)</label>
+                <input type="number" class="form-input" placeholder="168" value="168">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-content">
+        <h2>Controls Impact</h2>
+        <div class="form-group">
+          <label class="form-label">Global Modeling Factor</label>
+          <input type="number" class="form-input" placeholder="0" step="1" value="0">
+          <span class="form-hint">Percentage adjustment for control effectiveness</span>
+        </div>
+
+        <div class="collapsible">
+          <div class="collapsible-header">
+            <input type="checkbox" onchange="toggleCollapsible('controls')">
+            <div class="collapsible-title">Adjust Individual Control Effectiveness</div>
+          </div>
+          <div id="controls" class="collapsible-content">
+            <div class="input-grid">
+              <div><label class="input-label">GOVERN-1</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+              <div><label class="input-label">GOVERN-2</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+              <div><label class="input-label">GOVERN-3</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+              <div><label class="input-label">GOVERN-4</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+              <div><label class="input-label">GOVERN-5</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+              <div><label class="input-label">GOVERN-6</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+              <div><label class="input-label">MANAGE-1</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+              <div><label class="input-label">MANAGE-2</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+              <div><label class="input-label">MANAGE-3</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+              <div><label class="input-label">MANAGE-4</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+              <div><label class="input-label">MAP-1</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+              <div><label class="input-label">MAP-2</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+              <div><label class="input-label">MAP-3</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+              <div><label class="input-label">MAP-4</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+              <div><label class="input-label">MAP-5</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+              <div><label class="input-label">MEASURE-1</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+              <div><label class="input-label">MEASURE-2</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+              <div><label class="input-label">MEASURE-3</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+              <div><label class="input-label">MEASURE-4</label><input type="number" class="form-input" placeholder="1.0" step="0.1" value="1.0"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <a href="entity_exposure.html" class="btn btn-secondary">Back to Entity Exposure</a>
+      <a href="pending.html" class="btn btn-primary">Save & Continue</a>
+    </div>
+  </div>
+
+  <script>
+    function toggleCollapsible(id) {
+      const element = document.getElementById(id);
+      element.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>

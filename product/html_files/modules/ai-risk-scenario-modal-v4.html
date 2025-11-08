@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kovrr · New AI Risk Scenario</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: rgb(85, 81, 247);
+            --primary-blue-light: rgb(97, 94, 251);
+            --bg-white: rgb(255, 255, 255);
+            --bg-light: rgb(245, 247, 255);
+            --bg-blue: rgb(236, 242, 252);
+            --bg-gray: rgb(237, 242, 247);
+            --text-dark: rgb(26, 32, 44);
+            --text-medium-dark: rgb(48, 48, 69);
+            --text-medium: rgb(74, 85, 104);
+            --text-light: rgb(113, 118, 126);
+            --divider: rgb(220, 229, 242);
+            --border-gray: rgb(169, 180, 188);
+            --shadow-sm: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+            --shadow-md: rgba(0, 0, 0, 0.1) 0px 4px 20px 0px;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+            background-color: rgba(30, 30, 30, 0.8);
+            color: var(--text-medium-dark);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .modal-container {
+            background-color: var(--bg-white);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: var(--shadow-md);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+        
+        .form-section { margin-bottom: 30px; }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--divider);
+        }
+        
+        .form-group { margin-bottom: 16px; }
+        
+        .form-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-medium);
+            margin-bottom: 4px;
+            display: block;
+        }
+        
+        .required { color: rgb(255, 35, 35); margin-left: 2px; }
+        
+        .helper-icon {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background-color: var(--border-gray);
+            color: var(--bg-white);
+            text-align: center;
+            line-height: 14px;
+            font-size: 10px;
+            margin-left: 4px;
+            cursor: help;
+        }
+        
+        .form-input {
+            font-size: 14px;
+            font-family: "Source Sans Pro";
+            color: var(--text-medium-dark);
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-gray);
+            border-radius: 6px;
+            padding: 8px 12px;
+            width: 100%;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary-blue);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(85, 81, 247, 0.1);
+        }
+        
+        textarea.form-input { min-height: 100px; resize: vertical; }
+        
+        .form-select {
+            font-size: 14px;
+            font-family: "Source Sans Pro";
+            color: var(--text-medium-dark);
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-gray);
+            border-radius: 6px;
+            padding: 8px 12px;
+            width: 100%;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L6 6.5L11 1.5" stroke="%2374859" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+            cursor: pointer;
+        }
+        
+        .multi-select-container {
+            border: 1px solid var(--border-gray);
+            border-radius: 6px;
+            padding: 8px;
+            min-height: 42px;
+            cursor: pointer;
+            position: relative;
+            background-color: var(--bg-white);
+        }
+        
+        .selected-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+        
+        .selected-tag {
+            font-size: 12px;
+            font-weight: 500;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background-color: var(--bg-blue);
+            color: var(--primary-blue);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .tag-remove {
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .multi-select-input {
+            border: none;
+            outline: none;
+            font-size: 13px;
+            font-family: "Source Sans Pro";
+            color: var(--text-medium-dark);
+            width: 100%;
+            background: transparent;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: -1px;
+            right: -1px;
+            background: var(--bg-white);
+            border: 1px solid var(--border-gray);
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .dropdown-menu.show { display: block; }
+        
+        .dropdown-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--text-medium-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .dropdown-item:hover { background-color: var(--bg-light); }
+        
+        .dropdown-item input[type="checkbox"] {
+            cursor: pointer;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .input-with-unit { display: flex; gap: 8px; }
+        .input-with-unit input { flex: 1; }
+        .input-with-unit select { width: 100px; }
+        
+        .collapsible-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-blue);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 8px 0;
+            margin-top: 16px;
+        }
+        
+        .collapsible-content {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--bg-gray);
+        }
+        
+        .distribution-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .distribution-label {
+            width: 120px;
+            font-weight: 600;
+            color: var(--text-medium-dark);
+        }
+        
+        .distribution-sublabel {
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 400;
+            margin-left: 4px;
+        }
+        
+        .distribution-input { flex: 1; }
+        
+        .subsection-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-medium);
+            margin-bottom: 12px;
+            margin-top: 16px;
+        }
+        
+        .modal-footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--divider);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        .btn {
+            font-family: "Source Sans Pro";
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-secondary {
+            background-color: var(--bg-white);
+            color: var(--text-medium);
+            border: 1px solid var(--border-gray);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--bg-gray);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: var(--bg-white);
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-blue-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-container">
+        <h2 class="modal-header">New AI Risk Scenario</h2>
+        <form onsubmit="return handleSubmit(event)">
+            <div class="form-section">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Scenario ID <span class="required">*</span></label>
+                        <input type="text" class="form-input" placeholder="e.g., AIR-001" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Scenario Name <span class="required">*</span></label>
+                        <input type="text" class="form-input" placeholder="Short title" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Description <span class="required">*</span></label>
+                    <textarea class="form-input" placeholder="Describe the risk..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Scenario Category <span class="required">*</span> <span class="helper-icon">?</span></label>
+                    <div class="multi-select-container" id="category-container" onclick="toggleDropdown('category')">
+                        <div class="selected-tags" id="category-tags">
+                            <span class="selected-tag">Privacy Risk <span class="tag-remove" onclick="removeTag(event, 'category', 'Privacy Risk')">×</span></span>
+                        </div>
+                        <input type="text" class="multi-select-input" placeholder="Select categories..." readonly>
+                        <div class="dropdown-menu" id="category-dropdown">
+                            <div class="dropdown-item" onclick="selectOption(event, 'category', 'Privacy Risk')">
+                                <input type="checkbox" checked> Privacy Risk
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'category', 'Legal/Compliance Risk')">
+                                <input type="checkbox"> Legal/Compliance Risk
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'category', 'Ethical Risk')">
+                                <input type="checkbox"> Ethical Risk
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'category', 'Security Risk')">
+                                <input type="checkbox"> Security Risk
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'category', 'Bias/Fairness Risk')">
+                                <input type="checkbox"> Bias/Fairness Risk
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'category', 'Safety Risk')">
+                                <input type="checkbox"> Safety Risk
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'category', 'Transparency Risk')">
+                                <input type="checkbox"> Transparency Risk
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'category', 'Performance Risk')">
+                                <input type="checkbox"> Performance Risk
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'category', 'Reliability Risk')">
+                                <input type="checkbox"> Reliability Risk
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">AI Asset / System / Component <span class="helper-icon">?</span></label>
+                    <div class="multi-select-container" id="asset-container" onclick="toggleDropdown('asset')">
+                        <div class="selected-tags" id="asset-tags">
+                            <span class="selected-tag">OpenAI - GPT-4 Turbo <span class="tag-remove" onclick="removeTag(event, 'asset', 'OpenAI - GPT-4 Turbo')">×</span></span>
+                        </div>
+                        <input type="text" class="multi-select-input" id="asset-search" placeholder="Search AI assets...">
+                        <div class="dropdown-menu" id="asset-dropdown">
+                            <div class="dropdown-item" onclick="selectOption(event, 'asset', 'OpenAI - GPT-4 Turbo')">
+                                <input type="checkbox" checked> OpenAI - GPT-4 Turbo
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'asset', 'OpenAI - GPT-4')">
+                                <input type="checkbox"> OpenAI - GPT-4
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'asset', 'Anthropic - Claude 3.5 Sonnet')">
+                                <input type="checkbox"> Anthropic - Claude 3.5 Sonnet
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'asset', 'Google - Gemini 1.5 Pro')">
+                                <input type="checkbox"> Google - Gemini 1.5 Pro
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'asset', 'Meta - Llama 3.1 (405B)')">
+                                <input type="checkbox"> Meta - Llama 3.1 (405B)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Initial Access Tactics (by MITRE ATLAS) <span class="helper-icon">?</span></label>
+                    <div class="multi-select-container" id="tactics-container" onclick="toggleDropdown('tactics')">
+                        <div class="selected-tags" id="tactics-tags">
+                            <span class="selected-tag">Phishing (AML.T0052) <span class="tag-remove" onclick="removeTag(event, 'tactics', 'Phishing (AML.T0052)')">×</span></span>
+                        </div>
+                        <input type="text" class="multi-select-input" placeholder="Select tactics..." readonly>
+                        <div class="dropdown-menu" id="tactics-dropdown">
+                            <div class="dropdown-item" onclick="selectOption(event, 'tactics', 'Drive-by Compromise (AML.T0078)')">
+                                <input type="checkbox"> Drive-by Compromise (AML.T0078)
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'tactics', 'Exploit Public-Facing Application (AML.T0049)')">
+                                <input type="checkbox"> Exploit Public-Facing Application (AML.T0049)
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'tactics', 'Phishing (AML.T0052)')">
+                                <input type="checkbox" checked> Phishing (AML.T0052)
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'tactics', 'Phishing: Spearphishing via Social Engineering LLM (AML.T0052.000)')">
+                                <input type="checkbox"> Phishing: Spearphishing via Social Engineering LLM (AML.T0052.000)
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'tactics', 'AI Supply Chain Compromise (AML.T0010)')">
+                                <input type="checkbox"> AI Supply Chain Compromise (AML.T0010)
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'tactics', 'AI Supply Chain Compromise: Model (AML.T0010.003)')">
+                                <input type="checkbox"> AI Supply Chain Compromise: Model (AML.T0010.003)
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'tactics', 'Valid Accounts (AML.T0012)')">
+                                <input type="checkbox"> Valid Accounts (AML.T0012)
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'tactics', 'Evade AI Model (AML.T0015)')">
+                                <input type="checkbox"> Evade AI Model (AML.T0015)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Cyber Event Type <span class="helper-icon">?</span></label>
+                    <div class="multi-select-container" id="event-container" onclick="toggleDropdown('event')">
+                        <div class="selected-tags" id="event-tags">
+                            <span class="selected-tag">Data Exfiltration <span class="tag-remove" onclick="removeTag(event, 'event', 'Data Exfiltration')">×</span></span>
+                        </div>
+                        <input type="text" class="multi-select-input" placeholder="Select event types..." readonly>
+                        <div class="dropdown-menu" id="event-dropdown">
+                            <div class="dropdown-item" onclick="selectOption(event, 'event', 'Data Exfiltration')">
+                                <input type="checkbox" checked> Data Exfiltration
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'event', 'Model Integrity')">
+                                <input type="checkbox"> Model Integrity
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'event', 'Model Availability')">
+                                <input type="checkbox"> Model Availability
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'event', 'Model Wastage')">
+                                <input type="checkbox"> Model Wastage
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Likelihood <span class="required">*</span></label>
+                        <select class="form-select" required>
+                            <option>Select...</option>
+                            <option>Expected</option>
+                            <option selected>Possible</option>
+                            <option>Unlikely</option>
+                            <option>Rare</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Impact <span class="required">*</span></label>
+                        <select class="form-select" required>
+                            <option>Select...</option>
+                            <option selected>Severe</option>
+                            <option>Significant</option>
+                            <option>Moderate</option>
+                            <option>Minor</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Impact Type <span class="helper-icon">?</span></label>
+                    <div class="multi-select-container" id="impact-container" onclick="toggleDropdown('impact')">
+                        <div class="selected-tags" id="impact-tags">
+                            <span class="selected-tag">Privacy Violation <span class="tag-remove" onclick="removeTag(event, 'impact', 'Privacy Violation')">×</span></span>
+                        </div>
+                        <input type="text" class="multi-select-input" placeholder="Select impact types..." readonly>
+                        <div class="dropdown-menu" id="impact-dropdown">
+                            <div class="dropdown-item" onclick="selectOption(event, 'impact', 'Financial Loss')">
+                                <input type="checkbox"> Financial Loss
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'impact', 'Physical Harm')">
+                                <input type="checkbox"> Physical Harm
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'impact', 'Privacy Violation')">
+                                <input type="checkbox" checked> Privacy Violation
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'impact', 'Reputational Damage')">
+                                <input type="checkbox"> Reputational Damage
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'impact', 'Regulatory Non-Compliance')">
+                                <input type="checkbox"> Regulatory Non-Compliance
+                            </div>
+                            <div class="dropdown-item" onclick="selectOption(event, 'impact', 'Data Breach')">
+                                <input type="checkbox"> Data Breach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <div class="section-title">Quantitative Metrics (Optional)</div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Annual Likelihood <span class="helper-icon">?</span></label>
+                        <div class="input-with-unit">
+                            <input type="number" class="form-input" placeholder="0" step="0.01">
+                            <select class="form-select"><option>%</option></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Peer Base Rate <span class="helper-icon">?</span></label>
+                        <div class="input-with-unit">
+                            <input type="number" class="form-input" placeholder="0" step="0.01">
+                            <select class="form-select"><option>%</option></select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Average Loss <span class="helper-icon">?</span></label>
+                    <div class="input-with-unit">
+                        <input type="number" class="form-input" placeholder="0.00" step="0.01">
+                        <select class="form-select"><option>USD</option><option>EUR</option></select>
+                    </div>
+                </div>
+                
+                <div class="subsection-label">Data Exposure <span class="helper-icon">?</span></div>
+                <div class="form-row-3">
+                    <div class="form-group">
+                        <label class="form-label">PII</label>
+                        <input type="number" class="form-input" placeholder="0" min="0" step="1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">PCI</label>
+                        <input type="number" class="form-input" placeholder="0" min="0" step="1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">PHI</label>
+                        <input type="number" class="form-input" placeholder="0" min="0" step="1">
+                    </div>
+                </div>
+                
+                <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                    <span>▼</span> Impact Distribution
+                </div>
+                <div class="collapsible-content">
+                    <div class="distribution-row">
+                        <div class="distribution-label">99% <span class="distribution-sublabel">Minimum</span></div>
+                        <div class="distribution-input input-with-unit">
+                            <input type="number" class="form-input" placeholder="0.00">
+                            <select class="form-select"><option>USD</option></select>
+                        </div>
+                    </div>
+                    <div class="distribution-row">
+                        <div class="distribution-label">75%</div>
+                        <div class="distribution-input input-with-unit">
+                            <input type="number" class="form-input" placeholder="0.00">
+                            <select class="form-select"><option>USD</option></select>
+                        </div>
+                    </div>
+                    <div class="distribution-row">
+                        <div class="distribution-label">50% <span class="distribution-sublabel">Median</span></div>
+                        <div class="distribution-input input-with-unit">
+                            <input type="number" class="form-input" placeholder="0.00">
+                            <select class="form-select"><option>USD</option></select>
+                        </div>
+                    </div>
+                    <div class="distribution-row">
+                        <div class="distribution-label">25%</div>
+                        <div class="distribution-input input-with-unit">
+                            <input type="number" class="form-input" placeholder="0.00">
+                            <select class="form-select"><option>USD</option></select>
+                        </div>
+                    </div>
+                    <div class="distribution-row">
+                        <div class="distribution-label">1% <span class="distribution-sublabel">Maximum</span></div>
+                        <div class="distribution-input input-with-unit">
+                            <input type="number" class="form-input" placeholder="0.00">
+                            <select class="form-select"><option>USD</option></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <a href="ai-risk-register-table-v4.html" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">Create Risk Scenario</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        const selections = {
+            category: new Set(['Privacy Risk']),
+            asset: new Set(['OpenAI - GPT-4 Turbo']),
+            tactics: new Set(['Phishing (AML.T0052)']),
+            event: new Set(['Data Exfiltration']),
+            impact: new Set(['Privacy Violation'])
+        };
+        
+        function toggleDropdown(type) {
+            event.stopPropagation();
+            const dropdown = document.getElementById(type + '-dropdown');
+            const isShowing = dropdown.classList.contains('show');
+            
+            // Close all dropdowns
+            document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+            
+            // Toggle this one
+            if (!isShowing) {
+                dropdown.classList.add('show');
+            }
+        }
+        
+        function selectOption(event, type, value) {
+            event.stopPropagation();
+            
+            if (selections[type].has(value)) {
+                selections[type].delete(value);
+            } else {
+                selections[type].add(value);
+            }
+            
+            updateTags(type);
+            updateCheckbox(event.currentTarget);
+        }
+        
+        function removeTag(event, type, value) {
+            event.stopPropagation();
+            selections[type].delete(value);
+            updateTags(type);
+            
+            // Update checkbox
+            const dropdown = document.getElementById(type + '-dropdown');
+            const items = dropdown.querySelectorAll('.dropdown-item');
+            items.forEach(item => {
+                if (item.textContent.includes(value)) {
+                    item.querySelector('input[type="checkbox"]').checked = false;
+                }
+            });
+        }
+        
+        function updateTags(type) {
+            const container = document.getElementById(type + '-tags');
+            container.innerHTML = '';
+            selections[type].forEach(value => {
+                const tag = document.createElement('span');
+                tag.className = 'selected-tag';
+                tag.innerHTML = `${value} <span class="tag-remove" onclick="removeTag(event, '${type}', '${value}')">×</span>`;
+                container.appendChild(tag);
+            });
+        }
+        
+        function updateCheckbox(item) {
+            const checkbox = item.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+        }
+        
+        function toggleCollapsible(element) {
+            const content = element.nextElementSibling;
+            const arrow = element.querySelector('span');
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                arrow.textContent = '▼';
+            } else {
+                content.style.display = 'none';
+                arrow.textContent = '▶';
+            }
+        }
+        
+        function handleSubmit(event) {
+            event.preventDefault();
+            window.location.href = 'ai-risk-scenario-page-v4.html';
+            return false;
+        }
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.multi-select-container')) {
+                document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+            }
+        });
+    </script>
+</body>
+</html>

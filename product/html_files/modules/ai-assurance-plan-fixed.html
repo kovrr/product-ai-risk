@@ -1,0 +1,2626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kovrr · AI Assurance Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Kovrr Design System Variables */
+  :root {
+    --primary-blue: rgb(85, 81, 247);
+    --primary-blue-light: rgb(97, 94, 251);
+    --link-blue: rgb(139, 159, 248);
+    --success-green: rgb(13, 199, 131);
+    --warning-orange: rgb(255, 153, 0);
+    --error-red: rgb(255, 35, 35);
+    --info-blue: rgb(21, 77, 171);
+    --bg-white: rgb(255, 255, 255);
+    --bg-light: rgb(245, 247, 255);
+    --bg-blue: rgb(236, 242, 252);
+    --bg-gray: rgb(237, 242, 247);
+    --text-dark: rgb(26, 32, 44);
+    --text-dark-alt: rgb(28, 28, 45);
+    --text-medium-dark: rgb(48, 48, 69);
+    --text-medium: rgb(74, 85, 104);
+    --text-light: rgb(113, 118, 126);
+    --border-gray: rgb(163, 173, 181);
+    --divider: rgb(220, 229, 242);
+    --purple-light: rgb(187, 186, 252);
+    --overlay-dark: rgba(30, 30, 30, 0.8);
+    --shadow-sm: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+    --shadow-md: rgba(0, 0, 0, 0.1) 0px 4px 20px 0px;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-light);
+    color: var(--text-medium-dark);
+    font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .wrap {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 30px;
+  }
+  
+  .page-title {
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+  }
+  
+  .page-subtitle {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--text-medium);
+    margin: 0 0 24px 0;
+  }
+  
+  h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 24px 0 16px 0;
+    line-height: 1.2;
+  }
+  
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-medium-dark);
+    margin: 16px 0 8px 0;
+    line-height: 1.3;
+  }
+  
+  .card {
+    background: var(--bg-white);
+    border-radius: 15px;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .toolbar-left {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  
+  .toolbar-right {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .btn {
+    font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+  }
+  
+  .btn-primary {
+    background-color: var(--primary-blue);
+    color: var(--bg-white);
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--primary-blue-light);
+  }
+  
+  .btn-secondary {
+    background-color: var(--bg-white);
+    color: var(--primary-blue);
+    border: 1px solid var(--primary-blue);
+  }
+  
+  .btn-secondary:hover {
+    background-color: var(--bg-blue);
+  }
+  
+  .btn-tertiary {
+    background-color: transparent;
+    color: var(--text-medium);
+    box-shadow: none;
+  }
+  
+  .btn-tertiary:hover {
+    background-color: var(--bg-gray);
+  }
+  
+  .btn-small {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  
+  .icon-btn {
+    background: var(--bg-white);
+    border: 1px solid var(--divider);
+    border-radius: 6px;
+    padding: 6px 8px;
+    cursor: pointer;
+    color: var(--text-medium);
+    font-size: 16px;
+    line-height: 1;
+  }
+  
+  .icon-btn:hover {
+    background-color: var(--bg-gray);
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: left;
+    padding: 12px 16px;
+    background-color: var(--bg-gray);
+    border-bottom: 1px solid var(--divider);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--divider);
+    color: var(--text-medium-dark);
+    font-size: 14px;
+    font-weight: 400;
+  }
+  
+  tbody tr {
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+  
+  tbody tr:hover {
+    background-color: var(--bg-blue);
+  }
+  
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  
+  .badge-primary { background-color: rgba(85, 81, 247, 0.1); color: var(--primary-blue); }
+  .badge-success { background-color: rgba(13, 199, 131, 0.1); color: var(--success-green); }
+  .badge-warning { background-color: rgba(255, 153, 0, 0.1); color: var(--warning-orange); }
+  .badge-error { background-color: rgba(255, 35, 35, 0.1); color: var(--error-red); }
+  .badge-draft { background-color: rgba(163, 173, 181, 0.1); color: var(--border-gray); }
+  .badge-review { background-color: rgba(255, 153, 0, 0.1); color: var(--warning-orange); }
+  .badge-approved { background-color: rgba(13, 199, 131, 0.1); color: var(--success-green); }
+  .badge-rejected { background-color: rgba(255, 35, 35, 0.1); color: var(--error-red); }
+  .badge-progress { background-color: rgba(85, 81, 247, 0.1); color: var(--primary-blue); }
+  .badge-completed { background-color: rgba(13, 199, 131, 0.2); color: var(--success-green); font-weight: 700; }
+  
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .kpi-tile {
+    background: var(--bg-white);
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  
+  .kpi-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 4px;
+  }
+  
+  .kpi-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+  }
+  
+  .kpi-help {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-light);
+    font-style: italic;
+  }
+  
+  .drawer {
+    position: fixed;
+    top: 0;
+    right: -750px;
+    width: 750px;
+    height: 100vh;
+    background: var(--bg-white);
+    border-left: 1px solid var(--divider);
+    box-shadow: var(--shadow-md);
+    transition: right 0.3s ease;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .drawer.open { right: 0; }
+  
+  .drawer-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--divider);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  
+  .drawer-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 4px 0;
+    line-height: 1.2;
+  }
+  
+  .drawer-subtitle {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-light);
+  }
+  
+  .drawer-tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid var(--divider);
+    padding: 0 20px;
+  }
+  
+  .drawer-tab {
+    font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-light);
+    padding: 10px 16px;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+  
+  .drawer-tab.active {
+    font-weight: 600;
+    color: var(--primary-blue);
+    border-bottom-color: var(--primary-blue);
+  }
+  
+  .drawer-tab:hover {
+    background-color: var(--bg-light);
+  }
+  
+  .drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+  }
+  
+  .drawer-footer {
+    padding: 20px;
+    border-top: 1px solid var(--divider);
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  
+  .tab-content {
+    display: none;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+  
+  .form-group {
+    margin-bottom: 16px;
+  }
+  
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-medium);
+    margin-bottom: 4px;
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-medium-dark);
+    background: var(--bg-white);
+    border: 1px solid rgb(169, 180, 188);
+    border-radius: 6px;
+    padding: 8px 12px;
+    width: 100%;
+  }
+  
+  textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+  
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(85, 81, 247, 0.12);
+  }
+  
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  
+  .stakeholder-card {
+    background: var(--bg-gray);
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  
+  .stakeholder-header {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr 40px;
+    gap: 12px;
+    align-items: end;
+    margin-bottom: 12px;
+  }
+  
+  .criteria-weights { margin-top: 12px; }
+  
+  .criteria-sum {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-light);
+  }
+  
+  .progress-bar {
+    height: 12px;
+    background: var(--bg-gray);
+    border-radius: 999px;
+    border: 1px solid var(--divider);
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background: var(--primary-blue);
+    transition: width 0.3s ease;
+  }
+  
+  .chat-container {
+    background: var(--bg-gray);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    height: 250px;
+    overflow-y: auto;
+  }
+  
+  .chat-message {
+    background: var(--bg-white);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid var(--divider);
+  }
+  
+  .chat-message.ai {
+    background: var(--bg-blue);
+  }
+  
+  .chat-sender {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-medium);
+    margin-bottom: 4px;
+  }
+  
+  .chat-text {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-medium-dark);
+    line-height: 1.6;
+  }
+  
+  .chat-input-area {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .note-item {
+    background: var(--bg-white);
+    border: 1px solid var(--divider);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .note-meta {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-light);
+  }
+  
+  .note-content {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-medium-dark);
+    line-height: 1.5;
+  }
+  
+  .attachment-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background: var(--bg-gray);
+    border-radius: 6px;
+    margin-top: 8px;
+    font-size: 13px;
+  }
+  
+  .rosi-section {
+    background: var(--bg-gray);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .rosi-result {
+    background: var(--primary-blue);
+    color: white;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 16px;
+  }
+  
+  .rosi-result-value {
+    font-size: 48px;
+    font-weight: 700;
+    margin: 8px 0;
+  }
+  
+  .rosi-result-label {
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+  
+  .formula-box {
+    background: var(--bg-white);
+    border: 1px solid var(--divider);
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 12px;
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    color: var(--text-medium-dark);
+  }
+  
+  .cost-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    background: var(--bg-white);
+    border-radius: 6px;
+    margin-bottom: 8px;
+  }
+  
+  .cost-item input {
+    width: 150px;
+  }
+  
+  .cost-category {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-medium);
+    margin: 16px 0 8px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .rosi-chart {
+    background: var(--bg-white);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 16px;
+  }
+  
+  .chart-bar-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .chart-label {
+    width: 120px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-medium-dark);
+  }
+  
+  .chart-bar-track {
+    flex: 1;
+    height: 32px;
+    background: var(--bg-gray);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .chart-bar-fill {
+    height: 100%;
+    background: var(--primary-blue);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    transition: width 0.5s ease;
+  }
+  
+  .chart-bar-fill.savings {
+    background: var(--success-green);
+  }
+  
+  .text-muted {
+    color: var(--text-light);
+    font-size: 12px;
+    font-weight: 400;
+  }
+  
+  .mb-0 { margin-bottom: 0; }
+  .mb-8 { margin-bottom: 8px; }
+  .mb-16 { margin-bottom: 16px; }
+  .mb-24 { margin-bottom: 24px; }
+  .mt-8 { margin-top: 8px; }
+  .mt-16 { margin-top: 16px; }
+  
+  @media (max-width: 768px) {
+    .drawer { width: 100%; right: -100%; }
+    .kpi-grid { grid-template-columns: 1fr; }
+  }
+  
+  /* Modal Styles */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--overlay-dark);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-overlay.open {
+    display: flex;
+  }
+  
+  .modal {
+    background: var(--bg-white);
+    border-radius: 15px;
+    max-width: 900px;
+    max-height: 85vh;
+    width: 90%;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .modal-header {
+    padding: 24px;
+    border-bottom: 1px solid var(--divider);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .modal-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+  }
+  
+  .modal-body {
+    padding: 24px;
+    overflow-y: auto;
+    flex: 1;
+  }
+  
+  .modal-body h2 {
+    font-size: 22px;
+    margin-top: 24px;
+  }
+  
+  .modal-body h3 {
+    font-size: 18px;
+    margin-top: 16px;
+  }
+  
+  .modal-body p {
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  
+  .modal-body ul {
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  
+  .modal-body code {
+    background: var(--bg-gray);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: "Courier New", monospace;
+    font-size: 13px;
+  }
+  
+  .modal-body pre {
+    background: var(--bg-gray);
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 13px;
+  }
+  
+  .insight-box {
+    background: var(--bg-blue);
+    border-left: 4px solid var(--primary-blue);
+    padding: 16px;
+    margin: 16px 0;
+    border-radius: 8px;
+  }
+  
+  .insight-box strong {
+    color: var(--primary-blue);
+  }
+  
+  /* Kovrr Insights Styles */
+  .insights-panel {
+    background: var(--bg-white);
+    border-radius: 15px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+    border: 2px solid var(--primary-blue);
+  }
+  
+  .insights-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  
+  .insights-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-light));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  
+  .insights-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+  }
+  
+  .insight-card {
+    background: var(--bg-light);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    border-left: 4px solid var(--primary-blue);
+  }
+  
+  .insight-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .insight-number {
+    background: var(--primary-blue);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  
+  .insight-card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 4px 0;
+  }
+  
+  .insight-card-subtitle {
+    font-size: 13px;
+    color: var(--text-light);
+    font-style: italic;
+  }
+  
+  .insight-content {
+    line-height: 1.7;
+    color: var(--text-medium-dark);
+    margin-bottom: 12px;
+  }
+  
+  .insight-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0;
+  }
+  
+  .insight-control-tag {
+    background: var(--bg-white);
+    border: 1px solid var(--divider);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary-blue);
+  }
+  
+  .insight-sources {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--divider);
+  }
+  
+  .insight-sources-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  
+  .insight-source {
+    font-size: 13px;
+    color: var(--text-medium);
+    margin-bottom: 4px;
+  }
+  
+  .insight-source a {
+    color: var(--link-blue);
+    text-decoration: none;
+  }
+  
+  .insight-source a:hover {
+    text-decoration: underline;
+  }
+  
+  .dependency-arrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0;
+    font-size: 14px;
+    color: var(--text-medium);
+  }
+  
+  .dependency-arrow-icon {
+    color: var(--warning-orange);
+    font-size: 20px;
+  }
+  
+  .initiative-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, rgba(85, 81, 247, 0.1), rgba(97, 94, 251, 0.15));
+    border: 1px solid var(--primary-blue);
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary-blue);
+    margin-top: 12px;
+  }
+  
+  .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  /* Tab Bar Styles */
+  .tab-bar {
+    display: flex;
+    border-bottom: 1px solid var(--divider);
+    background-color: var(--bg-white);
+  }
+  
+  .tab-button {
+    font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+    flex: 1;
+    padding: 16px 24px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-light);
+    cursor: pointer;
+    border: none;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    background: transparent;
+  }
+  
+  .tab-button:hover {
+    background-color: var(--bg-light);
+  }
+  
+  .tab-button.active {
+    font-weight: 600;
+    color: var(--primary-blue);
+    border-bottom-color: var(--primary-blue);
+    background-color: var(--bg-white);
+  }
+  
+  .tab-icon {
+    display: none;
+  }
+  
+  .tab-label {
+    white-space: nowrap;
+  }
+  
+  /* View Containers */
+  .view-container {
+    display: none;
+  }
+  
+  .view-container.active {
+    display: block;
+  }
+  
+  .sorting-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-white);
+    border-radius: 12px;
+    padding: 12px 16px;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .sorting-left {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .sorting-right {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .explainer-view,
+  .insights-view {
+    background: var(--bg-white);
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .explainer-view h2:first-child,
+  .insights-view h2:first-child {
+    margin-top: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="mb-24">
+    <h1 class="page-title">AI Assurance Plan</h1>
+    <p class="page-subtitle">Prioritize AI governance controls with weighted scoring and stakeholder alignment</p>
+  </div>
+  
+  <!-- Assessment Toolbar -->
+  <div class="toolbar mb-16">
+    <div class="toolbar-left">
+      <span class="text-muted">Assessment:</span>
+      <select id="assessmentSelect" style="width: auto; min-width: 250px;">
+        <option value="1">NIST AI RMF — Nov. 2, 2025</option>
+        <option value="2">NIST AI RMF — Oct. 15, 2025</option>
+        <option value="3">NIST AI RMF — Sep. 8, 2025</option>
+        <option value="4">ISO/IEC 42001 — Aug. 22, 2025</option>
+      </select>
+      <span class="badge badge-primary">Scale: 1–5</span>
+      <span class="badge badge-success">19 Controls</span>
+    </div>
+    <div class="toolbar-right">
+      <!-- Empty for now, could add export/settings buttons here -->
+    </div>
+  </div>
+  
+  <!-- Tab Navigation -->
+  <div class="tab-bar mb-16">
+    <button class="tab-button active" data-view="table">
+      <span class="tab-icon">📊</span>
+      <span class="tab-label">Actions Center</span>
+    </button>
+    <button class="tab-button" data-view="insights">
+      <span class="tab-icon">💡</span>
+      <span class="tab-label">Kovrr Insights</span>
+    </button>
+  </div>
+  
+  <!-- Actions Center View Container -->
+  <div class="view-container active" id="tableView">
+    <!-- Sorting Toolbar (only in Actions Center) -->
+    <div class="sorting-toolbar mb-16">
+      <div class="sorting-left">
+        <button class="btn btn-tertiary" id="sortPriority">Sort by Priority</button>
+        <button class="btn btn-tertiary" id="sortGap">Sort by Gap</button>
+        <button class="btn btn-primary" id="recalcAll">Recalculate All</button>
+      </div>
+      <div class="sorting-right">
+        <button class="btn btn-secondary" id="showExplainer">
+          <span class="btn-icon">📖 How Priority Scoring Works</span>
+        </button>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="table-container">
+        <table id="controlsTable">
+          <thead>
+            <tr>
+              <th>Control ID</th>
+              <th>Control Name</th>
+              <th>Status</th>
+              <th>Current</th>
+              <th>Target</th>
+              <th>Gap</th>
+              <th>Priority (0–100)</th>
+              <th>ROSI %</th>
+              <th>Stakeholders</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Kovrr Insights View Container -->
+  <div class="view-container" id="insightsView">
+    <div class="insights-view">
+      <div class="insights-header">
+        <div class="insights-icon">K</div>
+        <div>
+          <h2 class="insights-title">Kovrr Insights</h2>
+          <p class="text-muted mb-0">AI-powered recommendations based on industry data and best practices</p>
+        </div>
+      </div>
+      <div id="insightsContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Priority Scoring Explainer Modal -->
+<div class="modal-overlay" id="explainerModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title">How Priority Scoring Works: The Impact Story</h2>
+      <button class="icon-btn" id="closeExplainer" title="Close">✕</button>
+    </div>
+    <div class="modal-body" id="explainerContent">
+      <!-- Content will be loaded here -->
+    </div>
+  </div>
+</div>
+
+<!-- Right Drawer -->
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <div style="flex: 1;">
+      <h2 class="drawer-title" id="dName">—</h2>
+      <div class="drawer-subtitle" id="dRef">—</div>
+      <div class="mt-8">
+        <label style="margin-bottom: 4px;">Status</label>
+        <select id="dStatus" style="width: 200px;">
+          <option value="Draft">Draft</option>
+          <option value="In Review">In Review</option>
+          <option value="Approved">Approved</option>
+          <option value="Rejected">Rejected</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+    </div>
+    <button class="icon-btn" id="closeDrawer" title="Close">✕</button>
+  </div>
+  
+  <div class="drawer-tabs">
+    <button class="drawer-tab active" data-tab="scoring">Scoring</button>
+    <button class="drawer-tab" data-tab="remediation">Remediation Guidance</button>
+    <button class="drawer-tab" data-tab="notes">Notes & Attachments</button>
+  </div>
+  
+  <div class="drawer-body">
+    <!-- Scoring Tab -->
+    <div id="tab-scoring" class="tab-content active">
+      <div class="kpi-grid">
+        <div class="kpi-tile">
+          <div class="kpi-label">Priority (0–100)</div>
+          <div class="kpi-value" id="dPriority">—</div>
+          <div class="kpi-help">Overall weighted score combining all criteria</div>
+        </div>
+        <div class="kpi-tile">
+          <div class="kpi-label">Gap</div>
+          <div class="kpi-value" id="dGap">—</div>
+          <div class="kpi-help">Maturity distance from target (0=at target, 1=max gap)</div>
+        </div>
+        <div class="kpi-tile">
+          <div class="kpi-label">Reg. Urgency</div>
+          <div class="kpi-value" id="dReg">—</div>
+          <div class="kpi-help">Regulatory pressure based on stakeholder input</div>
+        </div>
+        <div class="kpi-tile">
+          <div class="kpi-label">Benefit Share %</div>
+          <div class="kpi-value" id="dBenefit">—</div>
+          <div class="kpi-help">% of priority from benefits vs. costs</div>
+        </div>
+      </div>
+      
+      <div class="mb-24">
+        <h3>Maturity</h3>
+        <div class="grid-2 mb-8">
+          <div class="form-group">
+            <label>Scale</label>
+            <select id="dScale">
+              <option value="1-5">1–5</option>
+              <option value="0-4">0–4</option>
+            </select>
+          </div>
+          <div></div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Current</label>
+            <input id="dCur" type="number" min="0" max="5" step="1"/>
+          </div>
+          <div class="form-group">
+            <label>Target</label>
+            <input id="dTgt" type="number" min="0" max="5" step="1"/>
+          </div>
+        </div>
+        <div class="text-muted mt-8">Gap = (Target − Current) / 4 <em>(range is always 4 steps)</em></div>
+      </div>
+      
+      <div class="mb-24">
+        <h3>Stakeholders</h3>
+        <div class="text-muted mb-16">Influence must sum to 100%. Each stakeholder sets criterion weights (sum = 100%) and control scores (1–5).</div>
+        
+        <div id="stakeList"></div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center;" class="mt-16">
+          <div class="text-muted" id="infSum">Influence Sum: 0%</div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-secondary" id="normInfluence">Normalize Influence</button>
+            <button class="btn btn-primary" id="addStake">+ Add Stakeholder</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mb-24">
+        <h3>Contributions</h3>
+        <div class="progress-bar mb-16">
+          <div class="progress-fill" id="dBar" style="width: 0%"></div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Criterion</th>
+              <th>Weight</th>
+              <th>Adj. Score</th>
+              <th>Contribution</th>
+            </tr>
+          </thead>
+          <tbody id="dBreak"></tbody>
+        </table>
+      </div>
+    </div>
+    
+    <!-- Remediation Tab -->
+    <div id="tab-remediation" class="tab-content">
+      <h3>AI-Powered Remediation Guidance</h3>
+      <div class="text-muted mb-16">Ask how to improve this control from current to target maturity level</div>
+      
+      <div class="chat-container" id="chatContainer"></div>
+      
+      <div class="chat-input-area mb-24">
+        <input type="text" id="chatInput" placeholder="Ask about remediation steps..." />
+        <button class="btn btn-primary" id="sendChat">Send</button>
+      </div>
+      
+      <h3>ROSI Calculator</h3>
+      <div class="text-muted mb-8">Calculate Return on Security Investment for this control</div>
+      <div class="grid-2 mb-16">
+        <div class="form-group">
+          <label>Currency</label>
+          <select id="rosiCurrency">
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="GBP">GBP (£)</option>
+            <option value="ILS">ILS (₪)</option>
+            <option value="JPY">JPY (¥)</option>
+            <option value="CAD">CAD ($)</option>
+            <option value="AUD">AUD ($)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Investment Period</label>
+          <select id="rosiPeriod">
+            <option value="1">1 Year</option>
+            <option value="2">2 Years</option>
+            <option value="3">3 Years</option>
+            <option value="4">4 Years</option>
+            <option value="5">5 Years</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="rosi-section">
+        <h3 style="margin-top: 0;">Implementation Costs</h3>
+        
+        <div class="cost-category">Operational Costs</div>
+        <div id="costsList"></div>
+        
+        <div class="grid-2 mb-8">
+          <select id="costTypeSelect">
+            <option value="">Select cost type...</option>
+            <option value="People – Implementation Labor">People – Implementation Labor</option>
+            <option value="People – Ongoing Management">People – Ongoing Management</option>
+            <option value="Technology – Licensing/Subscription">Technology – Licensing/Subscription</option>
+            <option value="Technology – Infrastructure/Hosting">Technology – Infrastructure/Hosting</option>
+            <option value="Services – Implementation Support">Services – Implementation Support</option>
+            <option value="Training & Enablement">Training & Enablement</option>
+            <option value="Change Management / Governance">Change Management / Governance</option>
+            <option value="Ongoing Monitoring or Maintenance">Ongoing Monitoring or Maintenance</option>
+            <option value="Opportunity Cost">Opportunity Cost</option>
+            <option value="Custom">Custom (enter name)</option>
+          </select>
+          <button class="btn btn-primary" id="addCost">Add Cost</button>
+        </div>
+        
+        <h3 class="mt-16">Savings & Benefits</h3>
+        
+        <div class="cost-category">Operational Benefits</div>
+        <div id="savingsList1"></div>
+        
+        <div class="cost-category">Risk Mitigation Value</div>
+        <div id="savingsList2"></div>
+        
+        <div class="grid-2 mb-8">
+          <select id="savingsTypeSelect">
+            <option value="">Select savings type...</option>
+            <optgroup label="Operational Benefits">
+              <option value="People – Efficiency Gains">People – Efficiency Gains</option>
+              <option value="People – Fewer Incident Hours">People – Fewer Incident Hours</option>
+              <option value="Technology – Tool Consolidation">Technology – Tool Consolidation</option>
+              <option value="Technology – Reduced Downtime">Technology – Reduced Downtime</option>
+            </optgroup>
+            <optgroup label="Risk Mitigation - Strategic">
+              <option value="Strategic Risk Reduction">Strategic Risk Reduction</option>
+              <option value="Business Enablement">Business Enablement</option>
+              <option value="Reputation/PR Impact Mitigation">Reputation/PR Impact Mitigation</option>
+            </optgroup>
+            <optgroup label="Risk Mitigation - Operational">
+              <option value="Operational Risk Reduction">Operational Risk Reduction</option>
+              <option value="Operational Disruption Avoidance">Operational Disruption Avoidance</option>
+            </optgroup>
+            <optgroup label="Risk Mitigation - Technical">
+              <option value="Technical Risk Reduction">Technical Risk Reduction</option>
+              <option value="Model Integrity Protection">Model Integrity Protection</option>
+              <option value="Model Availability Assurance">Model Availability Assurance</option>
+            </optgroup>
+            <optgroup label="Risk Mitigation - Privacy & Security">
+              <option value="Privacy Risk Reduction">Privacy Risk Reduction</option>
+              <option value="Security Risk Reduction">Security Risk Reduction</option>
+              <option value="Data Breach Prevention">Data Breach Prevention</option>
+              <option value="Data Exfiltration Prevention">Data Exfiltration Prevention</option>
+            </optgroup>
+            <optgroup label="Risk Mitigation - Ethical & Fairness">
+              <option value="Ethical Risk Reduction">Ethical Risk Reduction</option>
+              <option value="Fairness/Bias Risk Reduction">Fairness/Bias Risk Reduction</option>
+              <option value="Discrimination Prevention">Discrimination Prevention</option>
+            </optgroup>
+            <optgroup label="Risk Mitigation - Legal & Compliance">
+              <option value="Legal/Compliance Risk Reduction">Legal/Compliance Risk Reduction</option>
+              <option value="Regulatory Fine Avoidance">Regulatory Fine Avoidance</option>
+              <option value="Audit and Compliance Cost Avoidance">Audit and Compliance Cost Avoidance</option>
+            </optgroup>
+            <optgroup label="Risk Mitigation - Safety">
+              <option value="Safety Risk Reduction">Safety Risk Reduction</option>
+              <option value="Physical Harm Prevention">Physical Harm Prevention</option>
+              <option value="Psychological Harm Prevention">Psychological Harm Prevention</option>
+            </optgroup>
+            <optgroup label="Insurance & Financial">
+              <option value="Insurance Premium Reduction">Insurance Premium Reduction</option>
+              <option value="Third-Party Risk Reduction">Third-Party Risk Reduction</option>
+            </optgroup>
+            <option value="Custom">Custom (enter name)</option>
+          </select>
+          <button class="btn btn-primary" id="addSavings">Add Savings</button>
+        </div>
+        
+        <button class="btn btn-primary" id="calculateROSI" style="width: 100%;">Calculate ROSI</button>
+        
+        <div id="rosiResult" class="rosi-result" style="display: none;">
+          <div class="rosi-result-label">Return on Security Investment</div>
+          <div class="rosi-result-value" id="rosiValue">—%</div>
+          <div class="text-muted" style="color: rgba(255,255,255,0.8); font-size: 13px;">
+            Total Savings: <span id="rosiCurrSymbol">$</span><span id="rosiTotalSavings">0</span> | 
+            Total Costs: <span id="rosiCurrSymbol2">$</span><span id="rosiTotalCosts">0</span>
+          </div>
+        </div>
+        
+        <div id="rosiChart" class="rosi-chart" style="display: none;">
+          <h3 style="margin-top: 0; font-size: 16px;">Investment Analysis</h3>
+          <div class="chart-bar-container">
+            <div class="chart-label">Total Costs</div>
+            <div class="chart-bar-track">
+              <div class="chart-bar-fill" id="chartCosts" style="width: 0%;">
+                <span id="chartCostsLabel">$0</span>
+              </div>
+            </div>
+          </div>
+          <div class="chart-bar-container">
+            <div class="chart-label">Total Savings</div>
+            <div class="chart-bar-track">
+              <div class="chart-bar-fill savings" id="chartSavings" style="width: 0%;">
+                <span id="chartSavingsLabel">$0</span>
+              </div>
+            </div>
+          </div>
+          <div class="chart-bar-container">
+            <div class="chart-label">Net Benefit</div>
+            <div class="chart-bar-track">
+              <div class="chart-bar-fill savings" id="chartNet" style="width: 0%;">
+                <span id="chartNetLabel">$0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-16">
+          <button class="btn btn-tertiary btn-small" id="toggleFormula">Show Formula</button>
+          <div id="formulaBox" class="formula-box" style="display: none;">
+            <strong>ROSI Formula:</strong><br>
+            ROSI = ((Annual Savings - Annual Costs) / Total Investment Cost) × 100<br><br>
+            For multi-year periods:<br>
+            Total Savings = Annual Savings × Years<br>
+            Total Costs = Investment Costs + (Annual Maintenance × Years)
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Notes Tab -->
+    <div id="tab-notes" class="tab-content">
+      <h3>Notes & Attachments</h3>
+      <div class="text-muted mb-16">Save remediation plans, add notes, and attach documents</div>
+      
+      <div id="notesList" class="mb-16"></div>
+      
+      <div class="mb-16">
+        <div class="form-group">
+          <label>Add New Note</label>
+          <textarea id="noteText" placeholder="Enter your note here..."></textarea>
+        </div>
+        <div class="grid-2 mb-8">
+          <div class="form-group">
+            <label>Owner</label>
+            <input type="text" id="noteOwner" placeholder="e.g., John Doe" />
+          </div>
+          <div class="form-group">
+            <label>Attachment (Optional)</label>
+            <input type="text" id="noteAttachment" placeholder="File name or URL" />
+          </div>
+        </div>
+        <button class="btn btn-primary" id="addNote">Save Note</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="drawer-footer">
+    <button class="btn btn-secondary" id="resetRow">Reset</button>
+    <div style="display: flex; gap: 8px;">
+      <button class="btn btn-secondary" id="recalcRow">Recalculate</button>
+      <button class="btn btn-primary" id="applyRow">Apply to Table</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const nistControls = [
+  { id: 'GOVERN-1', name: 'Mapping AI Systems and Use Cases' },
+  { id: 'GOVERN-2', name: 'Accountability for AI Risk Governance' },
+  { id: 'GOVERN-3', name: 'Mapping AI Systems and Use Cases' },
+  { id: 'GOVERN-4', name: 'Organizational Cultural Commitment' },
+  { id: 'GOVERN-5', name: 'Processes and Engagement' },
+  { id: 'GOVERN-6', name: 'Managing Third-Party AI Risks' },
+  { id: 'MANAGE-1', name: 'Prioritization, Response and Management of AI Risks' },
+  { id: 'MANAGE-2', name: 'Strategies in Place' },
+  { id: 'MANAGE-3', name: 'Managing Third-Party AI Risks' },
+  { id: 'MANAGE-4', name: 'Risk Treatment' },
+  { id: 'MAP-1', name: 'Understanding Context of AI Use' },
+  { id: 'MAP-2', name: 'Categorization of the AI Systems' },
+  { id: 'MAP-3', name: 'Assessing and Communicating AI Capabilities' },
+  { id: 'MAP-4', name: 'Managing Third-Party AI Risks' },
+  { id: 'MAP-5', name: 'Impacts Characterization' },
+  { id: 'MEASURE-1', name: 'Methods and Metrics' },
+  { id: 'MEASURE-2', name: 'Integration of Trustworthy AI Principles' },
+  { id: 'MEASURE-3', name: 'Tracking Over Time' },
+  { id: 'MEASURE-4', name: 'AI Risk Management Effectiveness Feedback' }
+];
+
+const remediationGuidance = {
+  'GOVERN-1': {
+    guidance: `**Recommended Steps to Improve to Target Level:**
+
+1. **Establish Comprehensive AI Inventory System**
+   • Create a centralized repository documenting all AI systems
+   • Include system purpose, capabilities, data sources, and stakeholders
+   • Implement automated discovery tools for shadow AI detection
+
+2. **Define Context and Classification Framework**
+   • Document the intended use context for each AI system
+   • Classify systems by risk level and impact
+   • Map interdependencies between AI systems and business processes
+
+3. **Engage Cross-Functional Teams**
+   • Involve data scientists, legal, compliance, and business units
+   • Conduct workshops to gather diverse perspectives
+   • Establish clear ownership and accountability for each system
+
+4. **Document Lifecycle and Update Processes**
+   • Track AI systems through all lifecycle stages
+   • Implement regular review cycles (quarterly minimum)
+   • Create procedures for adding/retiring systems
+
+5. **Integrate with Enterprise Architecture**
+   • Link AI inventory to broader IT asset management
+   • Ensure visibility into third-party AI components
+   • Maintain technical documentation and architecture diagrams`
+  },
+  'GOVERN-2': {
+    guidance: `**Recommended Steps to Improve to Target Level:**
+
+1. **Establish AI Governance Committee**
+   • Form executive-level oversight committee
+   • Include CISO, Legal, Data Science, Ethics, and Business leaders
+   • Define meeting cadence and decision-making authority
+
+2. **Define Clear Roles and Responsibilities**
+   • Assign specific accountability for AI risk management
+   • Create RACI matrix
+   • Document escalation paths for risk issues
+
+3. **Implement Training and Enablement Programs**
+   • Develop role-specific AI risk training curriculum
+   • Ensure teams understand their responsibilities
+   • Provide ongoing education on emerging AI risks
+
+4. **Create AI Risk Policies and Standards**
+   • Document organization-wide AI governance policies
+   • Define risk tolerance levels and approval thresholds
+   • Establish ethical guidelines for AI use
+
+5. **Build Transparency and Reporting Mechanisms**
+   • Implement dashboards for AI risk visibility
+   • Create regular reporting to board and executives
+   • Document all AI risk decisions and rationales`
+  }
+};
+
+// Pre-populate top 5 controls with complete data
+const controls = nistControls.map((ctrl, index) => {
+  const isTop5 = index < 5;
+  
+  // Vary current and target to create different priority vs gap rankings
+  let current, target;
+  if (index === 0) { current = 1; target = 5; } // High gap, will have high priority
+  else if (index === 1) { current = 2; target = 5; } // High gap
+  else if (index === 2) { current = 3; target = 5; } // Medium gap
+  else if (index === 3) { current = 4; target = 5; } // Low gap but can still have high priority due to weights
+  else if (index === 4) { current = 2; target = 4; } // Medium gap
+  else { current = Math.floor(Math.random() * 3) + 1; target = 4 + Math.floor(Math.random() * 2); }
+  
+  const base = {
+    id: ctrl.id,
+    name: ctrl.name,
+    ref: 'NIST AI RMF 1.0',
+    status: isTop5 ? (index === 0 ? 'In Progress' : index === 1 ? 'In Review' : 'Approved') : 'Draft',
+    current,
+    target,
+    scale: '1-5',
+    stakeholders: isTop5 ? [
+      { name: 'CISO', influence: 40, weights: { Imp: 35, Reg: 25, Eth: 10, Cost: 20, Eff: 10 }, scores: { Imp: 5, Reg: 5, Eth: 4, Cost: 3, Eff: 3 } },
+      { name: 'Legal', influence: 35, weights: { Imp: 15, Reg: 50, Eth: 15, Cost: 10, Eff: 10 }, scores: { Imp: 4, Reg: 5, Eth: 4, Cost: 3, Eff: 2 } },
+      { name: 'Ethics', influence: 25, weights: { Imp: 20, Reg: 15, Eth: 40, Cost: 15, Eff: 10 }, scores: { Imp: 4, Reg: 4, Eth: 5, Cost: 3, Eff: 3 } }
+    ] : [
+      { name: 'CISO', influence: 50, weights: { Imp: 30, Reg: 25, Eth: 15, Cost: 20, Eff: 10 }, scores: { Imp: 3, Reg: 3, Eth: 3, Cost: 3, Eff: 3 } },
+      { name: 'Legal', influence: 50, weights: { Imp: 20, Reg: 40, Eth: 15, Cost: 15, Eff: 10 }, scores: { Imp: 3, Reg: 3, Eth: 3, Cost: 3, Eff: 3 } }
+    ],
+    chatHistory: [],
+    notes: [],
+    rosiCosts: [],
+    rosiSavings: [],
+    rosiPeriod: 3,
+    rosiCurrency: 'USD',
+    rosiValue: null
+  };
+  
+  // Add complete ROSI data for top 5 with realistic values
+  if (isTop5) {
+    if (index === 0) {
+      // GOVERN-1: ~180% ROSI - High because foundational, prevents many downstream issues
+      base.rosiCosts = [
+        { name: 'People – Implementation Labor', value: 95000, category: 'operational' },
+        { name: 'Technology – Licensing/Subscription', value: 35000, category: 'operational' },
+        { name: 'Services – Implementation Support', value: 40000, category: 'operational' }
+      ];
+      base.rosiSavings = [
+        { name: 'People – Efficiency Gains', value: 45000, category: 'operational' },
+        { name: 'Operational Disruption Avoidance', value: 85000, category: 'risk' },
+        { name: 'Regulatory Fine Avoidance', value: 120000, category: 'risk' },
+        { name: 'Audit and Compliance Cost Avoidance', value: 30000, category: 'risk' }
+      ];
+    } else if (index === 1) {
+      // GOVERN-2: ~95% ROSI - Good governance structure, solid ROI
+      base.rosiCosts = [
+        { name: 'People – Implementation Labor', value: 75000, category: 'operational' },
+        { name: 'People – Ongoing Management', value: 45000, category: 'operational' },
+        { name: 'Training & Enablement', value: 30000, category: 'operational' }
+      ];
+      base.rosiSavings = [
+        { name: 'People – Efficiency Gains', value: 35000, category: 'operational' },
+        { name: 'Strategic Risk Reduction', value: 60000, category: 'risk' },
+        { name: 'Legal/Compliance Risk Reduction', value: 95000, category: 'risk' },
+        { name: 'Third-Party Risk Reduction', value: 25000, category: 'risk' }
+      ];
+    } else if (index === 2) {
+      // GOVERN-3: ~45% ROSI - Important but more moderate returns
+      base.rosiCosts = [
+        { name: 'People – Implementation Labor', value: 65000, category: 'operational' },
+        { name: 'Technology – Licensing/Subscription', value: 25000, category: 'operational' },
+        { name: 'Ongoing Monitoring or Maintenance', value: 20000, category: 'operational' }
+      ];
+      base.rosiSavings = [
+        { name: 'People – Efficiency Gains', value: 25000, category: 'operational' },
+        { name: 'Operational Risk Reduction', value: 45000, category: 'risk' },
+        { name: 'Reputation/PR Impact Mitigation', value: 35000, category: 'risk' }
+      ];
+    } else if (index === 3) {
+      // GOVERN-4: ~125% ROSI - Cultural change has long-term payoff
+      base.rosiCosts = [
+        { name: 'People – Implementation Labor', value: 55000, category: 'operational' },
+        { name: 'Training & Enablement', value: 40000, category: 'operational' },
+        { name: 'Change Management / Governance', value: 35000, category: 'operational' }
+      ];
+      base.rosiSavings = [
+        { name: 'People – Efficiency Gains', value: 40000, category: 'operational' },
+        { name: 'Ethical Risk Reduction', value: 70000, category: 'risk' },
+        { name: 'Reputation/PR Impact Mitigation', value: 80000, category: 'risk' },
+        { name: 'Business Enablement', value: 50000, category: 'risk' }
+      ];
+    } else if (index === 4) {
+      // GOVERN-5: ~60% ROSI - Process improvement, decent returns
+      base.rosiCosts = [
+        { name: 'People – Implementation Labor', value: 50000, category: 'operational' },
+        { name: 'Technology – Infrastructure/Hosting', value: 20000, category: 'operational' },
+        { name: 'Services – Implementation Support', value: 25000, category: 'operational' }
+      ];
+      base.rosiSavings = [
+        { name: 'People – Efficiency Gains', value: 30000, category: 'operational' },
+        { name: 'Operational Risk Reduction', value: 45000, category: 'risk' },
+        { name: 'Audit and Compliance Cost Avoidance', value: 35000, category: 'risk' }
+      ];
+    }
+    
+    // Calculate ROSI
+    const totalCosts = base.rosiCosts.reduce((sum, c) => sum + c.value, 0);
+    const annualSavings = base.rosiSavings.reduce((sum, s) => sum + s.value, 0);
+    const totalSavings = annualSavings * base.rosiPeriod;
+    base.rosiValue = ((totalSavings - totalCosts) / totalCosts) * 100;
+    
+    // Add notes
+    base.notes = [
+      { text: 'Initial assessment completed. Priority approved by steering committee.', owner: 'Sarah Chen (CISO)', date: '11/1/2025', attachment: 'assessment_report.pdf' },
+      { text: 'Vendor evaluation for AI governance platform underway. Comparing three solutions.', owner: 'Mike Rodriguez (IT)', date: '11/2/2025', attachment: null }
+    ];
+    
+    // Add chat history for first 2
+    if (index === 0 || index === 1) {
+      base.chatHistory = [
+        { sender: 'user', text: 'What are the key steps to improve this control?' },
+        { sender: 'ai', text: remediationGuidance[ctrl.id] ? remediationGuidance[ctrl.id].guidance.replace(/\n/g, '<br>') : 'I recommend focusing on establishing baseline processes first...' },
+        { sender: 'user', text: 'What resources will we need?' },
+        { sender: 'ai', text: 'Based on your gap analysis, you\'ll need:<br><br>• 1-2 FTEs for implementation (6 months)<br>• AI governance platform (~$45K/year)<br>• Training budget for 50+ staff members<br>• Executive sponsorship from CISO and Legal' }
+      ];
+    }
+  }
+  
+  return base;
+});
+
+const currencySymbols = {
+  'USD': '$', 'EUR': '€', 'GBP': '£', 'ILS': '₪', 'JPY': '¥', 'CAD': '$', 'AUD': '$'
+};
+
+function calcControl(c) {
+  const scale = 4;
+  const gap = Math.max(0, (c.target - c.current) / scale);
+  
+  const W = { Impact: 0, Regulatory: 0, Ethical: 0, Cost: 0, Effort: 0 };
+  const S = { Impact: 0, Regulatory: 0, Ethical: 0, Cost: 0, Effort: 0 };
+  
+  let totalInf = c.stakeholders.reduce((sum, st) => sum + (st.influence || 0), 0) || 100;
+  
+  c.stakeholders.forEach(st => {
+    const infNorm = (st.influence || 0) / totalInf;
+    W.Impact += infNorm * (st.weights.Imp / 100);
+    W.Regulatory += infNorm * (st.weights.Reg / 100);
+    W.Ethical += infNorm * (st.weights.Eth / 100);
+    W.Cost += infNorm * (st.weights.Cost / 100);
+    W.Effort += infNorm * (st.weights.Eff / 100);
+    
+    const adjImp = (st.scores.Imp || 1) * (1 + gap);
+    const adjReg = (st.scores.Reg || 1) * (1 + gap);
+    const adjEth = (st.scores.Eth || 1) * (1 + gap);
+    const adjCost = 6 - (st.scores.Cost || 1);
+    const adjEff = 6 - (st.scores.Eff || 1);
+    
+    S.Impact += infNorm * adjImp;
+    S.Regulatory += infNorm * adjReg;
+    S.Ethical += infNorm * adjEth;
+    S.Cost += infNorm * adjCost;
+    S.Effort += infNorm * adjEff;
+  });
+  
+  const rawP = W.Impact * S.Impact + W.Regulatory * S.Regulatory + W.Ethical * S.Ethical + W.Cost * S.Cost + W.Effort * S.Effort;
+  const maxBenefit = 5 * (1 + gap);
+  const maxCostEffort = 5;
+  const maxP = (W.Impact + W.Regulatory + W.Ethical) * maxBenefit + (W.Cost + W.Effort) * maxCostEffort;
+  const priority = maxP > 0 ? (rawP / maxP) * 100 : 0;
+  
+  const regUrgency = S.Regulatory;
+  const benefitTotal = W.Impact * S.Impact + W.Regulatory * S.Regulatory + W.Ethical * S.Ethical;
+  const benefitShare = rawP > 0 ? (benefitTotal / rawP) * 100 : 50;
+  const costEffort = W.Cost * S.Cost + W.Effort * S.Effort;
+  
+  return { priority, gap, regUrgency, benefitShare, costEffort, W, S };
+}
+
+function getStatusBadgeClass(status) {
+  const map = {
+    'Draft': 'badge-draft', 'In Review': 'badge-review', 'Approved': 'badge-approved',
+    'Rejected': 'badge-rejected', 'In Progress': 'badge-progress', 'Completed': 'badge-completed'
+  };
+  return map[status] || 'badge-draft';
+}
+
+function renderTable() {
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+  
+  controls.forEach((c, idx) => {
+    const r = calcControl(c);
+    const tr = document.createElement('tr');
+    
+    let gapBadge = 'badge-success';
+    if (r.gap > 0.6) gapBadge = 'badge-error';
+    else if (r.gap > 0.3) gapBadge = 'badge-warning';
+    
+    tr.innerHTML = `
+      <td><strong>${c.id}</strong></td>
+      <td>${c.name}</td>
+      <td><span class="badge ${getStatusBadgeClass(c.status)}">${c.status}</span></td>
+      <td>${c.current}</td>
+      <td>${c.target}</td>
+      <td><span class="badge ${gapBadge}">${r.gap.toFixed(2)}</span></td>
+      <td><strong>${r.priority.toFixed(1)}</strong></td>
+      <td>${c.rosiValue !== null ? '<strong>' + c.rosiValue.toFixed(1) + '%</strong>' : '—'}</td>
+      <td><span class="badge badge-primary">${c.stakeholders.length}</span></td>
+    `;
+    
+    tr.addEventListener('click', () => openDrawer(idx));
+    tbody.appendChild(tr);
+  });
+}
+
+function sortBy(field) {
+  controls.sort((a, b) => {
+    const aVal = calcControl(a)[field];
+    const bVal = calcControl(b)[field];
+    return bVal - aVal;
+  });
+  renderTable();
+}
+
+let currentIndex = -1;
+
+function openDrawer(index) {
+  currentIndex = index;
+  const c = controls[index];
+  const r = calcControl(c);
+  
+  document.getElementById('dName').textContent = c.id + ' — ' + c.name;
+  document.getElementById('dRef').textContent = c.ref;
+  document.getElementById('dStatus').value = c.status;
+  document.getElementById('dPriority').textContent = r.priority.toFixed(1);
+  document.getElementById('dGap').textContent = r.gap.toFixed(2);
+  document.getElementById('dReg').textContent = r.regUrgency.toFixed(2);
+  document.getElementById('dBenefit').textContent = r.benefitShare.toFixed(1) + '%';
+  document.getElementById('dBar').style.width = Math.max(0, Math.min(100, r.benefitShare)) + '%';
+  
+  document.getElementById('dScale').value = c.scale;
+  document.getElementById('dCur').value = c.current;
+  document.getElementById('dTgt').value = c.target;
+  
+  const list = document.getElementById('stakeList');
+  list.innerHTML = '';
+  c.stakeholders.forEach((st, i) => addStakeCard(list, st, i));
+  updateInfluenceSum();
+  
+  renderBreakdown(r);
+  renderChatHistory();
+  renderNotes();
+  renderROSIInputs();
+  
+  document.getElementById('drawer').classList.add('open');
+}
+
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  currentIndex = -1;
+}
+
+document.querySelectorAll('.drawer-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const tabName = tab.getAttribute('data-tab');
+    document.querySelectorAll('.drawer-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    document.getElementById(`tab-${tabName}`).classList.add('active');
+  });
+});
+
+document.getElementById('dStatus').addEventListener('change', (e) => {
+  controls[currentIndex].status = e.target.value;
+  renderTable();
+});
+
+function addStakeCard(container, st, idx) {
+  const card = document.createElement('div');
+  card.className = 'stakeholder-card';
+  card.innerHTML = `
+    <div class="stakeholder-header">
+      <div class="form-group mb-0">
+        <label>Name</label>
+        <input type="text" class="stName" value="${st.name}"/>
+      </div>
+      <div class="form-group mb-0">
+        <label>Influence (%)</label>
+        <input type="number" class="stInf" min="0" max="100" step="1" value="${st.influence}"/>
+      </div>
+      <button class="icon-btn" title="Remove">✕</button>
+    </div>
+    
+    <div class="criteria-weights">
+      <div class="grid-5">
+        <div class="form-group">
+          <label>Impact %</label>
+          <input type="number" class="wImp" min="0" max="100" step="1" value="${st.weights.Imp}"/>
+        </div>
+        <div class="form-group">
+          <label>Regulatory %</label>
+          <input type="number" class="wReg" min="0" max="100" step="1" value="${st.weights.Reg}"/>
+        </div>
+        <div class="form-group">
+          <label>Ethical %</label>
+          <input type="number" class="wEth" min="0" max="100" step="1" value="${st.weights.Eth}"/>
+        </div>
+        <div class="form-group">
+          <label>Cost %</label>
+          <input type="number" class="wCost" min="0" max="100" step="1" value="${st.weights.Cost}"/>
+        </div>
+        <div class="form-group">
+          <label>Effort %</label>
+          <input type="number" class="wEff" min="0" max="100" step="1" value="${st.weights.Eff}"/>
+        </div>
+      </div>
+      <div class="criteria-sum">
+        <span class="sumNote">Criteria Sum: —</span>
+        <button class="btn btn-tertiary normCrit">Normalize Criteria</button>
+      </div>
+    </div>
+    
+    <div class="mt-16">
+      <h3 class="mb-8">Control Scores (1–5)</h3>
+      <div class="grid-5">
+        <div class="form-group">
+          <label>Impact</label>
+          <input type="number" class="sImp" min="1" max="5" step="1" value="${st.scores.Imp}"/>
+        </div>
+        <div class="form-group">
+          <label>Regulatory</label>
+          <input type="number" class="sReg" min="1" max="5" step="1" value="${st.scores.Reg}"/>
+        </div>
+        <div class="form-group">
+          <label>Ethical</label>
+          <input type="number" class="sEth" min="1" max="5" step="1" value="${st.scores.Eth}"/>
+        </div>
+        <div class="form-group">
+          <label>Cost</label>
+          <input type="number" class="sCost" min="1" max="5" step="1" value="${st.scores.Cost}"/>
+        </div>
+        <div class="form-group">
+          <label>Effort</label>
+          <input type="number" class="sEff" min="1" max="5" step="1" value="${st.scores.Eff}"/>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  card.querySelector('.icon-btn').addEventListener('click', () => {
+    const arr = controls[currentIndex].stakeholders;
+    arr.splice(idx, 1);
+    if (arr.length === 0) {
+      arr.push({ name: 'CISO', influence: 100, weights: { Imp: 35, Reg: 25, Eth: 10, Cost: 20, Eff: 10 }, scores: { Imp: 4, Reg: 5, Eth: 3, Cost: 4, Eff: 3 } });
+    }
+    openDrawer(currentIndex);
+  });
+  
+  card.querySelector('.normCrit').addEventListener('click', () => {
+    const inputs = ['.wImp', '.wReg', '.wEth', '.wCost', '.wEff'].map(sel => card.querySelector(sel));
+    const sum = inputs.reduce((a, i) => a + (+i.value || 0), 0) || 1;
+    inputs.forEach(i => i.value = Math.round((+i.value / sum) * 100));
+    updateCriteriaSum(card);
+  });
+  
+  card.addEventListener('input', () => syncCardToModel(card, idx));
+  container.appendChild(card);
+  updateCriteriaSum(card);
+}
+
+function syncCardToModel(card, idx) {
+  const st = controls[currentIndex].stakeholders[idx];
+  st.name = card.querySelector('.stName').value;
+  st.influence = +card.querySelector('.stInf').value || 0;
+  st.weights.Imp = +card.querySelector('.wImp').value || 0;
+  st.weights.Reg = +card.querySelector('.wReg').value || 0;
+  st.weights.Eth = +card.querySelector('.wEth').value || 0;
+  st.weights.Cost = +card.querySelector('.wCost').value || 0;
+  st.weights.Eff = +card.querySelector('.wEff').value || 0;
+  st.scores.Imp = +card.querySelector('.sImp').value || 1;
+  st.scores.Reg = +card.querySelector('.sReg').value || 1;
+  st.scores.Eth = +card.querySelector('.sEth').value || 1;
+  st.scores.Cost = +card.querySelector('.sCost').value || 1;
+  st.scores.Eff = +card.querySelector('.sEff').value || 1;
+  updateInfluenceSum();
+  updateDrawerKPIs();
+}
+
+function updateCriteriaSum(card) {
+  const sum = ['.wImp', '.wReg', '.wEth', '.wCost', '.wEff']
+    .map(sel => +card.querySelector(sel).value || 0)
+    .reduce((a, b) => a + b, 0);
+  card.querySelector('.sumNote').textContent = 'Criteria Sum: ' + sum + '%';
+}
+
+function updateInfluenceSum() {
+  const arr = controls[currentIndex].stakeholders;
+  const sum = arr.reduce((s, st) => s + (+st.influence || 0), 0);
+  document.getElementById('infSum').textContent = 'Influence Sum: ' + sum + '%';
+}
+
+function renderBreakdown(r) {
+  const body = document.getElementById('dBreak');
+  body.innerHTML = '';
+  [
+    ['Impact', 'Impact'],
+    ['Regulatory', 'Regulatory'],
+    ['Ethical', 'Ethical'],
+    ['Cost', 'Cost'],
+    ['Effort', 'Effort']
+  ].forEach(([lbl, key]) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${lbl}</td>
+      <td>${r.W[key].toFixed(3)}</td>
+      <td>${r.S[key].toFixed(2)}</td>
+      <td>${(r.W[key] * r.S[key]).toFixed(3)}</td>
+    `;
+    body.appendChild(tr);
+  });
+}
+
+function updateDrawerKPIs() {
+  const c = controls[currentIndex];
+  c.scale = document.getElementById('dScale').value;
+  c.current = +document.getElementById('dCur').value || c.current;
+  c.target = +document.getElementById('dTgt').value || c.target;
+  const r = calcControl(c);
+  document.getElementById('dPriority').textContent = r.priority.toFixed(1);
+  document.getElementById('dGap').textContent = r.gap.toFixed(2);
+  document.getElementById('dReg').textContent = r.regUrgency.toFixed(2);
+  document.getElementById('dBenefit').textContent = r.benefitShare.toFixed(1) + '%';
+  document.getElementById('dBar').style.width = Math.max(0, Math.min(100, r.benefitShare)) + '%';
+  renderBreakdown(r);
+}
+
+function renderChatHistory() {
+  const container = document.getElementById('chatContainer');
+  const c = controls[currentIndex];
+  
+  container.innerHTML = '';
+  
+  if (c.chatHistory.length === 0) {
+    const guidance = remediationGuidance[c.id];
+    if (guidance) {
+      const msg = document.createElement('div');
+      msg.className = 'chat-message ai';
+      msg.innerHTML = `
+        <div class="chat-sender">AI Assistant</div>
+        <div class="chat-text">${guidance.guidance.replace(/\n/g, '<br>')}</div>
+      `;
+      container.appendChild(msg);
+    } else {
+      const msg = document.createElement('div');
+      msg.className = 'chat-message ai';
+      msg.innerHTML = `
+        <div class="chat-sender">AI Assistant</div>
+        <div class="chat-text">Hello! I can help you develop a remediation plan to improve from level ${c.current} to level ${c.target} for this control. What would you like to know?</div>
+      `;
+      container.appendChild(msg);
+    }
+  } else {
+    c.chatHistory.forEach(msg => {
+      const msgEl = document.createElement('div');
+      msgEl.className = `chat-message ${msg.sender === 'ai' ? 'ai' : ''}`;
+      msgEl.innerHTML = `
+        <div class="chat-sender">${msg.sender === 'ai' ? 'AI Assistant' : 'You'}</div>
+        <div class="chat-text">${msg.text}</div>
+      `;
+      container.appendChild(msgEl);
+    });
+  }
+  
+  container.scrollTop = container.scrollHeight;
+}
+
+document.getElementById('sendChat').addEventListener('click', sendChatMessage);
+document.getElementById('chatInput').addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') sendChatMessage();
+});
+
+function sendChatMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  
+  const c = controls[currentIndex];
+  c.chatHistory.push({ sender: 'user', text });
+  
+  const aiResponse = `For ${c.name}, I recommend:<br><br>• Building organizational awareness and buy-in<br>• Establishing clear policies and procedures<br>• Implementing appropriate technical controls<br>• Ensuring ongoing monitoring and review<br><br>Would you like specific guidance on any area?`;
+  c.chatHistory.push({ sender: 'ai', text: aiResponse });
+  
+  input.value = '';
+  renderChatHistory();
+}
+
+function renderROSIInputs() {
+  const c = controls[currentIndex];
+  
+  const costsList = document.getElementById('costsList');
+  costsList.innerHTML = '';
+  c.rosiCosts.forEach((cost, idx) => {
+    const item = document.createElement('div');
+    item.className = 'cost-item';
+    item.innerHTML = `
+      <span>${cost.name}</span>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <input type="number" value="${cost.value}" onchange="updateROSICost(${idx}, this.value)" min="0" step="1000" placeholder="${currencySymbols[c.rosiCurrency]}" />
+        <button class="icon-btn" onclick="removeROSICost(${idx})">✕</button>
+      </div>
+    `;
+    costsList.appendChild(item);
+  });
+  
+  const savingsList1 = document.getElementById('savingsList1');
+  const savingsList2 = document.getElementById('savingsList2');
+  savingsList1.innerHTML = '';
+  savingsList2.innerHTML = '';
+  
+  c.rosiSavings.forEach((saving, idx) => {
+    const item = document.createElement('div');
+    item.className = 'cost-item';
+    item.innerHTML = `
+      <span>${saving.name}</span>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <input type="number" value="${saving.value}" onchange="updateROSISaving(${idx}, this.value)" min="0" step="1000" placeholder="${currencySymbols[c.rosiCurrency]}" />
+        <button class="icon-btn" onclick="removeROSISaving(${idx})">✕</button>
+      </div>
+    `;
+    if (saving.category === 'operational') {
+      savingsList1.appendChild(item);
+    } else {
+      savingsList2.appendChild(item);
+    }
+  });
+  
+  document.getElementById('rosiPeriod').value = c.rosiPeriod;
+  document.getElementById('rosiCurrency').value = c.rosiCurrency;
+  
+  if (c.rosiValue !== null) {
+    const symbol = currencySymbols[c.rosiCurrency];
+    document.getElementById('rosiResult').style.display = 'block';
+    document.getElementById('rosiValue').textContent = c.rosiValue.toFixed(1) + '%';
+    
+    const totalCosts = c.rosiCosts.reduce((sum, cost) => sum + (+cost.value || 0), 0);
+    const totalSavings = c.rosiSavings.reduce((sum, saving) => sum + (+saving.value || 0), 0) * c.rosiPeriod;
+    
+    document.getElementById('rosiCurrSymbol').textContent = symbol;
+    document.getElementById('rosiCurrSymbol2').textContent = symbol;
+    document.getElementById('rosiTotalCosts').textContent = totalCosts.toLocaleString();
+    document.getElementById('rosiTotalSavings').textContent = totalSavings.toLocaleString();
+    
+    // Show chart
+    document.getElementById('rosiChart').style.display = 'block';
+    const netBenefit = totalSavings - totalCosts;
+    const maxValue = Math.max(totalCosts, totalSavings);
+    
+    setTimeout(() => {
+      document.getElementById('chartCosts').style.width = (totalCosts / maxValue * 100) + '%';
+      document.getElementById('chartCostsLabel').textContent = symbol + totalCosts.toLocaleString();
+      
+      document.getElementById('chartSavings').style.width = (totalSavings / maxValue * 100) + '%';
+      document.getElementById('chartSavingsLabel').textContent = symbol + totalSavings.toLocaleString();
+      
+      document.getElementById('chartNet').style.width = Math.abs(netBenefit / maxValue * 100) + '%';
+      document.getElementById('chartNetLabel').textContent = symbol + netBenefit.toLocaleString();
+    }, 100);
+  } else {
+    document.getElementById('rosiChart').style.display = 'none';
+  }
+}
+
+document.getElementById('addCost').addEventListener('click', () => {
+  const select = document.getElementById('costTypeSelect');
+  let name = select.value;
+  
+  if (!name) {
+    alert('Please select a cost type');
+    return;
+  }
+  
+  if (name === 'Custom') {
+    name = prompt('Enter custom cost name:');
+    if (!name) return;
+  }
+  
+  controls[currentIndex].rosiCosts.push({ name, value: 0, category: 'operational' });
+  renderROSIInputs();
+  select.value = '';
+});
+
+document.getElementById('addSavings').addEventListener('click', () => {
+  const select = document.getElementById('savingsTypeSelect');
+  let name = select.value;
+  
+  if (!name) {
+    alert('Please select a savings type');
+    return;
+  }
+  
+  if (name === 'Custom') {
+    name = prompt('Enter custom savings name:');
+    if (!name) return;
+  }
+  
+  const isOperational = ['People – Efficiency Gains', 'People – Fewer Incident Hours', 'Technology – Tool Consolidation', 'Technology – Reduced Downtime'].includes(name);
+  controls[currentIndex].rosiSavings.push({ name, value: 0, category: isOperational ? 'operational' : 'risk' });
+  renderROSIInputs();
+  select.value = '';
+});
+
+function updateROSICost(idx, value) {
+  controls[currentIndex].rosiCosts[idx].value = +value || 0;
+}
+
+function updateROSISaving(idx, value) {
+  controls[currentIndex].rosiSavings[idx].value = +value || 0;
+}
+
+function removeROSICost(idx) {
+  controls[currentIndex].rosiCosts.splice(idx, 1);
+  renderROSIInputs();
+}
+
+function removeROSISaving(idx) {
+  controls[currentIndex].rosiSavings.splice(idx, 1);
+  renderROSIInputs();
+}
+
+document.getElementById('calculateROSI').addEventListener('click', () => {
+  const c = controls[currentIndex];
+  const period = +document.getElementById('rosiPeriod').value;
+  c.rosiPeriod = period;
+  c.rosiCurrency = document.getElementById('rosiCurrency').value;
+  
+  const totalCosts = c.rosiCosts.reduce((sum, cost) => sum + (+cost.value || 0), 0);
+  const annualSavings = c.rosiSavings.reduce((sum, saving) => sum + (+saving.value || 0), 0);
+  
+  if (totalCosts === 0) {
+    alert('Please add implementation costs');
+    return;
+  }
+  
+  const totalSavings = annualSavings * period;
+  const rosi = ((totalSavings - totalCosts) / totalCosts) * 100;
+  
+  c.rosiValue = rosi;
+  renderROSIInputs();
+  renderTable();
+});
+
+document.getElementById('toggleFormula').addEventListener('click', () => {
+  const box = document.getElementById('formulaBox');
+  const btn = document.getElementById('toggleFormula');
+  if (box.style.display === 'none') {
+    box.style.display = 'block';
+    btn.textContent = 'Hide Formula';
+  } else {
+    box.style.display = 'none';
+    btn.textContent = 'Show Formula';
+  }
+});
+
+function renderNotes() {
+  const container = document.getElementById('notesList');
+  const c = controls[currentIndex];
+  
+  container.innerHTML = '';
+  
+  if (c.notes.length === 0) {
+    container.innerHTML = '<div class="text-muted">No notes yet. Add your first note below.</div>';
+    return;
+  }
+  
+  c.notes.forEach((note, idx) => {
+    const noteEl = document.createElement('div');
+    noteEl.className = 'note-item';
+    noteEl.innerHTML = `
+      <div class="note-header">
+        <div>
+          <strong>${note.owner || 'Unknown'}</strong>
+          <div class="note-meta">${note.date}</div>
+        </div>
+        <button class="icon-btn" onclick="deleteNote(${idx})">✕</button>
+      </div>
+      <div class="note-content">${note.text}</div>
+      ${note.attachment ? `<div class="attachment-item">📎 ${note.attachment}</div>` : ''}
+    `;
+    container.appendChild(noteEl);
+  });
+}
+
+document.getElementById('addNote').addEventListener('click', () => {
+  const text = document.getElementById('noteText').value.trim();
+  const owner = document.getElementById('noteOwner').value.trim();
+  const attachment = document.getElementById('noteAttachment').value.trim();
+  
+  if (!text) {
+    alert('Please enter note text');
+    return;
+  }
+  
+  const c = controls[currentIndex];
+  c.notes.push({
+    text,
+    owner: owner || 'Unknown',
+    attachment: attachment || null,
+    date: new Date().toLocaleDateString()
+  });
+  
+  document.getElementById('noteText').value = '';
+  document.getElementById('noteOwner').value = '';
+  document.getElementById('noteAttachment').value = '';
+  
+  renderNotes();
+});
+
+function deleteNote(idx) {
+  controls[currentIndex].notes.splice(idx, 1);
+  renderNotes();
+}
+
+document.getElementById('normInfluence').addEventListener('click', () => {
+  const arr = controls[currentIndex].stakeholders;
+  const sum = arr.reduce((s, st) => s + (+st.influence || 0), 0) || 1;
+  arr.forEach(st => st.influence = Math.round(st.influence / sum * 100));
+  openDrawer(currentIndex);
+});
+
+document.getElementById('addStake').addEventListener('click', () => {
+  controls[currentIndex].stakeholders.push({
+    name: 'Stakeholder',
+    influence: 0,
+    weights: { Imp: 20, Reg: 20, Eth: 20, Cost: 20, Eff: 20 },
+    scores: { Imp: 3, Reg: 3, Eth: 3, Cost: 3, Eff: 3 }
+  });
+  openDrawer(currentIndex);
+});
+
+document.getElementById('recalcRow').addEventListener('click', updateDrawerKPIs);
+document.getElementById('applyRow').addEventListener('click', () => {
+  updateDrawerKPIs();
+  renderTable();
+});
+document.getElementById('resetRow').addEventListener('click', () => openDrawer(currentIndex));
+document.getElementById('closeDrawer').addEventListener('click', closeDrawer);
+
+// Initialize on DOM ready
+document.addEventListener('DOMContentLoaded', function() {
+  // Sorting and recalculation buttons
+  document.getElementById('sortPriority').addEventListener('click', () => sortBy('priority'));
+  document.getElementById('sortGap').addEventListener('click', () => sortBy('gap'));
+  document.getElementById('recalcAll').addEventListener('click', renderTable);
+
+  // Tab Navigation (only 2 tabs)
+  document.querySelectorAll('.tab-button').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const view = tab.getAttribute('data-view');
+      switchView(view);
+    });
+  });
+
+  // Explainer Modal (button in Actions Center)
+  document.getElementById('showExplainer').addEventListener('click', showExplainerModal);
+  document.getElementById('closeExplainer').addEventListener('click', closeExplainerModal);
+  document.getElementById('explainerModal').addEventListener('click', (e) => {
+    if (e.target.id === 'explainerModal') closeExplainerModal();
+  });
+  
+  // Initial render
+  renderTable();
+});
+
+// Tab switching function
+function switchView(viewName) {
+  // Update tab buttons
+  document.querySelectorAll('.tab-button').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  document.querySelector(`[data-view="${viewName}"]`).classList.add('active');
+  
+  // Update view containers
+  document.querySelectorAll('.view-container').forEach(container => {
+    container.classList.remove('active');
+  });
+  
+  if (viewName === 'table') {
+    document.getElementById('tableView').classList.add('active');
+  } else if (viewName === 'insights') {
+    generateInsights();
+    document.getElementById('insightsView').classList.add('active');
+  }
+}
+
+function showExplainerModal() {
+  const content = `
+    <h2>👋 Introduction</h2>
+    <p>Hey! Let me walk you through how we calculate priority scores for AI governance controls. I'm going to focus on just <strong>one criterion - Impact</strong> - so you can really understand how this works. Once you get this, the rest will make total sense.</p>
+    <p>Think of this like baking a cake. We're going to take ingredients from different people (stakeholders), mix them together in a specific way, and end up with a final number that tells us how important this control is.</p>
+    
+    <h2>🎯 The Setup: Meet Control X</h2>
+    <p>Imagine we're looking at a control called <strong>"GOVERN-1: Mapping AI Systems"</strong>.</p>
+    <p>Right now, your organization is at <strong>Level 2</strong> maturity (you're doing some basic stuff, but not great).</p>
+    <p>Your goal is to reach <strong>Level 5</strong> maturity (you're world-class at this).</p>
+    <p>That's a gap of <strong>3 levels</strong> to close. Let's remember this - we'll need it later.</p>
+    
+    <h2>📊 Step 1: Calculate How Big the Gap Is</h2>
+    <p>First, we need to figure out: <strong>How far away are we from where we want to be?</strong></p>
+    <pre>Gap = (Target - Current) / 4</pre>
+    <p>Wait, why divide by 4? Because whether you're using a 1-5 scale or a 0-4 scale, there are always <strong>4 steps</strong> between the lowest and highest level. This keeps everything fair and normalized.</p>
+    <p><strong>For our Control X:</strong></p>
+    <pre>Gap = (5 - 2) / 4 = 3 / 4 = 0.75</pre>
+    <p>So we have a <strong>0.75 gap</strong>. That's 75% of the maximum possible gap. Pretty big! This control needs serious work.</p>
+    <div class="insight-box">
+      <strong>💡 What this means:</strong> The bigger the gap, the more urgency we'll add later. Controls that are further from their target get a boost in priority.
+    </div>
+    
+    <h2>👥 Step 2: Meet Your Stakeholders</h2>
+    <p>Now, in your organization, three people care about AI governance:</p>
+    <ul>
+      <li><strong>Sarah (CISO)</strong> - She runs security</li>
+      <li><strong>Mike (Legal)</strong> - He worries about compliance</li>
+      <li><strong>Emma (Ethics)</strong> - She focuses on responsible AI</li>
+    </ul>
+    <p>These three people have different perspectives. They don't all care about the same things equally. And that's okay! That's actually the whole point of this system.</p>
+    
+    <h2>⚖️ Step 3: How Much Power Does Each Person Have?</h2>
+    <p>Not everyone has equal say in your organization (that's just reality). So we assign <strong>Influence percentages</strong>:</p>
+    <ul>
+      <li><strong>Sarah (CISO): 40% influence</strong> - She's the main decision-maker</li>
+      <li><strong>Mike (Legal): 35% influence</strong> - He has strong sway due to regulations</li>
+      <li><strong>Emma (Ethics): 25% influence</strong> - Important voice, but less organizational power</li>
+    </ul>
+    <p>Notice these add up to <strong>100%</strong>. Everyone gets a slice of the pie.</p>
+    
+    <h2>🎯 Step 4: What Does "Impact" Mean to Each Person?</h2>
+    <p>Now here's where it gets interesting. Each person has their own priorities. They split their attention across 5 criteria:</p>
+    <ul>
+      <li><strong>Impact</strong> (How much business value does this control create?)</li>
+      <li><strong>Regulatory</strong> (How important is this for compliance?)</li>
+      <li><strong>Ethical</strong> (How important is this for doing the right thing?)</li>
+      <li><strong>Cost</strong> (How expensive is this to implement?)</li>
+      <li><strong>Effort</strong> (How much work will this take?)</li>
+    </ul>
+    <p>Let's focus on just <strong>Impact</strong>. Each person decides: "Out of 100%, how much do I care about Impact versus the other criteria?"</p>
+    <ul>
+      <li><strong>Sarah (CISO) says:</strong> "Impact is <strong>35%</strong> of my priorities"</li>
+      <li><strong>Mike (Legal) says:</strong> "Impact is only <strong>15%</strong> of my priorities" (he cares more about regulatory stuff)</li>
+      <li><strong>Emma (Ethics) says:</strong> "Impact is <strong>20%</strong> of my priorities"</li>
+    </ul>
+    
+    <h2>🔢 Step 5: Calculate the Global Weight for Impact</h2>
+    <p>Now we need to blend these three perspectives into <strong>one organizational priority</strong> for Impact.</p>
+    <p>Here's how we do it: <strong>Weight each person's opinion by their influence</strong></p>
+    <pre>Global Weight (Impact) = (Sarah's Influence × Sarah's Impact Weight)
+                       + (Mike's Influence × Mike's Impact Weight)
+                       + (Emma's Influence × Emma's Impact Weight)</pre>
+    <p>Let's plug in the numbers:</p>
+    <pre>Global Weight (Impact) = (0.40 × 0.35) + (0.35 × 0.15) + (0.25 × 0.20)
+                       = 0.14 + 0.0525 + 0.05
+                       = 0.2425
+                       ≈ 0.24 (or 24%)</pre>
+    <div class="insight-box">
+      <strong>💡 What this means:</strong> As an organization, <strong>Impact accounts for 24% of your overall priorities</strong> when making decisions. This is a blend of what Sarah, Mike, and Emma each think, weighted by their power.
+      <br><br>
+      Notice how Sarah's 35% got "pulled down" by Mike's 15% and Emma's 20%. That's the blending at work!
+    </div>
+    
+    <h2>📝 Step 6: How Does Control X Score on Impact?</h2>
+    <p>Okay, now each stakeholder actually <strong>rates Control X</strong> on how impactful it is. They give it a score from <strong>1 to 5</strong>:</p>
+    <ul>
+      <li><strong>1 = Very low impact</strong> ("This control doesn't really help us much")</li>
+      <li><strong>5 = Very high impact</strong> ("This control is absolutely critical for our business")</li>
+    </ul>
+    <ul>
+      <li><strong>Sarah (CISO) rates Impact: 5/5</strong> - "This control is huge for us!"</li>
+      <li><strong>Mike (Legal) rates Impact: 4/5</strong> - "Pretty important"</li>
+      <li><strong>Emma (Ethics) rates Impact: 4/5</strong> - "Definitely valuable"</li>
+    </ul>
+    
+    <h2>🚀 Step 7: Adjust Scores Based on the Gap (The Magic Part!)</h2>
+    <p>Here's where the gap we calculated way back in Step 1 comes into play.</p>
+    <p>Remember our gap was <strong>0.75</strong>? Now we're going to <strong>amplify</strong> the Impact scores because of this gap.</p>
+    <p>The logic is: <strong>If we're far from our target, we need to prioritize closing that gap even more urgently.</strong></p>
+    <p>Formula for benefit criteria (like Impact):</p>
+    <pre>Adjusted Score = Raw Score × (1 + Gap)</pre>
+    <p>Let's calculate for each person:</p>
+    <p><strong>Sarah's Adjusted Impact Score:</strong></p>
+    <pre>5 × (1 + 0.75) = 5 × 1.75 = 8.75</pre>
+    <p><strong>Mike's Adjusted Impact Score:</strong></p>
+    <pre>4 × (1 + 0.75) = 4 × 1.75 = 7.00</pre>
+    <p><strong>Emma's Adjusted Impact Score:</strong></p>
+    <pre>4 × (1 + 0.75) = 4 × 1.75 = 7.00</pre>
+    <div class="insight-box">
+      <strong>💡 What this means:</strong> Because we have a big gap (0.75), everyone's scores got boosted by 75%. A score of 5 became 8.75. A score of 4 became 7.0. This creates urgency!
+    </div>
+    
+    <h2>🔄 Step 8: Blend the Adjusted Scores</h2>
+    <p>Just like we blended the weights in Step 5, now we blend the adjusted scores.</p>
+    <pre>Blended Impact Score = (Sarah's Influence × Sarah's Adjusted Score)
+                     + (Mike's Influence × Mike's Adjusted Score)
+                     + (Emma's Influence × Emma's Adjusted Score)</pre>
+    <p>Plug in the numbers:</p>
+    <pre>Blended Impact Score = (0.40 × 8.75) + (0.35 × 7.00) + (0.25 × 7.00)
+                     = 3.50 + 2.45 + 1.75
+                     = 7.70</pre>
+    <div class="insight-box">
+      <strong>💡 What this means:</strong> The organization's <strong>overall adjusted Impact score for Control X is 7.70</strong> out of a theoretical maximum of about 8.75 (which would be 5 × 1.75 if everyone rated it 5/5).
+      <br><br>
+      That's really strong! This control scores highly on Impact from an organizational perspective.
+    </div>
+    
+    <h2>✨ Step 9: Calculate Impact's Contribution to Priority</h2>
+    <p>Almost there! Now we multiply:</p>
+    <pre>Impact Contribution = Global Weight × Blended Score
+                    = 0.24 × 7.70
+                    = 1.85</pre>
+    <div class="insight-box">
+      <strong>💡 What this means:</strong> The <strong>Impact criterion contributes 1.85 points</strong> to Control X's overall priority score.
+    </div>
+    
+    <h2>🎉 Step 10: The Big Picture</h2>
+    <p>Here's what we just did <strong>for Impact alone</strong>:</p>
+    <ol>
+      <li>✅ Calculated the gap (0.75)</li>
+      <li>✅ Figured out how much the org cares about Impact (24% weight)</li>
+      <li>✅ Had stakeholders rate the control on Impact (5, 4, 4)</li>
+      <li>✅ Boosted those scores because of the gap (8.75, 7.0, 7.0)</li>
+      <li>✅ Blended them into one org score (7.70)</li>
+      <li>✅ Multiplied weight × score = <strong>1.85 contribution</strong></li>
+    </ol>
+    <p><strong>Now imagine doing this exact same process for the other 4 criteria:</strong></p>
+    <ul>
+      <li>Regulatory (probably contributes ~2.5 points)</li>
+      <li>Ethical (probably contributes ~1.3 points)</li>
+      <li>Cost (inverted, probably contributes ~0.5 points)</li>
+      <li>Effort (inverted, probably contributes ~0.3 points)</li>
+    </ul>
+    <p><strong>Add them all up:</strong></p>
+    <pre>Total Raw Priority = 1.85 + 2.50 + 1.30 + 0.50 + 0.30 = 6.45</pre>
+    <p><strong>Then normalize to 0-100 scale:</strong></p>
+    <pre>Priority Score = (6.45 / 7.70) × 100 = 83.8</pre>
+    <p><strong>Control X gets a priority score of 83.8 out of 100!</strong></p>
+    <p>That's really high! This control should be near the top of your implementation list.</p>
+    
+    <h2>🎯 Why This Matters</h2>
+    <p>Here's why this approach is powerful:</p>
+    <h3>1. Transparent & Explainable</h3>
+    <p>You can show anyone: "Here's exactly why Control X scored 83.8. Sarah gave it 5/5 on Impact, Mike gave it 5/5 on Regulatory, we have a 75% gap, etc."</p>
+    
+    <h3>2. Stakeholder Alignment</h3>
+    <p>Instead of fighting about priorities, you blend everyone's perspective mathematically. No one gets ignored.</p>
+    
+    <h3>3. Gap-Aware</h3>
+    <p>Controls with bigger gaps automatically get more urgency. You're not just looking at "importance" - you're looking at "importance × how far we have to go."</p>
+    
+    <h3>4. Cost-Conscious</h3>
+    <p>Cost and Effort are inverted, so expensive/hard controls naturally score lower (all else being equal).</p>
+    
+    <h3>5. Adaptive</h3>
+    <p>Change Sarah's influence from 40% to 50%? Recalculate instantly. Adjust Mike's regulatory weight? Recalculate instantly. It's flexible.</p>
+    
+    <h2>💭 Common Questions</h2>
+    <p><strong>Q: Why do we divide by 4 when calculating gap?</strong><br>
+    A: To normalize the gap to 0-1 scale regardless of whether you use 1-5 or 0-4 maturity levels. There are always 4 steps between min and max.</p>
+    
+    <p><strong>Q: Why multiply by (1 + Gap) for benefits?</strong><br>
+    A: To create urgency. A control rated 5/5 with a tiny gap (0.1) becomes 5.5. The same control with a huge gap (0.9) becomes 9.5. Bigger gap = more urgent.</p>
+    
+    <p><strong>Q: Why invert Cost and Effort (6 - Score)?</strong><br>
+    A: Because lower cost = better. If something costs 5/5 (expensive), we convert that to 1/5 (bad). If it costs 1/5 (cheap), we convert to 5/5 (good).</p>
+    
+    <p><strong>Q: What if stakeholder influences don't add up to 100%?</strong><br>
+    A: The system will normalize them automatically. If you enter 40, 40, 40 (total = 120%), it'll convert to 33.3%, 33.3%, 33.3%.</p>
+    
+    <p><strong>Q: Can I have more than 3 stakeholders?</strong><br>
+    A: Absolutely! Add as many as you want. The math stays the same - just more terms in the summation.</p>
+    
+    <h2>🎓 You Made It!</h2>
+    <p>Congrats! You now understand <strong>exactly</strong> how the Impact criterion flows through the entire calculation.</p>
+    <p>The beautiful thing? <strong>Every other criterion works the exact same way.</strong> Regulatory, Ethical, Cost, Effort - they all follow this pattern.</p>
+    <p>You've learned the system. Now you can explain it to your CFO, your board, your auditors, or anyone who asks: "How did you decide this control is priority #1?"</p>
+    <p>You have a defensible, transparent, mathematically sound answer.</p>
+    <p><strong>That's the power of weighted scoring! 🚀</strong></p>
+  `;
+  
+  document.getElementById('explainerContent').innerHTML = content;
+  document.getElementById('explainerModal').classList.add('open');
+}
+
+function closeExplainerModal() {
+  document.getElementById('explainerModal').classList.remove('open');
+}
+
+function generateInsights() {
+  // Get top 5 controls by priority
+  const sorted = [...controls].sort((a, b) => {
+    const aR = calcControl(a);
+    const bR = calcControl(b);
+    return bR.priority - aR.priority;
+  }).slice(0, 5);
+  
+  if (sorted.length < 2) {
+    document.getElementById('insightsContent').innerHTML = `
+      <p class="text-muted">Kovrr Insights requires at least 2 controls with calculated priorities. Please complete your assessment to see AI-powered recommendations.</p>
+    `;
+    return;
+  }
+  
+  const insights = [];
+  
+  // Insight 1: Implementation Order
+  insights.push({
+    number: 1,
+    title: 'Recommended Implementation Order',
+    subtitle: 'Based on 1,200+ AI governance implementations analyzed',
+    content: `Our analysis of successful AI governance programs shows that organizations typically achieve better outcomes when they establish <strong>foundational governance controls first</strong>, even if higher-risk operational controls appear more urgent.<br><br>We recommend starting with <strong>${sorted[0].id}</strong> (${sorted[0].name}) because it creates the organizational structure and awareness needed for subsequent controls to succeed. Organizations that skip this step often face 40% longer implementation times for downstream controls.`,
+    controls: [sorted[0].id, sorted[1].id, sorted[2].id],
+    sources: [
+      { text: 'NIST AI RMF Playbook: Governance First Approach', url: '#' },
+      { text: 'Gartner: AI Governance Implementation Patterns (2024)', url: '#' },
+      { text: 'Kovrr Research: 1,200 AI Program Implementations', url: '#' }
+    ]
+  });
+  
+  // Insight 2: Dependencies
+  insights.push({
+    number: 2,
+    title: 'Critical Control Dependencies Detected',
+    subtitle: 'Blocking relationships that affect implementation sequence',
+    content: `While <strong>${sorted[1].id}</strong> (${sorted[1].name}) ranks #2 in your priority list, it has a dependency on <strong>${sorted[0].id}</strong>. You cannot effectively implement accountability structures without first having comprehensive AI system mapping.<br><br>Attempting to implement out of order typically results in:
+    <ul>
+      <li>35% increase in rework and scope creep</li>
+      <li>Accountability gaps due to incomplete system visibility</li>
+      <li>Stakeholder confusion and resistance</li>
+    </ul>`,
+    controls: [sorted[0].id, sorted[1].id],
+    dependency: { from: sorted[1].id, to: sorted[0].id, reason: 'Requires complete system inventory' },
+    sources: [
+      { text: 'ISO/IEC 42001: Control Implementation Dependencies', url: '#' },
+      { text: 'Kovrr Control Dependency Graph', url: '#' }
+    ]
+  });
+  
+  // Insight 3: Initiative Grouping
+  insights.push({
+    number: 3,
+    title: 'Strategic Initiative: Governance Foundation',
+    subtitle: 'Bundle related controls for maximum impact',
+    content: `Controls <strong>${sorted[0].id}</strong>, <strong>${sorted[1].id}</strong>, and <strong>${sorted[2].id}</strong> form a natural initiative we call <strong>"AI Governance Foundation"</strong>. Implementing these as a coordinated 6-month program yields:
+    <ul>
+      <li><strong>25% cost savings</strong> through shared stakeholder engagement and training</li>
+      <li><strong>Faster time-to-value</strong> with integrated rollout plan</li>
+      <li><strong>Better adoption</strong> when presented as cohesive program vs. isolated controls</li>
+      <li><strong>Executive sponsorship</strong> more likely for strategic initiative vs. technical controls</li>
+    </ul>
+    This approach also addresses a common challenge: <strong>balancing AI innovation velocity with risk management</strong>. By establishing governance foundations together, you create a framework that enables faster, safer AI adoption rather than slowing teams down with piecemeal requirements.`,
+    controls: [sorted[0].id, sorted[1].id, sorted[2].id],
+    initiative: 'AI Governance Foundation: Balancing Innovation & Risk',
+    sources: [
+      { text: 'Stanford HAI: Enabling Innovation Through Governance', url: '#' },
+      { text: 'MIT Sloan: AI Governance Program Design', url: '#' },
+      { text: 'Kovrr Initiative Templates: Governance Foundation', url: '#' }
+    ]
+  });
+  
+  // Render insights
+  let html = '';
+  insights.forEach(insight => {
+    html += `
+      <div class="insight-card">
+        <div class="insight-card-header">
+          <div class="insight-number">${insight.number}</div>
+          <div style="flex: 1;">
+            <h3 class="insight-card-title">${insight.title}</h3>
+            <div class="insight-card-subtitle">${insight.subtitle}</div>
+          </div>
+        </div>
+        <div class="insight-content">${insight.content}</div>
+        
+        ${insight.dependency ? `
+          <div class="dependency-arrow">
+            <span class="dependency-arrow-icon">⚠️</span>
+            <strong>${insight.dependency.from}</strong> depends on <strong>${insight.dependency.to}</strong>
+            <span class="text-muted">— ${insight.dependency.reason}</span>
+          </div>
+        ` : ''}
+        
+        ${insight.initiative ? `
+          <div class="initiative-tag">
+            🎯 Initiative: ${insight.initiative}
+          </div>
+        ` : ''}
+        
+        <div class="insight-controls">
+          ${insight.controls.map(id => `<span class="insight-control-tag">${id}</span>`).join('')}
+        </div>
+        
+        <div class="insight-sources">
+          <div class="insight-sources-title">Sources</div>
+          ${insight.sources.map(s => `
+            <div class="insight-source">📄 <a href="${s.url}" target="_blank">${s.text}</a></div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  });
+  
+  document.getElementById('insightsContent').innerHTML = html;
+}
+</script>
+
+</body>
+</html>

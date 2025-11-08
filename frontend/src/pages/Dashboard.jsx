@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, AlertTriangle, TrendingUp, Shield } from 'lucide-react';
+import { Eye, AlertTriangle, TrendingUp, Shield, Plus, Download, Calendar, FileText, Users, Settings } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/atoms/Card';
 import { Button } from '../components/atoms/Button';
 import { Badge } from '../components/atoms/Badge';
@@ -80,14 +80,61 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="space-y-sm">
-      <div>
-        <h1 className="text-3xl font-[700] text-text-base-primary">Dashboard</h1>
-        <p className="text-text-base-secondary mt-1">Overview of your AI governance metrics</p>
+    <div className="space-y-[32px]">
+      {/* Page Header */}
+      <div className="mb-[32px]">
+        <h1 className="text-[38px] font-[700] text-[rgb(26,32,44)] tracking-[-0.5px] mb-[8px]">Dashboard Overview</h1>
+        <p className="text-[16px] text-[rgb(74,85,104)]">Real-time insights into your AI risk posture</p>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex flex-wrap gap-[12px] mb-[32px]">
+        <button 
+          onClick={() => navigate('/compliance-readiness')}
+          className="inline-flex items-center gap-[8px] px-[20px] py-[10px] bg-[rgb(85,81,247)] text-white text-[14px] font-[600] rounded-[6px] border-none shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] cursor-pointer transition-all duration-200 hover:bg-[rgb(97,94,251)] hover:-translate-y-[1px]"
+        >
+          <Plus size={18} />
+          New Assessment
+        </button>
+        <button 
+          onClick={() => console.log('Export report')}
+          className="inline-flex items-center gap-[8px] px-[20px] py-[10px] bg-white text-[rgb(48,48,69)] text-[14px] font-[600] rounded-[6px] border border-[rgb(220,229,242)] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] cursor-pointer transition-all duration-200 hover:bg-[rgb(245,247,255)] hover:border-[rgb(163,173,181)]"
+        >
+          <Download size={18} />
+          Export Report
+        </button>
+        <button 
+          onClick={() => console.log('Schedule review')}
+          className="inline-flex items-center gap-[8px] px-[20px] py-[10px] bg-white text-[rgb(48,48,69)] text-[14px] font-[600] rounded-[6px] border border-[rgb(220,229,242)] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] cursor-pointer transition-all duration-200 hover:bg-[rgb(245,247,255)] hover:border-[rgb(163,173,181)]"
+        >
+          <Calendar size={18} />
+          Schedule Review
+        </button>
+        <button 
+          onClick={() => console.log('Generate docs')}
+          className="inline-flex items-center gap-[8px] px-[20px] py-[10px] bg-white text-[rgb(48,48,69)] text-[14px] font-[600] rounded-[6px] border border-[rgb(220,229,242)] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] cursor-pointer transition-all duration-200 hover:bg-[rgb(245,247,255)] hover:border-[rgb(163,173,181)]"
+        >
+          <FileText size={18} />
+          Generate Documentation
+        </button>
+        <button 
+          onClick={() => console.log('Team management')}
+          className="inline-flex items-center gap-[8px] px-[20px] py-[10px] bg-white text-[rgb(48,48,69)] text-[14px] font-[600] rounded-[6px] border border-[rgb(220,229,242)] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] cursor-pointer transition-all duration-200 hover:bg-[rgb(245,247,255)] hover:border-[rgb(163,173,181)]"
+        >
+          <Users size={18} />
+          Team Management
+        </button>
+        <button 
+          onClick={() => console.log('Settings')}
+          className="inline-flex items-center gap-[8px] px-[20px] py-[10px] bg-white text-[rgb(48,48,69)] text-[14px] font-[600] rounded-[6px] border border-[rgb(220,229,242)] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] cursor-pointer transition-all duration-200 hover:bg-[rgb(245,247,255)] hover:border-[rgb(163,173,181)]"
+        >
+          <Settings size={18} />
+          Settings
+        </button>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-sm">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[24px] mb-[32px]">
         {statCards.map((stat) => (
           <Card 
             key={stat.title}
@@ -111,7 +158,7 @@ const Dashboard = () => {
       </div>
 
       {/* Asset Widgets */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-sm">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-[24px]">
         {/* Recent Assets */}
         <Card>
           <CardHeader>
@@ -204,32 +251,6 @@ const Dashboard = () => {
                   </div>
                 );
               })}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 gap-xs">
-              <Button variant="outline" className="justify-start">
-                <Eye size={18} />
-                View Assets
-              </Button>
-              <Button variant="outline" className="justify-start">
-                <AlertTriangle size={18} />
-                Risk Register
-              </Button>
-              <Button variant="outline" className="justify-start">
-                <Shield size={18} />
-                Controls
-              </Button>
-              <Button variant="outline" className="justify-start">
-                <TrendingUp size={18} />
-                Reports
-              </Button>
             </div>
           </CardContent>
         </Card>
