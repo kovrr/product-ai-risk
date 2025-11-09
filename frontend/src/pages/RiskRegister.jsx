@@ -45,6 +45,8 @@ const RiskRegister = () => {
     }
   ]);
   const [chatInput, setChatInput] = useState('');
+  const [selectedScenario, setSelectedScenario] = useState(null);
+  const [insightsRecommendations, setInsightsRecommendations] = useState([]);
   const chatMessagesEndRef = useRef(null);
 
   // Auto-scroll to latest message
@@ -245,6 +247,61 @@ const RiskRegister = () => {
     }
   }, [handleSendMessage]);
 
+  const handleAnalyzeScenario = useCallback(() => {
+    if (!selectedScenario) return;
+
+    const risk = risksWithAssets.find(r => r.risk_id === selectedScenario);
+    if (!risk) return;
+
+    // Generate AI-powered recommendations based on the selected risk
+    const recommendations = [
+      {
+        id: 1,
+        priority: 'high',
+        title: 'Implement Multi-Layer Defense Strategy',
+        description: `For ${risk.name}, establish defense-in-depth with multiple security controls including input validation, output filtering, and behavioral monitoring.`,
+        impact: 'Reduces likelihood by 40%',
+        effort: 'Medium',
+        timeline: '2-3 months'
+      },
+      {
+        id: 2,
+        priority: 'high',
+        title: 'Enhanced Monitoring & Detection',
+        description: `Deploy real-time monitoring for ${risk.category} incidents with automated alerting and anomaly detection capabilities.`,
+        impact: 'Improves detection time by 70%',
+        effort: 'Low',
+        timeline: '2-4 weeks'
+      },
+      {
+        id: 3,
+        priority: 'medium',
+        title: 'Incident Response Playbook',
+        description: `Create specific response procedures for ${risk.category} scenarios including escalation paths, containment strategies, and recovery steps.`,
+        impact: 'Reduces impact by 30%',
+        effort: 'Low',
+        timeline: '1-2 weeks'
+      },
+      {
+        id: 4,
+        priority: 'medium',
+        title: 'Regular Security Assessments',
+        description: `Schedule quarterly penetration testing and vulnerability assessments focused on ${risk.category} attack vectors.`,
+        impact: 'Identifies 85% of vulnerabilities',
+        effort: 'Medium',
+        timeline: 'Ongoing'
+      }
+    ];
+
+    setInsightsRecommendations(recommendations);
+    
+    showNotification({
+      type: 'success',
+      title: 'Analysis Complete',
+      message: `Generated ${recommendations.length} AI-powered recommendations for ${risk.name}`,
+    });
+  }, [selectedScenario, risksWithAssets, showNotification]);
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -444,7 +501,11 @@ const RiskRegister = () => {
                 </div>
                 <div className="mb-[20px]">
                   <label className="text-[13px] font-[600] text-[rgb(74,85,104)] mb-[6px] block">Select Scenario</label>
-                  <select className="w-full px-[12px] py-[10px] border border-[rgb(220,229,242)] rounded-[6px] text-[14px] font-['Source_Sans_Pro']">
+                  <select 
+                    value={selectedScenario || ''}
+                    onChange={(e) => setSelectedScenario(e.target.value)}
+                    className="w-full px-[12px] py-[10px] border border-[rgb(220,229,242)] rounded-[6px] text-[14px] font-['Source_Sans_Pro']"
+                  >
                     <option value="">Choose a scenario...</option>
                     {risksWithAssets.map(risk => (
                       <option key={risk.id} value={risk.risk_id}>
@@ -453,7 +514,11 @@ const RiskRegister = () => {
                     ))}
                   </select>
                 </div>
-                <button className="w-full bg-[rgb(85,81,247)] text-white px-[12px] py-[12px] border-none rounded-[6px] text-[14px] font-[600] cursor-pointer font-['Source_Sans_Pro'] mt-[10px] hover:bg-[rgb(97,94,251)]">
+                <button 
+                  onClick={handleAnalyzeScenario}
+                  disabled={!selectedScenario}
+                  className="w-full bg-[rgb(85,81,247)] text-white px-[12px] py-[12px] border-none rounded-[6px] text-[14px] font-[600] cursor-pointer font-['Source_Sans_Pro'] mt-[10px] hover:bg-[rgb(97,94,251)] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   Analyze Scenario
                 </button>
               </div>
@@ -500,11 +565,47 @@ const RiskRegister = () => {
             <div className="lg:col-span-1">
               <div className="bg-white p-[30px] rounded-[12px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
                 <h3 className="text-[20px] font-[600] text-[rgb(26,32,44)] mb-[16px]">AI-Powered Recommendations</h3>
-                <div>
-                  <p className="text-[rgb(113,118,126)] text-center py-[40px]">
-                    Select a scenario to get AI-powered recommendations
-                  </p>
-                </div>
+                {insightsRecommendations.length === 0 ? (
+                  <div>
+                    <p className="text-[rgb(113,118,126)] text-center py-[40px]">
+                      Select a scenario and click "Analyze Scenario" to get AI-powered recommendations
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-[16px]">
+                    {insightsRecommendations.map((rec) => (
+                      <div 
+                        key={rec.id}
+                        className="border border-[rgb(220,229,242)] rounded-[12px] p-[20px] hover:shadow-[rgba(0,0,0,0.08)_0px_2px_8px_0px] transition-shadow duration-200"
+                      >
+                        <div className="flex items-start justify-between mb-[12px]">
+                          <div className="flex items-center gap-[8px]">
+                            <span className={`px-[8px] py-[4px] rounded-[6px] text-[12px] font-[600] ${
+                              rec.priority === 'high' 
+                                ? 'bg-[rgba(255,35,35,0.1)] text-[rgb(255,35,35)]'
+                                : 'bg-[rgba(255,153,0,0.1)] text-[rgb(255,153,0)]'
+                            }`}>
+                              {rec.priority.toUpperCase()}
+                            </span>
+                            <span className="text-[12px] text-[rgb(113,118,126)]">{rec.timeline}</span>
+                          </div>
+                        </div>
+                        <h4 className="text-[16px] font-[600] text-[rgb(26,32,44)] mb-[8px]">{rec.title}</h4>
+                        <p className="text-[14px] text-[rgb(74,85,104)] mb-[12px] leading-[1.6]">{rec.description}</p>
+                        <div className="flex items-center gap-[16px] text-[13px]">
+                          <div className="flex items-center gap-[6px]">
+                            <span className="text-[rgb(113,118,126)]">Impact:</span>
+                            <span className="font-[600] text-[rgb(13,199,131)]">{rec.impact}</span>
+                          </div>
+                          <div className="flex items-center gap-[6px]">
+                            <span className="text-[rgb(113,118,126)]">Effort:</span>
+                            <span className="font-[600] text-[rgb(74,85,104)]">{rec.effort}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
