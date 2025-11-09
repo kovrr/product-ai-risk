@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye, AlertTriangle, TrendingUp, Shield, Plus, Download, Calendar, FileText, Users, Settings } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '../components/atoms/Card';
-import { Button } from '../components/atoms/Button';
-import { Badge } from '../components/atoms/Badge';
+import { Card, CardHeader, CardTitle, CardContent } from '../components/atoms/card';
+import { Button } from '../components/atoms/button';
+import { Badge } from '../components/atoms/badge';
 import { mockAssets, getHighRiskAssets, getShadowAIAssets } from '../data';
 import { StatusBadge, RiskScoreBadge, UserAvatar } from '../components/molecules';
 import { getUserById } from '../data';

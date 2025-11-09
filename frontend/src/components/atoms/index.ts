@@ -1,10 +1,10 @@
 // Atom Components - Foqus Design System
-export { Button } from './Button';
-export { Badge } from './Badge';
-export { Card } from './Card';
-export { Input } from './Input';
-export { Label } from './Label';
-export { Table } from './Table';
+export { Button } from './button';
+export { Badge } from './badge';
+export { Card } from './card';
+export { Input } from './input';
+export { Label } from './label';
+export { Table } from './table';
 
 // New Components
 export { Select } from './Select';
