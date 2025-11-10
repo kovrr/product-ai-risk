@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+// Use the current window origin for API calls (works for both localhost and public IP)
+const API_BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000/api`;
 
 const api = axios.create({
   baseURL: API_BASE_URL,

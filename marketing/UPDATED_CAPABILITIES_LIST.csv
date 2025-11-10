@@ -1,0 +1,58 @@
+Capability Area,Sub-Capability,Description,Visualization,Status,Priority,Owner,Notes
+Authentication & Authorization,Session Auth,Users authenticate via secure session-based login/logout with CSRF-safe endpoints,—,Done,High,,✅ Delivered
+Authentication & Authorization,Role-based Access,Role-based permissions (admin analyst) gate protected routes and actions,—,Done,High,,Basic roles only needs granularity
+Dashboard,Metric Cards,Four key KPI cards show real-time counts for assets shadow AI high-risk scenarios and pending tasks,4-card grid,Done,High,,✅ Delivered
+Dashboard,Recent Activity,A timeline feed lists latest system actions with timestamps and users,Vertical timeline,Done,High,,✅ Delivered
+Dashboard,Quick Actions,One-click buttons start common flows like new asset new risk and new assessment,Button row,Done,High,,✅ Delivered
+Dashboard,Risk Heat Map,5x5 risk matrix with color-coded risk distribution,Interactive matrix,Done,High,,✅ Delivered
+Dashboard,Compliance Summary,Framework-specific compliance scores with progress indicators,Card grid,Done,High,,✅ Delivered
+Dashboard,Trend Charts,Historical trend analysis showing risk/compliance over time,Line charts,Not Started,High,,❌ Marketing Gap - Usage trends promised
+Dashboard,AI Spend Tracking,Monitor and visualize AI tool costs and budget allocation,Cost dashboard,Not Started,Medium,,❌ Marketing Gap
+Dashboard,Custom Dashboards,User-configurable dashboard layouts and widgets,Drag-drop layout,Not Started,Low,,❌ Marketing Gap
+Assets Visibility,CRUD Operations,Users can create edit delete and bulk-manage AI assets,Modal form / Table actions,Done,High,,✅ Delivered
+Assets Visibility,Asset List View,Searchable sortable table of all AI assets with key metadata,Data table,Done,High,,✅ Delivered
+Assets Visibility,Asset Details Page,Each asset has dedicated page with full metadata tabs and activity,Tabbed detail view,Done,High,,✅ Delivered with 4 tabs
+Assets Visibility,Risk Profile Integration,Show Kovrr risk score and financial exposure on the asset,Inline scorecard,Done,High,,✅ Delivered
+Assets Visibility,Owner Assignment,Assign business and technical owners to each asset,User selector,Done,High,,✅ Delivered
+Assets Visibility,Filtering & Sorting,Filter by status/category/vendor/department and sort by risk or usage,Filter sidebar + sort,Done,High,,✅ Delivered
+Assets Visibility,Regulatory Tagging,Tag assets with applicable regulations (GDPR HIPAA SOC2 etc),Badge tags,Done,Medium,,✅ Delivered
+Assets Visibility,Lifecycle Tracking,Track asset lifecycle stage (Development Testing Production Deprecated),Status badge,Done,Medium,,✅ Delivered
+Assets Visibility,Manual Discovery Form,Comprehensive questionnaire for manual asset entry,Multi-section form,Done,High,,✅ Delivered (5 sections)
+Assets Visibility,CSV Import,Upload CSV to bulk-import AI assets with validation and preview,File upload + preview table,Not Started,High,,❌ CRITICAL GAP - Marketing promises this
+Assets Visibility,Automated Discovery (48hr),Automatically discover all AI tools across organization in 48 hours,Discovery dashboard,Not Started,Critical,,❌ CRITICAL GAP - Core marketing promise
+Assets Visibility,Integration Hub - GitHub,Connect to GitHub to discover AI/ML repos and Copilot usage,Integration card,Not Started,High,,❌ UI mockup only no API
+Assets Visibility,Integration Hub - Slack,Monitor Slack for AI tool mentions and usage patterns,Integration card,Not Started,High,,❌ UI mockup only no API
+Assets Visibility,Integration Hub - Zscaler,Detect AI SaaS usage from Zscaler proxy logs,Integration card,Not Started,High,,❌ CRITICAL GAP - Marketing promises
+Assets Visibility,Integration Hub - Azure AD,Auto-discover OAuth apps and sync users from Azure AD,Integration card,Not Started,High,,❌ UI mockup only no API
+Assets Visibility,Usage Trends,Visualize active users and usage patterns over time for each asset,Line chart,Not Started,High,,❌ CRITICAL GAP - Marketing promises
+Assets Visibility,Shadow AI Detection,Automatically flag unapproved/unsanctioned AI tools,Alert badge,Not Started,High,,❌ Marketing Gap - Can mark manually only
+Assets Visibility,Export,Export asset inventory to CSV/Excel/PDF for audits,Export button,Not Started,High,,❌ CRITICAL GAP - Marketing promises audit reports
+Risk Register,CRUD Operations,Create edit delete and duplicate risk scenarios,Wizard + Table actions,Done,High,,✅ Delivered
+Risk Register,Risk Assessment Workflow,Guided assessment with likelihood/impact matrix and auto-priority,Multi-step wizard + 5x5 heatmap,Done,High,,✅ Delivered
+Risk Register,AI-Powered Insights,Kovrr Insights tab with AI-generated risk recommendations,Insights panel,Done,High,,✅ Delivered
+Risk Register,Export,Export risk register to PDF/CSV with formatted tables/charts,Export button,Not Started,High,,❌ Marketing Gap
+Financial Quantification,Loss Exceedance Curves,Probability curves showing potential loss at different confidence levels,Line chart,Done,High,,✅ Delivered
+Financial Quantification,Attack Vector Analysis,Breakdown of risk by attack vector type,Bar chart,Done,High,,✅ Delivered
+Financial Quantification,Control Effectiveness,Show impact of controls on risk reduction,Horizontal bar chart,Done,High,,✅ Delivered
+Financial Quantification,Insurance Recommendations,Suggest insurance coverage based on risk exposure,Recommendation panel,Not Started,Medium,,❌ Marketing Gap
+Financial Quantification,Peer Benchmarking,Compare risk exposure against industry peers,Benchmark chart,Not Started,Low,,❌ Marketing Gap
+Compliance Readiness,Self-Assessment Questionnaires,Framework-specific comprehensive question sets,Multi-step form,Done,High,,✅ Delivered
+Compliance Readiness,Compliance Scoring,Calculate percentage compliance score per framework,Progress bar + score,Done,High,,✅ Delivered
+Compliance Readiness,Gap Analysis,Identify non-compliant controls and gaps per framework,Gap list,Done,High,,✅ Delivered
+Compliance Readiness,Evidence Collection,Upload and store compliance evidence files,File upload,Not Started,High,,❌ CRITICAL GAP - Marketing promises
+Compliance Readiness,Formal Reporting,Generate PDF compliance reports for audits and board,PDF export,Not Started,High,,❌ CRITICAL GAP - Marketing promises
+AI Assurance Plan,Controls Maturity Assessment,Rate current vs target maturity for each control (0-5 scale),Maturity slider,Done,High,,✅ Delivered
+AI Assurance Plan,ROSI Calculator,Calculate Return on Security Investment with cost/benefit analysis,Calculator form,Done,High,,✅ Delivered
+AI Assurance Plan,AI Remediation Guidance,AI-powered recommendations for control implementation,AI chat interface,Done,High,,✅ Delivered
+Third-Party AI Supply Chain,Vendor Management,Centralized vendor list with AI usage risk scores and assessment data,Data table,Not Started,High,,❌ ENTIRE MODULE MISSING
+Third-Party AI Supply Chain,Supply Chain Mapping,Visualize dependencies across vendors and sub-vendors,Network graph,Not Started,High,,❌ Marketing promises this
+Third-Party AI Supply Chain,Vendor Risk Assessment,Evaluate vendor safeguards compliance and incident history,Scorecard,Not Started,High,,❌ Marketing promises this
+Risk Acceptance,Exception Request Workflow,Digital workflow for requesting risk exceptions,Multi-step form,Not Started,High,,❌ PDF template only no digital workflow
+Risk Acceptance,Approval Workflow,Multi-level approval process for risk exceptions,Approval chain,Not Started,High,,❌ Marketing promises this
+Governance & Monitoring,Audit Logging,Track all system actions with who what when,Audit log,Done,High,,✅ Delivered
+Governance & Monitoring,Real-time Alerts,Notifications for critical events and threshold breaches,Alert system,Not Started,High,,❌ CRITICAL GAP - Marketing promises
+Reporting & Export,Report Templates,Pre-built templates for executive summary risk register assets compliance,PDF preview,Not Started,High,,❌ CRITICAL GAP - Marketing promises
+Reporting & Export,Export Formats,Provide PDF/CSV/Excel/JSON export options across all modules,Export menu,Not Started,High,,❌ CRITICAL GAP
+Data Integrations,CSV Import (Assets),Bulk upload AI assets via validated CSV with template,3-step import wizard,Not Started,High,,❌ CRITICAL GAP - Marketing promises
+Data Integrations,GitHub Integration,Discover AI/ML repos model files and Copilot usage,Integration card,Not Started,High,,❌ CRITICAL GAP - Marketing promises
+Data Integrations,Zscaler Integration,Detect AI SaaS usage from proxy logs and CASB data,Integration card,Not Started,High,,❌ CRITICAL GAP - Marketing promises

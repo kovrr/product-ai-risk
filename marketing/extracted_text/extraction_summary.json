@@ -1,0 +1,644 @@
+{
+  "AI Compliance Readiness - LP (General)": {
+    "pdf_path": "/Users/liransorani/CascadeProjects/aikovrr/marketing/AI Compliance Readiness - LP (General).pdf",
+    "text_path": "/Users/liransorani/CascadeProjects/aikovrr/marketing/extracted_text/AI Compliance Readiness - LP (General).txt",
+    "text_length": 9651,
+    "capabilities_found": 8,
+    "capabilities": [
+      {
+        "text": "--- Page 1 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 1 ---",
+          " "
+        ]
+      },
+      {
+        "text": "--- Page 2 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 2 ---",
+          "\u25cf"
+        ]
+      },
+      {
+        "text": "management.",
+        "type": "keyword",
+        "context": [
+          " ",
+          "management.",
+          " "
+        ]
+      },
+      {
+        "text": "--- Page 3 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 3 ---",
+          " "
+        ]
+      },
+      {
+        "text": "assessments",
+        "type": "keyword",
+        "context": [
+          " ",
+          "assessments",
+          " "
+        ]
+      },
+      {
+        "text": "--- Page 4 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 4 ---",
+          "Select"
+        ]
+      },
+      {
+        "text": "assessment?",
+        "type": "keyword",
+        "context": [
+          " ",
+          "assessment?",
+          " "
+        ]
+      },
+      {
+        "text": "--- Page 5 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 5 ---",
+          "a."
+        ]
+      }
+    ]
+  },
+  "AI Third Party Risk Management - LP": {
+    "pdf_path": "/Users/liransorani/CascadeProjects/aikovrr/marketing/AI Third Party Risk Management - LP.pdf",
+    "text_path": "/Users/liransorani/CascadeProjects/aikovrr/marketing/extracted_text/AI Third Party Risk Management - LP.txt",
+    "text_length": 9968,
+    "capabilities_found": 19,
+    "capabilities": [
+      {
+        "text": "--- Page 1 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 1 ---",
+          " "
+        ]
+      },
+      {
+        "text": "monitoring,",
+        "type": "keyword",
+        "context": [
+          " ",
+          "monitoring,",
+          " "
+        ]
+      },
+      {
+        "text": "Automatically",
+        "type": "keyword",
+        "context": [
+          " ",
+          "Automatically",
+          " "
+        ]
+      },
+      {
+        "text": "--- Page 2 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 2 ---",
+          "Kovrr\u2019s"
+        ]
+      },
+      {
+        "text": "monitoring.",
+        "type": "keyword",
+        "context": [
+          " ",
+          "monitoring.",
+          " "
+        ]
+      },
+      {
+        "text": "last-assessment",
+        "type": "keyword",
+        "context": [
+          " ",
+          "last-assessment",
+          " "
+        ]
+      },
+      {
+        "text": "assessments",
+        "type": "keyword",
+        "context": [
+          " ",
+          "assessments",
+          " "
+        ]
+      },
+      {
+        "text": "monitoring.",
+        "type": "keyword",
+        "context": [
+          " ",
+          "monitoring.",
+          " "
+        ]
+      },
+      {
+        "text": "--- Page 3 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 3 ---",
+          "Monitor"
+        ]
+      },
+      {
+        "text": "automatically",
+        "type": "keyword",
+        "context": [
+          " ",
+          "automatically",
+          " "
+        ]
+      },
+      {
+        "text": "--- Page 4 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 4 ---",
+          "Management"
+        ]
+      },
+      {
+        "text": "monitoring,",
+        "type": "keyword",
+        "context": [
+          " ",
+          "monitoring,",
+          " "
+        ]
+      },
+      {
+        "text": "More]\u2003[Assess",
+        "type": "keyword",
+        "context": [
+          " ",
+          "More]\u2003[Assess",
+          " "
+        ]
+      },
+      {
+        "text": "Management?",
+        "type": "keyword",
+        "context": [
+          " ",
+          "Management?",
+          " "
+        ]
+      },
+      {
+        "text": "--- Page 5 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 5 ---",
+          "2."
+        ]
+      },
+      {
+        "text": "assessment.",
+        "type": "keyword",
+        "context": [
+          " ",
+          "assessment.",
+          " "
+        ]
+      },
+      {
+        "text": "monitoring,",
+        "type": "keyword",
+        "context": [
+          " ",
+          "monitoring,",
+          " "
+        ]
+      },
+      {
+        "text": "automatically",
+        "type": "keyword",
+        "context": [
+          " ",
+          "automatically",
+          " "
+        ]
+      },
+      {
+        "text": "www.kovrr.com/ai-third-party-risk-management",
+        "type": "keyword",
+        "context": [
+          " ",
+          "www.kovrr.com/ai-third-party-risk-management",
+          " "
+        ]
+      }
+    ]
+  },
+  "Updated_New AI Governance Page - LP": {
+    "pdf_path": "/Users/liransorani/CascadeProjects/aikovrr/marketing/Updated_New AI Governance Page - LP.pdf",
+    "text_path": "/Users/liransorani/CascadeProjects/aikovrr/marketing/extracted_text/Updated_New AI Governance Page - LP.txt",
+    "text_length": 10095,
+    "capabilities_found": 13,
+    "capabilities": [
+      {
+        "text": "--- Page 1 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 1 ---",
+          " "
+        ]
+      },
+      {
+        "text": "assessment,",
+        "type": "keyword",
+        "context": [
+          " ",
+          "assessment,",
+          " "
+        ]
+      },
+      {
+        "text": "identifying",
+        "type": "keyword",
+        "context": [
+          " ",
+          "identifying",
+          " "
+        ]
+      },
+      {
+        "text": "Management,",
+        "type": "keyword",
+        "context": [
+          " ",
+          "Management,",
+          " "
+        ]
+      },
+      {
+        "text": "--- Page 2 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 2 ---",
+          "Kovrr\u2019s"
+        ]
+      },
+      {
+        "text": "--- Page 3 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 3 ---",
+          "Governance"
+        ]
+      },
+      {
+        "text": "assessments",
+        "type": "keyword",
+        "context": [
+          " ",
+          "assessments",
+          " "
+        ]
+      },
+      {
+        "text": "--- Page 4 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 4 ---",
+          " "
+        ]
+      },
+      {
+        "text": "assessments",
+        "type": "keyword",
+        "context": [
+          " ",
+          "assessments",
+          " "
+        ]
+      },
+      {
+        "text": "management?",
+        "type": "keyword",
+        "context": [
+          " ",
+          "management?",
+          " "
+        ]
+      },
+      {
+        "text": "monitoring,",
+        "type": "keyword",
+        "context": [
+          " ",
+          "monitoring,",
+          " "
+        ]
+      },
+      {
+        "text": "--- Page 5 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 5 ---",
+          "through"
+        ]
+      },
+      {
+        "text": "discovering",
+        "type": "keyword",
+        "context": [
+          " ",
+          "discovering",
+          " "
+        ]
+      }
+    ]
+  },
+  "AI Risk Quantification (ARQ) - LP (General)": {
+    "pdf_path": "/Users/liransorani/CascadeProjects/aikovrr/marketing/AI Risk Quantification (ARQ) - LP (General).pdf",
+    "text_path": "/Users/liransorani/CascadeProjects/aikovrr/marketing/extracted_text/AI Risk Quantification (ARQ) - LP (General).txt",
+    "text_length": 11858,
+    "capabilities_found": 10,
+    "capabilities": [
+      {
+        "text": "--- Page 1 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 1 ---",
+          "Yellow"
+        ]
+      },
+      {
+        "text": "--- Page 2 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 2 ---",
+          " "
+        ]
+      },
+      {
+        "text": "-",
+        "type": "bullet",
+        "context": [
+          " ",
+          "-",
+          " "
+        ]
+      },
+      {
+        "text": "--- Page 3 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 3 ---",
+          "toward"
+        ]
+      },
+      {
+        "text": "management.",
+        "type": "keyword",
+        "context": [
+          " ",
+          "management.",
+          " "
+        ]
+      },
+      {
+        "text": "More]\u2003[Assess",
+        "type": "keyword",
+        "context": [
+          " ",
+          "More]\u2003[Assess",
+          " "
+        ]
+      },
+      {
+        "text": "--- Page 4 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 4 ---",
+          "Cybersecurity"
+        ]
+      },
+      {
+        "text": "--- Page 5 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 5 ---",
+          "Trend"
+        ]
+      },
+      {
+        "text": "Report-Ready",
+        "type": "keyword",
+        "context": [
+          " ",
+          "Report-Ready",
+          " "
+        ]
+      },
+      {
+        "text": "--- Page 6 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 6 ---",
+          "alignment"
+        ]
+      }
+    ]
+  },
+  "AI Asset Visibility - LP": {
+    "pdf_path": "/Users/liransorani/CascadeProjects/aikovrr/marketing/AI Asset Visibility - LP.pdf",
+    "text_path": "/Users/liransorani/CascadeProjects/aikovrr/marketing/extracted_text/AI Asset Visibility - LP.txt",
+    "text_length": 12047,
+    "capabilities_found": 12,
+    "capabilities": [
+      {
+        "text": "--- Page 1 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 1 ---",
+          " "
+        ]
+      },
+      {
+        "text": "automatically",
+        "type": "keyword",
+        "context": [
+          " ",
+          "automatically",
+          " "
+        ]
+      },
+      {
+        "text": "--- Page 2 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 2 ---",
+          " "
+        ]
+      },
+      {
+        "text": "--- Page 3 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 3 ---",
+          "and"
+        ]
+      },
+      {
+        "text": "automatically",
+        "type": "keyword",
+        "context": [
+          " ",
+          "automatically",
+          " "
+        ]
+      },
+      {
+        "text": "--- Page 4 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 4 ---",
+          "interacts"
+        ]
+      },
+      {
+        "text": "--- Page 5 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 5 ---",
+          " "
+        ]
+      },
+      {
+        "text": "automatically",
+        "type": "keyword",
+        "context": [
+          " ",
+          "automatically",
+          " "
+        ]
+      },
+      {
+        "text": "monitoring.",
+        "type": "keyword",
+        "context": [
+          " ",
+          "monitoring.",
+          " "
+        ]
+      },
+      {
+        "text": "discovering",
+        "type": "keyword",
+        "context": [
+          " ",
+          "discovering",
+          " "
+        ]
+      },
+      {
+        "text": "change-tracked",
+        "type": "keyword",
+        "context": [
+          " ",
+          "change-tracked",
+          " "
+        ]
+      },
+      {
+        "text": "--- Page 6 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 6 ---",
+          " "
+        ]
+      }
+    ]
+  },
+  "AI Risk Acceptance -Exception Request V1.0 - blank": {
+    "pdf_path": "/Users/liransorani/CascadeProjects/aikovrr/marketing/AI Risk Acceptance -Exception Request V1.0 - blank.pdf",
+    "text_path": "/Users/liransorani/CascadeProjects/aikovrr/marketing/extracted_text/AI Risk Acceptance -Exception Request V1.0 - blank.txt",
+    "text_length": 9809,
+    "capabilities_found": 4,
+    "capabilities": [
+      {
+        "text": "--- Page 1 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 1 ---",
+          "POLICY EXCEPTION Risk/Issue acceptance Request    Requestor to populate Policy/Key Risk (Include Link where applicable) AI (Artificial Intelligence) Policy/Data Security Key Risk Global Artificial Intelligence Policy (sharepoint.com) Global Information Security Policy v1.1 Approved.pdf Policy and or Key Risk requiring exception AI Policy Extract:  5.4       Software as a Service solutions, open-source libraries and public web services will require documentation or evidence that appropriate data segregation rules are in place and that FSI data is not used to train or improve their core models.  Global Information Security \u2013 Data Classification and Handling (DCH) Policy Extract:  Purpose: The purpose of the Data Classification & Handling (DCH) policy is to ensure that information and technology assets are properly classified, and measures are implemented to protect First Sentier Investors\u2019 data from unauthorised disclosure, regardless of whether it is being transmitted or stored. Applicable statutory, regulatory, and contractual compliance obligations dictate the safeguards that must be in place to protect the confidentiality, integrity, and availability of data.   Date of exception request  Requestor Name  Requesting Business Area / Project  ELT (Executive Leadership Team) Owner accepting the risk   Rationale for Acceptance  Risk Appetite Correlation and Tolerance Rating   Information Security - Very Low Data Management - Low  Residual Risk Rating (using 5x5 risk matrix)    Residual Likelihood   Residual Impact   Aggregate Rating       Risk Assessment  Risk(s) or Issue to be accepted (Dependent whether within or out of appetite)  Agreed mitigating controls  Assessor to Populate Assessor Name AIG (AI Governance) Group Assessment Date  Maximum Period of acceptance granted (Not exceeding a 12-month period) Exceptions must be reviewed annually and may need to be re-risk assessed where any fundamental changes have been made.    "
+        ]
+      },
+      {
+        "text": "--- Page 2 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 2 ---",
+          "FIRST SENTIER INVESTORS  Page 1  Expiry / Review Date At a minimum, the exception should be reviewed and re-assessed from a risk perspective annually\u2013 re-assessment due 12 months from approval date  Request and Recommendation:  1. Accepting Exco member to provide written confirmation that they accept the risk described within this document 2. The exception is recorded on Riskonnect and scheduled for review in 12 months. Consulted Parties:   AIG Group \u2013 inclusive of IT, GIS, Data Management, Risk Compliance, and relevant AI SME representation.    Please proceed to the next section if you are seeking to you risk accepting access to AI Systems or Products.  AI Risk Assessment Form This form should be used to determine the level of risk in using a specific AI System or product. The assessment will determine the oversight and controls required unless the AI System must be treated as High Risk because of regulatory requirements. See the AI policy [LINK] for regulatory definitions. Please note - This assessment does not replace the Strategic Sourcing, Technology or Data assessments that may be required.   Measure  Low  Moderate  High  Very High Result e.g Low Criticality Used only for  information  purposes, may  influence  negligible/minimal  risk internal  decisions Relied upon within the business as an  informative  resource, decisions are part of an  important internal service Relied upon  internally, impacts high risk decision making, which could  have a downstream impact on clients Critical to High-Risk internal decision making and/or direct  link to influencing or  guiding client  decision making Low "
+        ]
+      },
+      {
+        "text": "--- Page 3 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 3 ---",
+          "FIRST SENTIER INVESTORS  Page 2  other ethical impacts diverse, build and testing mitigates this issue and controls are in place requires oversight.   Data Classification (Link to Data Classification Standard) External  External, Internal  Internal, Confidential  Confidential Low Complexity and interpretability Straightforward  and can be  understood by non-subject matter expert (SME) in AI and/or the process Moderately complex may have  interdependencies,  can be interpreted  by a skilled person  or SME in AI and/or the process Has several  interdependencies  and a level of  complexity that  requires specialist or niche knowledge of the workings of AI and/or the process May be linked to key business procedure and complex  applications that  require specialist  developer  knowledge or  maintenance Mod "
+        ]
+      },
+      {
+        "text": "--- Page 4 ---",
+        "type": "bullet",
+        "context": [
+          "",
+          "--- Page 4 ---",
+          "FIRST SENTIER INVESTORS  Page 3  rectified with relative ease  quickly. would require output validation are required to detect any anomalies or  deviations. Action \u2013 AI or Human execution Human executed (Human in the Loop) Human executed (Human in the Loop) AI execution (Human on the Loop) AI execution (sampled oversight) Low  *The impact of data being misinterpreted by AI increases in line with the privacy materiality range e.g. Low \u2013 Public data risk of bias and potential impact is low \u2013 Very high the risk and impact are very high.  Definitions: Criticality \u2013 Refers to the impact that an event, process, or system failure due to this AI system, would have on the organisation's ability to achieve its objectives.  Audience \u2013 Refers to the reach the application output and influence it is likely to have. Data Privacy \u2013 Provides guidelines on different risk levels depending on the data type. Ethical Use \u2013 refers to the way that the AI system is used and whether that could create bias or other ethical issues.  Data Classification \u2013 what type of data is consumed by the application aligned to FSI Data Classification Standard.  Complexity and interpretability \u2013 refers to how easy or difficult it is to understand how the AI works, is trained and the data used to train. Cybersecurity (AI Vendor Assessment) - The outcome of the Cybersecurity assessment available here [LINK] Potential Impact and probability of failure \u2013 financial; based on the Risk Management Framework (RMF) impact matrix If the application does not work as intended, what is the maximum financial impact the organisation might face in terms of repairs, upgrades, reporting, compensation, etc.  Potential Impact and probability of failure \u2013 non-financial - for all other measures captured within the RMF impact matrix what would be the maximum perceived impact from the perspective of, Clients, Regulators, reputational, etc.  Sustainability impact \u2013 refers to the impact of the AI system in terms of energy usage, consumption, carbon, and other sustainability factors.  Availability/Resilience \u2013 Consider factors such as operational soundness how likely is it to break down and how often relative with the complexity and the availability of skilled individuals, vendors etc. to support maintenance and repair.  Action \u2013 AI or Human execution - Human executed / Human in the Loop = An employee reviews the AI generated outcome and underlying data to validate the AI\u2019s output, applying the contextual judgement/review that may be missed by the AI system. The employee completes any decision making and communication of the outcome.  AI execution = The process completes without any human/employee intervention or effort. These outcomes can be reviewed retrospectively, which could include sampling or reviewed at the model level, usually both  "
+        ]
+      }
+    ]
+  }
+}

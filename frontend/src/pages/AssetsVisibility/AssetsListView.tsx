@@ -18,6 +18,7 @@ export const AssetsListView: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [riskFilter, setRiskFilter] = useState<string>('all');
+  const [vendorSourceFilter, setVendorSourceFilter] = useState<string>('all');
   const [showDiscoveryModal, setShowDiscoveryModal] = useState(false);
 
   // Filter and search assets
@@ -36,7 +37,10 @@ export const AssetsListView: React.FC = () => {
       // Risk filter
       const matchesRisk = riskFilter === 'all' || asset.risk_tier === riskFilter;
 
-      return matchesSearch && matchesStatus && matchesRisk;
+      // Vendor source filter (3rd party)
+      const matchesVendorSource = vendorSourceFilter === 'all' || asset.vendor_source === vendorSourceFilter;
+
+      return matchesSearch && matchesStatus && matchesRisk && matchesVendorSource;
     });
   }, [searchQuery, statusFilter, riskFilter]);
 
@@ -48,6 +52,7 @@ export const AssetsListView: React.FC = () => {
       shadow: mockAssets.filter((a) => a.status === 'shadow').length,
       underReview: mockAssets.filter((a) => a.status === 'under_review').length,
       highRisk: mockAssets.filter((a) => a.risk_tier === 'high' || a.risk_tier === 'critical').length,
+      thirdParty: mockAssets.filter((a) => a.vendor_source === 'third_party').length,
     };
   }, []);
 
@@ -61,9 +66,16 @@ export const AssetsListView: React.FC = () => {
       render: (_, asset) => (
         <div className="flex items-center gap-[8px]">
           <div className="flex flex-col">
-            <span className="text-[14px] font-[600] text-text-base-primary">
-              {asset.name}
-            </span>
+            <div className="flex items-center gap-[6px]">
+              <span className="text-[14px] font-[600] text-text-base-primary">
+                {asset.name}
+              </span>
+              {asset.vendor_source === 'third_party' && (
+                <span className="inline-flex items-center px-[4px] py-[1px] bg-fill-brand-primary/10 text-fill-brand-primary text-[9px] font-[600] rounded-[3px] uppercase border border-fill-brand-primary/20 whitespace-nowrap">
+                  3RD
+                </span>
+              )}
+            </div>
             <span className="text-[12px] text-text-base-tertiary">
               {asset.asset_type}
             </span>
@@ -211,7 +223,7 @@ export const AssetsListView: React.FC = () => {
         </div>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-5 gap-[16px]">
+        <div className="grid grid-cols-6 gap-[16px]">
           <div className="bg-fill-base-secondary rounded-[10px] p-[16px]">
             <div className="text-[24px] font-[700] text-text-base-primary">
               {stats.total}
@@ -241,6 +253,12 @@ export const AssetsListView: React.FC = () => {
               {stats.highRisk}
             </div>
             <div className="text-[12px] text-text-base-secondary">High Risk</div>
+          </div>
+          <div className="bg-fill-base-secondary rounded-[10px] p-[16px]">
+            <div className="text-[24px] font-[700] text-fill-brand-primary">
+              {stats.thirdParty}
+            </div>
+            <div className="text-[12px] text-text-base-secondary">3rd Party</div>
           </div>
         </div>
       </div>
@@ -283,13 +301,26 @@ export const AssetsListView: React.FC = () => {
             <option value="low">Low</option>
           </select>
 
+          {/* Vendor Source Filter (3rd Party) */}
+          <select
+            value={vendorSourceFilter}
+            onChange={(e) => setVendorSourceFilter(e.target.value)}
+            className="px-[16px] py-[10px] bg-fill-base-primary border border-stroke-base-secondary rounded-[10px] text-[14px] text-text-base-primary"
+          >
+            <option value="all">All Sources</option>
+            <option value="third_party">🏢 3rd Party Only</option>
+            <option value="internal">Internal Only</option>
+            <option value="open_source">Open Source Only</option>
+          </select>
+
           {/* Clear Filters */}
-          {(searchQuery || statusFilter !== 'all' || riskFilter !== 'all') && (
+          {(searchQuery || statusFilter !== 'all' || riskFilter !== 'all' || vendorSourceFilter !== 'all') && (
             <button
               onClick={() => {
                 setSearchQuery('');
                 setStatusFilter('all');
                 setRiskFilter('all');
+                setVendorSourceFilter('all');
               }}
               className="text-[14px] text-fill-brand-primary hover:underline"
             >

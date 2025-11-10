@@ -1,5 +1,7 @@
 # 🚀 Start KovrrAI - Quick Guide
 
+**Updated**: November 10, 2025 - New external IP and port configuration
+
 ## Prerequisites
 
 Before you start, make sure you have:
@@ -8,7 +10,11 @@ Before you start, make sure you have:
 
 ---
 
-## Step 1: Authenticate with Google Cloud
+## Connection Options
+
+### Option 1: IAP Tunnel (Recommended for Development)
+
+#### Step 1: Authenticate with Google Cloud
 
 Open your terminal and run:
 
@@ -17,9 +23,7 @@ gcloud auth login
 gcloud config set project aikovrr-platform
 ```
 
----
-
-## Step 2: Start IAP Tunnel
+#### Step 2: Start IAP Tunnel
 
 Copy and paste this command:
 
@@ -29,13 +33,24 @@ gcloud compute start-iap-tunnel platform 8000 --local-host-port=localhost:8000 -
 
 **Keep this terminal window open** while using the app.
 
----
-
-## Step 3: Open KovrrAI
+#### Step 3: Open KovrrAI
 
 Open your browser and go to:
 
 **http://localhost:8000**
+
+---
+
+### Option 2: Direct Access (External IP)
+
+**VM External IP**: `136.113.138.156`  
+**Port**: `8000` (now open)
+
+Open your browser and go to:
+
+**http://136.113.138.156:8000**
+
+⚠️ **Note**: This requires firewall rules to be configured for your IP address. Contact DevOps (Akivaa) if you cannot access.
 
 ---
 

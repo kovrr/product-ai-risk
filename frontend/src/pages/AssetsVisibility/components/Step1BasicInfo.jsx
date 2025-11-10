@@ -40,8 +40,12 @@ const Step1BasicInfo = ({ formData, updateFormData, errors }) => {
             <option value="tool">AI-Enabled Tool</option>
             <option value="web-service">Public Web Service</option>
             <option value="model">AI Model/Algorithm</option>
+            <option value="3rd-party">🏢 3rd Party / Vendor Provided</option>
             <option value="other">Other</option>
           </select>
+          <p className="text-sm text-neutral-500 mt-2">
+            💡 Choose "3rd Party" to track vendor risk, contracts, and certifications
+          </p>
         </div>
 
         {/* Vendor/Provider */}
@@ -157,6 +161,205 @@ const Step1BasicInfo = ({ formData, updateFormData, errors }) => {
           </select>
           {errors.businessUnit && <p className="text-error text-sm mt-1">{errors.businessUnit}</p>}
         </div>
+
+        {/* Conditional: 3rd Party Vendor Details */}
+        {formData.assetType === '3rd-party' && (
+          <div className="md:col-span-2 border-2 border-primary/20 rounded-lg p-6 bg-primary/5">
+            <h3 className="text-lg font-bold text-neutral-800 mb-2 flex items-center gap-2">
+              🏢 Third-Party Vendor Details
+            </h3>
+            <p className="text-sm text-neutral-600 mb-4">
+              Additional information for vendor-provided AI systems
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Vendor Contact Email */}
+              <div>
+                <label className="block text-sm font-semibold text-neutral-700 mb-2">
+                  Vendor Contact Email
+                </label>
+                <input
+                  type="email"
+                  className="input"
+                  placeholder="vendor@company.com"
+                  value={formData.vendorContactEmail || ''}
+                  onChange={(e) => updateFormData('vendorContactEmail', e.target.value)}
+                />
+              </div>
+
+              {/* Account Manager */}
+              <div>
+                <label className="block text-sm font-semibold text-neutral-700 mb-2">
+                  Account Manager
+                </label>
+                <input
+                  type="text"
+                  className="input"
+                  placeholder="John Doe"
+                  value={formData.accountManager || ''}
+                  onChange={(e) => updateFormData('accountManager', e.target.value)}
+                />
+              </div>
+
+              {/* Vendor Risk Level */}
+              <div className="md:col-span-2">
+                <label className="block text-sm font-semibold text-neutral-700 mb-3">
+                  Vendor Risk Level <span className="text-error">*</span>
+                </label>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+                  {[
+                    { value: 'Low', label: 'Low', color: 'success', icon: '✓' },
+                    { value: 'Moderate', label: 'Moderate', color: 'warning', icon: '⚠' },
+                    { value: 'High', label: 'High', color: 'error', icon: '⚡' },
+                    { value: 'Critical', label: 'Critical', color: 'error', icon: '🔴' },
+                    { value: 'Not Assessed', label: 'Not Assessed', color: 'neutral', icon: '❓' }
+                  ].map(option => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => updateFormData('vendorRiskLevel', option.value)}
+                      className={`p-3 border-2 rounded-lg text-center transition-all ${
+                        formData.vendorRiskLevel === option.value
+                          ? `border-${option.color} bg-${option.color}/10 shadow-md`
+                          : 'border-neutral-200 hover:border-neutral-300'
+                      }`}
+                    >
+                      <div className="text-xl mb-1">{option.icon}</div>
+                      <div className="text-xs font-semibold">{option.label}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Contract Status */}
+              <div>
+                <label className="block text-sm font-semibold text-neutral-700 mb-2">
+                  Contract Status
+                </label>
+                <select
+                  className="input"
+                  value={formData.contractStatus || 'None'}
+                  onChange={(e) => updateFormData('contractStatus', e.target.value)}
+                >
+                  <option value="Active">✅ Active</option>
+                  <option value="Expiring Soon">⚠️ Expiring Soon</option>
+                  <option value="Expired">❌ Expired</option>
+                  <option value="Under Negotiation">🔄 Under Negotiation</option>
+                  <option value="None">None</option>
+                </select>
+              </div>
+
+              {/* Contract End Date */}
+              <div>
+                <label className="block text-sm font-semibold text-neutral-700 mb-2">
+                  Contract End Date
+                </label>
+                <input
+                  type="date"
+                  className="input"
+                  value={formData.contractEndDate || ''}
+                  onChange={(e) => updateFormData('contractEndDate', e.target.value)}
+                />
+              </div>
+
+              {/* Auto-Renewal */}
+              <div>
+                <label className="block text-sm font-semibold text-neutral-700 mb-2">
+                  Auto-Renewal
+                </label>
+                <select
+                  className="input"
+                  value={formData.autoRenewal || 'false'}
+                  onChange={(e) => updateFormData('autoRenewal', e.target.value)}
+                >
+                  <option value="true">Yes</option>
+                  <option value="false">No</option>
+                </select>
+              </div>
+
+              {/* Contract Value */}
+              <div>
+                <label className="block text-sm font-semibold text-neutral-700 mb-2">
+                  Annual Contract Value (USD)
+                </label>
+                <input
+                  type="number"
+                  className="input"
+                  placeholder="50000"
+                  value={formData.contractValue || ''}
+                  onChange={(e) => updateFormData('contractValue', e.target.value)}
+                />
+              </div>
+
+              {/* Vendor Certifications */}
+              <div className="md:col-span-2">
+                <label className="block text-sm font-semibold text-neutral-700 mb-2">
+                  Vendor Certifications
+                </label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                  {[
+                    'SOC2-Type2',
+                    'ISO27001',
+                    'ISO42001',
+                    'HIPAA',
+                    'GDPR-Compliant',
+                    'FedRAMP',
+                    'PCI-DSS',
+                    'Other'
+                  ].map(cert => (
+                    <label key={cert} className="flex items-center gap-2 p-2 border rounded hover:bg-neutral-50 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={(formData.vendorCertifications || []).includes(cert)}
+                        onChange={(e) => {
+                          const current = formData.vendorCertifications || [];
+                          const updated = e.target.checked
+                            ? [...current, cert]
+                            : current.filter(c => c !== cert);
+                          updateFormData('vendorCertifications', updated);
+                        }}
+                        className="checkbox"
+                      />
+                      <span className="text-sm">{cert}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* SLA Uptime */}
+              <div>
+                <label className="block text-sm font-semibold text-neutral-700 mb-2">
+                  SLA Uptime
+                </label>
+                <input
+                  type="text"
+                  className="input"
+                  placeholder="99.9%"
+                  value={formData.slaUptime || ''}
+                  onChange={(e) => updateFormData('slaUptime', e.target.value)}
+                />
+              </div>
+
+              {/* Support Tier */}
+              <div>
+                <label className="block text-sm font-semibold text-neutral-700 mb-2">
+                  Support Tier
+                </label>
+                <select
+                  className="input"
+                  value={formData.supportTier || 'Standard'}
+                  onChange={(e) => updateFormData('supportTier', e.target.value)}
+                >
+                  <option value="Basic">Basic</option>
+                  <option value="Standard">Standard</option>
+                  <option value="Premium">Premium</option>
+                  <option value="Enterprise">Enterprise</option>
+                  <option value="None">None</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Primary Use Case */}
         <div className="md:col-span-2">
