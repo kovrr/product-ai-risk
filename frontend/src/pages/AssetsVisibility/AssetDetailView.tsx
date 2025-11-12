@@ -14,6 +14,7 @@ import {
   getAssetControls,
   getControlById,
 } from '../../data';
+import RiskScoreBreakdown from '../../components/RiskScoreBreakdown';
 
 export const AssetDetailView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -132,7 +133,7 @@ export const AssetDetailView: React.FC = () => {
         {activeTab === 'risk' && (
           <div className="space-y-[24px]">
             <div className="bg-fill-base-secondary rounded-[10px] p-[20px]">
-              <h3 className="text-[16px] font-[600] mb-[16px]">Risk Assessment</h3>
+              <h3 className="text-[16px] font-[600] mb-[16px]">Risk Assessment Summary</h3>
               <div className="grid grid-cols-3 gap-[16px]">
                 <div>
                   <div className="text-[12px] text-text-base-secondary">Risk Tier</div>
@@ -148,6 +149,9 @@ export const AssetDetailView: React.FC = () => {
                 </div>
               </div>
             </div>
+
+            {/* Risk Score Breakdown */}
+            <RiskScoreBreakdown asset={asset} />
           </div>
         )}
 

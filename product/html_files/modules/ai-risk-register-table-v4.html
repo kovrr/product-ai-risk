@@ -205,10 +205,13 @@
         .badge-high { background-color: rgba(255, 153, 0, 0.1); color: var(--warning-orange); }
         .badge-medium { background-color: rgba(251, 188, 9, 0.1); color: rgb(159, 60, 0); }
         .badge-low { background-color: rgba(169, 180, 188, 0.1); color: var(--text-medium); }
+        .badge-very-low { background-color: rgba(113, 118, 126, 0.1); color: var(--text-light); }
         
         .badge-severe { background-color: rgba(255, 35, 35, 0.1); color: var(--error-red); }
         .badge-significant { background-color: rgba(255, 153, 0, 0.1); color: var(--warning-orange); }
         .badge-moderate { background-color: rgba(251, 188, 9, 0.1); color: rgb(159, 60, 0); }
+        .badge-minor { background-color: rgba(169, 180, 188, 0.1); color: var(--text-medium); }
+        .badge-negligible { background-color: rgba(113, 118, 126, 0.1); color: var(--text-light); }
         
         /* Visualization */
         .viz-container { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
@@ -280,6 +283,42 @@
         .matrix-cell.moderate { background-color: rgba(251, 188, 9, 0.15); }
         .matrix-cell.minor { background-color: rgba(169, 180, 188, 0.1); }
         .matrix-cell.negligible { background-color: rgba(245, 247, 255, 0.5); }
+        
+        /* Diagonal Gradient Risk Matrix Colors */
+        /* Severe Row */
+        .matrix-cell.severe-expected { background-color: rgba(255, 77, 79, 0.65); }
+        .matrix-cell.severe-likely { background-color: rgba(255, 99, 97, 0.6); }
+        .matrix-cell.severe-possible { background-color: rgba(255, 138, 101, 0.5); }
+        .matrix-cell.severe-unlikely { background-color: rgba(255, 171, 145, 0.45); }
+        .matrix-cell.severe-rare { background-color: rgba(255, 171, 145, 0.4); }
+        
+        /* Significant Row */
+        .matrix-cell.significant-expected { background-color: rgba(255, 120, 117, 0.55); }
+        .matrix-cell.significant-likely { background-color: rgba(255, 160, 122, 0.5); }
+        .matrix-cell.significant-possible { background-color: rgba(255, 178, 132, 0.45); }
+        .matrix-cell.significant-unlikely { background-color: rgba(255, 193, 158, 0.4); }
+        .matrix-cell.significant-rare { background-color: rgba(144, 238, 144, 0.35); }
+        
+        /* Moderate Row */
+        .matrix-cell.moderate-expected { background-color: rgba(255, 160, 122, 0.45); }
+        .matrix-cell.moderate-likely { background-color: rgba(255, 178, 132, 0.4); }
+        .matrix-cell.moderate-possible { background-color: rgba(255, 193, 158, 0.4); }
+        .matrix-cell.moderate-unlikely { background-color: rgba(255, 235, 156, 0.5); }
+        .matrix-cell.moderate-rare { background-color: rgba(144, 238, 144, 0.45); }
+        
+        /* Minor Row */
+        .matrix-cell.minor-expected { background-color: rgba(255, 193, 158, 0.35); }
+        .matrix-cell.minor-likely { background-color: rgba(255, 220, 130, 0.45); }
+        .matrix-cell.minor-possible { background-color: rgba(255, 235, 156, 0.55); }
+        .matrix-cell.minor-unlikely { background-color: rgba(255, 235, 156, 0.6); }
+        .matrix-cell.minor-rare { background-color: rgba(144, 238, 144, 0.55); }
+        
+        /* Negligible Row */
+        .matrix-cell.negligible-expected { background-color: rgba(144, 238, 144, 0.35); }
+        .matrix-cell.negligible-likely { background-color: rgba(144, 238, 144, 0.45); }
+        .matrix-cell.negligible-possible { background-color: rgba(144, 238, 144, 0.55); }
+        .matrix-cell.negligible-unlikely { background-color: rgba(144, 238, 144, 0.65); }
+        .matrix-cell.negligible-rare { background-color: rgba(144, 238, 144, 0.75); }
         
         .cell-count {
             position: absolute;
@@ -628,109 +667,120 @@
                                 <th>Impact</th>
                                 <th>Likelihood</th>
                                 <th>Status</th>
+                                <th>Response Plan</th>
                                 <th>Owner</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr onclick="window.location='ai-risk-scenario-page-v4.html'" style="cursor:pointer">
                                 <td><a href="ai-risk-scenario-page-v4.html" class="scenario-id">AIR-001</a></td>
-                                <td><strong>Biometric Data Misuse</strong></td>
-                                <td>Privacy Risk</td>
-                                <td><span class="badge badge-high">High</span></td>
-                                <td><span class="badge badge-severe">Severe</span></td>
-                                <td><span class="badge badge-moderate">Possible</span></td>
-                                <td>Response Plan Decided</td>
-                                <td>or@kovrr.com</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#" class="scenario-id">AIR-002</a></td>
-                                <td><strong>Model Poisoning Attack</strong></td>
+                                <td><strong>Real-Time Payment Fraud Detection Failure</strong></td>
                                 <td>Security Risk</td>
                                 <td><span class="badge badge-critical">Critical</span></td>
                                 <td><span class="badge badge-severe">Severe</span></td>
-                                <td><span class="badge badge-moderate">Possible</span></td>
-                                <td>Under Assessment</td>
+                                <td><span class="badge badge-critical">Expected</span></td>
+                                <td>Response Plan Decided</td>
+                                <td>Mitigate</td>
                                 <td>sarah@kovrr.com</td>
                             </tr>
                             <tr>
-                                <td><a href="#" class="scenario-id">AIR-003</a></td>
-                                <td><strong>Discriminatory Hiring Recommendations</strong></td>
+                                <td><a href="#" class="scenario-id">AIR-002</a></td>
+                                <td><strong>Biased Insurance Premium Pricing</strong></td>
                                 <td>Bias/Fairness Risk</td>
-                                <td><span class="badge badge-high">High</span></td>
+                                <td><span class="badge badge-critical">Critical</span></td>
                                 <td><span class="badge badge-significant">Significant</span></td>
-                                <td><span class="badge badge-high">Expected</span></td>
+                                <td><span class="badge badge-critical">Expected</span></td>
                                 <td>Plan in Progress</td>
+                                <td>Mitigate</td>
                                 <td>mike@kovrr.com</td>
                             </tr>
                             <tr>
+                                <td><a href="#" class="scenario-id">AIR-003</a></td>
+                                <td><strong>Supply Chain Model Poisoning</strong></td>
+                                <td>Security Risk</td>
+                                <td><span class="badge badge-critical">Critical</span></td>
+                                <td><span class="badge badge-severe">Severe</span></td>
+                                <td><span class="badge badge-high">Possible</span></td>
+                                <td>Under Assessment</td>
+                                <td>Mitigate</td>
+                                <td>or@kovrr.com</td>
+                            </tr>
+                            <tr>
                                 <td><a href="#" class="scenario-id">AIR-004</a></td>
-                                <td><strong>Prompt Injection Data Leakage</strong></td>
+                                <td><strong>Prompt Injection Data Exfiltration</strong></td>
                                 <td>Security Risk</td>
                                 <td><span class="badge badge-high">High</span></td>
                                 <td><span class="badge badge-significant">Significant</span></td>
-                                <td><span class="badge badge-high">Expected</span></td>
-                                <td>Identified</td>
+                                <td><span class="badge badge-high">Possible</span></td>
+                                <td>Response Plan Decided</td>
+                                <td>Mitigate</td>
                                 <td>alex@kovrr.com</td>
                             </tr>
                             <tr>
                                 <td><a href="#" class="scenario-id">AIR-005</a></td>
-                                <td><strong>Hallucinated Medical Recommendations</strong></td>
+                                <td><strong>Medical Diagnosis Hallucination</strong></td>
                                 <td>Safety Risk</td>
                                 <td><span class="badge badge-critical">Critical</span></td>
                                 <td><span class="badge badge-severe">Severe</span></td>
-                                <td><span class="badge badge-low">Unlikely</span></td>
+                                <td><span class="badge badge-moderate">Unlikely</span></td>
                                 <td>Response Plan Decided</td>
+                                <td>Avoid</td>
                                 <td>jen@kovrr.com</td>
                             </tr>
                             <tr>
                                 <td><a href="#" class="scenario-id">AIR-006</a></td>
-                                <td><strong>Deepfake Executive Fraud</strong></td>
-                                <td>Security Risk</td>
-                                <td><span class="badge badge-critical">Critical</span></td>
-                                <td><span class="badge badge-severe">Severe</span></td>
-                                <td><span class="badge badge-low">Unlikely</span></td>
-                                <td>Response Plan Decided</td>
-                                <td>sarah@kovrr.com</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#" class="scenario-id">AIR-007</a></td>
-                                <td><strong>Copyright Infringement in Training Data</strong></td>
+                                <td><strong>Training Data Copyright Violation</strong></td>
                                 <td>Legal/Compliance Risk</td>
                                 <td><span class="badge badge-medium">Medium</span></td>
                                 <td><span class="badge badge-moderate">Moderate</span></td>
-                                <td><span class="badge badge-moderate">Possible</span></td>
+                                <td><span class="badge badge-critical">Expected</span></td>
                                 <td>Under Assessment</td>
+                                <td>Transfer</td>
                                 <td>or@kovrr.com</td>
                             </tr>
                             <tr>
-                                <td><a href="#" class="scenario-id">AIR-008</a></td>
-                                <td><strong>Automated Credit Denial Bias</strong></td>
-                                <td>Bias/Fairness Risk</td>
-                                <td><span class="badge badge-high">High</span></td>
-                                <td><span class="badge badge-significant">Significant</span></td>
-                                <td><span class="badge badge-moderate">Possible</span></td>
-                                <td>Plan in Progress</td>
+                                <td><a href="#" class="scenario-id">AIR-007</a></td>
+                                <td><strong>Model Performance Degradation</strong></td>
+                                <td>Performance Risk</td>
+                                <td><span class="badge badge-medium">Medium</span></td>
+                                <td><span class="badge badge-moderate">Moderate</span></td>
+                                <td><span class="badge badge-moderate">Unlikely</span></td>
+                                <td>Identified</td>
+                                <td>Mitigate</td>
                                 <td>mike@kovrr.com</td>
                             </tr>
                             <tr>
-                                <td><a href="#" class="scenario-id">AIR-009</a></td>
-                                <td><strong>Customer Service Bot Privacy Leak</strong></td>
-                                <td>Privacy Risk</td>
-                                <td><span class="badge badge-medium">Medium</span></td>
-                                <td><span class="badge badge-moderate">Moderate</span></td>
-                                <td><span class="badge badge-high">Expected</span></td>
-                                <td>Identified</td>
+                                <td><a href="#" class="scenario-id">AIR-008</a></td>
+                                <td><strong>Chatbot Inappropriate Content Generation</strong></td>
+                                <td>Ethical Risk</td>
+                                <td><span class="badge badge-low">Low</span></td>
+                                <td><span class="badge badge-minor">Minor</span></td>
+                                <td><span class="badge badge-high">Possible</span></td>
+                                <td>Plan in Progress</td>
+                                <td>Accept</td>
                                 <td>alex@kovrr.com</td>
                             </tr>
                             <tr>
-                                <td><a href="#" class="scenario-id">AIR-010</a></td>
-                                <td><strong>Autonomous Vehicle Safety Failure</strong></td>
-                                <td>Safety Risk</td>
-                                <td><span class="badge badge-critical">Critical</span></td>
-                                <td><span class="badge badge-severe">Severe</span></td>
+                                <td><a href="#" class="scenario-id">AIR-009</a></td>
+                                <td><strong>Translation Service Nuance Loss</strong></td>
+                                <td>Performance Risk</td>
+                                <td><span class="badge badge-low">Low</span></td>
+                                <td><span class="badge badge-minor">Minor</span></td>
                                 <td><span class="badge badge-low">Rare</span></td>
-                                <td>Response Plan Decided</td>
+                                <td>Identified</td>
+                                <td>Accept</td>
                                 <td>jen@kovrr.com</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="scenario-id">AIR-010</a></td>
+                                <td><strong>Email Classification Mislabeling</strong></td>
+                                <td>Performance Risk</td>
+                                <td><span class="badge badge-low">Low</span></td>
+                                <td><span class="badge badge-negligible">Negligible</span></td>
+                                <td><span class="badge badge-low">Rare</span></td>
+                                <td>Closed</td>
+                                <td>Accept</td>
+                                <td>sarah@kovrr.com</td>
                             </tr>
                         </tbody>
                     </table>
@@ -744,66 +794,75 @@
                             <div class="matrix-grid">
                                 <div></div>
                                 <div class="matrix-header">Expected</div>
+                                <div class="matrix-header">Likely</div>
                                 <div class="matrix-header">Possible</div>
                                 <div class="matrix-header">Unlikely</div>
                                 <div class="matrix-header">Rare</div>
-                                <div class="matrix-header">Very Rare</div>
                                 
                                 <div class="matrix-label">Severe</div>
-                                <div class="matrix-cell severe"></div>
-                                <div class="matrix-cell severe">
-                                    <span class="cell-count">2</span>
-                                    <div class="cell-scenarios">AIR-001<br>AIR-002</div>
-                                </div>
-                                <div class="matrix-cell severe">
-                                    <span class="cell-count">2</span>
-                                    <div class="cell-scenarios">AIR-005<br>AIR-006</div>
-                                </div>
-                                <div class="matrix-cell severe">
+                                <div class="matrix-cell severe-expected">
                                     <span class="cell-count">1</span>
-                                    <div class="cell-scenarios">AIR-010</div>
+                                    <div class="cell-scenarios">AIR-001</div>
                                 </div>
-                                <div class="matrix-cell severe"></div>
+                                <div class="matrix-cell severe-likely"></div>
+                                <div class="matrix-cell severe-possible">
+                                    <span class="cell-count">1</span>
+                                    <div class="cell-scenarios">AIR-003</div>
+                                </div>
+                                <div class="matrix-cell severe-unlikely">
+                                    <span class="cell-count">1</span>
+                                    <div class="cell-scenarios">AIR-005</div>
+                                </div>
+                                <div class="matrix-cell severe-rare"></div>
                                 
                                 <div class="matrix-label">Significant</div>
-                                <div class="matrix-cell significant">
-                                    <span class="cell-count">2</span>
-                                    <div class="cell-scenarios">AIR-003<br>AIR-004</div>
-                                </div>
-                                <div class="matrix-cell significant">
+                                <div class="matrix-cell significant-expected">
                                     <span class="cell-count">1</span>
-                                    <div class="cell-scenarios">AIR-008</div>
+                                    <div class="cell-scenarios">AIR-002</div>
                                 </div>
-                                <div class="matrix-cell significant"></div>
-                                <div class="matrix-cell significant"></div>
-                                <div class="matrix-cell significant"></div>
+                                <div class="matrix-cell significant-likely"></div>
+                                <div class="matrix-cell significant-possible">
+                                    <span class="cell-count">1</span>
+                                    <div class="cell-scenarios">AIR-004</div>
+                                </div>
+                                <div class="matrix-cell significant-unlikely"></div>
+                                <div class="matrix-cell significant-rare"></div>
                                 
                                 <div class="matrix-label">Moderate</div>
-                                <div class="matrix-cell moderate">
+                                <div class="matrix-cell moderate-expected">
                                     <span class="cell-count">1</span>
-                                    <div class="cell-scenarios">AIR-009</div>
+                                    <div class="cell-scenarios">AIR-006</div>
                                 </div>
-                                <div class="matrix-cell moderate">
+                                <div class="matrix-cell moderate-likely"></div>
+                                <div class="matrix-cell moderate-possible"></div>
+                                <div class="matrix-cell moderate-unlikely">
                                     <span class="cell-count">1</span>
                                     <div class="cell-scenarios">AIR-007</div>
                                 </div>
-                                <div class="matrix-cell moderate"></div>
-                                <div class="matrix-cell moderate"></div>
-                                <div class="matrix-cell moderate"></div>
+                                <div class="matrix-cell moderate-rare"></div>
                                 
                                 <div class="matrix-label">Minor</div>
-                                <div class="matrix-cell minor"></div>
-                                <div class="matrix-cell minor"></div>
-                                <div class="matrix-cell minor"></div>
-                                <div class="matrix-cell minor"></div>
-                                <div class="matrix-cell minor"></div>
+                                <div class="matrix-cell minor-expected"></div>
+                                <div class="matrix-cell minor-likely"></div>
+                                <div class="matrix-cell minor-possible">
+                                    <span class="cell-count">1</span>
+                                    <div class="cell-scenarios">AIR-008</div>
+                                </div>
+                                <div class="matrix-cell minor-unlikely"></div>
+                                <div class="matrix-cell minor-rare">
+                                    <span class="cell-count">1</span>
+                                    <div class="cell-scenarios">AIR-009</div>
+                                </div>
                                 
                                 <div class="matrix-label">Negligible</div>
-                                <div class="matrix-cell negligible"></div>
-                                <div class="matrix-cell negligible"></div>
-                                <div class="matrix-cell negligible"></div>
-                                <div class="matrix-cell negligible"></div>
-                                <div class="matrix-cell negligible"></div>
+                                <div class="matrix-cell negligible-expected"></div>
+                                <div class="matrix-cell negligible-likely"></div>
+                                <div class="matrix-cell negligible-possible"></div>
+                                <div class="matrix-cell negligible-unlikely"></div>
+                                <div class="matrix-cell negligible-rare">
+                                    <span class="cell-count">1</span>
+                                    <div class="cell-scenarios">AIR-010</div>
+                                </div>
                             </div>
                         </div>
                         
@@ -888,16 +947,16 @@
                                     <label class="form-label">Select Scenario</label>
                                     <select class="form-select" id="scenario-select">
                                         <option value="">Choose a scenario...</option>
-                                        <option value="AIR-001">AIR-001 - Biometric Data Misuse</option>
-                                        <option value="AIR-002">AIR-002 - Model Poisoning Attack</option>
-                                        <option value="AIR-003">AIR-003 - Discriminatory Hiring Recommendations</option>
-                                        <option value="AIR-004">AIR-004 - Prompt Injection Data Leakage</option>
-                                        <option value="AIR-005">AIR-005 - Hallucinated Medical Recommendations</option>
-                                        <option value="AIR-006">AIR-006 - Deepfake Executive Fraud</option>
-                                        <option value="AIR-007">AIR-007 - Copyright Infringement in Training Data</option>
-                                        <option value="AIR-008">AIR-008 - Automated Credit Denial Bias</option>
-                                        <option value="AIR-009">AIR-009 - Customer Service Bot Privacy Leak</option>
-                                        <option value="AIR-010">AIR-010 - Autonomous Vehicle Safety Failure</option>
+                                        <option value="AIR-001">AIR-001 - Real-Time Payment Fraud Detection Failure</option>
+                                        <option value="AIR-002">AIR-002 - Biased Insurance Premium Pricing</option>
+                                        <option value="AIR-003">AIR-003 - Supply Chain Model Poisoning</option>
+                                        <option value="AIR-004">AIR-004 - Prompt Injection Data Exfiltration</option>
+                                        <option value="AIR-005">AIR-005 - Medical Diagnosis Hallucination</option>
+                                        <option value="AIR-006">AIR-006 - Training Data Copyright Violation</option>
+                                        <option value="AIR-007">AIR-007 - Model Performance Degradation</option>
+                                        <option value="AIR-008">AIR-008 - Chatbot Inappropriate Content Generation</option>
+                                        <option value="AIR-009">AIR-009 - Translation Service Nuance Loss</option>
+                                        <option value="AIR-010">AIR-010 - Email Classification Mislabeling</option>
                                     </select>
                                 </div>
                                 <button class="btn-analyze" onclick="analyzeScenario()">Analyze Scenario</button>
@@ -1043,45 +1102,111 @@
                 'AIR-001': {
                     qualitative: {
                         title: 'Qualitative Assessment',
-                        content: 'Based on OECD.AI data (9,678 incidents), biometric data misuse incidents have increased 340% since 2020. Severity is correctly assessed as "Severe" - aligns with EU AI Act high-risk classification for biometric systems.'
+                        content: 'Based on OECD.AI data (9,678 incidents), AI fraud detection failures in financial systems represent Critical risk. The "Expected" likelihood aligns with industry data showing 23% of financial institutions experienced false negative incidents in 2024.'
                     },
                     quantitative: {
                         title: 'Quantitative Impact Estimate',
-                        content: 'Analysis of 488 similar incidents from Damien Charlotin database shows average regulatory fines of $2.1M-$4.8M for biometric violations. GDPR Article 9 violations typically result in 3-4% of annual revenue penalties.'
+                        content: 'Analysis of similar fraud detection failures shows average losses of $2.3M-$4.5M per incident. Recovery costs, regulatory scrutiny, and reputational damage can add 40-60% to direct financial losses. Total impact estimate: $3.2M-$7.2M.'
                     },
                     tactics: {
                         title: 'Recommended MITRE ATLAS Tactics',
-                        content: 'Consider adding: "Exploit Public-Facing Application (AML.T0049)" - found in 67% of similar biometric incidents. "Valid Accounts (AML.T0012)" also relevant for unauthorized access patterns.'
+                        content: 'Current tactics are appropriate. Consider adding "AI Supply Chain Compromise: Model (AML.T0010.003)" - 34% of fraud detection failures traced to compromised model updates or poisoned training data.'
                     },
                     assets: {
                         title: 'AI Asset Validation',
-                        content: 'Custom Facial Recognition v2.1 correctly identified. Consider adding vendor information, model version, and API dependencies for complete supply chain risk assessment.'
+                        content: 'Custom Fraud Detection ML and GPT-4 Turbo identified. Ensure continuous monitoring thresholds are documented. Consider redundant detection systems for critical transaction periods.'
                     },
                     impactTypes: {
                         title: 'Impact Type Recommendations',
-                        content: 'Current selection is appropriate. Consider adding "Human Rights Violation" - 78% of OECD.AI biometric incidents cite human rights concerns alongside privacy violations.'
+                        content: 'Current impact types are comprehensive. Consider adding "Regulatory Non-Compliance" - financial fraud incidents often trigger regulatory investigations and potential fines under PSD2/AML regulations.'
                     }
                 },
                 'AIR-002': {
                     qualitative: {
                         title: 'Qualitative Assessment',
-                        content: 'Model poisoning attacks represent Critical risk. MIT AI Risk Repository classifies this under "AI Supply Chain Compromise: Model" with documented cases across 23 industries. Frequency has increased 215% since 2021.'
+                        content: 'AI bias in insurance pricing represents Critical legal and ethical risk. MIT AI Risk Repository documents 156 cases of discriminatory AI pricing, with 89% resulting in regulatory action or litigation. EU AI Act classifies this as high-risk use case.'
                     },
                     quantitative: {
                         title: 'Quantitative Impact Estimate',
-                        content: 'Based on AIAAIC database (2,084 incidents), model poisoning incidents show median financial impact of $3.8M with recovery time of 45-90 days. Long-tail risks can exceed $15M in financial sector applications.'
+                        content: 'Based on historical cases, discriminatory pricing incidents result in average settlements of $8M-$25M plus mandated system redesign costs ($3M-$8M). Reputational damage can reduce customer acquisition by 15-30% for 18-24 months.'
                     },
                     tactics: {
                         title: 'Recommended MITRE ATLAS Tactics',
-                        content: 'Primary tactics correctly identified. Also consider "Evade AI Model (AML.T0015)" - 42% of model poisoning incidents include evasion techniques to avoid detection during testing phases.'
+                        content: 'Valid Accounts correctly identified. Consider "AI Supply Chain Compromise: Data (AML.T0010.002)" - biased training data is the root cause in 78% of documented discrimination cases.'
                     },
                     assets: {
                         title: 'AI Asset Validation',
-                        content: 'Ensure all models in production pipeline are listed. Supply chain attacks often target multiple models simultaneously. Document training data sources and external dependencies.'
+                        content: 'Custom Underwriting Engine and Llama 3.1 identified. Document all data sources, especially demographic and geographic variables. Implement ongoing bias monitoring and fairness metrics tracking.'
                     },
                     impactTypes: {
                         title: 'Impact Type Recommendations',
-                        content: 'Add "Loss of Trust" and "Operational Disruption" - both appear in 85%+ of documented model poisoning incidents from OECD.AI data. Consider "Data Breach" if training data is compromised.'
+                        content: 'Current impacts are well-identified. Consider prioritizing "Human Rights Violation" - 82% of insurance discrimination cases cited by OECD.AI involve fundamental rights concerns under ECHR Article 14.'
+                    }
+                },
+                'AIR-003': {
+                    qualitative: {
+                        title: 'Qualitative Assessment',
+                        content: 'Supply chain model poisoning represents Critical severity risk. AIAAIC database shows 127 documented cases with 215% increase since 2021. Third-party model integration from public repositories creates significant attack surface.'
+                    },
+                    quantitative: {
+                        title: 'Quantitative Impact Estimate',
+                        content: 'Model poisoning incidents show median financial impact of $3.8M with recovery time of 45-90 days. Critical infrastructure applications can exceed $15M in combined remediation and business disruption costs.'
+                    },
+                    tactics: {
+                        title: 'Recommended MITRE ATLAS Tactics',
+                        content: 'Primary supply chain tactics correctly identified. Consider adding "Evade AI Model (AML.T0015)" - 42% of poisoning attacks include evasion techniques to avoid detection during validation.'
+                    },
+                    assets: {
+                        title: 'AI Asset Validation',
+                        content: 'HuggingFace community models require enhanced scrutiny. Implement model provenance tracking, cryptographic signing, and sandboxed testing before production deployment. Document all dependencies.'
+                    },
+                    impactTypes: {
+                        title: 'Impact Type Recommendations',
+                        content: 'Current selection appropriate. Add "Loss of Trust" - appears in 85%+ of documented supply chain incidents. For infrastructure applications, consider "Operational Disruption" as primary impact.'
+                    }
+                },
+                'AIR-004': {
+                    qualitative: {
+                        title: 'Qualitative Assessment',
+                        content: 'Prompt injection attacks are increasingly sophisticated. OECD.AI data shows 340% increase in LLM security incidents since 2023. High severity correct - these attacks can bypass multiple safeguard layers simultaneously.'
+                    },
+                    quantitative: {
+                        title: 'Quantitative Impact Estimate',
+                        content: 'Data breach costs from prompt injection average $2.8M-$6.2M per incident (based on AIAAIC analysis). GDPR penalties add $1M-$4M depending on data sensitivity and scale. Customer notification costs: $400K-$900K.'
+                    },
+                    tactics: {
+                        title: 'Recommended MITRE ATLAS Tactics',
+                        content: 'Phishing and Exploit Public-Facing Application correctly identified. Also consider "Valid Accounts (AML.T0012)" - 28% of prompt injection incidents involve compromised credentials for privileged access.'
+                    },
+                    assets: {
+                        title: 'AI Asset Validation',
+                        content: 'Claude 3.5 Sonnet and Custom RAG Pipeline identified. Ensure RAG retrieval context is sandboxed and PII filtering is implemented at multiple layers. Document data access patterns and audit logs.'
+                    },
+                    impactTypes: {
+                        title: 'Impact Type Recommendations',
+                        content: 'Comprehensive impact selection. Prioritize "Regulatory Non-Compliance" given GDPR implications. Consider "Loss of Trust" - 67% of customers reduce engagement after security incidents.'
+                    }
+                },
+                'AIR-005': {
+                    qualitative: {
+                        title: 'Qualitative Assessment',
+                        content: 'Medical AI hallucinations represent Critical safety risk despite "Unlikely" probability. Damien Charlotin database documents 127 healthcare hallucination cases, with 18 resulting in patient harm. EU AI Act mandates highest risk classification.'
+                    },
+                    quantitative: {
+                        title: 'Quantitative Impact Estimate',
+                        content: 'Medical malpractice settlements for AI-related harm average $5M-$15M. Regulatory penalties under FDA/MDR can reach $8M. Reputational damage and clinical trial delays add $12M-$25M. Total exposure: $25M-$48M.'
+                    },
+                    tactics: {
+                        title: 'Recommended MITRE ATLAS Tactics',
+                        content: 'Evade AI Model correctly identified. Consider "AI Supply Chain Compromise: Data (AML.T0010.002)" - outdated or poisoned medical knowledge bases cause 34% of documented hallucination incidents.'
+                    },
+                    assets: {
+                        title: 'AI Asset Validation',
+                        content: 'GPT-4 and Custom Medical KB identified. Implement multi-stage validation: human-in-loop review, medical literature verification, and clinical trial protocols. Document all decision pathways and confidence scores.'
+                    },
+                    impactTypes: {
+                        title: 'Impact Type Recommendations',
+                        content: 'Physical and Psychological Harm correctly prioritized. Add "Human Rights Violation" - medical decisions impact fundamental rights to health and life under ECHR Article 2. Consider product liability exposure.'
                     }
                 }
             };

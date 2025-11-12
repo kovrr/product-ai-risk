@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kovrr · GenAI Exposure - Financial Quantification</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary-blue: rgb(85, 81, 247);
+    --primary-blue-light: rgb(97, 94, 251);
+    --success-green: rgb(13, 199, 131);
+    --warning-orange: rgb(255, 153, 0);
+    --bg-white: rgb(255, 255, 255);
+    --bg-light: rgb(245, 247, 255);
+    --bg-gray: rgb(237, 242, 247);
+    --text-dark: rgb(26, 32, 44);
+    --text-medium-dark: rgb(48, 48, 69);
+    --text-medium: rgb(74, 85, 104);
+    --text-light: rgb(113, 118, 126);
+    --divider: rgb(220, 229, 242);
+    --border-gray: rgb(163, 173, 181);
+    --shadow-sm: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  }
+  
+  * { box-sizing: border-box; }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-light);
+    color: var(--text-medium);
+    font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  .wrap {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 30px;
+  }
+  
+  /* Hero Section */
+  .hero {
+    text-align: center;
+    padding: 60px 30px 40px;
+    max-width: 900px;
+    margin: 0 auto 48px;
+  }
+  
+  h1 {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 16px 0;
+    letter-spacing: -1px;
+  }
+  
+  .subtitle {
+    font-size: 18px;
+    color: var(--text-medium);
+    margin: 0 0 32px 0;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .btn-primary {
+    font-family: "Source Sans Pro";
+    font-size: 16px;
+    font-weight: 600;
+    padding: 14px 48px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background-color: var(--primary-blue);
+    color: var(--bg-white);
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--primary-blue-light);
+  }
+  
+  /* Table Section */
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .section-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+  }
+  
+  .card {
+    background: var(--bg-white);
+    border-radius: 15px;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  thead {
+    background: var(--bg-gray);
+  }
+  
+  th {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-medium);
+    text-align: left;
+    padding: 16px 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  
+  td {
+    font-size: 14px;
+    color: var(--text-medium-dark);
+    padding: 20px;
+    border-top: 1px solid var(--divider);
+  }
+  
+  tbody tr {
+    transition: background 0.2s;
+  }
+  
+  tbody tr:hover {
+    background: var(--bg-light);
+  }
+  
+  .status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  
+  .status-completed {
+    background: rgba(13, 199, 131, 0.1);
+    color: var(--success-green);
+  }
+  
+  .status-in-process {
+    background: rgba(255, 153, 0, 0.1);
+    color: var(--warning-orange);
+  }
+  
+  .value-cell {
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+  
+  .currency {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-left: 4px;
+  }
+  
+  .actions-menu {
+    position: relative;
+  }
+  
+  .actions-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: var(--text-medium);
+    font-size: 18px;
+    font-weight: 700;
+    transition: color 0.2s;
+  }
+  
+  .actions-btn:hover {
+    color: var(--primary-blue);
+  }
+  
+  .actions-btn.disabled {
+    color: var(--border-gray);
+    cursor: not-allowed;
+  }
+  
+  .actions-dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: var(--bg-white);
+    border: 1px solid var(--divider);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    min-width: 160px;
+    display: none;
+    z-index: 100;
+    margin-top: 4px;
+  }
+  
+  .actions-dropdown.active {
+    display: block;
+  }
+  
+  .actions-dropdown button {
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    background: transparent;
+    text-align: left;
+    font-family: "Source Sans Pro";
+    font-size: 14px;
+    color: var(--text-medium-dark);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .actions-dropdown button:hover {
+    background: var(--bg-light);
+  }
+  
+  .actions-dropdown button:first-child {
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .actions-dropdown button:last-child {
+    border-radius: 0 0 8px 8px;
+  }
+  
+  /* Pagination */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 24px;
+  }
+  
+  .pagination-btn {
+    font-family: "Source Sans Pro";
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 12px;
+    border: 1px solid var(--divider);
+    background: var(--bg-white);
+    color: var(--text-medium-dark);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .pagination-btn:hover:not(:disabled) {
+    background: var(--bg-light);
+    border-color: var(--primary-blue);
+  }
+  
+  .pagination-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  
+  .pagination-btn.active {
+    background: var(--primary-blue);
+    color: var(--bg-white);
+    border-color: var(--primary-blue);
+  }
+  
+  .pagination-info {
+    font-size: 13px;
+    color: var(--text-light);
+    margin: 0 16px;
+  }
+  
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 80px 20px;
+  }
+  
+  .empty-state-icon {
+    font-size: 48px;
+    color: var(--text-light);
+    margin-bottom: 16px;
+  }
+  
+  .empty-state-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+  }
+  
+  .empty-state-text {
+    font-size: 14px;
+    color: var(--text-medium);
+    margin-bottom: 24px;
+  }
+  
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 32px;
+    }
+    
+    .subtitle {
+      font-size: 16px;
+    }
+    
+    th, td {
+      padding: 12px 16px;
+      font-size: 13px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- Hero Section -->
+    <div class="hero">
+      <h1>GenAI Exposure - Financial Quantification</h1>
+      <p class="subtitle">
+        Welcome to Kovrr's quantification of your GenAI model exposure. Assess your AI risk across MITRE ATLAS attack vectors and NIST AI RMF controls.
+      </p>
+      <a href="entity_exposure.html" class="btn-primary">Begin New Assessment</a>
+    </div>
+
+    <!-- Assessments Index Table -->
+    <div class="section-header">
+      <h2 class="section-title">Assessments Index</h2>
+    </div>
+
+    <div class="card">
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Company Name</th>
+              <th>GenAI Model</th>
+              <th>Revenue</th>
+              <th>Employees</th>
+              <th>Industry</th>
+              <th>Country</th>
+              <th>Status</th>
+              <th>Annual Average Loss</th>
+              <th>Modified Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Row 1: Most recent - Matches existing data from entity_exposure and results -->
+            <tr>
+              <td><strong>TechCorp Solutions</strong></td>
+              <td>OpenAI GPT-4</td>
+              <td class="value-cell">$50,000,000<span class="currency">USD</span></td>
+              <td>425</td>
+              <td>Technology</td>
+              <td>United States</td>
+              <td><span class="status-badge status-completed">Completed</span></td>
+              <td class="value-cell">$6,200,000<span class="currency">USD</span></td>
+              <td>Nov 11, 2025</td>
+              <td>
+                <div class="actions-menu">
+                  <button class="actions-btn" onclick="toggleActions(this)">⋮</button>
+                  <div class="actions-dropdown">
+                    <button onclick="window.location.href='results.html'">View Results</button>
+                    <button onclick="window.location.href='entity_exposure.html'">Run Again</button>
+                    <button onclick="alert('Edit Input')">Edit Input</button>
+                    <button onclick="alert('Duplicate Assessment')">Duplicate</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- Row 2 -->
+            <tr>
+              <td><strong>RetailMax</strong></td>
+              <td>OpenAI GPT-4o</td>
+              <td class="value-cell">$250,000,000<span class="currency">USD</span></td>
+              <td>1,200</td>
+              <td>Retail</td>
+              <td>United States</td>
+              <td><span class="status-badge status-completed">Completed</span></td>
+              <td class="value-cell">$15,200,000<span class="currency">USD</span></td>
+              <td>Nov 10, 2025</td>
+              <td>
+                <div class="actions-menu">
+                  <button class="actions-btn" onclick="toggleActions(this)">⋮</button>
+                  <div class="actions-dropdown">
+                    <button onclick="window.location.href='results.html'">View Results</button>
+                    <button onclick="window.location.href='entity_exposure.html'">Run Again</button>
+                    <button onclick="alert('Edit Input')">Edit Input</button>
+                    <button onclick="alert('Duplicate Assessment')">Duplicate</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- Row 3 -->
+            <tr>
+              <td><strong>HealthCare Plus</strong></td>
+              <td>Google Gemini 1.5</td>
+              <td class="value-cell">$78,000,000<span class="currency">USD</span></td>
+              <td>620</td>
+              <td>Healthcare</td>
+              <td>Canada</td>
+              <td><span class="status-badge status-completed">Completed</span></td>
+              <td class="value-cell">$12,400,000<span class="currency">USD</span></td>
+              <td>Nov 9, 2025</td>
+              <td>
+                <div class="actions-menu">
+                  <button class="actions-btn" onclick="toggleActions(this)">⋮</button>
+                  <div class="actions-dropdown">
+                    <button onclick="window.location.href='results.html'">View Results</button>
+                    <button onclick="window.location.href='entity_exposure.html'">Run Again</button>
+                    <button onclick="alert('Edit Input')">Edit Input</button>
+                    <button onclick="alert('Duplicate Assessment')">Duplicate</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- Row 4 -->
+            <tr>
+              <td><strong>FinServe Analytics</strong></td>
+              <td>Anthropic Claude 3</td>
+              <td class="value-cell">$125,000,000<span class="currency">USD</span></td>
+              <td>850</td>
+              <td>Financial Services</td>
+              <td>United Kingdom</td>
+              <td><span class="status-badge status-completed">Completed</span></td>
+              <td class="value-cell">$9,800,000<span class="currency">GBP</span></td>
+              <td>Nov 8, 2025</td>
+              <td>
+                <div class="actions-menu">
+                  <button class="actions-btn" onclick="toggleActions(this)">⋮</button>
+                  <div class="actions-dropdown">
+                    <button onclick="window.location.href='results.html'">View Results</button>
+                    <button onclick="window.location.href='entity_exposure.html'">Run Again</button>
+                    <button onclick="alert('Edit Input')">Edit Input</button>
+                    <button onclick="alert('Duplicate Assessment')">Duplicate</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- Row 5 -->
+            <tr>
+              <td><strong>Manufacturing Co</strong></td>
+              <td>Meta LLaMA 3</td>
+              <td class="value-cell">€95,000,000<span class="currency">EUR</span></td>
+              <td>540</td>
+              <td>Manufacturing</td>
+              <td>Germany</td>
+              <td><span class="status-badge status-completed">Completed</span></td>
+              <td class="value-cell">€6,800,000<span class="currency">EUR</span></td>
+              <td>Nov 7, 2025</td>
+              <td>
+                <div class="actions-menu">
+                  <button class="actions-btn" onclick="toggleActions(this)">⋮</button>
+                  <div class="actions-dropdown">
+                    <button onclick="window.location.href='results.html'">View Results</button>
+                    <button onclick="window.location.href='entity_exposure.html'">Run Again</button>
+                    <button onclick="alert('Edit Input')">Edit Input</button>
+                    <button onclick="alert('Duplicate Assessment')">Duplicate</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- Row 6 -->
+            <tr>
+              <td><strong>Global Logistics</strong></td>
+              <td>OpenAI GPT-4</td>
+              <td class="value-cell">$180,000,000<span class="currency">USD</span></td>
+              <td>975</td>
+              <td>Manufacturing</td>
+              <td>United States</td>
+              <td><span class="status-badge status-completed">Completed</span></td>
+              <td class="value-cell">$11,500,000<span class="currency">USD</span></td>
+              <td>Nov 6, 2025</td>
+              <td>
+                <div class="actions-menu">
+                  <button class="actions-btn" onclick="toggleActions(this)">⋮</button>
+                  <div class="actions-dropdown">
+                    <button onclick="window.location.href='results.html'">View Results</button>
+                    <button onclick="window.location.href='entity_exposure.html'">Run Again</button>
+                    <button onclick="alert('Edit Input')">Edit Input</button>
+                    <button onclick="alert('Duplicate Assessment')">Duplicate</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- Row 7 -->
+            <tr>
+              <td><strong>AsiaPac Ventures</strong></td>
+              <td>Anthropic Claude 3</td>
+              <td class="value-cell">¥850,000,000<span class="currency">JPY</span></td>
+              <td>320</td>
+              <td>Technology</td>
+              <td>Japan</td>
+              <td><span class="status-badge status-completed">Completed</span></td>
+              <td class="value-cell">¥45,000,000<span class="currency">JPY</span></td>
+              <td>Nov 5, 2025</td>
+              <td>
+                <div class="actions-menu">
+                  <button class="actions-btn" onclick="toggleActions(this)">⋮</button>
+                  <div class="actions-dropdown">
+                    <button onclick="window.location.href='results.html'">View Results</button>
+                    <button onclick="window.location.href='entity_exposure.html'">Run Again</button>
+                    <button onclick="alert('Edit Input')">Edit Input</button>
+                    <button onclick="alert('Duplicate Assessment')">Duplicate</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- Pagination -->
+      <div class="pagination">
+        <button class="pagination-btn" disabled>← Previous</button>
+        <button class="pagination-btn active">1</button>
+        <button class="pagination-btn">2</button>
+        <span class="pagination-info">Page 1 of 2</span>
+        <button class="pagination-btn">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Toggle actions dropdown
+    function toggleActions(btn) {
+      // Close all other dropdowns
+      document.querySelectorAll('.actions-dropdown').forEach(dropdown => {
+        if (dropdown !== btn.nextElementSibling) {
+          dropdown.classList.remove('active');
+        }
+      });
+      
+      // Toggle current dropdown
+      btn.nextElementSibling.classList.toggle('active');
+    }
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.actions-menu')) {
+        document.querySelectorAll('.actions-dropdown').forEach(dropdown => {
+          dropdown.classList.remove('active');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

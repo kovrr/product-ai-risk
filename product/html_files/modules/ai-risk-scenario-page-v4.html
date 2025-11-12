@@ -144,6 +144,11 @@
             color: var(--error-red);
         }
         
+        .badge-expected {
+            background-color: rgba(255, 35, 35, 0.1);
+            color: var(--error-red);
+        }
+        
         .badge-possible {
             background-color: rgba(251, 188, 9, 0.1);
             color: rgb(159, 60, 0);
@@ -499,14 +504,14 @@
             <div class="left-column">
                 <div class="card">
                     <div class="scenario-id">AIR-001 /</div>
-                    <h1 class="scenario-title">Biometric Data Misuse</h1>
+                    <h1 class="scenario-title">Real-Time Payment Fraud Detection Failure</h1>
                     <p class="scenario-description">
-                        Facial recognition system collects and processes biometric data without proper consent mechanisms, 
-                        potentially violating GDPR Article 9 and creating significant privacy risks for data subjects.
+                        AI fraud detection system experiences catastrophic false negative rate during peak transaction period, 
+                        allowing coordinated attack to process $2.3M in fraudulent wire transfers before manual intervention.
                     </p>
                     <div class="category-tags">
-                        <span class="category-tag">Privacy Risk</span>
-                        <span class="category-tag">Legal/Compliance Risk</span>
+                        <span class="category-tag">Security Risk</span>
+                        <span class="category-tag">Operational Risk</span>
                     </div>
                 </div>
                 
@@ -521,7 +526,7 @@
                     <div class="metric-section">
                         <div class="metric-label">Likelihood</div>
                         <div class="metric-value-large">
-                            <span class="badge-large badge-possible">Possible</span>
+                            <span class="badge-large badge-expected">Expected</span>
                             <span class="edit-icon">✎</span>
                         </div>
                     </div>

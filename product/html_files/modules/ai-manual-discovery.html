@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Asset Discovery - AI Assets Visibility - Kovrr</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+            background-color: rgb(245, 247, 255);
+            color: rgb(48, 48, 69);
+            min-height: 100vh;
+        }
+
+        /* Page Content */
+        .page-content {
+            padding: 30px;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: rgb(85, 81, 247);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            transition: all 0.2s ease;
+        }
+
+        .back-button:hover {
+            color: rgb(97, 94, 251);
+        }
+
+        /* Form Container */
+        .form-container {
+            background: rgb(255, 255, 255);
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+        }
+
+        .form-header {
+            margin-bottom: 32px;
+        }
+
+        .form-header h1 {
+            font-size: 38px;
+            font-weight: 700;
+            color: rgb(26, 32, 44);
+            margin-bottom: 8px;
+        }
+
+        .form-header p {
+            font-size: 14px;
+            color: rgb(74, 85, 104);
+        }
+
+        /* Form Sections */
+        .form-section {
+            margin-bottom: 40px;
+        }
+
+        .form-section h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: rgb(26, 32, 44);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgb(220, 229, 242);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: rgb(74, 85, 104);
+        }
+
+        .form-label .required {
+            color: rgb(255, 35, 35);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            font-family: "Source Sans Pro";
+            padding: 10px 12px;
+            border: 1px solid rgb(169, 180, 188);
+            border-radius: 6px;
+            font-size: 14px;
+            color: rgb(48, 48, 69);
+            background: white;
+            transition: all 0.2s ease;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: rgb(85, 81, 247);
+            box-shadow: 0 0 0 3px rgba(85, 81, 247, 0.12);
+        }
+
+        .form-hint {
+            font-size: 12px;
+            color: rgb(113, 118, 126);
+        }
+
+        /* Checkbox Group */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-item input[type="checkbox"],
+        .checkbox-item input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            font-size: 14px;
+            color: rgb(48, 48, 69);
+            cursor: pointer;
+        }
+
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid rgb(220, 229, 242);
+        }
+
+        .btn-primary {
+            background: rgb(85, 81, 247);
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+        }
+
+        .btn-primary:hover {
+            background: rgb(97, 94, 251);
+            transform: translateY(-1px);
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 20px 0px;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: rgb(85, 81, 247);
+            border: 1px solid rgb(85, 81, 247);
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+        }
+
+        .btn-secondary:hover {
+            background: rgb(236, 242, 252);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: rgb(74, 85, 104);
+            border: 1px solid rgb(220, 229, 242);
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-outline:hover {
+            background: rgb(245, 247, 255);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-content">
+                <a href="ai-assets-list.html" class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Assets
+                </a>
+
+                <div class="form-container">
+                    <div class="form-header">
+                        <h1>Manual Asset Discovery</h1>
+                        <p>Fill out the questionnaire below to add a new AI asset to your inventory</p>
+                    </div>
+
+                    <form onsubmit="handleSubmit(event)">
+                        <!-- Basic Information -->
+                        <div class="form-section">
+                            <h2>Basic Information</h2>
+                            <div class="form-grid">
+                                <div class="form-group full-width">
+                                    <label class="form-label">Asset Name <span class="required">*</span></label>
+                                    <input type="text" class="form-input" placeholder="e.g., GPT-4 Customer Support" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Vendor/Provider <span class="required">*</span></label>
+                                    <input type="text" class="form-input" placeholder="e.g., OpenAI" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Asset Type <span class="required">*</span></label>
+                                    <select class="form-select" required>
+                                        <option value="">Select type...</option>
+                                        <option value="llm_api">LLM API</option>
+                                        <option value="image_gen">Image Generation</option>
+                                        <option value="code_assistant">Code Assistant</option>
+                                        <option value="crm_ai">CRM AI</option>
+                                        <option value="content_gen">Content Generation</option>
+                                        <option value="ml_platform">ML Platform</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label class="form-label">Description</label>
+                                    <textarea class="form-textarea" placeholder="Describe the AI asset and its purpose..."></textarea>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label class="form-label">Use Case <span class="required">*</span></label>
+                                    <input type="text" class="form-input" placeholder="e.g., Customer Support Automation" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ownership & Governance -->
+                        <div class="form-section">
+                            <h2>Ownership & Governance</h2>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Business Owner <span class="required">*</span></label>
+                                    <select class="form-select" required>
+                                        <option value="">Select owner...</option>
+                                        <option value="sarah">Sarah Chen</option>
+                                        <option value="david">David Park</option>
+                                        <option value="lisa">Lisa Anderson</option>
+                                        <option value="mike">Mike Johnson</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Technical Owner <span class="required">*</span></label>
+                                    <select class="form-select" required>
+                                        <option value="">Select owner...</option>
+                                        <option value="sarah">Sarah Chen</option>
+                                        <option value="david">David Park</option>
+                                        <option value="lisa">Lisa Anderson</option>
+                                        <option value="mike">Mike Johnson</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Department</label>
+                                    <select class="form-select">
+                                        <option value="">Select department...</option>
+                                        <option value="engineering">Engineering</option>
+                                        <option value="product">Product</option>
+                                        <option value="marketing">Marketing</option>
+                                        <option value="sales">Sales</option>
+                                        <option value="support">Customer Support</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Lifecycle Stage <span class="required">*</span></label>
+                                    <select class="form-select" required>
+                                        <option value="">Select stage...</option>
+                                        <option value="development">Development</option>
+                                        <option value="testing">Testing</option>
+                                        <option value="production">Production</option>
+                                        <option value="deprecated">Deprecated</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Technical Details -->
+                        <div class="form-section">
+                            <h2>Technical Details</h2>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Deployment Type</label>
+                                    <select class="form-select">
+                                        <option value="">Select type...</option>
+                                        <option value="cloud_api">Cloud API</option>
+                                        <option value="on_premise">On-Premise</option>
+                                        <option value="hybrid">Hybrid</option>
+                                        <option value="saas">SaaS</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Integration Method</label>
+                                    <select class="form-select">
+                                        <option value="">Select method...</option>
+                                        <option value="rest_api">REST API</option>
+                                        <option value="sdk">SDK</option>
+                                        <option value="webhook">Webhook</option>
+                                        <option value="embedded">Embedded</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Data Location</label>
+                                    <input type="text" class="form-input" placeholder="e.g., US-East, EU-West">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Data Retention Period</label>
+                                    <input type="text" class="form-input" placeholder="e.g., 30 days">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Data & Privacy -->
+                        <div class="form-section">
+                            <h2>Data & Privacy</h2>
+                            <div class="form-grid">
+                                <div class="form-group full-width">
+                                    <label class="form-label">Does this asset process personal data?</label>
+                                    <div class="checkbox-group">
+                                        <div class="checkbox-item">
+                                            <input type="radio" name="personal_data" id="personal_yes" value="yes">
+                                            <label for="personal_yes">Yes</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="radio" name="personal_data" id="personal_no" value="no">
+                                            <label for="personal_no">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label class="form-label">Data Classification</label>
+                                    <div class="checkbox-group">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="data_public" value="public">
+                                            <label for="data_public">Public</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="data_internal" value="internal">
+                                            <label for="data_internal">Internal</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="data_confidential" value="confidential">
+                                            <label for="data_confidential">Confidential</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="data_restricted" value="restricted">
+                                            <label for="data_restricted">Restricted</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Compliance & Risk -->
+                        <div class="form-section">
+                            <h2>Compliance & Risk</h2>
+                            <div class="form-grid">
+                                <div class="form-group full-width">
+                                    <label class="form-label">Regulatory Applicability</label>
+                                    <div class="checkbox-group">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="reg_gdpr" value="gdpr">
+                                            <label for="reg_gdpr">GDPR</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="reg_ccpa" value="ccpa">
+                                            <label for="reg_ccpa">CCPA</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="reg_soc2" value="soc2">
+                                            <label for="reg_soc2">SOC 2</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="reg_hipaa" value="hipaa">
+                                            <label for="reg_hipaa">HIPAA</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="reg_euai" value="euai">
+                                            <label for="reg_euai">EU AI Act</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Asset Status</label>
+                                    <select class="form-select">
+                                        <option value="">Select status...</option>
+                                        <option value="sanctioned">Sanctioned</option>
+                                        <option value="shadow">Shadow AI</option>
+                                        <option value="pending">Pending Review</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Estimated Risk Tier</label>
+                                    <select class="form-select">
+                                        <option value="">Select tier...</option>
+                                        <option value="critical">Critical</option>
+                                        <option value="high">High</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="low">Low</option>
+                                    </select>
+                                    <span class="form-hint">Based on initial assessment</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="button" class="btn-outline" onclick="window.location='ai-assets-list.html'">Cancel</button>
+                            <button type="button" class="btn-secondary">Save as Draft</button>
+                            <button type="submit" class="btn-primary">Submit Asset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('Asset submitted successfully!');
+            window.location.href = 'ai-assets-list.html';
+        }
+    </script>
+</body>
+</html>

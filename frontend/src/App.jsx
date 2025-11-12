@@ -4,6 +4,7 @@ import { NotificationProvider } from './contexts/NotificationContext';
 import Layout from './components/Layout';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import DashboardNew from './pages/DashboardNew';
 import AssetsVisibility from './pages/AssetsVisibility';
 import { AssetDetailView } from './pages/AssetsVisibility/AssetDetailView';
 import ManualAssetWizard from './pages/AssetsVisibility/ManualAssetWizard';
@@ -57,7 +58,8 @@ function App() {
             }
           >
             <Route index element={<Navigate to="/dashboard" />} />
-            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="dashboard" element={<DashboardNew />} />
+            <Route path="dashboard-old" element={<Dashboard />} />
             <Route path="assets" element={<AssetsVisibility />} />
             <Route path="assets/new" element={<ManualAssetWizard />} />
             <Route path="assets/:id" element={<AssetDetailView />} />

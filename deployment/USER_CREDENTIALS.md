@@ -31,6 +31,21 @@
 - **Email**: `huw@kovrr.com`
 - **Password**: `Sw4JTYmdZS`
 
+### Alona
+- **Username**: `alona`
+- **Email**: `alona@kovrr.com`
+- **Password**: `CSLVroXeJZ`
+
+### Hannah
+- **Username**: `hannah`
+- **Email**: `hannah@kovrr.com`
+- **Password**: `S2OeiSR0eX`
+
+### Shalom
+- **Username**: `shalom`
+- **Email**: `shalom@kovrr.com`
+- **Password**: `KCigje4XUE`
+
 ### Admin (Original)
 - **Username**: `admin`
 - **Email**: `admin@aikovrr.com`

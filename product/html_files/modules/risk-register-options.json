@@ -19,8 +19,13 @@
   "likelihood_levels": [
     {
       "value": "Expected",
+      "color": "rgb(255, 35, 35)",
+      "description": "Almost certain to occur within 12 months"
+    },
+    {
+      "value": "Likely",
       "color": "rgb(255, 153, 0)",
-      "description": "Likely to occur within 12 months"
+      "description": "Very likely to occur within 12 months"
     },
     {
       "value": "Possible",
@@ -58,6 +63,11 @@
       "value": "Minor",
       "color": "rgb(169, 180, 188)",
       "description": "Limited impact with minimal consequences"
+    },
+    {
+      "value": "Negligible",
+      "color": "rgb(113, 118, 126)",
+      "description": "Minimal or no impact"
     }
   ],
   "impact_types": [
@@ -170,23 +180,19 @@
   "response_plan_options": [
     {
       "value": "Mitigate",
-      "icon": "🛡",
-      "display": "🛡 Mitigate"
+      "display": "Mitigate"
     },
     {
       "value": "Accept",
-      "icon": "✓",
-      "display": "✓ Accept"
+      "display": "Accept"
     },
     {
       "value": "Transfer",
-      "icon": "↗",
-      "display": "↗ Transfer"
+      "display": "Transfer"
     },
     {
       "value": "Avoid",
-      "icon": "⊘",
-      "display": "⊘ Avoid"
+      "display": "Avoid"
     }
   ],
   "currencies": ["USD", "EUR", "GBP", "JPY"],

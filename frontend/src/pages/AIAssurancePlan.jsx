@@ -129,8 +129,14 @@ const AIAssurancePlan = () => {
   const selectedAssessmentData = assessments.find(a => a.id === selectedAssessment);
 
   const handleRowClick = (control) => {
-    setSelectedControl(control);
-    setDrawerOpen(true);
+    // If clicking the same row, toggle drawer open/closed
+    if (selectedControl?.id === control.id) {
+      setDrawerOpen(!drawerOpen);
+    } else {
+      // If clicking a different row, keep drawer open and update content
+      setSelectedControl(control);
+      setDrawerOpen(true);
+    }
   };
 
   const getStatusBadgeStyle = (status) => {
@@ -551,9 +557,40 @@ const AIAssurancePlan = () => {
         </div>
       )}
 
-      {/* Right Drawer */}
+      {/* Drawer Overlay */}
       {drawerOpen && selectedControl && (
-        <div style={{ position: 'fixed', top: 0, right: 0, width: '600px', height: '100vh', background: 'white', boxShadow: 'rgba(0, 0, 0, 0.2) -4px 0px 20px 0px', zIndex: 100, display: 'flex', flexDirection: 'column' }}>
+        <div 
+          onClick={() => setDrawerOpen(false)}
+          style={{ 
+            position: 'fixed', 
+            top: 0, 
+            left: 0, 
+            right: 0, 
+            bottom: 0, 
+            background: 'rgba(30, 30, 30, 0.5)', 
+            zIndex: 99,
+            opacity: drawerOpen ? 1 : 0,
+            transition: 'opacity 0.3s ease'
+          }}
+        />
+      )}
+
+      {/* Right Drawer */}
+      {selectedControl && (
+        <div style={{ 
+          position: 'fixed', 
+          top: 0, 
+          right: 0, 
+          width: '600px', 
+          height: '100vh', 
+          background: 'white', 
+          boxShadow: 'rgba(0, 0, 0, 0.2) -4px 0px 20px 0px', 
+          zIndex: 100, 
+          display: 'flex', 
+          flexDirection: 'column',
+          transform: drawerOpen ? 'translateX(0)' : 'translateX(100%)',
+          transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+        }}>
           {/* Drawer Header */}
           <div style={{ padding: '24px', borderBottom: '1px solid rgb(220, 229, 242)', display: 'flex', justifyContent: 'space-between' }}>
             <div style={{ flex: 1 }}>

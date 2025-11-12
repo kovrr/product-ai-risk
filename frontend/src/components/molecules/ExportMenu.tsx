@@ -69,7 +69,7 @@ export const ExportMenu: React.FC<ExportMenuProps> = ({ risks, className = '' })
           />
 
           {/* Dropdown Menu */}
-          <div className="absolute right-0 mt-2 w-56 bg-fill-base-primary border border-stroke-base-secondary rounded-lg shadow-lg z-20">
+          <div className="absolute right-0 mt-2 w-56 bg-white border border-stroke-base-secondary rounded-lg shadow-lg z-20">
             <div className="p-2">
               <button
                 onClick={handleExportCSV}

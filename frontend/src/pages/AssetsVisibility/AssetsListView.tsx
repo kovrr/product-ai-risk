@@ -1,12 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { cn } from '../../lib/utils';
-import { Button, Input } from '../../components/atoms';
 import {
   DataTable,
   StatusBadge,
   RiskScoreBadge,
-  RiskScoreProgress,
+  RiskProgressBar,
   UserAvatar,
   EmptyState,
   Column,
@@ -135,10 +133,10 @@ export const AssetsListView: React.FC = () => {
       sortable: true,
       width: '180px',
       render: (_, asset) => (
-        <RiskScoreProgress
+        <RiskProgressBar
           score={asset.risk_score}
           tier={asset.risk_tier}
-          size="sm"
+          showScore={true}
         />
       ),
     },
@@ -189,13 +187,12 @@ export const AssetsListView: React.FC = () => {
       key: 'actions',
       label: 'Actions',
       render: (_, asset) => (
-        <Button
-          variant="ghost"
+        <button
           onClick={() => navigate(`/assets/${asset.id}`)}
-          className="text-[12px]"
+          className="text-[12px] text-[rgb(85,81,247)] hover:underline font-[600]"
         >
           View
-        </Button>
+        </button>
       ),
     },
   ];
@@ -205,81 +202,85 @@ export const AssetsListView: React.FC = () => {
   };
 
   return (
-    <div className="h-full flex flex-col bg-fill-base-primary">
-      {/* Header */}
-      <div className="border-b border-stroke-base-secondary bg-fill-base-primary px-[32px] py-[24px]">
-        <div className="flex items-center justify-between mb-[20px]">
-          <div>
-            <h1 className="text-[28px] font-[700] text-text-base-primary mb-[4px]">
-              AI Assets Visibility
-            </h1>
-            <p className="text-[14px] text-text-base-secondary">
-              Manage and monitor all AI assets across your organization
-            </p>
+    <div className="h-full overflow-y-auto bg-[rgb(245,247,255)] p-[30px]">
+      <div className="max-w-[1440px] mx-auto space-y-[24px]">
+        {/* Page Header Card */}
+        <div className="bg-white rounded-[15px] p-[24px_30px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
+          <div className="flex items-center justify-between mb-[20px]">
+            <div>
+              <h1 className="text-[38px] font-[700] text-[rgb(26,32,44)] mb-[4px]">
+                AI Assets Visibility
+              </h1>
+              <p className="text-[14px] text-[rgb(74,85,104)]">
+                Monitor and manage all AI assets across your organization
+              </p>
+            </div>
+            <button 
+              onClick={() => setShowDiscoveryModal(true)}
+              className="inline-flex items-center gap-[8px] px-[20px] py-[10px] bg-[rgb(85,81,247)] text-white text-[14px] font-[600] rounded-[6px] border-none shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] cursor-pointer transition-all duration-200 hover:bg-[rgb(97,94,251)] hover:-translate-y-[1px]"
+            >
+              + Discover Assets
+            </button>
           </div>
-          <Button variant="primary" onClick={() => setShowDiscoveryModal(true)}>
-            + Discover Assets
-          </Button>
-        </div>
 
-        {/* Statistics Cards */}
-        <div className="grid grid-cols-6 gap-[16px]">
-          <div className="bg-fill-base-secondary rounded-[10px] p-[16px]">
-            <div className="text-[24px] font-[700] text-text-base-primary">
+          {/* Statistics Cards */}
+          <div className="grid grid-cols-6 gap-[16px]">
+          <div className="bg-[rgb(245,247,255)] rounded-[12px] p-[20px]">
+            <div className="text-[26px] font-[700] text-[rgb(26,32,44)] mb-[4px]">
               {stats.total}
             </div>
-            <div className="text-[12px] text-text-base-secondary">Total Assets</div>
+            <div className="text-[12px] text-[rgb(74,85,104)] font-[400]">Total Assets</div>
           </div>
-          <div className="bg-fill-base-secondary rounded-[10px] p-[16px]">
-            <div className="text-[24px] font-[700] text-fill-success">
+          <div className="bg-[rgb(245,247,255)] rounded-[12px] p-[20px]">
+            <div className="text-[26px] font-[700] text-[rgb(13,199,131)] mb-[4px]">
               {stats.sanctioned}
             </div>
-            <div className="text-[12px] text-text-base-secondary">Sanctioned</div>
+            <div className="text-[12px] text-[rgb(74,85,104)] font-[400]">Sanctioned</div>
           </div>
-          <div className="bg-fill-base-secondary rounded-[10px] p-[16px]">
-            <div className="text-[24px] font-[700] text-fill-error">
+          <div className="bg-[rgb(245,247,255)] rounded-[12px] p-[20px]">
+            <div className="text-[26px] font-[700] text-[rgb(255,35,35)] mb-[4px]">
               {stats.shadow}
             </div>
-            <div className="text-[12px] text-text-base-secondary">Shadow AI</div>
+            <div className="text-[12px] text-[rgb(74,85,104)] font-[400]">Shadow AI</div>
           </div>
-          <div className="bg-fill-base-secondary rounded-[10px] p-[16px]">
-            <div className="text-[24px] font-[700] text-fill-warning">
+          <div className="bg-[rgb(245,247,255)] rounded-[12px] p-[20px]">
+            <div className="text-[26px] font-[700] text-[rgb(255,193,7)] mb-[4px]">
               {stats.underReview}
             </div>
-            <div className="text-[12px] text-text-base-secondary">Under Review</div>
+            <div className="text-[12px] text-[rgb(74,85,104)] font-[400]">Pending Review</div>
           </div>
-          <div className="bg-fill-base-secondary rounded-[10px] p-[16px]">
-            <div className="text-[24px] font-[700] text-fill-error">
+          <div className="bg-[rgb(245,247,255)] rounded-[12px] p-[20px]">
+            <div className="text-[26px] font-[700] text-[rgb(255,35,35)] mb-[4px]">
               {stats.highRisk}
             </div>
-            <div className="text-[12px] text-text-base-secondary">High Risk</div>
+            <div className="text-[12px] text-[rgb(74,85,104)] font-[400]">High Risk</div>
           </div>
-          <div className="bg-fill-base-secondary rounded-[10px] p-[16px]">
-            <div className="text-[24px] font-[700] text-fill-brand-primary">
+          <div className="bg-[rgb(245,247,255)] rounded-[12px] p-[20px]">
+            <div className="text-[26px] font-[700] text-[rgb(85,81,247)] mb-[4px]">
               {stats.thirdParty}
             </div>
-            <div className="text-[12px] text-text-base-secondary">3rd Party</div>
+            <div className="text-[12px] text-[rgb(74,85,104)] font-[400]">3rd Party</div>
           </div>
         </div>
-      </div>
+        </div>
 
-      {/* Filters and Search */}
-      <div className="border-b border-stroke-base-secondary bg-fill-base-primary px-[32px] py-[16px]">
+        {/* Filters Card */}
+        <div className="bg-white rounded-[15px] p-[20px_30px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
         <div className="flex items-center gap-[16px]">
           {/* Search */}
-          <div className="flex-1">
-            <Input
-              value={searchQuery}
-              onChange={(e: any) => setSearchQuery(e.target.value)}
-              placeholder="Search assets by name, vendor, or use case..."
-            />
-          </div>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search assets by name, vendor, or use case..."
+            className="flex-1 px-[16px] py-[10px] border border-[rgb(169,180,188)] rounded-[6px] text-[14px] text-[rgb(48,48,69)] transition-all duration-200 focus:outline-none focus:border-[rgb(85,81,247)] focus:shadow-[0_0_0_3px_rgba(85,81,247,0.12)]"
+          />
 
           {/* Status Filter */}
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-[16px] py-[10px] bg-fill-base-primary border border-stroke-base-secondary rounded-[10px] text-[14px] text-text-base-primary"
+            className="px-[16px] py-[10px] bg-white border border-[rgb(169,180,188)] rounded-[6px] text-[14px] text-[rgb(48,48,69)] cursor-pointer transition-all duration-200 focus:outline-none focus:border-[rgb(85,81,247)] focus:shadow-[0_0_0_3px_rgba(85,81,247,0.12)]"
           >
             <option value="all">All Status</option>
             <option value="sanctioned">Sanctioned</option>
@@ -292,7 +293,7 @@ export const AssetsListView: React.FC = () => {
           <select
             value={riskFilter}
             onChange={(e) => setRiskFilter(e.target.value)}
-            className="px-[16px] py-[10px] bg-fill-base-primary border border-stroke-base-secondary rounded-[10px] text-[14px] text-text-base-primary"
+            className="px-[16px] py-[10px] bg-white border border-[rgb(169,180,188)] rounded-[6px] text-[14px] text-[rgb(48,48,69)] cursor-pointer transition-all duration-200 focus:outline-none focus:border-[rgb(85,81,247)] focus:shadow-[0_0_0_3px_rgba(85,81,247,0.12)]"
           >
             <option value="all">All Risk Levels</option>
             <option value="critical">Critical</option>
@@ -305,38 +306,26 @@ export const AssetsListView: React.FC = () => {
           <select
             value={vendorSourceFilter}
             onChange={(e) => setVendorSourceFilter(e.target.value)}
-            className="px-[16px] py-[10px] bg-fill-base-primary border border-stroke-base-secondary rounded-[10px] text-[14px] text-text-base-primary"
+            className="px-[16px] py-[10px] bg-white border border-[rgb(169,180,188)] rounded-[6px] text-[14px] text-[rgb(48,48,69)] cursor-pointer transition-all duration-200 focus:outline-none focus:border-[rgb(85,81,247)] focus:shadow-[0_0_0_3px_rgba(85,81,247,0.12)]"
           >
             <option value="all">All Sources</option>
-            <option value="third_party">🏢 3rd Party Only</option>
-            <option value="internal">Internal Only</option>
-            <option value="open_source">Open Source Only</option>
+            <option value="third_party">3rd Party</option>
+            <option value="internal">Internal</option>
+            <option value="open_source">Open Source</option>
           </select>
-
-          {/* Clear Filters */}
-          {(searchQuery || statusFilter !== 'all' || riskFilter !== 'all' || vendorSourceFilter !== 'all') && (
-            <button
-              onClick={() => {
-                setSearchQuery('');
-                setStatusFilter('all');
-                setRiskFilter('all');
-                setVendorSourceFilter('all');
-              }}
-              className="text-[14px] text-fill-brand-primary hover:underline"
-            >
-              Clear Filters
-            </button>
-          )}
+        </div>
         </div>
 
-        {/* Active Filters Count */}
-        <div className="mt-[12px] text-[12px] text-text-base-secondary">
-          Showing {filteredAssets.length} of {stats.total} assets
-        </div>
-      </div>
+        {/* Assets Table Card */}
+        <div className="bg-white rounded-[15px] p-[24px_30px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
+          <div className="flex justify-between items-center mb-[20px]">
+            <h2 className="text-[20px] font-[600] text-[rgb(26,32,44)]">Assets Inventory</h2>
+            <div className="text-[12px] text-[rgb(74,85,104)]">
+              Showing {filteredAssets.length} of {stats.total} assets
+            </div>
+          </div>
 
-      {/* Table */}
-      <div className="flex-1 overflow-auto px-[32px] py-[24px]">
+          <div className="overflow-x-auto">
         {filteredAssets.length === 0 ? (
           <EmptyState
             title="No assets found"
@@ -357,6 +346,8 @@ export const AssetsListView: React.FC = () => {
             onRowClick={handleRowClick}
           />
         )}
+        </div>
+        </div>
       </div>
 
       {/* Asset Discovery Modal - Two Paths */}

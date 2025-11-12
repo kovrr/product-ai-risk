@@ -17,7 +17,7 @@ const Sidebar = () => {
     { path: '/risk-register', icon: AlertTriangle, label: 'Risk Register' },
     { path: '/compliance-readiness', icon: ClipboardCheck, label: 'Compliance Readiness' },
     { path: '/ai-assurance-plan', icon: Shield, label: 'AI Assurance Plan' },
-    { path: '/financial-quantification', icon: DollarSign, label: 'GenAI Exposure - Financial Quantification' },
+    { path: '/financial-quantification', icon: DollarSign, label: 'Gen AI Exposure' },
     { path: '/governance-monitoring', icon: Activity, label: 'Governance & Monitoring' },
     { path: '/integration-hub', icon: Link2, label: 'Integration Hub' },
   ];
@@ -54,8 +54,8 @@ const Sidebar = () => {
 
       <div className="p-4 border-t border-neutral-200">
         <div className="text-xs text-neutral-500">
-          <p>© 2025 AIKovrr</p>
-          <p className="mt-1">Powered by Kovrr</p>
+          <p>© 2025 Kovrr.ai</p>
+          <p className="mt-1">AI Risk Management Platform</p>
         </div>
       </div>
     </aside>

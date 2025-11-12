@@ -47,36 +47,58 @@ const ComplianceReadiness = () => {
   const assessments = [
     {
       id: 1,
-      name: 'NIST AI RMF',
-      createdOn: '19 Oct 2025',
-      assessmentScore: 1.68,
-      scorePercentage: 42,
-      framework: 'NIST AI RMF',
-      granularity: 'Category',
-      answerStructure: 'Single Score',
+      name: 'EU AI Act Assessment',
+      createdOn: '08 Nov 2025',
+      assessmentScore: 3.42,
+      scorePercentage: 85,
+      framework: 'EU AI ACT',
+      granularity: 'Question',
+      answerStructure: 'Multi-Dimensional',
       status: 'Completed',
     },
     {
       id: 2,
-      name: 'EU AI Act',
-      createdOn: '15 Oct 2025',
-      assessmentScore: null,
-      scorePercentage: 0,
-      framework: 'EU AI ACT',
-      granularity: 'Not Available',
-      answerStructure: 'Not Available',
-      status: 'In Progress',
+      name: 'NIST AI RMF',
+      createdOn: '05 Nov 2025',
+      assessmentScore: 2.85,
+      scorePercentage: 71,
+      framework: 'NIST AI RMF',
+      granularity: 'Sub-category',
+      answerStructure: 'Single Score',
+      status: 'Completed',
     },
     {
       id: 3,
-      name: 'ISO/IEC 42001:2023',
-      createdOn: '12 Oct 2025',
-      assessmentScore: null,
-      scorePercentage: 0,
-      framework: 'ISO/IEC 42001:2023',
-      granularity: 'Not Available',
-      answerStructure: 'Not Available',
-      status: 'In Progress',
+      name: 'ISO 42001 Assessment',
+      createdOn: '02 Nov 2025',
+      assessmentScore: 3.15,
+      scorePercentage: 79,
+      framework: 'ISO 42001:2023',
+      granularity: 'Question',
+      answerStructure: 'Multi-Dimensional',
+      status: 'Completed',
+    },
+    {
+      id: 4,
+      name: 'Colorado SB21-169',
+      createdOn: '28 Oct 2025',
+      assessmentScore: 3.68,
+      scorePercentage: 92,
+      framework: 'Colorado Local Law No. SB21-169',
+      granularity: 'Question',
+      answerStructure: 'Single Score',
+      status: 'Completed',
+    },
+    {
+      id: 5,
+      name: 'NYC Local Law 144',
+      createdOn: '22 Oct 2025',
+      assessmentScore: 3.91,
+      scorePercentage: 98,
+      framework: 'New York City Local Law No. 144',
+      granularity: 'Question',
+      answerStructure: 'Multi-Dimensional',
+      status: 'Completed',
     },
   ];
 
@@ -128,36 +150,104 @@ const ComplianceReadiness = () => {
           </button>
         </div>
 
+        {/* Stats Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-[20px]">
+          {/* EU AI ACT Card */}
+          <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
+            <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">EU AI ACT</div>
+            <div className="flex items-baseline gap-[4px] mb-[12px]">
+              <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">85</span>
+              <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
+            </div>
+            <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
+              <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '85%' }}></div>
+            </div>
+            <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
+          </div>
+
+          {/* NIST AI RMF Card */}
+          <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
+            <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">NIST AI RMF</div>
+            <div className="flex items-baseline gap-[4px] mb-[12px]">
+              <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">71</span>
+              <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
+            </div>
+            <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
+              <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '71%' }}></div>
+            </div>
+            <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
+          </div>
+
+          {/* ISO 42001:2023 Card */}
+          <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
+            <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">ISO 42001:2023</div>
+            <div className="flex items-baseline gap-[4px] mb-[12px]">
+              <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">79</span>
+              <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
+            </div>
+            <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
+              <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '79%' }}></div>
+            </div>
+            <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
+          </div>
+
+          {/* Colorado SB21-169 Card */}
+          <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
+            <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">Colorado SB21-169</div>
+            <div className="flex items-baseline gap-[4px] mb-[12px]">
+              <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">92</span>
+              <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
+            </div>
+            <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
+              <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '92%' }}></div>
+            </div>
+            <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
+          </div>
+
+          {/* NYC Local Law 144 Card */}
+          <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
+            <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">NYC Local Law 144</div>
+            <div className="flex items-baseline gap-[4px] mb-[12px]">
+              <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">98</span>
+              <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
+            </div>
+            <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
+              <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '98%' }}></div>
+            </div>
+            <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
+          </div>
+        </div>
+
         {/* Assessment Table */}
-        <div className="bg-white rounded-[15px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] overflow-x-auto">
-          <table className="w-full border-collapse min-w-[1200px]">
-            <thead className="bg-[rgb(248,250,252)]">
+        <div className="bg-white rounded-[15px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] overflow-hidden">
+          <table className="w-full border-collapse">
+            <thead className="bg-[rgb(237,242,247)]">
               <tr>
-                <th className="text-[11px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.8px] text-left px-[20px] py-[14px] border-b border-[rgb(220,229,242)]">
+                <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
                   Name
                 </th>
-                <th className="text-[11px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.8px] text-left px-[20px] py-[14px] border-b border-[rgb(220,229,242)]">
+                <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
                   Created On
                 </th>
-                <th className="text-[11px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.8px] text-left px-[20px] py-[14px] border-b border-[rgb(220,229,242)] min-w-[250px]">
+                <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
                   Assessment Score
                 </th>
-                <th className="text-[11px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.8px] text-left px-[20px] py-[14px] border-b border-[rgb(220,229,242)]">
+                <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
                   Framework
                 </th>
-                <th className="text-[11px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.8px] text-left px-[20px] py-[14px] border-b border-[rgb(220,229,242)]">
+                <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
                   Granularity
                 </th>
-                <th className="text-[11px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.8px] text-left px-[20px] py-[14px] border-b border-[rgb(220,229,242)]">
+                <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
                   Answer Structure
                 </th>
-                <th className="text-[11px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.8px] text-left px-[20px] py-[14px] border-b border-[rgb(220,229,242)]">
+                <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
                   Completion Status
                 </th>
-                <th className="text-[11px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.8px] text-left px-[20px] py-[14px] border-b border-[rgb(220,229,242)]">
+                <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
                   Resume/Results
                 </th>
-                <th className="text-[11px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.8px] text-left px-[20px] py-[14px] border-b border-[rgb(220,229,242)]">
+                <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
                   Actions
                 </th>
               </tr>
@@ -168,65 +258,51 @@ const ComplianceReadiness = () => {
                   key={assessment.id}
                   onClick={() => assessment.status === 'Completed' && handleViewResults(assessment)}
                   className={`transition-colors duration-150 bg-white ${
-                    assessment.status === 'Completed' ? 'cursor-pointer hover:bg-[rgb(248,250,252)]' : ''
+                    assessment.status === 'Completed' ? 'cursor-pointer hover:bg-[rgb(236,242,252)]' : ''
                   }`}
                 >
-                  <td className="px-[20px] py-[18px] border-b border-[rgb(237,242,247)] text-[rgb(26,32,44)] text-[14px] font-[600]">
+                  <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(26,32,44)] text-[14px] font-[600]">
                     {assessment.name}
                   </td>
-                  <td className="px-[20px] py-[18px] border-b border-[rgb(237,242,247)] text-[rgb(74,85,104)] text-[14px]">
+                  <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(74,85,104)] text-[14px]">
                     {assessment.createdOn}
                   </td>
-                  <td className="px-[20px] py-[18px] border-b border-[rgb(237,242,247)]">
-                    {assessment.assessmentScore ? (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ fontSize: '20px', fontWeight: '700', color: 'rgb(26, 32, 44)' }}>
-                          {assessment.assessmentScore}
-                        </span>
-                        <div style={{ 
-                          flex: '1', 
-                          height: '8px', 
-                          backgroundColor: 'rgb(237, 242, 247)', 
-                          borderRadius: '4px', 
-                          overflow: 'hidden',
-                          minWidth: '150px',
-                          maxWidth: '200px'
-                        }}>
-                          <div style={{ 
-                            height: '100%', 
-                            width: '42%',
-                            backgroundColor: 'rgb(255, 153, 0)', 
-                            borderRadius: '4px' 
-                          }} />
-                        </div>
+                  <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)]">
+                    <div className="flex items-center gap-[8px]">
+                      <span className="text-[20px] font-[700] text-[rgb(26,32,44)]">
+                        {assessment.assessmentScore}
+                      </span>
+                      <div className="flex-1 h-[8px] bg-[rgb(237,242,247)] rounded-[4px] overflow-hidden">
+                        <div 
+                          className="h-full bg-[rgb(255,153,0)] rounded-[4px]" 
+                          style={{ width: `${assessment.scorePercentage}%` }}
+                        />
                       </div>
-                    ) : (
-                      <span style={{ fontSize: '14px', color: 'rgb(113, 118, 126)' }}>Not Available</span>
-                    )}
+                    </div>
                   </td>
-                  <td className="px-[20px] py-[18px] border-b border-[rgb(237,242,247)] text-[rgb(74,85,104)] text-[14px]">
+                  <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(74,85,104)] text-[14px]">
                     {assessment.framework}
                   </td>
-                  <td className="px-[20px] py-[18px] border-b border-[rgb(237,242,247)] text-[rgb(74,85,104)] text-[14px]">
+                  <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(74,85,104)] text-[14px]">
                     {assessment.granularity === 'Not Available' ? (
                       <span className="text-[14px] text-[rgb(113,118,126)]">{assessment.granularity}</span>
                     ) : (
                       assessment.granularity
                     )}
                   </td>
-                  <td className="px-[20px] py-[18px] border-b border-[rgb(237,242,247)] text-[rgb(74,85,104)] text-[14px]">
+                  <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(74,85,104)] text-[14px]">
                     {assessment.answerStructure === 'Not Available' ? (
                       <span className="text-[14px] text-[rgb(113,118,126)]">{assessment.answerStructure}</span>
                     ) : (
                       assessment.answerStructure
                     )}
                   </td>
-                  <td className="px-[20px] py-[18px] border-b border-[rgb(237,242,247)] text-[rgb(48,48,69)] text-[14px]">
+                  <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(48,48,69)] text-[14px]">
                     <span className={`inline-flex items-center gap-[6px] px-[12px] py-[6px] rounded-[6px] text-[13px] font-[600] ${getStatusBadge(assessment.status)}`}>
                       {getStatusIcon(assessment.status)} {assessment.status}
                     </span>
                   </td>
-                  <td className="px-[20px] py-[18px] border-b border-[rgb(237,242,247)] text-[rgb(48,48,69)] text-[14px]">
+                  <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(48,48,69)] text-[14px]">
                     {assessment.status === 'Completed' ? (
                       <button
                         onClick={(e) => {
@@ -258,7 +334,7 @@ const ComplianceReadiness = () => {
         </div>
 
         {/* Results count */}
-        <div className="text-[12px] text-[rgb(74,85,104)]">
+        <div className="mt-[16px] text-[12px] text-[rgb(74,85,104)]">
           Results: 1 - {assessments.length} of {assessments.length}
         </div>
       </div>

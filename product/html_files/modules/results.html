@@ -104,6 +104,197 @@
     background-color: var(--bg-blue);
   }
   
+  .company-info-banner {
+    background: var(--bg-white);
+    border-radius: 15px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .company-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--divider);
+  }
+  
+  .company-name {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+    color: var(--text-dark);
+  }
+  
+  .company-model {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-medium);
+    margin: 0;
+  }
+  
+  .company-badge {
+    background: var(--success-green);
+    color: var(--bg-white);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  
+  .company-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+  }
+  
+  .company-detail {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .company-detail-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-light);
+    margin-bottom: 4px;
+  }
+  
+  .company-detail-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+  
+  .top-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--divider);
+  }
+  
+  .top-item:last-child {
+    border-bottom: none;
+  }
+  
+  .top-item-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+  
+  .top-item-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-blue);
+  }
+  
+  .chat-container {
+    background-color: var(--bg-white);
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .chat-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--divider);
+  }
+  
+  .chat-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-dark);
+    flex: 1;
+  }
+  
+  .chat-badge {
+    background: var(--primary-blue);
+    color: var(--bg-white);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .chat-messages {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 16px;
+    padding: 12px;
+    background: var(--bg-light);
+    border-radius: 8px;
+  }
+  
+  .message {
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+  .message-agent {
+    background-color: var(--bg-white);
+    color: var(--text-medium-dark);
+    margin-right: 40px;
+    border: 1px solid var(--divider);
+  }
+  
+  .message-user {
+    background-color: var(--primary-blue);
+    color: var(--bg-white);
+    margin-left: 40px;
+  }
+  
+  .chat-input-container {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .chat-input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid var(--divider);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: "Source Sans Pro";
+    color: var(--text-medium-dark);
+  }
+  
+  .chat-input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+  }
+  
+  .btn-send {
+    background-color: var(--primary-blue);
+    color: var(--bg-white);
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: "Source Sans Pro";
+    transition: all 0.2s;
+  }
+  
+  .btn-send:hover {
+    background-color: var(--primary-blue-light);
+  }
+  
   .alert {
     background: rgba(255, 153, 0, 0.1);
     border: 1px solid var(--warning-orange);
@@ -379,14 +570,16 @@
     <div class="toolbar">
       <div>
         <h1 class="page-title">GenAI Exposure - Financial Quantification</h1>
-        <p class="page-subtitle">AI Risk Assessment - Overview</p>
+        <p class="page-subtitle">AI Risk Assessment Results</p>
       </div>
       <div class="toolbar-right">
+        <a href="index.html" class="btn btn-secondary">← Back to Index</a>
         <button onclick="downloadJSON()" class="btn btn-secondary">Download JSON</button>
-        <a href="entity_exposure.html" class="btn btn-primary">Re-run</a>
+        <a href="entity_exposure.html" class="btn btn-primary">Run New Assessment</a>
       </div>
     </div>
 
+    <!-- 1. KPI Metrics (Top Priority) -->
     <div class="kpi-grid">
       <div class="kpi-tile">
         <div class="kpi-label">AAL</div>
@@ -420,32 +613,215 @@
 
     <!-- Overview Tab -->
     <div id="overview-tab" class="tab-content active">
-      <div class="grid-2col">
+      <!-- 3. Top 4 Cards (Attack Vectors, Events, Damages, Controls) -->
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px;">
         <div class="card">
           <div class="card-content">
-            <h2>Expected Loss Curve</h2>
-            <div class="chart-container">
-              <canvas id="epCurve"></canvas>
+            <h2>Top Attack Vectors</h2>
+            <div class="top-item">
+              <span class="top-item-name">Phishing</span>
+              <span class="top-item-value">$1.86M</span>
+            </div>
+            <div class="top-item">
+              <span class="top-item-name">Exploit Public-Facing</span>
+              <span class="top-item-value">$1.24M</span>
+            </div>
+            <div class="top-item">
+              <span class="top-item-name">AI Supply Chain</span>
+              <span class="top-item-value">$930K</span>
             </div>
           </div>
         </div>
+        
         <div class="card">
           <div class="card-content">
-            <h2>Model Information</h2>
-            <table>
-              <tr>
-                <td style="font-weight: 600;">Model</td>
-                <td>GPT-4</td>
-              </tr>
-              <tr>
-                <td style="font-weight: 600;">Run Time</td>
-                <td>07-31-2025 15:42</td>
-              </tr>
-              <tr>
-                <td style="font-weight: 600;">Model Version</td>
-                <td>ai-v2025.1-beta.1</td>
-              </tr>
-            </table>
+            <h2>Top Event Types</h2>
+            <div class="top-item">
+              <span class="top-item-name">Data Exfiltration</span>
+              <span class="top-item-value">$2.48M</span>
+            </div>
+            <div class="top-item">
+              <span class="top-item-name">Model Integrity</span>
+              <span class="top-item-value">$1.86M</span>
+            </div>
+            <div class="top-item">
+              <span class="top-item-name">Model Availability</span>
+              <span class="top-item-value">$1.24M</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-content">
+            <h2>Top Damage Types</h2>
+            <div class="top-item">
+              <span class="top-item-name">Lost Income</span>
+              <span class="top-item-value">$930K</span>
+            </div>
+            <div class="top-item">
+              <span class="top-item-name">Settlements</span>
+              <span class="top-item-value">$744K</span>
+            </div>
+            <div class="top-item">
+              <span class="top-item-name">Business Interruption</span>
+              <span class="top-item-value">$620K</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-content">
+            <h2>Top Control Opportunities</h2>
+            <div class="top-item">
+              <span class="top-item-name">GOVERN-1</span>
+              <span class="top-item-value">−$320K</span>
+            </div>
+            <div class="top-item">
+              <span class="top-item-name">GOVERN-2</span>
+              <span class="top-item-value">−$280K</span>
+            </div>
+            <div class="top-item">
+              <span class="top-item-name">GOVERN-3</span>
+              <span class="top-item-value">−$260K</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 4. Bottom Section: Left (Company + EP Curve) | Right (Insights + Agent) -->
+      <div style="display: grid; grid-template-columns: 60% 40%; gap: 24px; margin-bottom: 24px;">
+        <!-- Left Column: Company Info + EP Curve stacked -->
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <!-- Company Information (moved above EP curve) -->
+          <div class="company-info-banner">
+            <div class="company-header">
+              <div>
+                <h1 class="company-name">TechCorp Solutions</h1>
+                <p class="company-model">OpenAI GPT-4</p>
+              </div>
+              <div class="company-badge">Completed Assessment</div>
+            </div>
+            <div class="company-details-grid">
+              <div class="company-detail">
+                <div class="company-detail-label">Annual Revenue</div>
+                <div class="company-detail-value">$50,000,000 USD</div>
+              </div>
+              <div class="company-detail">
+                <div class="company-detail-label">Employees</div>
+                <div class="company-detail-value">425</div>
+              </div>
+              <div class="company-detail">
+                <div class="company-detail-label">Industry</div>
+                <div class="company-detail-value">Technology</div>
+              </div>
+              <div class="company-detail">
+                <div class="company-detail-label">Country</div>
+                <div class="company-detail-value">United States</div>
+              </div>
+              <div class="company-detail">
+                <div class="company-detail-label">Assessment Date</div>
+                <div class="company-detail-value">Nov 11, 2025</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- EP Curve -->
+          <div class="card">
+            <div class="card-content">
+              <h2>Exceedance Probability (EP) Curve</h2>
+              <div class="chart-container" style="height: 400px;">
+                <canvas id="epCurve"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right Column: Kovrr Insights + Agent stacked -->
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <!-- Kovrr Insights -->
+          <div class="card">
+            <div class="card-content">
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--divider);">
+                <h2 style="margin: 0; flex: 1;">Kovrr Insights</h2>
+              </div>
+              <p style="font-size: 13px; color: var(--text-medium); margin-bottom: 20px;">
+                Based on the analysis of the incidents about ChatGPT-4 in Kovrr's Database
+              </p>
+              
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <div>
+                  <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-light); margin-bottom: 6px;">
+                    Avg. Annual Frequency
+                  </div>
+                  <div style="font-size: 24px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px;">
+                    2.3 incidents
+                  </div>
+                  <div style="font-size: 12px; color: var(--text-medium);">
+                    Your model: <strong style="color: var(--warning-orange);">18% likelihood</strong>
+                  </div>
+                </div>
+                
+                <div>
+                  <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-light); margin-bottom: 6px;">
+                    Avg. Severity (AAL)
+                  </div>
+                  <div style="font-size: 24px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px;">
+                    $8.2M
+                  </div>
+                  <div style="font-size: 12px; color: var(--text-medium);">
+                    Your model: <strong style="color: var(--success-green);">24% below avg</strong>
+                  </div>
+                </div>
+                
+                <div>
+                  <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-light); margin-bottom: 6px;">
+                    Most Common Vector
+                  </div>
+                  <div style="font-size: 24px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px;">
+                    Phishing
+                  </div>
+                  <div style="font-size: 12px; color: var(--text-medium);">
+                    <strong>43%</strong> of GPT-4 incidents
+                  </div>
+                </div>
+                
+                <div>
+                  <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-light); margin-bottom: 6px;">
+                    Industry Benchmark
+                  </div>
+                  <div style="font-size: 24px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px;">
+                    $7.1M
+                  </div>
+                  <div style="font-size: 12px; color: var(--text-medium);">
+                    Technology sector average
+                  </div>
+                </div>
+              </div>
+              
+              <div style="padding: 16px; background: var(--bg-light); border-radius: 8px; border-left: 3px solid var(--primary-blue);">
+                <div style="font-size: 12px; font-weight: 600; color: var(--text-dark); margin-bottom: 4px;">Key Insight</div>
+                <div style="font-size: 13px; color: var(--text-medium); line-height: 1.6;">
+                  Your GPT-4 deployment shows lower-than-average severity but maintains typical frequency patterns for technology sector implementations. Primary risk driver is phishing-based initial access.
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Ask Kovrr Agent -->
+          <div class="chat-container" style="flex: 1;">
+            <div class="chat-header">
+              <div class="chat-title">Ask Kovrr Agent</div>
+              <span class="chat-badge">AI Assistant</span>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+              <div class="message message-agent">
+                👋 Hi! I'm your Kovrr AI Risk Analyst. Ask me anything about this assessment, GenAI risks, attack vectors, or how to reduce your exposure.
+              </div>
+            </div>
+            <div class="chat-input-container">
+              <input type="text" class="chat-input" id="chat-input" placeholder="e.g., How can I reduce my phishing risk?" onkeypress="if(event.key==='Enter') sendMessage()">
+              <button class="btn-send" onclick="sendMessage()">Send</button>
+            </div>
           </div>
         </div>
       </div>
@@ -981,6 +1357,55 @@
       a.download = 'genai-risk-results.json';
       a.click();
       URL.revokeObjectURL(url);
+    }
+    
+    // Chat functionality
+    function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const messagesContainer = document.getElementById('chat-messages');
+      const message = input.value.trim();
+      
+      if (!message) return;
+      
+      // Add user message
+      const userMsg = document.createElement('div');
+      userMsg.className = 'message message-user';
+      userMsg.textContent = message;
+      messagesContainer.appendChild(userMsg);
+      
+      // Clear input
+      input.value = '';
+      
+      // Scroll to bottom
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      
+      // Simulate agent response
+      setTimeout(() => {
+        const agentMsg = document.createElement('div');
+        agentMsg.className = 'message message-agent';
+        agentMsg.textContent = getAgentResponse(message);
+        messagesContainer.appendChild(agentMsg);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }, 1000);
+    }
+    
+    function getAgentResponse(userMessage) {
+      const msg = userMessage.toLowerCase();
+      
+      // Sample responses based on keywords
+      if (msg.includes('phishing') || msg.includes('reduce')) {
+        return "To reduce phishing risk (your top attack vector at $1.86M AAL), I recommend: 1) Implement GOVERN-1 controls for security awareness training (-$320K impact), 2) Deploy email filtering with AI-powered threat detection, 3) Enable MFA for all model access points. These controls could reduce your phishing-related AAL by approximately 35-40%.";
+      } else if (msg.includes('control') || msg.includes('govern')) {
+        return "Your top control opportunities are GOVERN-1 (-$320K), GOVERN-2 (-$280K), and GOVERN-3 (-$260K). These NIST AI RMF governance controls focus on establishing AI policies, risk management processes, and accountability frameworks. Implementing all three could reduce your AAL by approximately $860K (14% reduction).";
+      } else if (msg.includes('data') || msg.includes('exfiltration')) {
+        return "Data Exfiltration is your highest event type risk at $2.48M AAL. This is driven primarily by your 250K PII records and 50K PCI records exposure. Key mitigations include: implementing data loss prevention (DLP) controls, encrypting data at rest and in transit, and establishing strict access controls for AI model training data.";
+      } else if (msg.includes('compare') || msg.includes('benchmark')) {
+        return "Compared to industry benchmarks: Your $6.2M AAL is 24% below the average for GPT-4 deployments ($8.2M) and 13% below the technology sector average ($7.1M). Your 18% annual likelihood is slightly above average (16%), suggesting good severity controls but opportunity to improve frequency reduction through preventive measures.";
+      } else if (msg.includes('priority') || msg.includes('first')) {
+        return "Based on your risk profile, I recommend prioritizing: 1) GOVERN-1 implementation (highest ROI at -$320K), 2) Phishing defense enhancement (largest attack vector), 3) Data exfiltration controls (highest event type risk). This sequence addresses your top exposures while building foundational governance that enables other controls.";
+      } else {
+        return "I can help you understand your assessment results, recommend controls, explain attack vectors, or compare your risk to industry benchmarks. Try asking: 'How can I reduce my phishing risk?' or 'Which controls should I prioritize?'";
+      }
     }
   </script>
 </body>

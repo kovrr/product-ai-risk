@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Discovery - Integrations Hub - AI Assets Visibility - Kovrr</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+            background-color: rgb(245, 247, 255);
+            color: rgb(48, 48, 69);
+            min-height: 100vh;
+        }
+
+        /* Page Content */
+        .page-content {
+            padding: 30px;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: rgb(85, 81, 247);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            transition: all 0.2s ease;
+        }
+
+        .back-button:hover {
+            color: rgb(97, 94, 251);
+        }
+
+        /* Page Header */
+        .page-header {
+            background: rgb(255, 255, 255);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 24px;
+            box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+        }
+
+        .page-header h1 {
+            font-size: 38px;
+            font-weight: 700;
+            color: rgb(26, 32, 44);
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            font-size: 14px;
+            color: rgb(74, 85, 104);
+        }
+
+        /* Integration Grid */
+        .integration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 20px;
+        }
+
+        .integration-card {
+            background: rgb(255, 255, 255);
+            border-radius: 15px;
+            padding: 24px;
+            box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+            transition: all 0.2s ease;
+        }
+
+        .integration-card:hover {
+            transform: translateY(-2px);
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 20px 0px;
+        }
+
+        .integration-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .integration-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .integration-info {
+            flex: 1;
+        }
+
+        .integration-info h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: rgb(26, 32, 44);
+            margin-bottom: 4px;
+        }
+
+        .integration-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-connected {
+            background-color: rgba(13, 199, 131, 0.1);
+            color: rgb(13, 199, 131);
+        }
+
+        .status-available {
+            background-color: rgba(113, 118, 126, 0.1);
+            color: rgb(74, 85, 104);
+        }
+
+        .integration-description {
+            font-size: 14px;
+            color: rgb(74, 85, 104);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            min-height: 48px;
+        }
+
+        .integration-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: rgb(245, 247, 255);
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: rgb(26, 32, 44);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: rgb(74, 85, 104);
+        }
+
+        .integration-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            background: rgb(85, 81, 247);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+            transition: all 0.2s ease;
+            box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+        }
+
+        .btn-primary:hover {
+            background: rgb(97, 94, 251);
+            transform: translateY(-1px);
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 20px 0px;
+        }
+
+        .btn-success {
+            background: rgb(13, 199, 131);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+            transition: all 0.2s ease;
+            box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-success:hover {
+            background: rgb(10, 180, 118);
+        }
+
+        .btn-outline {
+            background: white;
+            color: rgb(85, 81, 247);
+            border: 1px solid rgb(85, 81, 247);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+            transition: all 0.2s ease;
+            box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+        }
+
+        .btn-outline:hover {
+            background: rgb(236, 242, 252);
+        }
+
+        .btn-secondary {
+            background: rgb(245, 247, 255);
+            color: rgb(74, 85, 104);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgb(237, 242, 247);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-content">
+                <a href="ai-assets-list.html" class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Assets
+                </a>
+
+                <div class="page-header">
+                    <h1>Integrations Hub</h1>
+                    <p>Connect your existing tools and platforms to automatically discover AI assets</p>
+                </div>
+
+                <div class="integration-grid">
+                    <!-- Kovrr CRQ Platform Integration - Connected -->
+                    <div class="integration-card">
+                        <div class="integration-header">
+                            <div class="integration-icon" style="background: linear-gradient(135deg, rgb(85, 81, 247), rgb(97, 94, 251)); color: white; padding: 8px;">
+                                <svg width="32" height="32" viewBox="0 0 281 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_249_22)">
+                                        <path d="M278.095 22.8127V22.373C278.095 18.3665 277.306 14.8974 275.828 12.0635L228.528 16.9984V64.2459H244.787V44.7019H250.601L261.392 64.2459H279.819L266.762 41.3795C273.463 38.0081 278.095 32.1938 278.095 22.8127ZM261.687 23.6433C261.687 28.6759 258.435 31.8518 252.868 31.8518H244.787V15.3371H252.769C258.238 15.3371 261.687 18.0244 261.687 23.4479V23.6433Z" fill="white"/>
+                                        <path d="M139.248 40.4511L135.159 26.7704L118.948 28.4805L131.168 64.5879H146.836L160.533 24.1319L143.535 25.8909L139.248 40.4511Z" fill="white"/>
+                                        <path d="M93.9184 32.2915V33.2687C93.9184 44.1645 88.8435 50.7117 81.2064 50.7117C73.8157 50.7117 68.593 44.2622 68.3959 33.7573L51.7422 35.4674C52.5798 53.2524 64.602 65.3697 81.1079 65.3697C98.1558 65.3697 110.621 52.1287 110.621 33.3176V31.9495C110.621 31.07 110.572 30.1417 110.523 29.3111L93.8692 31.07C93.9184 31.4609 93.9184 31.8518 93.9184 32.2915Z" fill="white"/>
+                                        <path d="M81.1079 14.702C85.1974 14.702 88.5971 16.6564 90.8636 20.1743L108.503 19.3437C104.364 7.51957 94.1648 0.0440063 81.2065 0.0440063C67.4105 0.0440063 56.6201 8.74107 53.0233 22.031L70.8102 21.2003C73.0274 16.9984 76.6242 14.702 81.1079 14.702Z" fill="white"/>
+                                        <path d="M127.521 1.21664H109.735L115.746 19.0016L132.596 18.2199L127.521 1.21664Z" fill="white"/>
+                                        <path d="M168.269 1.21664H150.876L145.998 17.5359L163.046 16.7541L168.269 1.21664Z" fill="white"/>
+                                        <path d="M272.576 7.61729C268.487 3.4642 262.032 1.21664 253.508 1.21664H228.528V13.6271L275.434 11.3795C274.695 10.0114 273.709 8.74107 272.576 7.61729Z" fill="white"/>
+                                        <path d="M205.616 23.4479V23.6433C205.616 28.6759 202.365 31.8518 196.797 31.8518H188.716V21.1515L172.457 22.8616V64.2459H188.716V44.7019H194.53L205.321 64.2459H223.748L210.691 41.3795C217.392 38.057 222.024 32.1938 222.024 22.8616V22.4218C222.024 20.8583 221.876 19.2948 221.63 17.7801L204.779 19.5391C205.37 20.7117 205.666 22.0798 205.616 23.4479Z" fill="white"/>
+                                        <path d="M188.766 15.3372H192.412L220.644 13.9691C219.757 11.5749 218.328 9.37625 216.505 7.56843C212.416 3.4642 206.011 1.21664 197.487 1.21664H172.506V16.3144L188.766 15.5326V15.3372Z" fill="white"/>
+                                        <path d="M53.5652 1.21664H34.7929L17.2523 26.1352V1.21664H0.894196V64.2459H17.2523V47.829L22.3272 41.2818L35.1378 64.2459H54.2058L33.8567 28.0407L53.5652 1.21664Z" fill="white"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_249_22">
+                                            <rect width="279.664" height="65.912" fill="white" transform="translate(0.5 0.0440063)"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <div class="integration-info">
+                                <h3>Kovrr's CRQ Platform</h3>
+                                <span class="integration-status status-connected">Connected</span>
+                            </div>
+                        </div>
+                        <p class="integration-description">
+                            Kovrr's cyber risk quantification platform enables risk managers and key decision-makers to financially quantify their cyber risk exposure and develop data-driven mitigation plans.
+                        </p>
+                        <div class="integration-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">152</div>
+                                <div class="stat-label">Assets</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">8</div>
+                                <div class="stat-label">AI Risks</div>
+                            </div>
+                        </div>
+                        <div class="integration-actions">
+                            <button class="btn-success"><i class="fas fa-check"></i> Connected</button>
+                            <button class="btn-outline">View Details</button>
+                        </div>
+                    </div>
+
+                    <!-- GitHub Integration - Connected -->
+                    <div class="integration-card">
+                        <div class="integration-header">
+                            <div class="integration-icon" style="background: linear-gradient(135deg, #24292e, #404448); color: white;">
+                                <i class="fab fa-github"></i>
+                            </div>
+                            <div class="integration-info">
+                                <h3>GitHub</h3>
+                                <span class="integration-status status-connected">Connected</span>
+                            </div>
+                        </div>
+                        <p class="integration-description">
+                            Track AI/ML model files, repository dependencies, and code patterns for AI implementations.
+                        </p>
+                        <div class="integration-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">12</div>
+                                <div class="stat-label">Assets Found</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">24</div>
+                                <div class="stat-label">Repositories</div>
+                            </div>
+                        </div>
+                        <div class="integration-actions">
+                            <button class="btn-success"><i class="fas fa-check"></i> Connected</button>
+                            <button class="btn-outline">Configure</button>
+                        </div>
+                    </div>
+
+                    <!-- Slack Integration - Connected -->
+                    <div class="integration-card">
+                        <div class="integration-header">
+                            <div class="integration-icon" style="background: linear-gradient(135deg, #4A154B, #611f69); color: white;">
+                                <i class="fab fa-slack"></i>
+                            </div>
+                            <div class="integration-info">
+                                <h3>Slack</h3>
+                                <span class="integration-status status-connected">Connected</span>
+                            </div>
+                        </div>
+                        <p class="integration-description">
+                            Monitor AI tool mentions and usage patterns in team conversations and channels.
+                        </p>
+                        <div class="integration-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">8</div>
+                                <div class="stat-label">Assets Found</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">15</div>
+                                <div class="stat-label">Channels</div>
+                            </div>
+                        </div>
+                        <div class="integration-actions">
+                            <button class="btn-success"><i class="fas fa-check"></i> Connected</button>
+                            <button class="btn-outline">Configure</button>
+                        </div>
+                    </div>
+
+                    <!-- Jira Integration -->
+                    <div class="integration-card">
+                        <div class="integration-header">
+                            <div class="integration-icon" style="background: linear-gradient(135deg, #0052CC, #2684FF); color: white;">
+                                <i class="fab fa-jira"></i>
+                            </div>
+                            <div class="integration-info">
+                                <h3>Jira</h3>
+                                <span class="integration-status status-available">Available</span>
+                            </div>
+                        </div>
+                        <p class="integration-description">
+                            Discover AI initiatives, track development tickets, and monitor AI-related project work.
+                        </p>
+                        <div class="integration-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">-</div>
+                                <div class="stat-label">Assets Found</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">-</div>
+                                <div class="stat-label">Projects</div>
+                            </div>
+                        </div>
+                        <div class="integration-actions">
+                            <button class="btn-primary">Connect</button>
+                            <button class="btn-secondary">Learn More</button>
+                        </div>
+                    </div>
+
+                    <!-- Azure DevOps Integration -->
+                    <div class="integration-card">
+                        <div class="integration-header">
+                            <div class="integration-icon" style="background: linear-gradient(135deg, #0078D4, #50E6FF); color: white;">
+                                <i class="fab fa-microsoft"></i>
+                            </div>
+                            <div class="integration-info">
+                                <h3>Azure DevOps</h3>
+                                <span class="integration-status status-available">Available</span>
+                            </div>
+                        </div>
+                        <p class="integration-description">
+                            Discover AI services and ML pipelines deployed in your Azure environment.
+                        </p>
+                        <div class="integration-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">-</div>
+                                <div class="stat-label">Assets Found</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">-</div>
+                                <div class="stat-label">Pipelines</div>
+                            </div>
+                        </div>
+                        <div class="integration-actions">
+                            <button class="btn-primary">Connect</button>
+                            <button class="btn-secondary">Learn More</button>
+                        </div>
+                    </div>
+
+                    <!-- AWS Integration -->
+                    <div class="integration-card">
+                        <div class="integration-header">
+                            <div class="integration-icon" style="background: linear-gradient(135deg, #FF9900, #FF9900); color: white;">
+                                <i class="fab fa-aws"></i>
+                            </div>
+                            <div class="integration-info">
+                                <h3>AWS</h3>
+                                <span class="integration-status status-available">Available</span>
+                            </div>
+                        </div>
+                        <p class="integration-description">
+                            Automatically discover SageMaker models, Bedrock usage, and AI services in AWS.
+                        </p>
+                        <div class="integration-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">-</div>
+                                <div class="stat-label">Assets Found</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">-</div>
+                                <div class="stat-label">Services</div>
+                            </div>
+                        </div>
+                        <div class="integration-actions">
+                            <button class="btn-primary">Connect</button>
+                            <button class="btn-secondary">Learn More</button>
+                        </div>
+                    </div>
+
+                    <!-- Google Cloud Integration -->
+                    <div class="integration-card">
+                        <div class="integration-header">
+                            <div class="integration-icon" style="background: linear-gradient(135deg, #4285F4, #34A853); color: white;">
+                                <i class="fab fa-google"></i>
+                            </div>
+                            <div class="integration-info">
+                                <h3>Google Cloud</h3>
+                                <span class="integration-status status-available">Available</span>
+                            </div>
+                        </div>
+                        <p class="integration-description">
+                            Discover Vertex AI models, AI Platform services, and ML workloads in GCP.
+                        </p>
+                        <div class="integration-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">-</div>
+                                <div class="stat-label">Assets Found</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">-</div>
+                                <div class="stat-label">Projects</div>
+                            </div>
+                        </div>
+                        <div class="integration-actions">
+                            <button class="btn-primary">Connect</button>
+                            <button class="btn-secondary">Learn More</button>
+                        </div>
+                    </div>
+
+                    <!-- Salesforce Integration -->
+                    <div class="integration-card">
+                        <div class="integration-header">
+                            <div class="integration-icon" style="background: linear-gradient(135deg, #00A1E0, #0176D3); color: white;">
+                                <i class="fab fa-salesforce"></i>
+                            </div>
+                            <div class="integration-info">
+                                <h3>Salesforce</h3>
+                                <span class="integration-status status-available">Available</span>
+                            </div>
+                        </div>
+                        <p class="integration-description">
+                            Track Einstein AI features, custom models, and AI-powered automations.
+                        </p>
+                        <div class="integration-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">-</div>
+                                <div class="stat-label">Assets Found</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">-</div>
+                                <div class="stat-label">Orgs</div>
+                            </div>
+                        </div>
+                        <div class="integration-actions">
+                            <button class="btn-primary">Connect</button>
+                            <button class="btn-secondary">Learn More</button>
+                        </div>
+                    </div>
+
+                    <!-- ServiceNow Integration -->
+                    <div class="integration-card">
+                        <div class="integration-header">
+                            <div class="integration-icon" style="background: linear-gradient(135deg, #62D84E, #79E05D); color: white;">
+                                <i class="fas fa-cloud"></i>
+                            </div>
+                            <div class="integration-info">
+                                <h3>ServiceNow</h3>
+                                <span class="integration-status status-available">Available</span>
+                            </div>
+                        </div>
+                        <p class="integration-description">
+                            Import AI applications from your CMDB and track AI-related incidents and changes.
+                        </p>
+                        <div class="integration-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">-</div>
+                                <div class="stat-label">Assets Found</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">-</div>
+                                <div class="stat-label">CIs</div>
+                            </div>
+                        </div>
+                        <div class="integration-actions">
+                            <button class="btn-primary">Connect</button>
+                            <button class="btn-secondary">Learn More</button>
+                        </div>
+                    </div>
+
+                    <!-- Custom API Integration -->
+                    <div class="integration-card">
+                        <div class="integration-header">
+                            <div class="integration-icon" style="background: linear-gradient(135deg, rgb(85, 81, 247), rgb(97, 94, 251)); color: white;">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="integration-info">
+                                <h3>Custom API</h3>
+                                <span class="integration-status status-available">Available</span>
+                            </div>
+                        </div>
+                        <p class="integration-description">
+                            Build your own integration using our REST API to import assets from custom sources.
+                        </p>
+                        <div class="integration-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">-</div>
+                                <div class="stat-label">Assets Found</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">-</div>
+                                <div class="stat-label">Endpoints</div>
+                            </div>
+                        </div>
+                        <div class="integration-actions">
+                            <button class="btn-primary">Configure</button>
+                            <button class="btn-secondary">View Docs</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

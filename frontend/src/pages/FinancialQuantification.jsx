@@ -73,7 +73,7 @@ const FinancialQuantification = () => {
     return (
       <div style={{ fontFamily: '"Source Sans Pro", sans-serif', maxWidth: '1440px', margin: '0 auto', padding: '30px' }}>
         <h1 style={{ fontSize: '38px', fontWeight: '700', color: 'rgb(26, 32, 44)', margin: '0 0 8px 0' }}>
-          GenAI Exposure - Financial Quantification
+          Gen AI Exposure
         </h1>
         <p style={{ fontSize: '16px', color: 'rgb(74, 85, 104)', margin: '0 0 24px 0' }}>Entity Exposure Assessment</p>
 
@@ -278,7 +278,7 @@ const FinancialQuantification = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
         <div>
           <h1 style={{ fontSize: '38px', fontWeight: '700', color: 'rgb(26, 32, 44)', margin: '0 0 8px 0' }}>
-            GenAI Exposure - Financial Quantification
+            Gen AI Exposure
           </h1>
           <p style={{ fontSize: '16px', color: 'rgb(74, 85, 104)', margin: 0 }}>AI Risk Assessment - Overview</p>
         </div>

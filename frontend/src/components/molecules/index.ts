@@ -2,6 +2,9 @@
 export { RiskScoreBadge, RiskScoreProgress } from './RiskScoreBadge';
 export type { RiskScoreBadgeProps, RiskScoreProgressProps, RiskTier } from './RiskScoreBadge';
 
+export { RiskProgressBar } from './RiskProgressBar';
+export type { RiskProgressBarProps } from './RiskProgressBar';
+
 export { StatusBadge } from './StatusBadge';
 export type { StatusBadgeProps, AssetStatus } from './StatusBadge';
 

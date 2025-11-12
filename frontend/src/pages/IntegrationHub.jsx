@@ -159,113 +159,113 @@ const IntegrationHub = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-[32px]">
+      {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-neutral-800">Integration Hub</h1>
-          <p className="text-neutral-600 mt-1">Connect data sources and enable real-time data streams</p>
+          <h1 className="text-[38px] font-[700] text-[rgb(26,32,44)] tracking-[-0.5px] mb-[8px]">Integration Hub</h1>
+          <p className="text-[16px] text-[rgb(74,85,104)]">Connect data sources and enable real-time data streams</p>
         </div>
-        <button className="btn btn-primary">
+        <button className="inline-flex items-center gap-[8px] px-[20px] py-[10px] bg-[rgb(85,81,247)] text-white text-[14px] font-[600] rounded-[6px] border-none shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] cursor-pointer transition-all duration-200 hover:bg-[rgb(97,94,251)] hover:-translate-y-[1px]">
           <Plus size={18} />
           Add Integration
         </button>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="card">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-[24px]">
+        <div className="bg-white rounded-[15px] p-[24px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)]">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-neutral-600">Active Connections</p>
-              <p className="text-2xl font-bold text-green-600 mt-1">{availableConnectors.filter(c => c.status === 'connected').length}</p>
-              <p className="text-xs text-neutral-500 mt-1">Connected & syncing</p>
+              <p className="text-[12px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px]">Active Connections</p>
+              <p className="text-[32px] font-[700] text-[rgb(13,199,131)] mt-[8px]">{availableConnectors.filter(c => c.status === 'connected').length}</p>
+              <p className="text-[12px] text-[rgb(113,118,126)] mt-[4px]">Connected & syncing</p>
             </div>
-            <div className="w-12 h-12 bg-success/10 rounded-lg flex items-center justify-center">
-              <CheckCircle className="text-success" size={24} />
+            <div className="w-[48px] h-[48px] bg-[rgba(13,199,131,0.1)] rounded-[12px] flex items-center justify-center">
+              <CheckCircle className="text-[rgb(13,199,131)]" size={24} />
             </div>
           </div>
         </div>
 
-        <div className="card">
+        <div className="bg-white rounded-[15px] p-[24px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)]">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-neutral-600">Total Integrations</p>
-              <p className="text-2xl font-bold text-neutral-800 mt-1">{availableConnectors.length}</p>
-              <p className="text-xs text-neutral-500 mt-1">Including Kovrr</p>
+              <p className="text-[12px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px]">Total Integrations</p>
+              <p className="text-[32px] font-[700] text-[rgb(26,32,44)] mt-[8px]">{availableConnectors.length}</p>
+              <p className="text-[12px] text-[rgb(113,118,126)] mt-[4px]">Including Kovrr</p>
             </div>
-            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-              <Link2 className="text-primary" size={24} />
+            <div className="w-[48px] h-[48px] bg-[rgba(85,81,247,0.1)] rounded-[12px] flex items-center justify-center">
+              <Link2 className="text-[rgb(85,81,247)]" size={24} />
             </div>
           </div>
         </div>
 
-        <div className="card">
+        <div className="bg-white rounded-[15px] p-[24px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)]">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-neutral-600">Available to Connect</p>
-              <p className="text-2xl font-bold text-blue-600 mt-1">{availableConnectors.filter(c => c.status === 'available').length}</p>
-              <p className="text-xs text-neutral-500 mt-1">Ready to configure</p>
+              <p className="text-[12px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px]">Available to Connect</p>
+              <p className="text-[32px] font-[700] text-[rgb(85,81,247)] mt-[8px]">{availableConnectors.filter(c => c.status === 'available').length}</p>
+              <p className="text-[12px] text-[rgb(113,118,126)] mt-[4px]">Ready to configure</p>
             </div>
-            <div className="w-12 h-12 bg-info/10 rounded-lg flex items-center justify-center">
-              <Plus className="text-info" size={24} />
+            <div className="w-[48px] h-[48px] bg-[rgba(85,81,247,0.1)] rounded-[12px] flex items-center justify-center">
+              <Plus className="text-[rgb(85,81,247)]" size={24} />
             </div>
           </div>
         </div>
 
-        <div className="card">
+        <div className="bg-white rounded-[15px] p-[24px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)]">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-neutral-600">Coming Soon</p>
-              <p className="text-2xl font-bold text-neutral-800 mt-1">{availableConnectors.filter(c => c.status === 'coming-soon').length}</p>
-              <p className="text-xs text-neutral-500 mt-1">In development</p>
+              <p className="text-[12px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px]">Coming Soon</p>
+              <p className="text-[32px] font-[700] text-[rgb(26,32,44)] mt-[8px]">{availableConnectors.filter(c => c.status === 'coming-soon').length}</p>
+              <p className="text-[12px] text-[rgb(113,118,126)] mt-[4px]">In development</p>
             </div>
-            <div className="w-12 h-12 bg-warning/10 rounded-lg flex items-center justify-center">
-              <RefreshCw className="text-warning" size={24} />
+            <div className="w-[48px] h-[48px] bg-[rgba(255,153,0,0.1)] rounded-[12px] flex items-center justify-center">
+              <RefreshCw className="text-[rgb(255,153,0)]" size={24} />
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Active Connections */}
-      <div className="card">
-        <h2 className="text-xl font-bold text-neutral-800 mb-4">Active Connections</h2>
-        <div className="text-center py-12 border-2 border-dashed border-neutral-200 rounded-lg">
-          <Link2 className="mx-auto text-neutral-400" size={48} />
-          <p className="text-neutral-600 mt-4">No active connections</p>
-          <p className="text-sm text-neutral-500 mt-2">Connect your first data source to start syncing data</p>
         </div>
       </div>
 
       {/* Available Connectors */}
-      <div className="card">
-        <h2 className="text-xl font-bold text-neutral-800 mb-4">Available Connectors</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="bg-white rounded-[15px] p-[24px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)]">
+        <h2 className="text-[20px] font-[700] text-[rgb(26,32,44)] mb-[20px]">Available Connectors</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]">
           {availableConnectors.map((connector) => (
             <div 
               key={connector.id}
-              className="border border-neutral-200 rounded-lg p-4 hover:border-primary/50 hover:shadow-md transition-all cursor-pointer"
+              className="border border-[rgb(220,229,242)] rounded-[12px] p-[20px] hover:border-[rgb(85,81,247)] hover:shadow-[rgba(0,0,0,0.1)_0px_4px_20px_0px] transition-all duration-200 cursor-pointer"
             >
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-14 h-14 rounded-xl flex items-center justify-center shadow-md bg-white border border-neutral-100">
+              <div className="flex items-start justify-between mb-[16px]">
+                <div className="flex items-center gap-[12px]">
+                  <div className="w-[56px] h-[56px] rounded-[12px] flex items-center justify-center shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] bg-white border border-[rgb(220,229,242)]">
                     <img 
                       src={connector.logo} 
                       alt={connector.name}
-                      className="w-12 h-12 object-contain"
+                      className="w-[48px] h-[48px] object-contain"
                     />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-neutral-800">{connector.name}</h3>
-                    <span className="text-xs text-neutral-500">{connector.vendor} • {connector.category}</span>
+                    <h3 className="font-[600] text-[rgb(26,32,44)] text-[15px]">{connector.name}</h3>
+                    <span className="text-[11px] text-[rgb(113,118,126)]">{connector.vendor} • {connector.category}</span>
                   </div>
                 </div>
-                <span className={`badge ${getStatusBadge(connector.status)} text-xs`}>
+                <span className={`px-[8px] py-[4px] rounded-[6px] text-[11px] font-[600] ${
+                  connector.status === 'connected' ? 'bg-[rgba(13,199,131,0.1)] text-[rgb(13,199,131)]' :
+                  connector.status === 'available' ? 'bg-[rgba(85,81,247,0.1)] text-[rgb(85,81,247)]' :
+                  connector.status === 'coming-soon' ? 'bg-[rgba(169,180,188,0.1)] text-[rgb(74,85,104)]' :
+                  'bg-[rgba(169,180,188,0.1)] text-[rgb(74,85,104)]'
+                }`}>
                   {getStatusText(connector.status)}
                 </span>
               </div>
-              <p className="text-sm text-neutral-600 mb-4">{connector.description}</p>
+              <p className="text-[13px] text-[rgb(74,85,104)] mb-[16px] leading-[1.5]">{connector.description}</p>
               <button 
-                className={`btn ${connector.status === 'coming-soon' ? 'btn-outline opacity-50 cursor-not-allowed' : 'btn-primary'} w-full text-sm`}
+                className={`w-full px-[16px] py-[10px] rounded-[6px] text-[14px] font-[600] transition-all duration-200 ${
+                  connector.status === 'coming-soon' 
+                    ? 'bg-[rgb(237,242,247)] text-[rgb(113,118,126)] cursor-not-allowed' 
+                    : 'bg-[rgb(85,81,247)] text-white hover:bg-[rgb(97,94,251)] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]'
+                }`}
                 disabled={connector.status === 'coming-soon'}
               >
                 {connector.status === 'coming-soon' ? 'Coming Soon' : 'Connect'}
@@ -276,44 +276,44 @@ const IntegrationHub = () => {
       </div>
 
       {/* Integration Categories */}
-      <div className="card">
-        <h2 className="text-xl font-bold text-neutral-800 mb-4">Integration Categories</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="text-center p-4 bg-neutral-50 rounded-lg">
-            <p className="text-2xl mb-2">🔐</p>
-            <p className="font-semibold text-neutral-800">Identity</p>
-            <p className="text-xs text-neutral-500 mt-1">1 connector</p>
+      <div className="bg-white rounded-[15px] p-[24px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)]">
+        <h2 className="text-[20px] font-[700] text-[rgb(26,32,44)] mb-[20px]">Integration Categories</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-[16px]">
+          <div className="text-center p-[20px] bg-[rgb(245,247,255)] rounded-[12px]">
+            <p className="text-[32px] mb-[8px]">🔐</p>
+            <p className="font-[600] text-[rgb(26,32,44)] text-[15px]">Identity</p>
+            <p className="text-[12px] text-[rgb(113,118,126)] mt-[4px]">1 connector</p>
           </div>
-          <div className="text-center p-4 bg-neutral-50 rounded-lg">
-            <p className="text-2xl mb-2">🛡️</p>
-            <p className="font-semibold text-neutral-800">Security</p>
-            <p className="text-xs text-neutral-500 mt-1">3 connectors</p>
+          <div className="text-center p-[20px] bg-[rgb(245,247,255)] rounded-[12px]">
+            <p className="text-[32px] mb-[8px]">🛡️</p>
+            <p className="font-[600] text-[rgb(26,32,44)] text-[15px]">Security</p>
+            <p className="text-[12px] text-[rgb(113,118,126)] mt-[4px]">3 connectors</p>
           </div>
-          <div className="text-center p-4 bg-neutral-50 rounded-lg">
-            <p className="text-2xl mb-2">📋</p>
-            <p className="font-semibold text-neutral-800">Project Mgmt</p>
-            <p className="text-xs text-neutral-500 mt-1">1 connector</p>
+          <div className="text-center p-[20px] bg-[rgb(245,247,255)] rounded-[12px]">
+            <p className="text-[32px] mb-[8px]">📋</p>
+            <p className="font-[600] text-[rgb(26,32,44)] text-[15px]">Project Mgmt</p>
+            <p className="text-[12px] text-[rgb(113,118,126)] mt-[4px]">1 connector</p>
           </div>
-          <div className="text-center p-4 bg-neutral-50 rounded-lg">
-            <p className="text-2xl mb-2">💬</p>
-            <p className="font-semibold text-neutral-800">Communication</p>
-            <p className="text-xs text-neutral-500 mt-1">1 connector</p>
+          <div className="text-center p-[20px] bg-[rgb(245,247,255)] rounded-[12px]">
+            <p className="text-[32px] mb-[8px]">💬</p>
+            <p className="font-[600] text-[rgb(26,32,44)] text-[15px]">Communication</p>
+            <p className="text-[12px] text-[rgb(113,118,126)] mt-[4px]">1 connector</p>
           </div>
         </div>
       </div>
 
       {/* API Documentation */}
-      <div className="card bg-gradient-to-br from-primary/5 to-white border border-primary/20">
-        <div className="flex items-start gap-4">
-          <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-            <Settings className="text-primary" size={24} />
+      <div className="bg-gradient-to-br from-[rgba(85,81,247,0.05)] to-white border border-[rgba(85,81,247,0.2)] rounded-[15px] p-[24px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
+        <div className="flex items-start gap-[16px]">
+          <div className="w-[48px] h-[48px] bg-[rgba(85,81,247,0.1)] rounded-[12px] flex items-center justify-center flex-shrink-0">
+            <Settings className="text-[rgb(85,81,247)]" size={24} />
           </div>
           <div className="flex-1">
-            <h3 className="font-semibold text-neutral-800 mb-2">Custom API Integration</h3>
-            <p className="text-sm text-neutral-600 mb-3">
+            <h3 className="font-[600] text-[rgb(26,32,44)] mb-[8px] text-[16px]">Custom API Integration</h3>
+            <p className="text-[14px] text-[rgb(74,85,104)] mb-[16px] leading-[1.5]">
               Build custom integrations using our REST API. Access comprehensive documentation and examples to connect your proprietary systems.
             </p>
-            <button className="btn btn-outline btn-sm">
+            <button className="inline-flex items-center gap-[8px] px-[16px] py-[8px] bg-white text-[rgb(85,81,247)] border border-[rgb(85,81,247)] rounded-[6px] text-[13px] font-[600] hover:bg-[rgb(236,242,252)] transition-colors">
               View API Docs
             </button>
           </div>

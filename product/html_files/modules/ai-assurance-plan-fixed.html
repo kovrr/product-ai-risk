@@ -1017,6 +1017,11 @@
         <option value="2">NIST AI RMF — Oct. 15, 2025</option>
         <option value="3">NIST AI RMF — Sep. 8, 2025</option>
         <option value="4">ISO/IEC 42001 — Aug. 22, 2025</option>
+        <option value="5">EU AI Act — Oct. 28, 2025</option>
+        <option value="6">NIST AI RMF — Oct. 10, 2025</option>
+        <option value="7">ISO 42001:2023 — Sep. 30, 2025</option>
+        <option value="8">Colorado Local Law No. SB21-169 — Sep. 15, 2025</option>
+        <option value="9">New York City Local Law No. 144 — Sep. 5, 2025</option>
       </select>
       <span class="badge badge-primary">Scale: 1–5</span>
       <span class="badge badge-success">19 Controls</span>
@@ -1065,9 +1070,8 @@
               <th>Current</th>
               <th>Target</th>
               <th>Gap</th>
-              <th>Priority (0–100)</th>
+              <th>Priority Score (0–100)</th>
               <th>ROSI %</th>
-              <th>Stakeholders</th>
             </tr>
           </thead>
           <tbody id="tbody"></tbody>
@@ -1136,7 +1140,7 @@
     <div id="tab-scoring" class="tab-content active">
       <div class="kpi-grid">
         <div class="kpi-tile">
-          <div class="kpi-label">Priority (0–100)</div>
+          <div class="kpi-label">Priority Score (0–100)</div>
           <div class="kpi-value" id="dPriority">—</div>
           <div class="kpi-help">Overall weighted score combining all criteria</div>
         </div>
@@ -1717,7 +1721,6 @@ function renderTable() {
       <td><span class="badge ${gapBadge}">${r.gap.toFixed(2)}</span></td>
       <td><strong>${r.priority.toFixed(1)}</strong></td>
       <td>${c.rosiValue !== null ? '<strong>' + c.rosiValue.toFixed(1) + '%</strong>' : '—'}</td>
-      <td><span class="badge badge-primary">${c.stakeholders.length}</span></td>
     `;
     
     tr.addEventListener('click', () => openDrawer(idx));
@@ -2306,194 +2309,182 @@ function switchView(viewName) {
 
 function showExplainerModal() {
   const content = `
-    <h2>👋 Introduction</h2>
-    <p>Hey! Let me walk you through how we calculate priority scores for AI governance controls. I'm going to focus on just <strong>one criterion - Impact</strong> - so you can really understand how this works. Once you get this, the rest will make total sense.</p>
-    <p>Think of this like baking a cake. We're going to take ingredients from different people (stakeholders), mix them together in a specific way, and end up with a final number that tells us how important this control is.</p>
+    <h2>Introduction to Priority Scoring Methodology</h2>
+    <p>This document explains the mathematical framework used to calculate priority scores for AI governance controls. The methodology focuses on the <strong>Impact</strong> criterion to demonstrate the complete calculation flow. Once understood, this same process applies consistently across all evaluation criteria.</p>
+    <p>The priority scoring system integrates multiple stakeholder perspectives, organizational gaps, and weighted criteria to produce objective, defensible prioritization decisions.</p>
     
-    <h2>🎯 The Setup: Meet Control X</h2>
-    <p>Imagine we're looking at a control called <strong>"GOVERN-1: Mapping AI Systems"</strong>.</p>
-    <p>Right now, your organization is at <strong>Level 2</strong> maturity (you're doing some basic stuff, but not great).</p>
-    <p>Your goal is to reach <strong>Level 5</strong> maturity (you're world-class at this).</p>
-    <p>That's a gap of <strong>3 levels</strong> to close. Let's remember this - we'll need it later.</p>
+    <h2>Illustrative Example: Control Assessment</h2>
+    <p>Consider a control designated as <strong>"GOVERN-1: Mapping AI Systems"</strong>.</p>
+    <p>Current organizational maturity: <strong>Level 2</strong> (basic capabilities established)</p>
+    <p>Target maturity level: <strong>Level 5</strong> (comprehensive, optimized implementation)</p>
+    <p>The maturity gap represents <strong>3 levels</strong> requiring advancement.</p>
     
-    <h2>📊 Step 1: Calculate How Big the Gap Is</h2>
-    <p>First, we need to figure out: <strong>How far away are we from where we want to be?</strong></p>
+    <h2>Step 1: Quantifying the Maturity Gap</h2>
+    <p>The maturity gap is normalized to enable consistent comparison across controls:</p>
     <pre>Gap = (Target - Current) / 4</pre>
-    <p>Wait, why divide by 4? Because whether you're using a 1-5 scale or a 0-4 scale, there are always <strong>4 steps</strong> between the lowest and highest level. This keeps everything fair and normalized.</p>
-    <p><strong>For our Control X:</strong></p>
+    <p>The denominator of 4 represents the total number of incremental steps in a standard maturity scale (1-5 or 0-4), ensuring normalization regardless of scale implementation.</p>
+    <p><strong>Calculation for the example control:</strong></p>
     <pre>Gap = (5 - 2) / 4 = 3 / 4 = 0.75</pre>
-    <p>So we have a <strong>0.75 gap</strong>. That's 75% of the maximum possible gap. Pretty big! This control needs serious work.</p>
+    <p>The resulting gap coefficient is <strong>0.75</strong>, representing 75% of maximum possible gap. This substantial gap indicates significant improvement potential.</p>
     <div class="insight-box">
-      <strong>💡 What this means:</strong> The bigger the gap, the more urgency we'll add later. Controls that are further from their target get a boost in priority.
+      <strong>Methodological Note:</strong> Larger gap coefficients amplify criterion scores, creating appropriate urgency for controls with greater distance from target maturity.
     </div>
     
-    <h2>👥 Step 2: Meet Your Stakeholders</h2>
-    <p>Now, in your organization, three people care about AI governance:</p>
+    <h2>Step 2: Stakeholder Framework Definition</h2>
+    <p>The organization has identified three key stakeholder roles for AI governance:</p>
     <ul>
-      <li><strong>Sarah (CISO)</strong> - She runs security</li>
-      <li><strong>Mike (Legal)</strong> - He worries about compliance</li>
-      <li><strong>Emma (Ethics)</strong> - She focuses on responsible AI</li>
+      <li><strong>Security Function</strong> - Cybersecurity and information security oversight</li>
+      <li><strong>Legal & Compliance Function</strong> - Regulatory compliance and legal risk management</li>
+      <li><strong>Ethics & Responsible AI Function</strong> - Ethical considerations and responsible AI practices</li>
     </ul>
-    <p>These three people have different perspectives. They don't all care about the same things equally. And that's okay! That's actually the whole point of this system.</p>
+    <p>Each stakeholder brings distinct organizational perspectives and priorities to the assessment process.</p>
     
-    <h2>⚖️ Step 3: How Much Power Does Each Person Have?</h2>
-    <p>Not everyone has equal say in your organization (that's just reality). So we assign <strong>Influence percentages</strong>:</p>
+    <h2>Step 3: Stakeholder Influence Weighting</h2>
+    <p>Organizational decision-making authority is reflected through influence coefficients:</p>
     <ul>
-      <li><strong>Sarah (CISO): 40% influence</strong> - She's the main decision-maker</li>
-      <li><strong>Mike (Legal): 35% influence</strong> - He has strong sway due to regulations</li>
-      <li><strong>Emma (Ethics): 25% influence</strong> - Important voice, but less organizational power</li>
+      <li><strong>Security Function: 40% influence</strong> - Primary decision authority</li>
+      <li><strong>Legal & Compliance Function: 35% influence</strong> - Significant regulatory influence</li>
+      <li><strong>Ethics & Responsible AI Function: 25% influence</strong> - Strategic input and guidance</li>
     </ul>
-    <p>Notice these add up to <strong>100%</strong>. Everyone gets a slice of the pie.</p>
+    <p>Influence coefficients sum to <strong>100%</strong>, representing complete stakeholder representation.</p>
     
-    <h2>🎯 Step 4: What Does "Impact" Mean to Each Person?</h2>
-    <p>Now here's where it gets interesting. Each person has their own priorities. They split their attention across 5 criteria:</p>
+    <h2>Step 4: Criterion Priority Distribution</h2>
+    <p>Each stakeholder allocates priority weights across five evaluation criteria:</p>
     <ul>
-      <li><strong>Impact</strong> (How much business value does this control create?)</li>
-      <li><strong>Regulatory</strong> (How important is this for compliance?)</li>
-      <li><strong>Ethical</strong> (How important is this for doing the right thing?)</li>
-      <li><strong>Cost</strong> (How expensive is this to implement?)</li>
-      <li><strong>Effort</strong> (How much work will this take?)</li>
+      <li><strong>Impact</strong> - Business value and organizational benefit</li>
+      <li><strong>Regulatory</strong> - Compliance requirements and legal obligations</li>
+      <li><strong>Ethical</strong> - Responsible AI principles and ethical considerations</li>
+      <li><strong>Cost</strong> - Financial resources required for implementation</li>
+      <li><strong>Effort</strong> - Time and operational resources required</li>
     </ul>
-    <p>Let's focus on just <strong>Impact</strong>. Each person decides: "Out of 100%, how much do I care about Impact versus the other criteria?"</p>
+    <p>For the <strong>Impact</strong> criterion, stakeholder priority allocations are:</p>
     <ul>
-      <li><strong>Sarah (CISO) says:</strong> "Impact is <strong>35%</strong> of my priorities"</li>
-      <li><strong>Mike (Legal) says:</strong> "Impact is only <strong>15%</strong> of my priorities" (he cares more about regulatory stuff)</li>
-      <li><strong>Emma (Ethics) says:</strong> "Impact is <strong>20%</strong> of my priorities"</li>
+      <li><strong>Security Function:</strong> Impact represents <strong>35%</strong> of evaluation priorities</li>
+      <li><strong>Legal & Compliance Function:</strong> Impact represents <strong>15%</strong> of evaluation priorities</li>
+      <li><strong>Ethics & Responsible AI Function:</strong> Impact represents <strong>20%</strong> of evaluation priorities</li>
     </ul>
     
-    <h2>🔢 Step 5: Calculate the Global Weight for Impact</h2>
-    <p>Now we need to blend these three perspectives into <strong>one organizational priority</strong> for Impact.</p>
-    <p>Here's how we do it: <strong>Weight each person's opinion by their influence</strong></p>
-    <pre>Global Weight (Impact) = (Sarah's Influence × Sarah's Impact Weight)
-                       + (Mike's Influence × Mike's Impact Weight)
-                       + (Emma's Influence × Emma's Impact Weight)</pre>
-    <p>Let's plug in the numbers:</p>
+    <h2>Step 5: Global Weight Calculation for Impact Criterion</h2>
+    <p>Individual stakeholder priorities are aggregated into an organizational-level weight, proportional to stakeholder influence:</p>
+    <pre>Global Weight (Impact) = Σ (Stakeholder Influence × Stakeholder Impact Priority)</pre>
+    <p>Applied calculation:</p>
     <pre>Global Weight (Impact) = (0.40 × 0.35) + (0.35 × 0.15) + (0.25 × 0.20)
                        = 0.14 + 0.0525 + 0.05
                        = 0.2425
-                       ≈ 0.24 (or 24%)</pre>
+                       ≈ 0.24 (24%)</pre>
     <div class="insight-box">
-      <strong>💡 What this means:</strong> As an organization, <strong>Impact accounts for 24% of your overall priorities</strong> when making decisions. This is a blend of what Sarah, Mike, and Emma each think, weighted by their power.
-      <br><br>
-      Notice how Sarah's 35% got "pulled down" by Mike's 15% and Emma's 20%. That's the blending at work!
+      <strong>Interpretation:</strong> At the organizational level, <strong>Impact accounts for 24%</strong> of total priority weighting. This represents the influence-weighted aggregation of all stakeholder priorities.
     </div>
     
-    <h2>📝 Step 6: How Does Control X Score on Impact?</h2>
-    <p>Okay, now each stakeholder actually <strong>rates Control X</strong> on how impactful it is. They give it a score from <strong>1 to 5</strong>:</p>
+    <h2>Step 6: Stakeholder Control Assessment</h2>
+    <p>Each stakeholder evaluates the control on the Impact criterion using a standardized 1-5 scale:</p>
     <ul>
-      <li><strong>1 = Very low impact</strong> ("This control doesn't really help us much")</li>
-      <li><strong>5 = Very high impact</strong> ("This control is absolutely critical for our business")</li>
+      <li><strong>1 = Minimal impact</strong> - Limited organizational benefit</li>
+      <li><strong>5 = Critical impact</strong> - Essential for organizational success</li>
     </ul>
+    <p>Stakeholder assessments:</p>
     <ul>
-      <li><strong>Sarah (CISO) rates Impact: 5/5</strong> - "This control is huge for us!"</li>
-      <li><strong>Mike (Legal) rates Impact: 4/5</strong> - "Pretty important"</li>
-      <li><strong>Emma (Ethics) rates Impact: 4/5</strong> - "Definitely valuable"</li>
+      <li><strong>Security Function: 5/5</strong> - Critical importance</li>
+      <li><strong>Legal & Compliance Function: 4/5</strong> - Significant importance</li>
+      <li><strong>Ethics & Responsible AI Function: 4/5</strong> - Substantial value</li>
     </ul>
     
-    <h2>🚀 Step 7: Adjust Scores Based on the Gap (The Magic Part!)</h2>
-    <p>Here's where the gap we calculated way back in Step 1 comes into play.</p>
-    <p>Remember our gap was <strong>0.75</strong>? Now we're going to <strong>amplify</strong> the Impact scores because of this gap.</p>
-    <p>The logic is: <strong>If we're far from our target, we need to prioritize closing that gap even more urgently.</strong></p>
-    <p>Formula for benefit criteria (like Impact):</p>
+    <h2>Step 7: Gap-Adjusted Score Calculation</h2>
+    <p>Raw assessment scores are adjusted based on the maturity gap to reflect implementation urgency:</p>
+    <p>For benefit criteria (Impact, Regulatory, Ethical):</p>
     <pre>Adjusted Score = Raw Score × (1 + Gap)</pre>
-    <p>Let's calculate for each person:</p>
-    <p><strong>Sarah's Adjusted Impact Score:</strong></p>
+    <p>Individual adjusted calculations:</p>
+    <p><strong>Security Function Adjusted Impact Score:</strong></p>
     <pre>5 × (1 + 0.75) = 5 × 1.75 = 8.75</pre>
-    <p><strong>Mike's Adjusted Impact Score:</strong></p>
+    <p><strong>Legal & Compliance Function Adjusted Impact Score:</strong></p>
     <pre>4 × (1 + 0.75) = 4 × 1.75 = 7.00</pre>
-    <p><strong>Emma's Adjusted Impact Score:</strong></p>
+    <p><strong>Ethics & Responsible AI Function Adjusted Impact Score:</strong></p>
     <pre>4 × (1 + 0.75) = 4 × 1.75 = 7.00</pre>
     <div class="insight-box">
-      <strong>💡 What this means:</strong> Because we have a big gap (0.75), everyone's scores got boosted by 75%. A score of 5 became 8.75. A score of 4 became 7.0. This creates urgency!
+      <strong>Adjustment Rationale:</strong> The 0.75 gap coefficient amplifies scores by 75%, creating proportional urgency for controls with larger maturity gaps.
     </div>
     
-    <h2>🔄 Step 8: Blend the Adjusted Scores</h2>
-    <p>Just like we blended the weights in Step 5, now we blend the adjusted scores.</p>
-    <pre>Blended Impact Score = (Sarah's Influence × Sarah's Adjusted Score)
-                     + (Mike's Influence × Mike's Adjusted Score)
-                     + (Emma's Influence × Emma's Adjusted Score)</pre>
-    <p>Plug in the numbers:</p>
+    <h2>Step 8: Stakeholder Score Aggregation</h2>
+    <p>Adjusted scores are aggregated using stakeholder influence weights:</p>
+    <pre>Blended Impact Score = Σ (Stakeholder Influence × Adjusted Score)</pre>
+    <p>Applied calculation:</p>
     <pre>Blended Impact Score = (0.40 × 8.75) + (0.35 × 7.00) + (0.25 × 7.00)
                      = 3.50 + 2.45 + 1.75
                      = 7.70</pre>
     <div class="insight-box">
-      <strong>💡 What this means:</strong> The organization's <strong>overall adjusted Impact score for Control X is 7.70</strong> out of a theoretical maximum of about 8.75 (which would be 5 × 1.75 if everyone rated it 5/5).
-      <br><br>
-      That's really strong! This control scores highly on Impact from an organizational perspective.
+      <strong>Result:</strong> The organizational <strong>blended Impact score is 7.70</strong>, representing the influence-weighted assessment from all stakeholders.
     </div>
     
-    <h2>✨ Step 9: Calculate Impact's Contribution to Priority</h2>
-    <p>Almost there! Now we multiply:</p>
+    <h2>Step 9: Criterion Contribution Calculation</h2>
+    <p>The final contribution of Impact to the overall priority score:</p>
     <pre>Impact Contribution = Global Weight × Blended Score
                     = 0.24 × 7.70
                     = 1.85</pre>
     <div class="insight-box">
-      <strong>💡 What this means:</strong> The <strong>Impact criterion contributes 1.85 points</strong> to Control X's overall priority score.
+      <strong>Contribution:</strong> The <strong>Impact criterion contributes 1.85 points</strong> to the control's total priority score.
     </div>
     
-    <h2>🎉 Step 10: The Big Picture</h2>
-    <p>Here's what we just did <strong>for Impact alone</strong>:</p>
+    <h2>Step 10: Complete Priority Score Synthesis</h2>
+    <p>The complete process for Impact criterion:</p>
     <ol>
-      <li>✅ Calculated the gap (0.75)</li>
-      <li>✅ Figured out how much the org cares about Impact (24% weight)</li>
-      <li>✅ Had stakeholders rate the control on Impact (5, 4, 4)</li>
-      <li>✅ Boosted those scores because of the gap (8.75, 7.0, 7.0)</li>
-      <li>✅ Blended them into one org score (7.70)</li>
-      <li>✅ Multiplied weight × score = <strong>1.85 contribution</strong></li>
+      <li>Maturity gap quantified (0.75)</li>
+      <li>Organizational Impact weight calculated (24%)</li>
+      <li>Stakeholder assessments collected (5, 4, 4)</li>
+      <li>Gap-adjusted scores computed (8.75, 7.0, 7.0)</li>
+      <li>Influence-weighted aggregation performed (7.70)</li>
+      <li>Final contribution calculated (1.85 points)</li>
     </ol>
-    <p><strong>Now imagine doing this exact same process for the other 4 criteria:</strong></p>
+    <p><strong>This process repeats identically for all remaining criteria:</strong></p>
     <ul>
-      <li>Regulatory (probably contributes ~2.5 points)</li>
-      <li>Ethical (probably contributes ~1.3 points)</li>
-      <li>Cost (inverted, probably contributes ~0.5 points)</li>
-      <li>Effort (inverted, probably contributes ~0.3 points)</li>
+      <li>Regulatory criterion (estimated contribution: ~2.5 points)</li>
+      <li>Ethical criterion (estimated contribution: ~1.3 points)</li>
+      <li>Cost criterion (inverted scoring, estimated contribution: ~0.5 points)</li>
+      <li>Effort criterion (inverted scoring, estimated contribution: ~0.3 points)</li>
     </ul>
-    <p><strong>Add them all up:</strong></p>
-    <pre>Total Raw Priority = 1.85 + 2.50 + 1.30 + 0.50 + 0.30 = 6.45</pre>
-    <p><strong>Then normalize to 0-100 scale:</strong></p>
+    <p><strong>Total priority score aggregation:</strong></p>
+    <pre>Raw Priority Sum = 1.85 + 2.50 + 1.30 + 0.50 + 0.30 = 6.45</pre>
+    <p><strong>Normalization to 0-100 scale:</strong></p>
     <pre>Priority Score = (6.45 / 7.70) × 100 = 83.8</pre>
-    <p><strong>Control X gets a priority score of 83.8 out of 100!</strong></p>
-    <p>That's really high! This control should be near the top of your implementation list.</p>
+    <p><strong>Final priority score: 83.8 / 100</strong></p>
+    <p>This represents a high-priority control recommended for near-term implementation.</p>
     
-    <h2>🎯 Why This Matters</h2>
-    <p>Here's why this approach is powerful:</p>
-    <h3>1. Transparent & Explainable</h3>
-    <p>You can show anyone: "Here's exactly why Control X scored 83.8. Sarah gave it 5/5 on Impact, Mike gave it 5/5 on Regulatory, we have a 75% gap, etc."</p>
+    <h2>Methodological Advantages</h2>
+    <p>This scoring framework provides several key benefits:</p>
+    <h3>1. Transparency and Auditability</h3>
+    <p>Every score component is traceable to specific stakeholder inputs, weights, and mathematical operations, enabling complete audit trails and stakeholder communication.</p>
     
-    <h3>2. Stakeholder Alignment</h3>
-    <p>Instead of fighting about priorities, you blend everyone's perspective mathematically. No one gets ignored.</p>
+    <h3>2. Multi-Stakeholder Integration</h3>
+    <p>The methodology mathematically integrates diverse organizational perspectives, ensuring balanced representation without bias toward individual stakeholders.</p>
     
-    <h3>3. Gap-Aware</h3>
-    <p>Controls with bigger gaps automatically get more urgency. You're not just looking at "importance" - you're looking at "importance × how far we have to go."</p>
+    <h3>3. Gap-Responsive Prioritization</h3>
+    <p>Controls with larger maturity gaps receive appropriate urgency weighting, focusing resources on areas with greatest improvement potential.</p>
     
-    <h3>4. Cost-Conscious</h3>
-    <p>Cost and Effort are inverted, so expensive/hard controls naturally score lower (all else being equal).</p>
+    <h3>4. Resource-Aware Evaluation</h3>
+    <p>Cost and Effort criteria use inverted scoring, ensuring resource-intensive controls are appropriately weighted in priority decisions.</p>
     
-    <h3>5. Adaptive</h3>
-    <p>Change Sarah's influence from 40% to 50%? Recalculate instantly. Adjust Mike's regulatory weight? Recalculate instantly. It's flexible.</p>
+    <h3>5. Dynamic Recalculation</h3>
+    <p>Stakeholder weights and criterion priorities can be adjusted dynamically with immediate priority recalculation, supporting iterative refinement.</p>
     
-    <h2>💭 Common Questions</h2>
-    <p><strong>Q: Why do we divide by 4 when calculating gap?</strong><br>
-    A: To normalize the gap to 0-1 scale regardless of whether you use 1-5 or 0-4 maturity levels. There are always 4 steps between min and max.</p>
+    <h2>Frequently Asked Questions</h2>
+    <p><strong>Q: Why divide by 4 when calculating the maturity gap?</strong><br>
+    A: This normalizes the gap to a 0-1 scale independent of maturity level numbering (1-5 vs 0-4). There are always 4 incremental steps between minimum and maximum maturity.</p>
     
-    <p><strong>Q: Why multiply by (1 + Gap) for benefits?</strong><br>
-    A: To create urgency. A control rated 5/5 with a tiny gap (0.1) becomes 5.5. The same control with a huge gap (0.9) becomes 9.5. Bigger gap = more urgent.</p>
+    <p><strong>Q: Why multiply by (1 + Gap) for benefit criteria?</strong><br>
+    A: This creates proportional urgency. A control with minimal gap (0.1) receives modest amplification, while a control with substantial gap (0.9) receives greater urgency weighting.</p>
     
-    <p><strong>Q: Why invert Cost and Effort (6 - Score)?</strong><br>
-    A: Because lower cost = better. If something costs 5/5 (expensive), we convert that to 1/5 (bad). If it costs 1/5 (cheap), we convert to 5/5 (good).</p>
+    <p><strong>Q: Why invert Cost and Effort scoring (6 - Score)?</strong><br>
+    A: Lower cost and effort are desirable. Inversion ensures that low-cost controls (scored 1/5) contribute positively (5/5) to priority, while high-cost controls (5/5) contribute negatively (1/5).</p>
     
-    <p><strong>Q: What if stakeholder influences don't add up to 100%?</strong><br>
-    A: The system will normalize them automatically. If you enter 40, 40, 40 (total = 120%), it'll convert to 33.3%, 33.3%, 33.3%.</p>
+    <p><strong>Q: What happens if stakeholder influences don't sum to 100%?</strong><br>
+    A: The system automatically normalizes influence coefficients to sum to 100%, maintaining proportional relationships.</p>
     
-    <p><strong>Q: Can I have more than 3 stakeholders?</strong><br>
-    A: Absolutely! Add as many as you want. The math stays the same - just more terms in the summation.</p>
+    <p><strong>Q: Can the framework accommodate more than three stakeholders?</strong><br>
+    A: Yes. The aggregation formulas accommodate any number of stakeholders through summation operations.</p>
     
-    <h2>🎓 You Made It!</h2>
-    <p>Congrats! You now understand <strong>exactly</strong> how the Impact criterion flows through the entire calculation.</p>
-    <p>The beautiful thing? <strong>Every other criterion works the exact same way.</strong> Regulatory, Ethical, Cost, Effort - they all follow this pattern.</p>
-    <p>You've learned the system. Now you can explain it to your CFO, your board, your auditors, or anyone who asks: "How did you decide this control is priority #1?"</p>
-    <p>You have a defensible, transparent, mathematically sound answer.</p>
-    <p><strong>That's the power of weighted scoring! 🚀</strong></p>
+    <h2>Summary</h2>
+    <p>This methodology demonstrates the complete calculation flow for the Impact criterion. <strong>All other criteria follow identical mathematical processes.</strong></p>
+    <p>Organizations can confidently explain priority decisions to executives, board members, auditors, and regulators using this transparent, mathematically rigorous framework.</p>
+    <p>The result is a defensible, auditable prioritization system that integrates organizational realities with objective assessment criteria.</p>
   `;
   
   document.getElementById('explainerContent').innerHTML = content;
