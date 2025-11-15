@@ -20,8 +20,8 @@ DB_NAME="aikovrr"
 DB_USER="postgres"
 DB_PASSWORD="Khri2025"
 APP_DIR="/opt/aikovrr"
-BACKEND_PORT=8000
-FRONTEND_PORT=3000
+BACKEND_PORT=8001
+FRONTEND_PORT=8000
 
 echo -e "${BLUE}Step 1: Update system packages${NC}"
 sudo apt-get update
@@ -82,8 +82,33 @@ echo -e "${BLUE}Step 9: Run Django migrations${NC}"
 python manage.py migrate
 
 echo ""
-echo -e "${BLUE}Step 10: Create Django superuser${NC}"
-echo "from core.models import AppUser; AppUser.objects.create_superuser('admin', 'admin@aikovrr.com', 'admin123') if not AppUser.objects.filter(username='admin').exists() else None" | python manage.py shell
+echo -e "${BLUE}Step 10: Set user passwords${NC}"
+python manage.py shell <<EOF
+from core.models import AppUser
+from django.contrib.auth.hashers import make_password
+
+# All authorized users from USER_CREDENTIALS.md
+users_passwords = [
+    ('admin', 'admin123'),
+    ('or', 'bTerAOX4xB'),
+    ('shai', 'ZxItIMACEI'),
+    ('yakir', 'qANLqq5fGZ'),
+    ('naomi', 'AYAhgbGart'),
+    ('huw', 'Sw4JTYmdZS'),
+    ('alona', 'CSLVroXeJZ'),
+    ('hannah', 'S2OeiSR0eX'),
+    ('shalom', 'KCigje4XUE'),
+]
+
+for username, password in users_passwords:
+    try:
+        user = AppUser.objects.get(username=username)
+        user.password = make_password(password)
+        user.save()
+        print(f'✅ Set password for {username}')
+    except AppUser.DoesNotExist:
+        print(f'⚠️  User {username} not found in database - skipping')
+EOF
 
 echo ""
 echo -e "${BLUE}Step 11: Collect static files${NC}"
@@ -92,29 +117,39 @@ python manage.py collectstatic --noinput
 echo ""
 echo -e "${BLUE}Step 12: Install frontend dependencies${NC}"
 cd $APP_DIR/frontend
-npm install
+npm install --legacy-peer-deps
 
 echo ""
 echo -e "${BLUE}Step 13: Build frontend${NC}"
 npm run build
 
 echo ""
-echo -e "${BLUE}Step 14: Configure Nginx${NC}"
+echo -e "${BLUE}Step 14: Stop existing services${NC}"
+sudo systemctl stop aikovrr-backend || true
+sudo systemctl stop nginx || true
+
+echo ""
+echo -e "${BLUE}Step 15: Configure Nginx${NC}"
 sudo tee /etc/nginx/sites-available/aikovrr > /dev/null <<EOF
 server {
-    listen 80;
-    server_name 35.202.143.181;
+    listen 8000;
+    server_name 136.113.138.156;
     client_max_body_size 100M;
 
     # Frontend (React build)
     location / {
         root $APP_DIR/frontend/dist;
         try_files \$uri \$uri/ /index.html;
+        
+        # Cache busting for development
+        add_header Cache-Control "no-cache, no-store, must-revalidate";
+        add_header Pragma "no-cache";
+        add_header Expires "0";
     }
 
     # Backend API
     location /api/ {
-        proxy_pass http://127.0.0.1:$BACKEND_PORT;
+        proxy_pass http://127.0.0.1:8001;
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
@@ -123,7 +158,7 @@ server {
 
     # Django admin
     location /admin/ {
-        proxy_pass http://127.0.0.1:$BACKEND_PORT;
+        proxy_pass http://127.0.0.1:8001;
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
@@ -146,10 +181,9 @@ EOF
 sudo ln -sf /etc/nginx/sites-available/aikovrr /etc/nginx/sites-enabled/
 sudo rm -f /etc/nginx/sites-enabled/default
 sudo nginx -t
-sudo systemctl restart nginx
 
 echo ""
-echo -e "${BLUE}Step 15: Create systemd service for Django${NC}"
+echo -e "${BLUE}Step 16: Create systemd service for Django${NC}"
 sudo tee /etc/systemd/system/aikovrr-backend.service > /dev/null <<EOF
 [Unit]
 Description=AIKovrr Django Backend
@@ -169,21 +203,21 @@ WantedBy=multi-user.target
 EOF
 
 echo ""
-echo -e "${BLUE}Step 16: Install Gunicorn${NC}"
+echo -e "${BLUE}Step 17: Install Gunicorn${NC}"
 cd $APP_DIR/backend
 source venv/bin/activate
 pip install gunicorn
 
 echo ""
-echo -e "${BLUE}Step 17: Start services${NC}"
+echo -e "${BLUE}Step 18: Start services with new configuration${NC}"
 sudo systemctl daemon-reload
 sudo systemctl enable aikovrr-backend
 sudo systemctl start aikovrr-backend
 sudo systemctl enable nginx
-sudo systemctl restart nginx
+sudo systemctl start nginx
 
 echo ""
-echo -e "${BLUE}Step 18: Configure firewall${NC}"
+echo -e "${BLUE}Step 19: Configure firewall${NC}"
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 sudo ufw allow 22/tcp
@@ -197,10 +231,10 @@ echo "🎉 AIKovrr is now running!"
 echo "================================"
 echo ""
 echo "Access your application at:"
-echo "  http://35.202.143.181"
+echo "  http://136.113.138.156:8000"
 echo ""
 echo "Django Admin:"
-echo "  http://35.202.143.181/admin/"
+echo "  http://136.113.138.156:8000/admin/"
 echo "  Username: admin"
 echo "  Password: admin123"
 echo ""

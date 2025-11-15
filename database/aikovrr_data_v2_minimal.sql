@@ -4,10 +4,18 @@
 
 SET search_path TO aikovrr, public;
 
--- Insert Application Users
+-- Insert Application Users (from USER_CREDENTIALS.md)
+-- Passwords will be set by deployment script
 INSERT INTO auth_app_user (id, username, email, password_hash, first_name, last_name, role, is_superuser) VALUES
 (1, 'admin', 'admin@aikovrr.com', 'pbkdf2_sha256$600000$placeholder', 'Admin', 'User', 'admin', TRUE),
-(2, 'or', 'or@kovrr.com', 'pbkdf2_sha256$600000$placeholder', 'Or', 'Amir', 'analyst', FALSE);
+(2, 'or', 'or@kovrr.com', 'pbkdf2_sha256$600000$placeholder', 'Or', 'Amir', 'analyst', FALSE),
+(3, 'shai', 'shai@kovrr.com', 'pbkdf2_sha256$600000$placeholder', 'Shai', 'Yanovski', 'analyst', FALSE),
+(4, 'yakir', 'yakir@kovrr.com', 'pbkdf2_sha256$600000$placeholder', 'Yakir', 'Golan', 'analyst', FALSE),
+(5, 'naomi', 'naomi@kovrr.com', 'pbkdf2_sha256$600000$placeholder', 'Naomi', 'Cohen', 'analyst', FALSE),
+(6, 'huw', 'huw@kovrr.com', 'pbkdf2_sha256$600000$placeholder', 'Huw', 'Davies', 'analyst', FALSE),
+(7, 'alona', 'alona@kovrr.com', 'pbkdf2_sha256$600000$placeholder', 'Alona', 'Levi', 'analyst', FALSE),
+(8, 'hannah', 'hannah@kovrr.com', 'pbkdf2_sha256$600000$placeholder', 'Hannah', 'Miller', 'analyst', FALSE),
+(9, 'shalom', 'shalom@kovrr.com', 'pbkdf2_sha256$600000$placeholder', 'Shalom', 'Ben-David', 'analyst', FALSE);
 
 -- Insert Tenant
 INSERT INTO core_tenant (id, org_name, admin_contacts) VALUES
