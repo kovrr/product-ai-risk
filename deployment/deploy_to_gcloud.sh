@@ -217,11 +217,7 @@ sudo systemctl enable nginx
 sudo systemctl start nginx
 
 echo ""
-echo -e "${BLUE}Step 19: Configure firewall${NC}"
-sudo ufw allow 80/tcp
-sudo ufw allow 443/tcp
-sudo ufw allow 22/tcp
-echo "y" | sudo ufw enable || true
+echo -e "${BLUE}Step 19: Firewall managed by GCP, skipping ufw configuration${NC}"
 
 echo ""
 echo -e "${GREEN}✅ Deployment Complete!${NC}"
