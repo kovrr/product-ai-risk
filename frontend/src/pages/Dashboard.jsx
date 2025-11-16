@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, AlertTriangle, TrendingUp, Shield, Plus, Download, Calendar, FileText, Users, Settings } from 'lucide-react';
+import { Eye, AlertTriangle, TrendingUp, Shield, Plus, Download, Calendar, FileText, Users, Settings, AlertCircle } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/atoms/card';
 import { Button } from '../components/atoms/button';
 import { Badge } from '../components/atoms/badge';
@@ -108,13 +108,13 @@ const Dashboard = () => {
           Export Report
         </Button>
         <Button
-          onClick={() => console.log('Schedule review')}
+          onClick={() => navigate('/ai-assurance-plan')}
           variant="secondary"
           size="sm"
           className="px-[20px] py-[10px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]"
         >
-          <Calendar size={18} />
-          Schedule Review
+          <AlertCircle size={18} />
+          Control Gaps
         </Button>
         <Button
           onClick={() => console.log('Generate docs')}
@@ -168,6 +168,73 @@ const Dashboard = () => {
           </Card>
         ))}
       </div>
+
+      {/* Top Actions Widget */}
+      <Card className="mb-[32px]">
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <span className="text-[20px]">🎯</span>
+            <CardTitle>TOP ACTIONS</CardTitle>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-[12px]">
+            {/* Action 1: Review ChatGPT data retention */}
+            <div
+              className="flex items-start gap-3 p-[16px] bg-fill-base-1 rounded-[10px] cursor-pointer hover:bg-fill-base-2 transition-colors border-l-[3px] border-fill-information-error"
+              onClick={() => navigate('/assets')}
+            >
+              <AlertTriangle size={20} className="text-fill-information-error mt-[2px] flex-shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className="text-[14px] font-[600] text-text-base-primary mb-[4px]">
+                  Review ChatGPT data retention
+                </p>
+                <div className="flex items-center gap-2 text-[12px]">
+                  <span className="text-fill-information-error font-[600]">Overdue 5d</span>
+                  <span className="text-text-base-tertiary">•</span>
+                  <span className="text-text-base-tertiary">Shai</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Action 2: Complete GitHub Copilot Risk Assessment */}
+            <div
+              className="flex items-start gap-3 p-[16px] bg-fill-base-1 rounded-[10px] cursor-pointer hover:bg-fill-base-2 transition-colors border-l-[3px] border-fill-information-warning"
+              onClick={() => navigate('/assets')}
+            >
+              <AlertCircle size={20} className="text-fill-information-warning mt-[2px] flex-shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className="text-[14px] font-[600] text-text-base-primary mb-[4px]">
+                  Complete GitHub Copilot Risk Assessment
+                </p>
+                <div className="flex items-center gap-2 text-[12px]">
+                  <span className="text-fill-information-warning font-[600]">Due Monday</span>
+                  <span className="text-text-base-tertiary">•</span>
+                  <span className="text-text-base-tertiary">Yakir</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Action 3: Update AI usage policy */}
+            <div
+              className="flex items-start gap-3 p-[16px] bg-fill-base-1 rounded-[10px] cursor-pointer hover:bg-fill-base-2 transition-colors border-l-[3px] border-text-base-tertiary"
+              onClick={() => navigate('/governance')}
+            >
+              <FileText size={20} className="text-text-base-tertiary mt-[2px] flex-shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className="text-[14px] font-[600] text-text-base-primary mb-[4px]">
+                  Update AI usage policy
+                </p>
+                <div className="flex items-center gap-2 text-[12px]">
+                  <span className="text-text-base-secondary">Due Dec 1</span>
+                  <span className="text-text-base-tertiary">•</span>
+                  <span className="text-text-base-tertiary">Naomi</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Asset Widgets */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-[24px]">

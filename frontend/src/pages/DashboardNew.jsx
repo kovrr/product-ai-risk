@@ -99,7 +99,7 @@ const DashboardNew = () => {
                       <div
                         key={action.id}
                         className="p-[12px] rounded-[8px] border border-[rgb(220,229,242)] hover:border-[rgb(85,81,247)] hover:bg-[rgb(245,247,255)] cursor-pointer transition-all"
-                        onClick={() => navigate('/ai-assurance-plan')}
+                        onClick={() => navigate(action.link || '/ai-assurance-plan')}
                       >
                         <div className="flex items-start gap-[8px]">
                           {action.status === 'overdue' && <AlertTriangle size={16} className="text-[rgb(255,35,35)] mt-[2px] flex-shrink-0" />}
@@ -195,16 +195,6 @@ const DashboardNew = () => {
                     <div className="h-[6px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
                       {/* Success bar uses design-system success green */}
                       <div className="h-full bg-fill-information-success" style={{ width: '82%' }} />
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="flex justify-between items-center mb-[6px]">
-                      <span className="text-[12px] text-[rgb(74,85,104)]">Control Effectiveness</span>
-                      <span className="text-[13px] font-[600] text-[rgb(26,32,44)]">75%</span>
-                    </div>
-                    <div className="h-[6px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
-                      <div className="h-full bg-[rgb(251,188,9)]" style={{ width: '75%' }} />
                     </div>
                   </div>
 

@@ -225,7 +225,7 @@ export const insightsData = [
 export const aiRiskUniverseData = [
   // Critical Assets - Shadow AI with high risk
   { id: 21, name: 'ChatGPT', riskScore: 85, controlMaturity: 10, businessImpact: 'High', size: 25, tier: 'critical', status: 'shadow' },
-  
+
   // High Risk Assets
   { id: 22, name: 'Claude AI', riskScore: 72, controlMaturity: 12, businessImpact: 'Medium', size: 20, tier: 'high', status: 'shadow' },
   { id: 26, name: 'Poe', riskScore: 70, controlMaturity: 13, businessImpact: 'Medium', size: 18, tier: 'high', status: 'shadow' },
@@ -235,7 +235,7 @@ export const aiRiskUniverseData = [
   { id: 6, name: 'Internal Fraud Detection', riskScore: 60, controlMaturity: 86, businessImpact: 'High', size: 28, tier: 'high', status: 'sanctioned' },
   { id: 4, name: 'Zendesk AI Agent', riskScore: 58, controlMaturity: 85, businessImpact: 'High', size: 24, tier: 'high', status: 'sanctioned' },
   { id: 24, name: 'Perplexity AI', riskScore: 58, controlMaturity: 15, businessImpact: 'Low', size: 12, tier: 'medium', status: 'shadow' },
-  
+
   // Medium Risk Assets
   { id: 25, name: 'Character.AI', riskScore: 54, controlMaturity: 16, businessImpact: 'Low', size: 10, tier: 'medium', status: 'shadow' },
   { id: 8, name: 'Workday AI', riskScore: 48, controlMaturity: 83, businessImpact: 'Medium', size: 20, tier: 'medium', status: 'sanctioned' },
@@ -245,7 +245,7 @@ export const aiRiskUniverseData = [
   { id: 3, name: 'Salesforce Einstein', riskScore: 42, controlMaturity: 81, businessImpact: 'High', size: 24, tier: 'medium', status: 'sanctioned' },
   { id: 10, name: 'Microsoft 365 Copilot', riskScore: 40, controlMaturity: 80, businessImpact: 'High', size: 26, tier: 'medium', status: 'sanctioned' },
   { id: 7, name: 'HubSpot AI', riskScore: 38, controlMaturity: 79, businessImpact: 'Medium', size: 18, tier: 'medium', status: 'sanctioned' },
-  
+
   // Low Risk Assets
   { id: 5, name: 'Tableau AI', riskScore: 32, controlMaturity: 76, businessImpact: 'Medium', size: 16, tier: 'low', status: 'sanctioned' },
   { id: 2, name: 'Grammarly Business', riskScore: 28, controlMaturity: 74, businessImpact: 'Low', size: 12, tier: 'low', status: 'sanctioned' },
@@ -345,19 +345,21 @@ export const cisoBriefData = {
     },
     {
       id: 2,
-      title: 'Complete Copilot assessment',
+      title: 'Complete GitHub Copilot Risk Assessment',
       status: 'due_soon',
       dueDate: 'Monday',
       owner: 'Yakir',
-      priority: 'high'
+      priority: 'high',
+      link: '/assets'
     },
     {
       id: 3,
-      title: 'Update AI usage policy',
+      title: 'Update ChatGPT Usage Policy',
       status: 'upcoming',
       dueDate: 'Dec 1',
       owner: 'Naomi',
-      priority: 'medium'
+      priority: 'medium',
+      link: '/governance-monitoring'
     }
   ],
   thisWeek: {
