@@ -153,8 +153,33 @@ Provide a comprehensive, at-a-glance view of the organization's AI governance po
 **Status**: 🔄 Enhanced with Comprehensive Data Model  
 **Route**: `/assets`  
 **User Personas**: IT Security, Risk Managers, Compliance Officers, Business Owners, Technical Owners  
-**Version**: v2.0  
-**Last Updated**: November 5, 2025
+**Version**: v2.1  
+**Last Updated**: November 16, 2025
+
+#### AI Asset Definition
+
+**Updated**: November 16, 2025 - Added comprehensive AI Asset definition based on First Frontier (Dave) prospect feedback
+
+**An AI Asset is any artificial intelligence system, tool, model, or capability that:**
+
+1. **Processes, analyzes, or generates data** using machine learning, natural language processing, computer vision, or other AI techniques
+
+2. **Operates within or impacts the organization's** operations, products, services, or decision-making processes
+
+3. **Requires governance oversight** across one or more of the following dimensions:
+   - **Data Privacy & Protection**: Handles personal data, sensitive information, or regulated data types (PII, PHI, PCI, etc.)
+   - **Legal & Regulatory Compliance**: Subject to AI-specific regulations (EU AI Act, NIST AI RMF, ISO 42001, Colorado AI Act, NYC Local Law 144) or industry standards
+   - **Integrity, Fairness & Bias**: Makes or influences decisions affecting individuals, groups, or business outcomes where fairness, transparency, and non-discrimination are material concerns
+   - **Security & Safety**: Poses potential cybersecurity, operational, or safety risks if compromised, misused, or unavailable
+
+4. **Includes but is not limited to:**
+   - Commercial AI platforms and SaaS tools (ChatGPT, GitHub Copilot, Jasper, etc.)
+   - Custom-developed AI models and applications (in-house ML models, chatbots)
+   - Embedded AI capabilities within larger systems (CRM AI features, ERP predictive analytics)
+   - Third-party AI services accessed via API (OpenAI API, AWS Rekognition, Google Vision)
+   - AI-powered automation and decision support systems (RPA with AI, credit scoring models)
+
+**Exclusions**: Traditional rule-based automation without machine learning, static algorithms, or deterministic systems are not considered AI Assets unless they incorporate adaptive learning or probabilistic decision-making.
 
 #### Purpose
 Provide complete visibility into all AI tools, models, and services being used across the organization, including identity, ownership, business context, lifecycle, data facts, access/security, and compliance/risk attributes—enabling comprehensive governance, risk assessment, and regulatory compliance.
