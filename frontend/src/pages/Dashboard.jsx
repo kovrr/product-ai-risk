@@ -83,60 +83,72 @@ const Dashboard = () => {
     <div className="space-y-[32px]">
       {/* Page Header */}
       <div className="mb-[32px]">
-        <h1 className="text-[38px] font-[700] text-[rgb(26,32,44)] tracking-[-0.5px] mb-[8px]">Dashboard Overview</h1>
-        <p className="text-[16px] text-[rgb(74,85,104)]">Real-time insights into your AI risk posture</p>
+        <h1 className="text-[38px] font-[700] text-text-base-primary tracking-[-0.5px] mb-[8px]">Dashboard Overview</h1>
+        <p className="text-[16px] text-text-base-secondary">Real-time insights into your AI risk posture</p>
       </div>
 
       {/* Action Buttons */}
       <div className="flex flex-wrap gap-[12px] mb-[32px]">
-        <button 
+        <Button
           onClick={() => navigate('/compliance-readiness')}
-          className="inline-flex items-center gap-[8px] px-[20px] py-[10px] bg-[rgb(85,81,247)] text-white text-[14px] font-[600] rounded-[6px] border-none shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] cursor-pointer transition-all duration-200 hover:bg-[rgb(97,94,251)] hover:-translate-y-[1px]"
+          variant="default"
+          size="sm"
+          className="px-[20px] py-[10px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] hover:-translate-y-[1px]"
         >
           <Plus size={18} />
           New Assessment
-        </button>
-        <button 
+        </Button>
+        <Button
           onClick={() => console.log('Export report')}
-          className="inline-flex items-center gap-[8px] px-[20px] py-[10px] bg-white text-[rgb(48,48,69)] text-[14px] font-[600] rounded-[6px] border border-[rgb(220,229,242)] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] cursor-pointer transition-all duration-200 hover:bg-[rgb(245,247,255)] hover:border-[rgb(163,173,181)]"
+          variant="secondary"
+          size="sm"
+          className="px-[20px] py-[10px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]"
         >
           <Download size={18} />
           Export Report
-        </button>
-        <button 
+        </Button>
+        <Button
           onClick={() => console.log('Schedule review')}
-          className="inline-flex items-center gap-[8px] px-[20px] py-[10px] bg-white text-[rgb(48,48,69)] text-[14px] font-[600] rounded-[6px] border border-[rgb(220,229,242)] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] cursor-pointer transition-all duration-200 hover:bg-[rgb(245,247,255)] hover:border-[rgb(163,173,181)]"
+          variant="secondary"
+          size="sm"
+          className="px-[20px] py-[10px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]"
         >
           <Calendar size={18} />
           Schedule Review
-        </button>
-        <button 
+        </Button>
+        <Button
           onClick={() => console.log('Generate docs')}
-          className="inline-flex items-center gap-[8px] px-[20px] py-[10px] bg-white text-[rgb(48,48,69)] text-[14px] font-[600] rounded-[6px] border border-[rgb(220,229,242)] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] cursor-pointer transition-all duration-200 hover:bg-[rgb(245,247,255)] hover:border-[rgb(163,173,181)]"
+          variant="secondary"
+          size="sm"
+          className="px-[20px] py-[10px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]"
         >
           <FileText size={18} />
           Generate Documentation
-        </button>
-        <button 
+        </Button>
+        <Button
           onClick={() => console.log('Team management')}
-          className="inline-flex items-center gap-[8px] px-[20px] py-[10px] bg-white text-[rgb(48,48,69)] text-[14px] font-[600] rounded-[6px] border border-[rgb(220,229,242)] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] cursor-pointer transition-all duration-200 hover:bg-[rgb(245,247,255)] hover:border-[rgb(163,173,181)]"
+          variant="secondary"
+          size="sm"
+          className="px-[20px] py-[10px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]"
         >
           <Users size={18} />
           Team Management
-        </button>
-        <button 
+        </Button>
+        <Button
           onClick={() => console.log('Settings')}
-          className="inline-flex items-center gap-[8px] px-[20px] py-[10px] bg-white text-[rgb(48,48,69)] text-[14px] font-[600] rounded-[6px] border border-[rgb(220,229,242)] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] cursor-pointer transition-all duration-200 hover:bg-[rgb(245,247,255)] hover:border-[rgb(163,173,181)]"
+          variant="secondary"
+          size="sm"
+          className="px-[20px] py-[10px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]"
         >
           <Settings size={18} />
           Settings
-        </button>
+        </Button>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[24px] mb-[32px]">
         {statCards.map((stat) => (
-          <Card 
+          <Card
             key={stat.title}
             className="cursor-pointer hover:shadow-lg transition-shadow"
             onClick={stat.onClick}
@@ -164,8 +176,8 @@ const Dashboard = () => {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle>Recent Assets</CardTitle>
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 onClick={() => navigate('/assets')}
                 className="text-xs"
               >
@@ -178,7 +190,7 @@ const Dashboard = () => {
               {recentAssets.map((asset) => {
                 const owner = getUserById(asset.owner_id);
                 return (
-                  <div 
+                  <div
                     key={asset.id}
                     className="flex items-center gap-3 p-3 bg-fill-base-1 rounded-[10px] cursor-pointer hover:bg-fill-base-2 transition-colors"
                     onClick={() => navigate(`/assets/${asset.id}`)}
@@ -213,8 +225,8 @@ const Dashboard = () => {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle>High-Risk Assets</CardTitle>
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 onClick={() => navigate('/assets?risk=high')}
                 className="text-xs"
               >
@@ -227,7 +239,7 @@ const Dashboard = () => {
               {topHighRiskAssets.map((asset) => {
                 const owner = getUserById(asset.owner_id);
                 return (
-                  <div 
+                  <div
                     key={asset.id}
                     className="flex items-center gap-3 p-3 bg-fill-base-1 rounded-[10px] cursor-pointer hover:bg-fill-base-2 transition-colors"
                     onClick={() => navigate(`/assets/${asset.id}`)}

@@ -26,8 +26,15 @@ ChartJS.register(
 );
 
 const FinancialQuantification = () => {
-  const [currentView, setCurrentView] = useState('form');
+  const [currentView, setCurrentView] = useState('table'); // 'table', 'form', 'loading', 'results'
   const [currentTab, setCurrentTab] = useState('overview');
+
+  // Mock assessments data
+  const mockAssessments = [
+    { id: 1, name: 'Q4 2025 Assessment', date: '2025-11-10', model: 'GPT-4', industry: 'Technology', aal: 9100000, status: 'Completed' },
+    { id: 2, name: 'Q3 2025 Assessment', date: '2025-08-15', model: 'Claude 3', industry: 'Financial Services', aal: 12300000, status: 'Completed' },
+    { id: 3, name: 'Q2 2025 Assessment', date: '2025-05-20', model: 'GPT-4o', industry: 'Healthcare', aal: 8700000, status: 'Completed' },
+  ];
   const [formData, setFormData] = useState({
     industry: 'technology',
     country: 'us',
@@ -67,6 +74,104 @@ const FinancialQuantification = () => {
     setCurrentView('loading');
     setTimeout(() => setCurrentView('results'), 2500);
   };
+
+  // TABLE VIEW (Main List)
+  if (currentView === 'table') {
+    return (
+      <div style={{ fontFamily: '"Source Sans Pro", sans-serif', maxWidth: '1440px', margin: '0 auto', padding: '30px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+          <div>
+            <h1 style={{ fontSize: '38px', fontWeight: '700', color: 'rgb(26, 32, 44)', margin: '0 0 8px 0' }}>
+              Gen AI Exposure
+            </h1>
+            <p style={{ fontSize: '16px', color: 'rgb(74, 85, 104)', margin: 0 }}>Financial quantification of AI risk exposure</p>
+          </div>
+          <button
+            onClick={() => setCurrentView('form')}
+            style={{
+              fontFamily: '"Source Sans Pro", sans-serif',
+              fontSize: '14px',
+              fontWeight: '600',
+              padding: '12px 24px',
+              borderRadius: '6px',
+              border: 'none',
+              cursor: 'pointer',
+              backgroundColor: 'rgb(85, 81, 247)',
+              color: 'rgb(255, 255, 255)',
+              boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 2px 0px'
+            }}
+          >
+            + New Assessment
+          </button>
+        </div>
+
+        {/* Assessments Table */}
+        <div style={{ background: 'white', borderRadius: '15px', boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 2px 0px', overflow: 'hidden' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr style={{ background: 'rgb(245, 247, 255)', borderBottom: '1px solid rgb(220, 229, 242)' }}>
+                <th style={{ padding: '16px', textAlign: 'left', fontSize: '12px', fontWeight: '700', color: 'rgb(74, 85, 104)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Assessment Name</th>
+                <th style={{ padding: '16px', textAlign: 'left', fontSize: '12px', fontWeight: '700', color: 'rgb(74, 85, 104)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Date</th>
+                <th style={{ padding: '16px', textAlign: 'left', fontSize: '12px', fontWeight: '700', color: 'rgb(74, 85, 104)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>AI Model</th>
+                <th style={{ padding: '16px', textAlign: 'left', fontSize: '12px', fontWeight: '700', color: 'rgb(74, 85, 104)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Industry</th>
+                <th style={{ padding: '16px', textAlign: 'right', fontSize: '12px', fontWeight: '700', color: 'rgb(74, 85, 104)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>AAL (USD)</th>
+                <th style={{ padding: '16px', textAlign: 'left', fontSize: '12px', fontWeight: '700', color: 'rgb(74, 85, 104)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Status</th>
+                <th style={{ padding: '16px', textAlign: 'center', fontSize: '12px', fontWeight: '700', color: 'rgb(74, 85, 104)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {mockAssessments.map((assessment) => (
+                <tr
+                  key={assessment.id}
+                  style={{ borderBottom: '1px solid rgb(220, 229, 242)', cursor: 'pointer' }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = 'rgb(245, 247, 255)'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+                  onClick={() => setCurrentView('results')}
+                >
+                  <td style={{ padding: '16px', fontSize: '14px', fontWeight: '600', color: 'rgb(26, 32, 44)' }}>{assessment.name}</td>
+                  <td style={{ padding: '16px', fontSize: '14px', color: 'rgb(74, 85, 104)' }}>{assessment.date}</td>
+                  <td style={{ padding: '16px', fontSize: '14px', color: 'rgb(74, 85, 104)' }}>{assessment.model}</td>
+                  <td style={{ padding: '16px', fontSize: '14px', color: 'rgb(74, 85, 104)' }}>{assessment.industry}</td>
+                  <td style={{ padding: '16px', fontSize: '14px', fontWeight: '600', color: 'rgb(255, 153, 0)', textAlign: 'right' }}>
+                    ${(assessment.aal / 1000000).toFixed(1)}M
+                  </td>
+                  <td style={{ padding: '16px' }}>
+                    <span style={{ padding: '4px 12px', borderRadius: '12px', fontSize: '12px', fontWeight: '600', background: 'rgba(13, 199, 131, 0.1)', color: 'rgb(13, 199, 131)' }}>
+                      {assessment.status}
+                    </span>
+                  </td>
+                  <td style={{ padding: '16px', textAlign: 'center' }}>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCurrentView('results');
+                      }}
+                      style={{
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        padding: '6px 16px',
+                        borderRadius: '6px',
+                        border: '1px solid rgb(85, 81, 247)',
+                        cursor: 'pointer',
+                        backgroundColor: 'white',
+                        color: 'rgb(85, 81, 247)'
+                      }}
+                    >
+                      View Results
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div style={{ marginTop: '16px', fontSize: '12px', color: 'rgb(74, 85, 104)' }}>
+          Results: 1 - {mockAssessments.length} of {mockAssessments.length}
+        </div>
+      </div>
+    );
+  }
 
   // FORM VIEW
   if (currentView === 'form') {

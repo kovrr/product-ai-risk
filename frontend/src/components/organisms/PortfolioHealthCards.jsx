@@ -16,21 +16,22 @@ const PortfolioHealthCards = ({ data }) => {
           {data.assets.total}
         </div>
         <div className="text-[13px] text-[rgb(74,85,104)]">Total AI Assets</div>
-        
+
         {/* Donut Chart */}
         <div className="w-[120px] h-[120px] mx-auto my-[20px] rounded-full"
           style={{
+            // Sanctioned portion uses design-system success green (Green-2-500)
             background: `conic-gradient(
-              rgb(160, 190, 170) 0% ${(data.assets.sanctioned / data.assets.total) * 100}%,
+              #0DC783 0% ${(data.assets.sanctioned / data.assets.total) * 100}%,
               rgb(220, 180, 150) ${(data.assets.sanctioned / data.assets.total) * 100}% 100%
             )`
           }}
         />
-        
+
         {/* Legend */}
         <div className="flex flex-col gap-[8px] mt-[16px]">
           <div className="flex items-center gap-[8px]">
-            <div className="w-[12px] h-[12px] rounded-[3px] bg-[rgb(160,190,170)]" />
+            <div className="w-[12px] h-[12px] rounded-[3px] bg-fill-information-success" />
             <span className="text-[13px] text-[rgb(74,85,104)] flex-1">Sanctioned</span>
             <span className="text-[13px] font-[600] text-[rgb(26,32,44)]">{data.assets.sanctioned}</span>
           </div>
@@ -40,7 +41,7 @@ const PortfolioHealthCards = ({ data }) => {
             <span className="text-[13px] font-[600] text-[rgb(26,32,44)]">{data.assets.shadow}</span>
           </div>
         </div>
-        
+
         <div className="mt-[16px] pt-[16px] border-t border-[rgb(220,229,242)]">
           <div className="flex justify-between items-center py-[8px]">
             <span className="text-[13px] text-[rgb(74,85,104)]">High Risk</span>
@@ -62,7 +63,7 @@ const PortfolioHealthCards = ({ data }) => {
           {data.risks.total}
         </div>
         <div className="text-[13px] text-[rgb(74,85,104)]">Total Scenarios</div>
-        
+
         <div className="mt-[16px] pt-[16px] border-t border-[rgb(220,229,242)]">
           <div className="flex justify-between items-center py-[8px]">
             <span className="inline-flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] text-[12px] font-[600] bg-[rgba(255,35,35,0.1)] text-[rgb(255,35,35)]">
@@ -100,15 +101,15 @@ const PortfolioHealthCards = ({ data }) => {
           {data.compliance.maturity}%
         </div>
         <div className="text-[13px] text-[rgb(74,85,104)]">NIST AI RMF Maturity</div>
-        
+
         {/* Progress Bar */}
         <div className="h-[8px] bg-[rgb(237,242,247)] rounded-[4px] overflow-hidden my-[16px]">
-          <div 
+          <div
             className="h-full bg-gradient-to-r from-[rgb(150,160,180)] to-[rgb(170,180,200)]"
             style={{ width: `${data.compliance.maturity}%` }}
           />
         </div>
-        
+
         <div className="mt-[16px] pt-[16px] border-t border-[rgb(220,229,242)]">
           <div className="flex justify-between items-center py-[8px]">
             <span className="text-[13px] text-[rgb(74,85,104)]">Controls Assessed</span>
@@ -134,7 +135,7 @@ const PortfolioHealthCards = ({ data }) => {
           {data.assurance.total}
         </div>
         <div className="text-[13px] text-[rgb(74,85,104)]">Total Controls in Assessment</div>
-        
+
         <div className="mt-[16px] pt-[16px] border-t border-[rgb(220,229,242)]">
           <div className="flex justify-between items-center py-[8px]">
             <span className="text-[13px] text-[rgb(74,85,104)]">Completed</span>
@@ -149,7 +150,7 @@ const PortfolioHealthCards = ({ data }) => {
             <span className="text-[14px] font-[600] text-[rgb(26,32,44)]">{data.assurance.draft}</span>
           </div>
         </div>
-        
+
         <div className="mt-[16px] pt-[16px] border-t border-[rgb(220,229,242)]">
           <div className="text-[13px] text-[rgb(74,85,104)] mb-[8px]">Gap Analysis</div>
           <div className="flex justify-between items-center py-[8px]">
@@ -176,7 +177,7 @@ const PortfolioHealthCards = ({ data }) => {
           ${(data.genai.aal / 1000000).toFixed(1)}M
         </div>
         <div className="text-[13px] text-[rgb(74,85,104)]">Annual Average Loss</div>
-        
+
         <div className="mt-[16px] pt-[16px] border-t border-[rgb(220,229,242)]">
           <div className="flex justify-between items-center py-[8px]">
             <span className="text-[13px] text-[rgb(74,85,104)]">Model</span>

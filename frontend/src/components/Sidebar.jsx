@@ -1,10 +1,10 @@
 import { NavLink } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Eye, 
-  AlertTriangle, 
-  DollarSign, 
-  Link2, 
+import {
+  LayoutDashboard,
+  Eye,
+  AlertTriangle,
+  DollarSign,
+  Link2,
   Shield,
   ClipboardCheck,
   Activity
@@ -13,7 +13,7 @@ import {
 const Sidebar = () => {
   const navItems = [
     { path: '/dashboard', icon: LayoutDashboard, label: 'Hero Dashboard' },
-    { path: '/assets', icon: Eye, label: 'Assets Visibility' },
+    { path: '/assets', icon: Eye, label: 'Asset Visibility' },
     { path: '/risk-register', icon: AlertTriangle, label: 'Risk Register' },
     { path: '/compliance-readiness', icon: ClipboardCheck, label: 'Compliance Readiness' },
     { path: '/ai-assurance-plan', icon: Shield, label: 'AI Assurance Plan' },
@@ -25,9 +25,9 @@ const Sidebar = () => {
   return (
     <aside className="w-64 bg-white border-r border-neutral-200 h-screen flex flex-col">
       <div className="p-6 border-b border-neutral-200">
-        <img 
-          src="/kovrr-logo.svg" 
-          alt="Kovrr" 
+        <img
+          src="/kovrr-logo.svg"
+          alt="Kovrr"
           className="h-8 mb-2"
         />
         <p className="text-xs text-neutral-500">Kovrr.ai - AI Governance Platform</p>
@@ -39,10 +39,9 @@ const Sidebar = () => {
             key={item.path}
             to={item.path}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                isActive
-                  ? 'bg-primary text-white'
-                  : 'text-neutral-700 hover:bg-neutral-100'
+              `flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive
+                ? 'bg-primary text-white'
+                : 'text-neutral-700 hover:bg-neutral-100'
               }`
             }
           >

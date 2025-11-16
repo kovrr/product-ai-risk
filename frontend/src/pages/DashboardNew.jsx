@@ -79,7 +79,7 @@ const DashboardNew = () => {
                     <span className="text-[11px] text-[rgb(74,85,104)]">Medium</span>
                   </div>
                   <div className="flex items-center gap-[6px]">
-                    <div className="w-[12px] h-[12px] rounded-full bg-[rgb(160,190,170)]" />
+                    <div className="w-[12px] h-[12px] rounded-full bg-fill-information-success" />
                     <span className="text-[11px] text-[rgb(74,85,104)]">Low</span>
                   </div>
                   <div className="w-[1px] h-[16px] bg-[rgb(220,229,242)]" />
@@ -96,7 +96,7 @@ const DashboardNew = () => {
                   </div>
                   <div className="space-y-[12px]">
                     {cisoBriefData.topActions.map((action) => (
-                      <div 
+                      <div
                         key={action.id}
                         className="p-[12px] rounded-[8px] border border-[rgb(220,229,242)] hover:border-[rgb(85,81,247)] hover:bg-[rgb(245,247,255)] cursor-pointer transition-all"
                         onClick={() => navigate('/ai-assurance-plan')}
@@ -176,54 +176,55 @@ const DashboardNew = () => {
                   <div className="text-[13px] font-[700] text-[rgb(26,32,44)] mb-[10px]">
                     Score Breakdown
                   </div>
-                    
-                    <div>
-                      <div className="flex justify-between items-center mb-[6px]">
-                        <span className="text-[12px] text-[rgb(74,85,104)]">Compliance Maturity</span>
-                        <span className="text-[13px] font-[600] text-[rgb(26,32,44)]">68%</span>
-                      </div>
-                      <div className="h-[6px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
-                        <div className="h-full bg-[rgb(85,81,247)]" style={{ width: '68%' }} />
-                      </div>
-                    </div>
 
-                    <div>
-                      <div className="flex justify-between items-center mb-[6px]">
-                        <span className="text-[12px] text-[rgb(74,85,104)]">Risk Coverage</span>
-                        <span className="text-[13px] font-[600] text-[rgb(26,32,44)]">82%</span>
-                      </div>
-                      <div className="h-[6px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
-                        <div className="h-full bg-[rgb(160,190,170)]" style={{ width: '82%' }} />
-                      </div>
+                  <div>
+                    <div className="flex justify-between items-center mb-[6px]">
+                      <span className="text-[12px] text-[rgb(74,85,104)]">Compliance Maturity</span>
+                      <span className="text-[13px] font-[600] text-[rgb(26,32,44)]">68%</span>
                     </div>
-
-                    <div>
-                      <div className="flex justify-between items-center mb-[6px]">
-                        <span className="text-[12px] text-[rgb(74,85,104)]">Control Effectiveness</span>
-                        <span className="text-[13px] font-[600] text-[rgb(26,32,44)]">75%</span>
-                      </div>
-                      <div className="h-[6px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
-                        <div className="h-full bg-[rgb(251,188,9)]" style={{ width: '75%' }} />
-                      </div>
+                    <div className="h-[6px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
+                      <div className="h-full bg-[rgb(85,81,247)]" style={{ width: '68%' }} />
                     </div>
+                  </div>
 
-                    <div>
-                      <div className="flex justify-between items-center mb-[6px]">
-                        <span className="text-[12px] text-[rgb(74,85,104)]">Shadow AI Ratio</span>
-                        <span className="text-[13px] font-[600] text-[rgb(255,35,35)]">33%</span>
-                      </div>
-                      <div className="h-[6px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
-                        <div className="h-full bg-[rgb(255,35,35)]" style={{ width: '33%' }} />
-                      </div>
+                  <div>
+                    <div className="flex justify-between items-center mb-[6px]">
+                      <span className="text-[12px] text-[rgb(74,85,104)]">Risk Coverage</span>
+                      <span className="text-[13px] font-[600] text-[rgb(26,32,44)]">82%</span>
+                    </div>
+                    <div className="h-[6px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
+                      {/* Success bar uses design-system success green */}
+                      <div className="h-full bg-fill-information-success" style={{ width: '82%' }} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex justify-between items-center mb-[6px]">
+                      <span className="text-[12px] text-[rgb(74,85,104)]">Control Effectiveness</span>
+                      <span className="text-[13px] font-[600] text-[rgb(26,32,44)]">75%</span>
+                    </div>
+                    <div className="h-[6px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
+                      <div className="h-full bg-[rgb(251,188,9)]" style={{ width: '75%' }} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex justify-between items-center mb-[6px]">
+                      <span className="text-[12px] text-[rgb(74,85,104)]">Shadow AI Ratio</span>
+                      <span className="text-[13px] font-[600] text-[rgb(255,35,35)]">33%</span>
+                    </div>
+                    <div className="h-[6px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
+                      <div className="h-full bg-[rgb(255,35,35)]" style={{ width: '33%' }} />
                     </div>
                   </div>
                 </div>
+              </div>
             </div>
 
             {/* Bottom: 4 Metric Cards */}
             <div className="grid grid-cols-4 gap-[20px]">
               {/* Critical Card */}
-              <div 
+              <div
                 className="bg-white rounded-[12px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border-2 border-[rgb(220,229,242)] hover:border-[rgb(255,35,35)] cursor-pointer transition-all"
                 onClick={() => navigate('/ai-assurance-plan')}
               >
@@ -241,7 +242,7 @@ const DashboardNew = () => {
               </div>
 
               {/* High Risk Card */}
-              <div 
+              <div
                 className="bg-white rounded-[12px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border-2 border-[rgb(220,229,242)] hover:border-[rgb(255,153,0)] cursor-pointer transition-all"
                 onClick={() => navigate('/assets?risk=high')}
               >
@@ -252,14 +253,14 @@ const DashboardNew = () => {
                   {cisoBriefData.metrics.highRisk.value}
                 </div>
                 <div className="text-[13px] text-[rgb(74,85,104)] mb-[8px]">Assets</div>
-                <div className="flex items-center gap-[4px] text-[12px] font-[600] text-[rgb(160,190,170)]">
+                <div className="flex items-center gap-[4px] text-[12px] font-[600] text-text-information-success">
                   <TrendingDown size={14} />
                   <span>{cisoBriefData.metrics.highRisk.trend} this week</span>
                 </div>
               </div>
 
               {/* In Progress Card */}
-              <div 
+              <div
                 className="bg-white rounded-[12px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border-2 border-[rgb(220,229,242)] hover:border-[rgb(85,81,247)] cursor-pointer transition-all"
                 onClick={() => navigate('/ai-assurance-plan')}
               >
@@ -277,18 +278,18 @@ const DashboardNew = () => {
               </div>
 
               {/* Compliant Card */}
-              <div 
-                className="bg-white rounded-[12px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border-2 border-[rgb(220,229,242)] hover:border-[rgb(160,190,170)] cursor-pointer transition-all"
+              <div
+                className="bg-white rounded-[12px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border-2 border-[rgb(220,229,242)] hover:border-fill-information-success cursor-pointer transition-all"
                 onClick={() => navigate('/compliance-readiness')}
               >
                 <div className="text-[12px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px] mb-[12px]">
-                  ✅ COMPLIANT
+                  COMPLIANT
                 </div>
                 <div className="text-[48px] font-[700] text-[rgb(26,32,44)] leading-none mb-[8px]">
                   {cisoBriefData.metrics.maturity.value}%
                 </div>
                 <div className="text-[13px] text-[rgb(74,85,104)] mb-[8px]">Maturity</div>
-                <div className="flex items-center gap-[4px] text-[12px] font-[600] text-[rgb(160,190,170)]">
+                <div className="flex items-center gap-[4px] text-[12px] font-[600] text-text-information-success">
                   <TrendingUp size={14} />
                   <span>{cisoBriefData.metrics.maturity.trend} this qtr</span>
                 </div>

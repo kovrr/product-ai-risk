@@ -209,7 +209,7 @@ export const AssetsListView: React.FC = () => {
           <div className="flex items-center justify-between mb-[20px]">
             <div>
               <h1 className="text-[38px] font-[700] text-[rgb(26,32,44)] mb-[4px]">
-                AI Assets Visibility
+                AI Asset Visibility
               </h1>
               <p className="text-[14px] text-[rgb(74,85,104)]">
                 Monitor and manage all AI assets across your organization

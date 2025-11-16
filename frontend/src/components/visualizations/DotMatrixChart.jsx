@@ -14,7 +14,7 @@ const DotMatrixChart = ({ data }) => {
     if (!data || !svgRef.current) return;
 
     const { risks, controls, coverage } = data;
-    
+
     const width = 550;
     const height = 370;
     const margin = { top: 20, right: 80, bottom: 20, left: 100 };
@@ -64,8 +64,9 @@ const DotMatrixChart = ({ data }) => {
           fillColor = 'rgb(237, 242, 247)';
           strokeColor = 'rgb(220, 229, 242)';
         } else if (control.gap === 0) {
-          fillColor = 'rgb(160, 190, 170)';
-          strokeColor = 'rgb(140, 170, 150)';
+          // At-target controls use design-system success green
+          fillColor = '#0DC783';
+          strokeColor = '#0BA86C';
         } else if (control.gap >= 2.5) {
           fillColor = 'rgba(255, 35, 35, 0.6)';
           strokeColor = 'rgb(255, 35, 35)';
@@ -82,7 +83,7 @@ const DotMatrixChart = ({ data }) => {
           .attr('stroke', strokeColor)
           .attr('stroke-width', hasCoverage ? 2 : 1)
           .attr('class', 'cursor-pointer transition-all duration-200')
-          .on('mouseover', function(event) {
+          .on('mouseover', function (event) {
             d3.select(this)
               .transition()
               .duration(200)
@@ -105,14 +106,14 @@ const DotMatrixChart = ({ data }) => {
               y: event.clientY + 15
             });
           })
-          .on('mousemove', function(event) {
+          .on('mousemove', function (event) {
             setTooltip(prev => ({
               ...prev,
               x: event.clientX + 15,
               y: event.clientY + 15
             }));
           })
-          .on('mouseout', function() {
+          .on('mouseout', function () {
             d3.select(this)
               .transition()
               .duration(200)
@@ -128,11 +129,11 @@ const DotMatrixChart = ({ data }) => {
     <div className="relative w-full h-[400px]">
       <div className="w-full h-full flex flex-col">
         <svg ref={svgRef} className="flex-1" />
-        
+
         {/* Legend */}
         <div className="flex gap-[16px] p-[12px] bg-[rgb(245,247,255)] rounded-[8px] mt-[12px] flex-wrap justify-center">
           <div className="flex items-center gap-[6px] text-[11px]">
-            <div className="w-[14px] h-[14px] rounded-full border-2 border-[rgb(163,173,181)] bg-[rgb(160,190,170)]" />
+            <div className="w-[14px] h-[14px] rounded-full border-2 border-[rgb(163,173,181)] bg-fill-information-success" />
             <span>At Target (Gap 0)</span>
           </div>
           <div className="flex items-center gap-[6px] text-[11px]">

@@ -7,7 +7,7 @@ const AIAssurancePlan = () => {
   const [selectedControl, setSelectedControl] = useState(null);
   const [drawerTab, setDrawerTab] = useState('scoring');
   const [showExplainerModal, setShowExplainerModal] = useState(false);
-  
+
   // Drawer state for scoring
   const [selectedStakeholders, setSelectedStakeholders] = useState(['Legal', 'Compliance']);
   const [criterionScores, setCriterionScores] = useState({
@@ -166,7 +166,7 @@ const AIAssurancePlan = () => {
       {/* Assessment Toolbar */}
       <div style={{ display: 'flex', gap: '12px', marginBottom: '16px', alignItems: 'center' }}>
         <span style={{ fontSize: '12px', color: 'rgb(113, 118, 126)' }}>Assessment:</span>
-        <select 
+        <select
           value={selectedAssessment}
           onChange={(e) => setSelectedAssessment(e.target.value)}
           style={{ minWidth: '250px', padding: '8px 12px', borderRadius: '6px', border: '1px solid rgb(220, 229, 242)' }}
@@ -181,6 +181,32 @@ const AIAssurancePlan = () => {
         <span style={{ padding: '4px 12px', borderRadius: '12px', fontSize: '12px', fontWeight: '600', background: 'rgba(13, 199, 131, 0.1)', color: 'rgb(13, 199, 131)' }}>
           {selectedAssessmentData?.controlCount} Controls
         </span>
+      </div>
+
+      {/* Top Metrics Cards */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
+        <div style={{ background: 'white', border: '1px solid rgb(220, 229, 242)', borderRadius: '12px', padding: '20px' }}>
+          <div style={{ fontSize: '12px', fontWeight: '600', color: 'rgb(113, 118, 126)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            Average Priority Score
+          </div>
+          <div style={{ fontSize: '32px', fontWeight: '700', color: 'rgb(26, 32, 44)', marginBottom: '4px' }}>
+            {(controls.reduce((sum, c) => sum + c.priority_score, 0) / controls.length).toFixed(1)}
+          </div>
+          <div style={{ fontSize: '11px', fontWeight: '400', color: 'rgb(113, 118, 126)', fontStyle: 'italic' }}>
+            Mean priority across all {controls.length} controls (0-100 scale)
+          </div>
+        </div>
+        <div style={{ background: 'white', border: '1px solid rgb(220, 229, 242)', borderRadius: '12px', padding: '20px' }}>
+          <div style={{ fontSize: '12px', fontWeight: '600', color: 'rgb(113, 118, 126)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            Controls with Critical Gaps
+          </div>
+          <div style={{ fontSize: '32px', fontWeight: '700', color: 'rgb(255, 153, 0)', marginBottom: '4px' }}>
+            {controls.filter(c => c.gap_normalized >= 0.5).length}
+          </div>
+          <div style={{ fontSize: '11px', fontWeight: '400', color: 'rgb(113, 118, 126)', fontStyle: 'italic' }}>
+            Controls with gap ≥ 0.5 requiring immediate attention
+          </div>
+        </div>
       </div>
 
       {/* Tab Navigation */}
@@ -273,7 +299,7 @@ const AIAssurancePlan = () => {
               </div>
             </div>
             <p style={{ lineHeight: '1.7', color: 'rgb(48, 48, 69)', marginBottom: '12px' }}>
-              Your assessment reveals significant gaps in legal and regulatory compliance controls (GOVERN-1.1, GOVERN-1.2). 
+              Your assessment reveals significant gaps in legal and regulatory compliance controls (GOVERN-1.1, GOVERN-1.2).
               These controls have high priority scores (78-85) and should be addressed immediately to reduce regulatory risk exposure.
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', margin: '12px 0' }}>
@@ -297,7 +323,7 @@ const AIAssurancePlan = () => {
               </div>
             </div>
             <p style={{ lineHeight: '1.7', color: 'rgb(48, 48, 69)', marginBottom: '12px' }}>
-              MAP-2.1 (Data Classification) should be implemented before MAP-1.1 (AI System Inventory) to ensure proper data handling 
+              MAP-2.1 (Data Classification) should be implemented before MAP-1.1 (AI System Inventory) to ensure proper data handling
               protocols are in place. This will streamline your inventory process and ensure compliance from the start.
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '12px 0', fontSize: '14px', color: 'rgb(74, 85, 104)' }}>
@@ -320,7 +346,7 @@ const AIAssurancePlan = () => {
               </div>
             </div>
             <p style={{ lineHeight: '1.7', color: 'rgb(48, 48, 69)', marginBottom: '12px' }}>
-              GOVERN-2.1 (Risk Management Process) shows a 180% ROSI with the highest priority score (92). 
+              GOVERN-2.1 (Risk Management Process) shows a 180% ROSI with the highest priority score (92).
               This control is already at maturity level 4, making the final push to level 5 a high-value, low-effort investment.
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', margin: '12px 0' }}>
@@ -342,7 +368,7 @@ const AIAssurancePlan = () => {
               </div>
             </div>
             <p style={{ lineHeight: '1.7', color: 'rgb(48, 48, 69)', marginBottom: '12px' }}>
-              Controls with 4+ stakeholders (GOVERN-1.2, GOVERN-2.1) require early cross-functional alignment. 
+              Controls with 4+ stakeholders (GOVERN-1.2, GOVERN-2.1) require early cross-functional alignment.
               Schedule kickoff meetings with Legal, Compliance, Engineering, and Operations teams to ensure buy-in and resource allocation.
             </p>
             <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid rgb(220, 229, 242)' }}>
@@ -363,18 +389,18 @@ const AIAssurancePlan = () => {
               <h2 style={{ fontSize: '26px', fontWeight: '700', margin: 0 }}>How Priority Scoring Works: The Impact Story</h2>
               <button onClick={() => setShowExplainerModal(false)} style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}>✕</button>
             </div>
-            
+
             <div style={{ lineHeight: '1.7' }}>
               <h2 style={{ fontSize: '22px', marginTop: '24px' }}>👋 Introduction</h2>
               <p>Hey! Let me walk you through how we calculate priority scores for AI governance controls. I'm going to focus on just <strong>one criterion - Impact</strong> - so you can really understand how this works. Once you get this, the rest will make total sense.</p>
               <p>Think of this like baking a cake. We're going to take ingredients from different people (stakeholders), mix them together in a specific way, and end up with a final number that tells us how important this control is.</p>
-              
+
               <h2 style={{ fontSize: '22px', marginTop: '24px' }}>🎯 The Setup: Meet Control X</h2>
               <p>Imagine we're looking at a control called <strong>"GOVERN-1: Mapping AI Systems"</strong>.</p>
               <p>Right now, your organization is at <strong>Level 2</strong> maturity (you're doing some basic stuff, but not great).</p>
               <p>Your goal is to reach <strong>Level 5</strong> maturity (you're world-class at this).</p>
               <p>That's a gap of <strong>3 levels</strong> to close. Let's remember this - we'll need it later.</p>
-              
+
               <h2 style={{ fontSize: '22px', marginTop: '24px' }}>📊 Step 1: Calculate How Big the Gap Is</h2>
               <p>First, we need to figure out: <strong>How far away are we from where we want to be?</strong></p>
               <pre style={{ background: 'rgb(237, 242, 247)', padding: '16px', borderRadius: '8px', fontSize: '13px' }}>Gap = (Target - Current) / 4</pre>
@@ -385,7 +411,7 @@ const AIAssurancePlan = () => {
               <div style={{ background: 'rgb(236, 242, 252)', borderLeft: '4px solid rgb(85, 81, 247)', padding: '16px', margin: '16px 0', borderRadius: '8px' }}>
                 <strong style={{ color: 'rgb(85, 81, 247)' }}>💡 What this means:</strong> The bigger the gap, the more urgency we'll add later. Controls that are further from their target get a boost in priority.
               </div>
-              
+
               <h2 style={{ fontSize: '22px', marginTop: '24px' }}>👥 Step 2: Meet Your Stakeholders</h2>
               <p>Now, in your organization, three people care about AI governance:</p>
               <ul>
@@ -394,7 +420,7 @@ const AIAssurancePlan = () => {
                 <li><strong>Emma (Ethics)</strong> - She focuses on responsible AI</li>
               </ul>
               <p>These three people have different perspectives. They don't all care about the same things equally. And that's okay! That's actually the whole point of this system.</p>
-              
+
               <h2 style={{ fontSize: '22px', marginTop: '24px' }}>⚖️ Step 3: How Much Power Does Each Person Have?</h2>
               <p>Not everyone has equal say in your organization (that's just reality). So we assign <strong>Influence percentages</strong>:</p>
               <ul>
@@ -403,7 +429,7 @@ const AIAssurancePlan = () => {
                 <li><strong>Emma (Ethics): 25% influence</strong> - Important voice, but less organizational power</li>
               </ul>
               <p>Notice these add up to <strong>100%</strong>. Everyone gets a slice of the pie.</p>
-              
+
               <h2 style={{ fontSize: '22px', marginTop: '24px' }}>🎯 Step 4: What Does "Impact" Mean to Each Person?</h2>
               <p>Now here's where it gets interesting. Each person has their own priorities. They split their attention across 5 criteria:</p>
               <ul>
@@ -419,24 +445,24 @@ const AIAssurancePlan = () => {
                 <li><strong>Mike (Legal) says:</strong> "Impact is only <strong>15%</strong> of my priorities" (he cares more about regulatory stuff)</li>
                 <li><strong>Emma (Ethics) says:</strong> "Impact is <strong>20%</strong> of my priorities"</li>
               </ul>
-              
+
               <h2 style={{ fontSize: '22px', marginTop: '24px' }}>🔢 Step 5: Calculate the Global Weight for Impact</h2>
               <p>Now we need to blend these three perspectives into <strong>one organizational priority</strong> for Impact.</p>
               <p>Here's how we do it: <strong>Weight each person's opinion by their influence</strong></p>
               <pre style={{ background: 'rgb(237, 242, 247)', padding: '16px', borderRadius: '8px', fontSize: '13px' }}>Global Weight (Impact) = (Sarah's Influence × Sarah's Impact Weight)
-                       + (Mike's Influence × Mike's Impact Weight)
-                       + (Emma's Influence × Emma's Impact Weight)</pre>
+                + (Mike's Influence × Mike's Impact Weight)
+                + (Emma's Influence × Emma's Impact Weight)</pre>
               <p>Let's plug in the numbers:</p>
               <pre style={{ background: 'rgb(237, 242, 247)', padding: '16px', borderRadius: '8px', fontSize: '13px' }}>Global Weight (Impact) = (0.40 × 0.35) + (0.35 × 0.15) + (0.25 × 0.20)
-                       = 0.14 + 0.0525 + 0.05
-                       = 0.2425
-                       ≈ 0.24 (or 24%)</pre>
+                = 0.14 + 0.0525 + 0.05
+                = 0.2425
+                ≈ 0.24 (or 24%)</pre>
               <div style={{ background: 'rgb(236, 242, 252)', borderLeft: '4px solid rgb(85, 81, 247)', padding: '16px', margin: '16px 0', borderRadius: '8px' }}>
                 <strong style={{ color: 'rgb(85, 81, 247)' }}>💡 What this means:</strong> As an organization, <strong>Impact accounts for 24% of your overall priorities</strong> when making decisions. This is a blend of what Sarah, Mike, and Emma each think, weighted by their power.
-                <br/><br/>
+                <br /><br />
                 Notice how Sarah's 35% got "pulled down" by Mike's 15% and Emma's 20%. That's the blending at work!
               </div>
-              
+
               <h2 style={{ fontSize: '22px', marginTop: '24px' }}>📝 Step 6: How Does Control X Score on Impact?</h2>
               <p>Okay, now each stakeholder actually <strong>rates Control X</strong> on how impactful it is. They give it a score from <strong>1 to 5</strong>:</p>
               <ul>
@@ -448,7 +474,7 @@ const AIAssurancePlan = () => {
                 <li><strong>Mike (Legal) rates Impact: 4/5</strong> - "Pretty important"</li>
                 <li><strong>Emma (Ethics) rates Impact: 4/5</strong> - "Definitely valuable"</li>
               </ul>
-              
+
               <h2 style={{ fontSize: '22px', marginTop: '24px' }}>🚀 Step 7: Adjust Scores Based on the Gap (The Magic Part!)</h2>
               <p>Here's where the gap we calculated way back in Step 1 comes into play.</p>
               <p>Remember our gap was <strong>0.75</strong>? Now we're going to <strong>amplify</strong> the Impact scores because of this gap.</p>
@@ -465,31 +491,31 @@ const AIAssurancePlan = () => {
               <div style={{ background: 'rgb(236, 242, 252)', borderLeft: '4px solid rgb(85, 81, 247)', padding: '16px', margin: '16px 0', borderRadius: '8px' }}>
                 <strong style={{ color: 'rgb(85, 81, 247)' }}>💡 What this means:</strong> Because we have a big gap (0.75), everyone's scores got boosted by 75%. A score of 5 became 8.75. A score of 4 became 7.0. This creates urgency!
               </div>
-              
+
               <h2 style={{ fontSize: '22px', marginTop: '24px' }}>🔄 Step 8: Blend the Adjusted Scores</h2>
               <p>Just like we blended the weights in Step 5, now we blend the adjusted scores.</p>
               <pre style={{ background: 'rgb(237, 242, 247)', padding: '16px', borderRadius: '8px', fontSize: '13px' }}>Blended Impact Score = (Sarah's Influence × Sarah's Adjusted Score)
-                     + (Mike's Influence × Mike's Adjusted Score)
-                     + (Emma's Influence × Emma's Adjusted Score)</pre>
+                + (Mike's Influence × Mike's Adjusted Score)
+                + (Emma's Influence × Emma's Adjusted Score)</pre>
               <p>Plug in the numbers:</p>
               <pre style={{ background: 'rgb(237, 242, 247)', padding: '16px', borderRadius: '8px', fontSize: '13px' }}>Blended Impact Score = (0.40 × 8.75) + (0.35 × 7.00) + (0.25 × 7.00)
-                     = 3.50 + 2.45 + 1.75
-                     = 7.70</pre>
+                = 3.50 + 2.45 + 1.75
+                = 7.70</pre>
               <div style={{ background: 'rgb(236, 242, 252)', borderLeft: '4px solid rgb(85, 81, 247)', padding: '16px', margin: '16px 0', borderRadius: '8px' }}>
                 <strong style={{ color: 'rgb(85, 81, 247)' }}>💡 What this means:</strong> The organization's <strong>overall adjusted Impact score for Control X is 7.70</strong> out of a theoretical maximum of about 8.75 (which would be 5 × 1.75 if everyone rated it 5/5).
-                <br/><br/>
+                <br /><br />
                 That's really strong! This control scores highly on Impact from an organizational perspective.
               </div>
-              
+
               <h2 style={{ fontSize: '22px', marginTop: '24px' }}>✨ Step 9: Calculate Impact's Contribution to Priority</h2>
               <p>Almost there! Now we multiply:</p>
               <pre style={{ background: 'rgb(237, 242, 247)', padding: '16px', borderRadius: '8px', fontSize: '13px' }}>Impact Contribution = Global Weight × Blended Score
-                    = 0.24 × 7.70
-                    = 1.85</pre>
+                = 0.24 × 7.70
+                = 1.85</pre>
               <div style={{ background: 'rgb(236, 242, 252)', borderLeft: '4px solid rgb(85, 81, 247)', padding: '16px', margin: '16px 0', borderRadius: '8px' }}>
                 <strong style={{ color: 'rgb(85, 81, 247)' }}>💡 What this means:</strong> The <strong>Impact criterion contributes 1.85 points</strong> to Control X's overall priority score.
               </div>
-              
+
               <h2 style={{ fontSize: '22px', marginTop: '24px' }}>🎉 Step 10: The Big Picture</h2>
               <p>Here's what we just did <strong>for Impact alone</strong>:</p>
               <ol>
@@ -513,39 +539,39 @@ const AIAssurancePlan = () => {
               <pre style={{ background: 'rgb(237, 242, 247)', padding: '16px', borderRadius: '8px', fontSize: '13px' }}>Priority Score = (6.45 / 7.70) × 100 = 83.8</pre>
               <p><strong>Control X gets a priority score of 83.8 out of 100!</strong></p>
               <p>That's really high! This control should be near the top of your implementation list.</p>
-              
+
               <h2 style={{ fontSize: '22px', marginTop: '24px' }}>🎯 Why This Matters</h2>
               <h3 style={{ fontSize: '18px', marginTop: '16px' }}>1. Transparent & Explainable</h3>
               <p>You can show anyone: "Here's exactly why Control X scored 83.8. Sarah gave it 5/5 on Impact, Mike gave it 5/5 on Regulatory, we have a 75% gap, etc."</p>
-              
+
               <h3 style={{ fontSize: '18px', marginTop: '16px' }}>2. Stakeholder Alignment</h3>
               <p>Instead of fighting about priorities, you blend everyone's perspective mathematically. No one gets ignored.</p>
-              
+
               <h3 style={{ fontSize: '18px', marginTop: '16px' }}>3. Gap-Aware</h3>
               <p>Controls with bigger gaps automatically get more urgency. You're not just looking at "importance" - you're looking at "importance × how far we have to go."</p>
-              
+
               <h3 style={{ fontSize: '18px', marginTop: '16px' }}>4. Cost-Conscious</h3>
               <p>Cost and Effort are inverted, so expensive/hard controls naturally score lower (all else being equal).</p>
-              
+
               <h3 style={{ fontSize: '18px', marginTop: '16px' }}>5. Adaptive</h3>
               <p>Change Sarah's influence from 40% to 50%? Recalculate instantly. Adjust Mike's regulatory weight? Recalculate instantly. It's flexible.</p>
-              
+
               <h2 style={{ fontSize: '22px', marginTop: '24px' }}>💭 Common Questions</h2>
-              <p><strong>Q: Why do we divide by 4 when calculating gap?</strong><br/>
-              A: To normalize the gap to 0-1 scale regardless of whether you use 1-5 or 0-4 maturity levels. There are always 4 steps between min and max.</p>
-              
-              <p><strong>Q: Why multiply by (1 + Gap) for benefits?</strong><br/>
-              A: To create urgency. A control rated 5/5 with a tiny gap (0.1) becomes 5.5. The same control with a huge gap (0.9) becomes 9.5. Bigger gap = more urgent.</p>
-              
-              <p><strong>Q: Why invert Cost and Effort (6 - Score)?</strong><br/>
-              A: Because lower cost = better. If something costs 5/5 (expensive), we convert that to 1/5 (bad). If it costs 1/5 (cheap), we convert to 5/5 (good).</p>
-              
-              <p><strong>Q: What if stakeholder influences don't add up to 100%?</strong><br/>
-              A: The system will normalize them automatically. If you enter 40, 40, 40 (total = 120%), it'll convert to 33.3%, 33.3%, 33.3%.</p>
-              
-              <p><strong>Q: Can I have more than 3 stakeholders?</strong><br/>
-              A: Absolutely! Add as many as you want. The math stays the same - just more terms in the summation.</p>
-              
+              <p><strong>Q: Why do we divide by 4 when calculating gap?</strong><br />
+                A: To normalize the gap to 0-1 scale regardless of whether you use 1-5 or 0-4 maturity levels. There are always 4 steps between min and max.</p>
+
+              <p><strong>Q: Why multiply by (1 + Gap) for benefits?</strong><br />
+                A: To create urgency. A control rated 5/5 with a tiny gap (0.1) becomes 5.5. The same control with a huge gap (0.9) becomes 9.5. Bigger gap = more urgent.</p>
+
+              <p><strong>Q: Why invert Cost and Effort (6 - Score)?</strong><br />
+                A: Because lower cost = better. If something costs 5/5 (expensive), we convert that to 1/5 (bad). If it costs 1/5 (cheap), we convert to 5/5 (good).</p>
+
+              <p><strong>Q: What if stakeholder influences don't add up to 100%?</strong><br />
+                A: The system will normalize them automatically. If you enter 40, 40, 40 (total = 120%), it'll convert to 33.3%, 33.3%, 33.3%.</p>
+
+              <p><strong>Q: Can I have more than 3 stakeholders?</strong><br />
+                A: Absolutely! Add as many as you want. The math stays the same - just more terms in the summation.</p>
+
               <h2 style={{ fontSize: '22px', marginTop: '24px' }}>🎓 You Made It!</h2>
               <p>Congrats! You now understand <strong>exactly</strong> how the Impact criterion flows through the entire calculation.</p>
               <p>The beautiful thing? <strong>Every other criterion works the exact same way.</strong> Regulatory, Ethical, Cost, Effort - they all follow this pattern.</p>
@@ -559,15 +585,15 @@ const AIAssurancePlan = () => {
 
       {/* Drawer Overlay */}
       {drawerOpen && selectedControl && (
-        <div 
+        <div
           onClick={() => setDrawerOpen(false)}
-          style={{ 
-            position: 'fixed', 
-            top: 0, 
-            left: 0, 
-            right: 0, 
-            bottom: 0, 
-            background: 'rgba(30, 30, 30, 0.5)', 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(30, 30, 30, 0.5)',
             zIndex: 99,
             opacity: drawerOpen ? 1 : 0,
             transition: 'opacity 0.3s ease'
@@ -577,16 +603,16 @@ const AIAssurancePlan = () => {
 
       {/* Right Drawer */}
       {selectedControl && (
-        <div style={{ 
-          position: 'fixed', 
-          top: 0, 
-          right: 0, 
-          width: '600px', 
-          height: '100vh', 
-          background: 'white', 
-          boxShadow: 'rgba(0, 0, 0, 0.2) -4px 0px 20px 0px', 
-          zIndex: 100, 
-          display: 'flex', 
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          right: 0,
+          width: '600px',
+          height: '100vh',
+          background: 'white',
+          boxShadow: 'rgba(0, 0, 0, 0.2) -4px 0px 20px 0px',
+          zIndex: 100,
+          display: 'flex',
           flexDirection: 'column',
           transform: drawerOpen ? 'translateX(0)' : 'translateX(100%)',
           transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
@@ -650,8 +676,8 @@ const AIAssurancePlan = () => {
                     <label style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '8px' }}>Select Stakeholders</label>
                     {['Legal', 'Compliance', 'Engineering', 'Executive', 'Risk', 'Security', 'Privacy', 'Operations'].map(sh => (
                       <label key={sh} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', cursor: 'pointer' }}>
-                        <input 
-                          type="checkbox" 
+                        <input
+                          type="checkbox"
                           checked={selectedStakeholders.includes(sh)}
                           onChange={(e) => {
                             if (e.target.checked) {
@@ -671,7 +697,7 @@ const AIAssurancePlan = () => {
                 {/* Criterion Scoring */}
                 <div>
                   <h3 style={{ fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>Criterion Scoring (1-5)</h3>
-                  
+
                   {/* Impact */}
                   <div style={{ marginBottom: '16px' }}>
                     <label style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '8px' }}>Impact</label>
@@ -679,7 +705,7 @@ const AIAssurancePlan = () => {
                       {[1, 2, 3, 4, 5].map(score => (
                         <button
                           key={score}
-                          onClick={() => setCriterionScores({...criterionScores, impact: score})}
+                          onClick={() => setCriterionScores({ ...criterionScores, impact: score })}
                           style={{
                             flex: 1,
                             padding: '12px',
@@ -703,7 +729,7 @@ const AIAssurancePlan = () => {
                       {[1, 2, 3, 4, 5].map(score => (
                         <button
                           key={score}
-                          onClick={() => setCriterionScores({...criterionScores, regulatory: score})}
+                          onClick={() => setCriterionScores({ ...criterionScores, regulatory: score })}
                           style={{
                             flex: 1,
                             padding: '12px',
@@ -727,7 +753,7 @@ const AIAssurancePlan = () => {
                       {[1, 2, 3, 4, 5].map(score => (
                         <button
                           key={score}
-                          onClick={() => setCriterionScores({...criterionScores, ethical: score})}
+                          onClick={() => setCriterionScores({ ...criterionScores, ethical: score })}
                           style={{
                             flex: 1,
                             padding: '12px',
@@ -751,7 +777,7 @@ const AIAssurancePlan = () => {
                       {[1, 2, 3, 4, 5].map(score => (
                         <button
                           key={score}
-                          onClick={() => setCriterionScores({...criterionScores, cost: score})}
+                          onClick={() => setCriterionScores({ ...criterionScores, cost: score })}
                           style={{
                             flex: 1,
                             padding: '12px',
@@ -775,7 +801,7 @@ const AIAssurancePlan = () => {
                       {[1, 2, 3, 4, 5].map(score => (
                         <button
                           key={score}
-                          onClick={() => setCriterionScores({...criterionScores, effort: score})}
+                          onClick={() => setCriterionScores({ ...criterionScores, effort: score })}
                           style={{
                             flex: 1,
                             padding: '12px',
@@ -802,14 +828,33 @@ const AIAssurancePlan = () => {
             {/* Remediation Tab */}
             {drawerTab === 'remediation' && (
               <div>
+                {/* Sample AI Guidance Response */}
+                <div style={{ background: 'white', borderRadius: '12px', padding: '20px', marginBottom: '16px', border: '1px solid rgb(220, 229, 242)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                    <span style={{ fontSize: '20px' }}>🤖</span>
+                    <h3 style={{ fontSize: '16px', fontWeight: '600', margin: 0 }}>AI Remediation Guidance</h3>
+                  </div>
+                  <div style={{ fontSize: '14px', color: 'rgb(48, 48, 69)', lineHeight: '1.6' }}>
+                    <p style={{ marginTop: 0 }}><strong>Recommended Implementation Approach:</strong></p>
+                    <ol style={{ paddingLeft: '20px', margin: '12px 0' }}>
+                      <li style={{ marginBottom: '8px' }}><strong>Establish AI System Inventory:</strong> Create a centralized repository documenting all AI systems, including purpose, data sources, and stakeholders.</li>
+                      <li style={{ marginBottom: '8px' }}><strong>Define Classification Criteria:</strong> Develop risk-based classification framework (High/Medium/Low) based on impact, data sensitivity, and regulatory scope.</li>
+                      <li style={{ marginBottom: '8px' }}><strong>Implement Discovery Process:</strong> Deploy automated discovery tools and establish quarterly review cycles to identify shadow AI.</li>
+                      <li style={{ marginBottom: '8px' }}><strong>Assign Ownership:</strong> Designate AI system owners responsible for maintaining accurate documentation and compliance.</li>
+                    </ol>
+                    <p><strong>Estimated Timeline:</strong> 8-12 weeks for initial implementation</p>
+                    <p><strong>Key Success Metrics:</strong> 100% AI system coverage, &lt;5% shadow AI, quarterly update compliance &gt;95%</p>
+                  </div>
+                </div>
+
                 <div style={{ background: 'rgb(245, 247, 255)', borderRadius: '12px', padding: '20px', marginBottom: '16px' }}>
-                  <h3 style={{ fontSize: '16px', fontWeight: '600', marginTop: 0 }}>AI Remediation Guidance</h3>
+                  <h3 style={{ fontSize: '16px', fontWeight: '600', marginTop: 0 }}>Ask AI for More Guidance</h3>
                   <p style={{ fontSize: '14px', color: 'rgb(74, 85, 104)', marginBottom: '16px' }}>
-                    Get AI-powered recommendations for implementing this control.
+                    Get additional recommendations for implementation steps, best practices, or specific challenges.
                   </p>
-                  <textarea 
-                    placeholder="Ask about implementation steps, best practices, or specific challenges..."
-                    style={{ width: '100%', minHeight: '120px', padding: '12px', borderRadius: '8px', border: '1px solid rgb(220, 229, 242)', fontSize: '14px', marginBottom: '12px' }}
+                  <textarea
+                    placeholder="e.g., 'What tools can help with automated AI discovery?' or 'How do we handle third-party AI systems?'"
+                    style={{ width: '100%', minHeight: '80px', padding: '12px', borderRadius: '8px', border: '1px solid rgb(220, 229, 242)', fontSize: '14px', marginBottom: '12px' }}
                   />
                   <button style={{ width: '100%', padding: '10px', borderRadius: '6px', border: 'none', background: 'rgb(85, 81, 247)', color: 'white', fontWeight: '600', cursor: 'pointer' }}>
                     Get AI Guidance
@@ -839,18 +884,46 @@ const AIAssurancePlan = () => {
               <div>
                 <div style={{ marginBottom: '16px' }}>
                   <label style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '8px' }}>Owner</label>
-                  <select style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', border: '1px solid rgb(220, 229, 242)' }}>
+                  <select style={{ width: '100%', padding: '10px 12px', borderRadius: '6px', border: '1px solid rgb(220, 229, 242)', background: 'white' }}>
+                    <option>sarah@kovrr.com</option>
                     <option>or@kovrr.com</option>
                     <option>yakir@kovrr.com</option>
                     <option>shai@kovrr.com</option>
                   </select>
                 </div>
 
+                {/* Existing Notes */}
                 <div style={{ marginBottom: '16px' }}>
-                  <label style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '8px' }}>Notes</label>
-                  <textarea 
+                  <label style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '8px' }}>Activity Log</label>
+                  <div style={{ background: 'white', borderRadius: '8px', border: '1px solid rgb(220, 229, 242)', padding: '16px', marginBottom: '12px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '600', color: 'rgb(85, 81, 247)' }}>sarah@kovrr.com</span>
+                      <span style={{ fontSize: '11px', color: 'rgb(113, 118, 126)' }}>Nov 14, 2025 3:42 PM</span>
+                    </div>
+                    <p style={{ fontSize: '14px', color: 'rgb(48, 48, 69)', margin: '0 0 8px 0', lineHeight: '1.5' }}>
+                      Met with IT team to discuss current AI inventory process. They're using a spreadsheet that's updated quarterly. Recommended moving to automated discovery tool to improve coverage and reduce shadow AI.
+                    </p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '12px', color: 'rgb(113, 118, 126)' }}>
+                      <span>📎</span>
+                      <span>2 attachments</span>
+                    </div>
+                  </div>
+                  <div style={{ background: 'white', borderRadius: '8px', border: '1px solid rgb(220, 229, 242)', padding: '16px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '600', color: 'rgb(85, 81, 247)' }}>or@kovrr.com</span>
+                      <span style={{ fontSize: '11px', color: 'rgb(113, 118, 126)' }}>Nov 12, 2025 10:15 AM</span>
+                    </div>
+                    <p style={{ fontSize: '14px', color: 'rgb(48, 48, 69)', margin: 0, lineHeight: '1.5' }}>
+                      Initial assessment complete. Current maturity at Level 2. Target set to Level 5 based on regulatory requirements (EU AI Act, NIST AI RMF). Priority score calculated at 87/100.
+                    </p>
+                  </div>
+                </div>
+
+                <div style={{ marginBottom: '16px' }}>
+                  <label style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '8px' }}>Add New Note</label>
+                  <textarea
                     placeholder="Add notes about this control..."
-                    style={{ width: '100%', minHeight: '150px', padding: '12px', borderRadius: '8px', border: '1px solid rgb(220, 229, 242)', fontSize: '14px' }}
+                    style={{ width: '100%', minHeight: '100px', padding: '12px', borderRadius: '8px', border: '1px solid rgb(220, 229, 242)', fontSize: '14px' }}
                   />
                   <button style={{ width: '100%', padding: '10px', borderRadius: '6px', border: 'none', background: 'rgb(85, 81, 247)', color: 'white', fontWeight: '600', cursor: 'pointer', marginTop: '8px' }}>
                     Save Note
@@ -859,6 +932,29 @@ const AIAssurancePlan = () => {
 
                 <div>
                   <label style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '8px' }}>Attachments</label>
+                  {/* Existing Attachments */}
+                  <div style={{ background: 'white', borderRadius: '8px', border: '1px solid rgb(220, 229, 242)', padding: '12px', marginBottom: '12px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px', borderBottom: '1px solid rgb(237, 242, 247)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontSize: '16px' }}>📄</span>
+                        <div>
+                          <div style={{ fontSize: '13px', fontWeight: '600', color: 'rgb(26, 32, 44)' }}>AI_Inventory_Template.xlsx</div>
+                          <div style={{ fontSize: '11px', color: 'rgb(113, 118, 126)' }}>45 KB • Nov 14, 2025</div>
+                        </div>
+                      </div>
+                      <button style={{ background: 'none', border: 'none', color: 'rgb(85, 81, 247)', cursor: 'pointer', fontSize: '12px', fontWeight: '600' }}>Download</button>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontSize: '16px' }}>📄</span>
+                        <div>
+                          <div style={{ fontSize: '13px', fontWeight: '600', color: 'rgb(26, 32, 44)' }}>IT_Meeting_Notes.pdf</div>
+                          <div style={{ fontSize: '11px', color: 'rgb(113, 118, 126)' }}>128 KB • Nov 14, 2025</div>
+                        </div>
+                      </div>
+                      <button style={{ background: 'none', border: 'none', color: 'rgb(85, 81, 247)', cursor: 'pointer', fontSize: '12px', fontWeight: '600' }}>Download</button>
+                    </div>
+                  </div>
                   <div style={{ border: '2px dashed rgb(220, 229, 242)', borderRadius: '8px', padding: '24px', textAlign: 'center', cursor: 'pointer' }}>
                     <div style={{ fontSize: '14px', color: 'rgb(113, 118, 126)' }}>📎 Drop files here or click to upload</div>
                   </div>

@@ -14,12 +14,13 @@ const AIRiskUniverseMap = ({ data }) => {
   const [hoveredAsset, setHoveredAsset] = useState(null);
 
   // Color mapping based on risk tier
+  // Uses design-system colors: error (Red-500), warning (Orange-300/Yellow), success (Green-2-500)
   const getColor = (tier) => {
     const colors = {
-      critical: 'rgb(255, 35, 35)',
-      high: 'rgb(255, 153, 0)',
-      medium: 'rgb(251, 188, 9)',
-      low: 'rgb(160, 190, 170)',
+      critical: '#EB491F', // Red-500
+      high: '#FF9900',     // Orange-300
+      medium: '#FBBC09',   // Orange-200 / Yellow
+      low: '#0DC783',      // Green-2-500 (success)
     };
     return colors[tier] || colors.medium;
   };
@@ -48,12 +49,11 @@ const AIRiskUniverseMap = ({ data }) => {
             </div>
             <div className="flex justify-between">
               <span className="text-[rgb(74,85,104)]">Status:</span>
-              <span className={`inline-flex items-center gap-[4px] px-[6px] py-[2px] rounded-[4px] text-[11px] font-[600] ${
-                asset.tier === 'critical' ? 'bg-[rgba(255,35,35,0.1)] text-[rgb(255,35,35)]' :
-                asset.tier === 'high' ? 'bg-[rgba(255,153,0,0.1)] text-[rgb(255,153,0)]' :
-                asset.tier === 'medium' ? 'bg-[rgba(251,188,9,0.1)] text-[rgb(159,60,0)]' :
-                'bg-[rgba(160,190,170,0.2)] text-[rgb(74,85,104)]'
-              }`}>
+              <span className={`inline-flex items-center gap-[4px] px-[6px] py-[2px] rounded-[4px] text-[11px] font-[600] ${asset.tier === 'critical' ? 'bg-[rgba(235,73,31,0.1)] text-[rgb(235,73,31)]' :
+                  asset.tier === 'high' ? 'bg-[rgba(255,153,0,0.1)] text-[rgb(255,153,0)]' :
+                    asset.tier === 'medium' ? 'bg-[rgba(251,188,9,0.1)] text-[rgb(159,60,0)]' :
+                      'bg-[rgba(13,199,131,0.1)] text-[rgb(13,199,131)]'
+                }`}>
                 {asset.tier.toUpperCase()}
               </span>
             </div>
@@ -114,7 +114,7 @@ const AIRiskUniverseMap = ({ data }) => {
       <div className="absolute bottom-[60px] left-[80px] text-[11px] font-[600] text-[rgb(74,85,104)] opacity-40 pointer-events-none z-10">
         🔄 Low Risk, Low Control
       </div>
-      <div className="absolute bottom-[60px] right-[40px] text-[11px] font-[600] text-[rgb(160,190,170)] opacity-40 pointer-events-none z-10">
+      <div className="absolute bottom-[60px] right-[40px] text-[11px] font-[600] text-text-information-success opacity-40 pointer-events-none z-10">
         ✅ Low Risk, High Control
       </div>
 
@@ -153,13 +153,13 @@ const AIRiskUniverseMap = ({ data }) => {
             />
           </YAxis>
           <ZAxis type="number" dataKey="size" range={[200, 2000]} />
-          
+
           {/* Quadrant dividers */}
           <ReferenceLine x={50} stroke="rgb(220,229,242)" strokeDasharray="3 3" strokeWidth={1} />
           <ReferenceLine y={50} stroke="rgb(220,229,242)" strokeDasharray="3 3" strokeWidth={1} />
-          
+
           <Tooltip content={<CustomTooltip />} cursor={false} />
-          
+
           <Scatter
             data={data}
             shape={<CustomDot />}

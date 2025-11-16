@@ -1,18 +1,24 @@
 import { useState } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Paperclip } from 'lucide-react';
 
 const ComplianceReadiness = () => {
   const [currentView, setCurrentView] = useState('list'); // 'list', 'results', 'questionnaire'
   const [selectedAssessment, setSelectedAssessment] = useState(null);
   const [showNewAssessmentModal, setShowNewAssessmentModal] = useState(false);
   const [selectedGranularity, setSelectedGranularity] = useState('category');
-  
+  const [selectedScoringScale, setSelectedScoringScale] = useState('1-5');
+  const [selectedAnswerStructure, setSelectedAnswerStructure] = useState('single');
+
   // Questionnaire state
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentRating, setCurrentRating] = useState(null);
   const [targetRating, setTargetRating] = useState(null);
   const [isInapplicable, setIsInapplicable] = useState(false);
   const [notes, setNotes] = useState('');
   const [selectedOwner, setSelectedOwner] = useState('');
+
+  // Total questions (mock data)
+  const totalQuestions = 73;
 
   const handleStartNewAssessment = () => {
     setShowNewAssessmentModal(true);
@@ -36,11 +42,27 @@ const ComplianceReadiness = () => {
   };
 
   const handlePrevious = () => {
-    alert('Previous question');
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+      // Reset current question state
+      setCurrentRating(null);
+      setTargetRating(null);
+      setIsInapplicable(false);
+      setNotes('');
+    }
   };
 
   const handleNext = () => {
-    alert('Next question');
+    if (currentQuestionIndex < totalQuestions - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      // Reset current question state
+      setCurrentRating(null);
+      setTargetRating(null);
+      setIsInapplicable(false);
+      setNotes('');
+    } else {
+      alert('Assessment complete!');
+    }
   };
 
   // Mock assessments data
@@ -137,448 +159,539 @@ const ComplianceReadiness = () => {
     return (
       <>
         <div className="space-y-[30px]">
-        {/* Page Header */}
-        <div className="flex items-center justify-between">
-          <h1 className="text-[38px] font-[700] text-[rgb(26,32,44)] tracking-[-0.5px] m-0">
-            Compliance Readiness
-          </h1>
-          <button 
-            onClick={handleStartNewAssessment}
-            className="inline-flex items-center gap-[8px] px-[16px] py-[8px] bg-[rgb(85,81,247)] text-white text-[14px] font-[600] rounded-[6px] border-none shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] cursor-pointer transition-all duration-200 hover:bg-[rgb(97,94,251)]"
-          >
-            Start New Assessment
-          </button>
-        </div>
-
-        {/* Stats Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-[20px]">
-          {/* EU AI ACT Card */}
-          <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
-            <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">EU AI ACT</div>
-            <div className="flex items-baseline gap-[4px] mb-[12px]">
-              <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">85</span>
-              <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
-            </div>
-            <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
-              <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '85%' }}></div>
-            </div>
-            <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
+          {/* Page Header */}
+          <div className="flex items-center justify-between">
+            <h1 className="text-[38px] font-[700] text-[rgb(26,32,44)] tracking-[-0.5px] m-0">
+              Compliance Readiness
+            </h1>
+            <button
+              onClick={handleStartNewAssessment}
+              className="inline-flex items-center gap-[8px] px-[16px] py-[8px] bg-[rgb(85,81,247)] text-white text-[14px] font-[600] rounded-[6px] border-none shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] cursor-pointer transition-all duration-200 hover:bg-[rgb(97,94,251)]"
+            >
+              Start New Assessment
+            </button>
           </div>
 
-          {/* NIST AI RMF Card */}
-          <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
-            <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">NIST AI RMF</div>
-            <div className="flex items-baseline gap-[4px] mb-[12px]">
-              <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">71</span>
-              <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
+          {/* Stats Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-[20px]">
+            {/* EU AI ACT Card */}
+            <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
+              <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">EU AI ACT</div>
+              <div className="flex items-baseline gap-[4px] mb-[12px]">
+                <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">85</span>
+                <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
+              </div>
+              <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
+                <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '85%' }}></div>
+              </div>
+              <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
             </div>
-            <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
-              <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '71%' }}></div>
+
+            {/* NIST AI RMF Card */}
+            <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
+              <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">NIST AI RMF</div>
+              <div className="flex items-baseline gap-[4px] mb-[12px]">
+                <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">71</span>
+                <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
+              </div>
+              <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
+                <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '71%' }}></div>
+              </div>
+              <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
             </div>
-            <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
+
+            {/* ISO 42001:2023 Card */}
+            <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
+              <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">ISO 42001:2023</div>
+              <div className="flex items-baseline gap-[4px] mb-[12px]">
+                <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">79</span>
+                <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
+              </div>
+              <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
+                <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '79%' }}></div>
+              </div>
+              <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
+            </div>
+
+            {/* Colorado SB21-169 Card */}
+            <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
+              <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">Colorado SB21-169</div>
+              <div className="flex items-baseline gap-[4px] mb-[12px]">
+                <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">92</span>
+                <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
+              </div>
+              <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
+                <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '92%' }}></div>
+              </div>
+              <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
+            </div>
+
+            {/* NYC Local Law 144 Card */}
+            <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
+              <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">NYC Local Law 144</div>
+              <div className="flex items-baseline gap-[4px] mb-[12px]">
+                <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">98</span>
+                <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
+              </div>
+              <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
+                <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '98%' }}></div>
+              </div>
+              <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
+            </div>
           </div>
 
-          {/* ISO 42001:2023 Card */}
-          <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
-            <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">ISO 42001:2023</div>
-            <div className="flex items-baseline gap-[4px] mb-[12px]">
-              <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">79</span>
-              <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
-            </div>
-            <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
-              <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '79%' }}></div>
-            </div>
-            <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
-          </div>
-
-          {/* Colorado SB21-169 Card */}
-          <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
-            <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">Colorado SB21-169</div>
-            <div className="flex items-baseline gap-[4px] mb-[12px]">
-              <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">92</span>
-              <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
-            </div>
-            <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
-              <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '92%' }}></div>
-            </div>
-            <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
-          </div>
-
-          {/* NYC Local Law 144 Card */}
-          <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
-            <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">NYC Local Law 144</div>
-            <div className="flex items-baseline gap-[4px] mb-[12px]">
-              <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">98</span>
-              <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
-            </div>
-            <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
-              <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '98%' }}></div>
-            </div>
-            <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
-          </div>
-        </div>
-
-        {/* Assessment Table */}
-        <div className="bg-white rounded-[15px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] overflow-hidden">
-          <table className="w-full border-collapse">
-            <thead className="bg-[rgb(237,242,247)]">
-              <tr>
-                <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
-                  Name
-                </th>
-                <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
-                  Created On
-                </th>
-                <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
-                  Assessment Score
-                </th>
-                <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
-                  Framework
-                </th>
-                <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
-                  Granularity
-                </th>
-                <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
-                  Answer Structure
-                </th>
-                <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
-                  Completion Status
-                </th>
-                <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
-                  Resume/Results
-                </th>
-                <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {assessments.map((assessment) => (
-                <tr
-                  key={assessment.id}
-                  onClick={() => assessment.status === 'Completed' && handleViewResults(assessment)}
-                  className={`transition-colors duration-150 bg-white ${
-                    assessment.status === 'Completed' ? 'cursor-pointer hover:bg-[rgb(236,242,252)]' : ''
-                  }`}
-                >
-                  <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(26,32,44)] text-[14px] font-[600]">
-                    {assessment.name}
-                  </td>
-                  <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(74,85,104)] text-[14px]">
-                    {assessment.createdOn}
-                  </td>
-                  <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)]">
-                    <div className="flex items-center gap-[8px]">
-                      <span className="text-[20px] font-[700] text-[rgb(26,32,44)]">
-                        {assessment.assessmentScore}
+          {/* Assessment Table */}
+          <div className="bg-white rounded-[15px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] overflow-hidden">
+            <table className="w-full border-collapse">
+              <thead className="bg-[rgb(237,242,247)]">
+                <tr>
+                  <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
+                    Name
+                  </th>
+                  <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
+                    Created On
+                  </th>
+                  <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
+                    Assessment Score
+                  </th>
+                  <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
+                    Framework
+                  </th>
+                  <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
+                    Granularity
+                  </th>
+                  <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
+                    Answer Structure
+                  </th>
+                  <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
+                    Completion Status
+                  </th>
+                  <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
+                    Resume/Results
+                  </th>
+                  <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {assessments.map((assessment) => (
+                  <tr
+                    key={assessment.id}
+                    onClick={() => assessment.status === 'Completed' && handleViewResults(assessment)}
+                    className={`transition-colors duration-150 bg-white ${assessment.status === 'Completed' ? 'cursor-pointer hover:bg-[rgb(236,242,252)]' : ''
+                      }`}
+                  >
+                    <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(26,32,44)] text-[14px] font-[600]">
+                      {assessment.name}
+                    </td>
+                    <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(74,85,104)] text-[14px]">
+                      {assessment.createdOn}
+                    </td>
+                    <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)]">
+                      <div className="flex items-center gap-[8px]">
+                        <span className="text-[20px] font-[700] text-[rgb(26,32,44)]">
+                          {assessment.assessmentScore}
+                        </span>
+                        <div className="flex-1 h-[8px] bg-[rgb(237,242,247)] rounded-[4px] overflow-hidden">
+                          <div
+                            className="h-full bg-[rgb(255,153,0)] rounded-[4px]"
+                            style={{ width: `${assessment.scorePercentage}%` }}
+                          />
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(74,85,104)] text-[14px]">
+                      {assessment.framework}
+                    </td>
+                    <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(74,85,104)] text-[14px]">
+                      {assessment.granularity === 'Not Available' ? (
+                        <span className="text-[14px] text-[rgb(113,118,126)]">{assessment.granularity}</span>
+                      ) : (
+                        assessment.granularity
+                      )}
+                    </td>
+                    <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(74,85,104)] text-[14px]">
+                      {assessment.answerStructure === 'Not Available' ? (
+                        <span className="text-[14px] text-[rgb(113,118,126)]">{assessment.answerStructure}</span>
+                      ) : (
+                        assessment.answerStructure
+                      )}
+                    </td>
+                    <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(48,48,69)] text-[14px]">
+                      <span className={`inline-flex items-center gap-[6px] px-[12px] py-[6px] rounded-[6px] text-[13px] font-[600] ${getStatusBadge(assessment.status)}`}>
+                        {getStatusIcon(assessment.status)} {assessment.status}
                       </span>
-                      <div className="flex-1 h-[8px] bg-[rgb(237,242,247)] rounded-[4px] overflow-hidden">
-                        <div 
-                          className="h-full bg-[rgb(255,153,0)] rounded-[4px]" 
-                          style={{ width: `${assessment.scorePercentage}%` }}
-                        />
+                    </td>
+                    <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(48,48,69)] text-[14px]">
+                      {assessment.status === 'Completed' ? (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleViewResults(assessment);
+                          }}
+                          className="bg-white text-[rgb(74,85,104)] text-[13px] font-[600] px-[20px] py-[10px] border border-[rgb(220,229,242)] rounded-[6px] cursor-pointer transition-all duration-200 hover:bg-[rgb(248,250,252)] uppercase tracking-[0.3px]"
+                        >
+                          FULL RESULTS
+                        </button>
+                      ) : (
+                        <button
+                          disabled
+                          className="bg-white text-[rgb(169,180,188)] text-[13px] font-[600] px-[20px] py-[10px] border border-[rgb(220,229,242)] rounded-[6px] cursor-not-allowed uppercase tracking-[0.3px]"
+                        >
+                          NOT AVAILABLE
+                        </button>
+                      )}
+                    </td>
+                    <td className="px-[20px] py-[18px] border-b border-[rgb(237,242,247)] text-[rgb(74,85,104)] text-[14px] text-center">
+                      <button className="bg-transparent border-none text-[rgb(113,118,126)] text-[20px] cursor-pointer hover:text-[rgb(74,85,104)] transition-colors">
+                        ⋮
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Results count */}
+          <div className="mt-[16px] text-[12px] text-[rgb(74,85,104)]">
+            Results: 1 - {assessments.length} of {assessments.length}
+          </div>
+        </div>
+
+        {/* New Assessment Modal */}
+        {showNewAssessmentModal && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(30, 30, 30, 0.8)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000
+          }}>
+            <div style={{
+              backgroundColor: 'rgb(255, 255, 255)',
+              borderRadius: '15px',
+              width: '90%',
+              maxWidth: '600px',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 20px 0px'
+            }}>
+              {/* Modal Header */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '20px 24px',
+                borderBottom: '1px solid rgb(220, 229, 242)'
+              }}>
+                <span style={{ fontSize: '20px', fontWeight: '700', color: 'rgb(26, 32, 44)' }}>
+                  New Control Assessment
+                </span>
+                <button
+                  onClick={handleCloseModal}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    fontSize: '24px',
+                    cursor: 'pointer',
+                    color: 'rgb(74, 85, 104)',
+                    padding: 0,
+                    lineHeight: 1
+                  }}
+                >
+                  ×
+                </button>
+              </div>
+
+              {/* Modal Body */}
+              <div style={{ padding: '24px' }}>
+                <p style={{ fontSize: '14px', color: 'rgb(74, 85, 104)', marginBottom: '24px' }}>
+                  Customize your control evaluation based on your preferred cybersecurity framework and assessment style
+                </p>
+
+                <div style={{ fontSize: '16px', fontWeight: '600', color: 'rgb(26, 32, 44)', marginBottom: '16px' }}>
+                  Control Assessment Information
+                </div>
+
+                {/* Name */}
+                <div style={{ marginBottom: '16px' }}>
+                  <label style={{ fontSize: '14px', fontWeight: '600', color: 'rgb(26, 32, 44)', display: 'block', marginBottom: '8px' }}>
+                    Name:
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter assessment name"
+                    style={{
+                      width: '100%',
+                      padding: '10px 12px',
+                      borderRadius: '6px',
+                      border: '1px solid rgb(220, 229, 242)',
+                      fontSize: '14px',
+                      fontFamily: '"Source Sans Pro", Helvetica, Arial, sans-serif'
+                    }}
+                  />
+                </div>
+
+                {/* Company */}
+                <div style={{ marginBottom: '16px' }}>
+                  <label style={{ fontSize: '14px', fontWeight: '600', color: 'rgb(26, 32, 44)', display: 'block', marginBottom: '8px' }}>
+                    Company
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter company name"
+                    style={{
+                      width: '100%',
+                      padding: '10px 12px',
+                      borderRadius: '6px',
+                      border: '1px solid rgb(220, 229, 242)',
+                      fontSize: '14px',
+                      fontFamily: '"Source Sans Pro", Helvetica, Arial, sans-serif'
+                    }}
+                  />
+                </div>
+
+                {/* Controls Framework */}
+                <div style={{ marginBottom: '16px' }}>
+                  <label style={{ fontSize: '14px', fontWeight: '600', color: 'rgb(26, 32, 44)', display: 'block', marginBottom: '8px' }}>
+                    Controls Framework
+                  </label>
+                  <select style={{
+                    width: '100%',
+                    padding: '10px 12px',
+                    borderRadius: '6px',
+                    border: '1px solid rgb(220, 229, 242)',
+                    fontSize: '14px',
+                    fontFamily: '"Source Sans Pro", Helvetica, Arial, sans-serif',
+                    backgroundColor: 'rgb(255, 255, 255)'
+                  }}>
+                    <option>NIST AI RMF</option>
+                    <option>ISO/IEC 42001</option>
+                    <option>EU AI Act</option>
+                    <option>Colorado SB21-169</option>
+                    <option>NYC Local Law 144</option>
+                  </select>
+                </div>
+
+                {/* Granularity Level */}
+                <div style={{ marginBottom: '24px' }}>
+                  <label style={{ fontSize: '14px', fontWeight: '600', color: 'rgb(26, 32, 44)', display: 'block', marginBottom: '12px' }}>
+                    Granularity Level
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                    {/* Category Option */}
+                    <div
+                      onClick={() => setSelectedGranularity('category')}
+                      style={{
+                        padding: '16px',
+                        border: selectedGranularity === 'category' ? '2px solid rgb(85, 81, 247)' : '1px solid rgb(220, 229, 242)',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        backgroundColor: selectedGranularity === 'category' ? 'rgb(236, 242, 252)' : 'rgb(255, 255, 255)'
+                      }}
+                    >
+                      <div style={{ fontSize: '16px', fontWeight: '600', color: 'rgb(26, 32, 44)', marginBottom: '8px' }}>
+                        Category
+                      </div>
+                      <div style={{ fontSize: '13px', color: 'rgb(74, 85, 104)', lineHeight: '1.5', marginBottom: '8px' }}>
+                        The highest level grouping of controls. Selecting this granularity aggregates results at the category level.
+                      </div>
+                      <div style={{ fontSize: '12px', color: 'rgb(113, 118, 126)', fontStyle: 'italic' }}>
+                        Summarize the assessment by category (e.g., Governance).
                       </div>
                     </div>
-                  </td>
-                  <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(74,85,104)] text-[14px]">
-                    {assessment.framework}
-                  </td>
-                  <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(74,85,104)] text-[14px]">
-                    {assessment.granularity === 'Not Available' ? (
-                      <span className="text-[14px] text-[rgb(113,118,126)]">{assessment.granularity}</span>
-                    ) : (
-                      assessment.granularity
-                    )}
-                  </td>
-                  <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(74,85,104)] text-[14px]">
-                    {assessment.answerStructure === 'Not Available' ? (
-                      <span className="text-[14px] text-[rgb(113,118,126)]">{assessment.answerStructure}</span>
-                    ) : (
-                      assessment.answerStructure
-                    )}
-                  </td>
-                  <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(48,48,69)] text-[14px]">
-                    <span className={`inline-flex items-center gap-[6px] px-[12px] py-[6px] rounded-[6px] text-[13px] font-[600] ${getStatusBadge(assessment.status)}`}>
-                      {getStatusIcon(assessment.status)} {assessment.status}
-                    </span>
-                  </td>
-                  <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)] text-[rgb(48,48,69)] text-[14px]">
-                    {assessment.status === 'Completed' ? (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleViewResults(assessment);
-                        }}
-                        className="bg-white text-[rgb(74,85,104)] text-[13px] font-[600] px-[20px] py-[10px] border border-[rgb(220,229,242)] rounded-[6px] cursor-pointer transition-all duration-200 hover:bg-[rgb(248,250,252)] uppercase tracking-[0.3px]"
-                      >
-                        FULL RESULTS
-                      </button>
-                    ) : (
-                      <button
-                        disabled
-                        className="bg-white text-[rgb(169,180,188)] text-[13px] font-[600] px-[20px] py-[10px] border border-[rgb(220,229,242)] rounded-[6px] cursor-not-allowed uppercase tracking-[0.3px]"
-                      >
-                        NOT AVAILABLE
-                      </button>
-                    )}
-                  </td>
-                  <td className="px-[20px] py-[18px] border-b border-[rgb(237,242,247)] text-[rgb(74,85,104)] text-[14px] text-center">
-                    <button className="bg-transparent border-none text-[rgb(113,118,126)] text-[20px] cursor-pointer hover:text-[rgb(74,85,104)] transition-colors">
-                      ⋮
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
 
-        {/* Results count */}
-        <div className="mt-[16px] text-[12px] text-[rgb(74,85,104)]">
-          Results: 1 - {assessments.length} of {assessments.length}
-        </div>
-      </div>
-
-      {/* New Assessment Modal */}
-      {showNewAssessmentModal && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(30, 30, 30, 0.8)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000
-        }}>
-          <div style={{
-            backgroundColor: 'rgb(255, 255, 255)',
-            borderRadius: '15px',
-            width: '90%',
-            maxWidth: '600px',
-            maxHeight: '90vh',
-            overflowY: 'auto',
-            boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 20px 0px'
-          }}>
-            {/* Modal Header */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: '20px 24px',
-              borderBottom: '1px solid rgb(220, 229, 242)'
-            }}>
-              <span style={{ fontSize: '20px', fontWeight: '700', color: 'rgb(26, 32, 44)' }}>
-                New Control Assessment
-              </span>
-              <button
-                onClick={handleCloseModal}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  fontSize: '24px',
-                  cursor: 'pointer',
-                  color: 'rgb(74, 85, 104)',
-                  padding: 0,
-                  lineHeight: 1
-                }}
-              >
-                ×
-              </button>
-            </div>
-
-            {/* Modal Body */}
-            <div style={{ padding: '24px' }}>
-              <p style={{ fontSize: '14px', color: 'rgb(74, 85, 104)', marginBottom: '24px' }}>
-                Customize your control evaluation based on your preferred cybersecurity framework and assessment style
-              </p>
-
-              <div style={{ fontSize: '16px', fontWeight: '600', color: 'rgb(26, 32, 44)', marginBottom: '16px' }}>
-                Control Assessment Information
-              </div>
-
-              {/* Name */}
-              <div style={{ marginBottom: '16px' }}>
-                <label style={{ fontSize: '14px', fontWeight: '600', color: 'rgb(26, 32, 44)', display: 'block', marginBottom: '8px' }}>
-                  Name:
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter assessment name"
-                  style={{
-                    width: '100%',
-                    padding: '10px 12px',
-                    borderRadius: '6px',
-                    border: '1px solid rgb(220, 229, 242)',
-                    fontSize: '14px',
-                    fontFamily: '"Source Sans Pro", Helvetica, Arial, sans-serif'
-                  }}
-                />
-              </div>
-
-              {/* Company */}
-              <div style={{ marginBottom: '16px' }}>
-                <label style={{ fontSize: '14px', fontWeight: '600', color: 'rgb(26, 32, 44)', display: 'block', marginBottom: '8px' }}>
-                  Company
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter company name"
-                  style={{
-                    width: '100%',
-                    padding: '10px 12px',
-                    borderRadius: '6px',
-                    border: '1px solid rgb(220, 229, 242)',
-                    fontSize: '14px',
-                    fontFamily: '"Source Sans Pro", Helvetica, Arial, sans-serif'
-                  }}
-                />
-              </div>
-
-              {/* Controls Framework */}
-              <div style={{ marginBottom: '16px' }}>
-                <label style={{ fontSize: '14px', fontWeight: '600', color: 'rgb(26, 32, 44)', display: 'block', marginBottom: '8px' }}>
-                  Controls Framework
-                </label>
-                <select style={{
-                  width: '100%',
-                  padding: '10px 12px',
-                  borderRadius: '6px',
-                  border: '1px solid rgb(220, 229, 242)',
-                  fontSize: '14px',
-                  fontFamily: '"Source Sans Pro", Helvetica, Arial, sans-serif',
-                  backgroundColor: 'rgb(255, 255, 255)'
-                }}>
-                  <option>NIST AI RMF</option>
-                  <option>ISO/IEC 42001</option>
-                  <option>EU AI Act</option>
-                </select>
-              </div>
-
-              {/* Granularity Level */}
-              <div style={{ marginBottom: '24px' }}>
-                <label style={{ fontSize: '14px', fontWeight: '600', color: 'rgb(26, 32, 44)', display: 'block', marginBottom: '12px' }}>
-                  Granularity Level
-                </label>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                  {/* Category Option */}
-                  <div
-                    onClick={() => setSelectedGranularity('category')}
-                    style={{
-                      padding: '16px',
-                      border: selectedGranularity === 'category' ? '2px solid rgb(85, 81, 247)' : '1px solid rgb(220, 229, 242)',
-                      borderRadius: '8px',
-                      cursor: 'pointer',
-                      backgroundColor: selectedGranularity === 'category' ? 'rgb(236, 242, 252)' : 'rgb(255, 255, 255)'
-                    }}
-                  >
-                    <div style={{ fontSize: '16px', fontWeight: '600', color: 'rgb(26, 32, 44)', marginBottom: '8px' }}>
-                      Category
-                    </div>
-                    <div style={{ fontSize: '13px', color: 'rgb(74, 85, 104)', lineHeight: '1.5', marginBottom: '8px' }}>
-                      The highest level grouping of controls. Selecting this granularity aggregates results at the category level.
-                    </div>
-                    <div style={{ fontSize: '12px', color: 'rgb(113, 118, 126)', fontStyle: 'italic' }}>
-                      Summarize the assessment by category (e.g., Governance).
+                    {/* Sub-category Option */}
+                    <div
+                      onClick={() => setSelectedGranularity('subcategory')}
+                      style={{
+                        padding: '16px',
+                        border: selectedGranularity === 'subcategory' ? '2px solid rgb(85, 81, 247)' : '1px solid rgb(220, 229, 242)',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        backgroundColor: selectedGranularity === 'subcategory' ? 'rgb(236, 242, 252)' : 'rgb(255, 255, 255)'
+                      }}
+                    >
+                      <div style={{ fontSize: '16px', fontWeight: '600', color: 'rgb(26, 32, 44)', marginBottom: '8px' }}>
+                        Sub-category
+                      </div>
+                      <div style={{ fontSize: '13px', color: 'rgb(74, 85, 104)', lineHeight: '1.5', marginBottom: '8px' }}>
+                        A more specific grouping beneath a category. Use this granularity to view results for individual sub-categories.
+                      </div>
+                      <div style={{ fontSize: '12px', color: 'rgb(113, 118, 126)', fontStyle: 'italic' }}>
+                        Drill down to the Access Control sub-category within Governance.
+                      </div>
                     </div>
                   </div>
 
-                  {/* Sub-category Option */}
+                  {/* Question Option */}
                   <div
-                    onClick={() => setSelectedGranularity('subcategory')}
+                    onClick={() => setSelectedGranularity('question')}
                     style={{
+                      marginTop: '12px',
                       padding: '16px',
-                      border: selectedGranularity === 'subcategory' ? '2px solid rgb(85, 81, 247)' : '1px solid rgb(220, 229, 242)',
+                      border: selectedGranularity === 'question' ? '2px solid rgb(85, 81, 247)' : '1px solid rgb(220, 229, 242)',
                       borderRadius: '8px',
                       cursor: 'pointer',
-                      backgroundColor: selectedGranularity === 'subcategory' ? 'rgb(236, 242, 252)' : 'rgb(255, 255, 255)'
+                      backgroundColor: selectedGranularity === 'question' ? 'rgb(236, 242, 252)' : 'rgb(255, 255, 255)'
                     }}
                   >
                     <div style={{ fontSize: '16px', fontWeight: '600', color: 'rgb(26, 32, 44)', marginBottom: '8px' }}>
-                      Sub-category
+                      Question
                     </div>
                     <div style={{ fontSize: '13px', color: 'rgb(74, 85, 104)', lineHeight: '1.5', marginBottom: '8px' }}>
-                      A more specific grouping beneath a category. Use this granularity to view results for individual sub-categories.
+                      The most detailed level, showing each individual implementation question.
                     </div>
                     <div style={{ fontSize: '12px', color: 'rgb(113, 118, 126)', fontStyle: 'italic' }}>
-                      Drill down to the Access Control sub-category within Governance.
+                      View granular question-level results.
                     </div>
                   </div>
                 </div>
 
-                {/* Question Option */}
-                <div
-                  onClick={() => setSelectedGranularity('question')}
+                {/* Scoring Scale */}
+                <div style={{ marginBottom: '24px', marginTop: '8px' }}>
+                  <label style={{ fontSize: '14px', fontWeight: '600', color: 'rgb(26, 32, 44)', display: 'block', marginBottom: '12px' }}>
+                    Scoring Scale
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                    {/* 0-4 Scale */}
+                    <div
+                      onClick={() => setSelectedScoringScale('0-4')}
+                      style={{
+                        padding: '16px',
+                        border: selectedScoringScale === '0-4' ? '2px solid rgb(85, 81, 247)' : '2px solid rgb(220, 229, 242)',
+                        borderRadius: '12px',
+                        backgroundColor: selectedScoringScale === '0-4' ? 'rgb(236, 242, 252)' : 'rgb(255, 255, 255)',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      <div style={{ fontSize: '16px', fontWeight: '600', color: 'rgb(26, 32, 44)' }}>
+                        0 - 4
+                      </div>
+                    </div>
+
+                    {/* 1-5 Scale */}
+                    <div
+                      onClick={() => setSelectedScoringScale('1-5')}
+                      style={{
+                        padding: '16px',
+                        border: selectedScoringScale === '1-5' ? '2px solid rgb(85, 81, 247)' : '2px solid rgb(220, 229, 242)',
+                        borderRadius: '12px',
+                        backgroundColor: selectedScoringScale === '1-5' ? 'rgb(236, 242, 252)' : 'rgb(255, 255, 255)',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      <div style={{ fontSize: '16px', fontWeight: '600', color: 'rgb(26, 32, 44)' }}>
+                        1 - 5
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Answer Structure */}
+                <div style={{ marginBottom: '8px' }}>
+                  <label style={{ fontSize: '14px', fontWeight: '600', color: 'rgb(26, 32, 44)', display: 'block', marginBottom: '12px' }}>
+                    Answer Structure
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                    {/* Single Score */}
+                    <div
+                      onClick={() => setSelectedAnswerStructure('single')}
+                      style={{
+                        padding: '20px',
+                        border: selectedAnswerStructure === 'single' ? '2px solid rgb(85, 81, 247)' : '2px solid rgb(220, 229, 242)',
+                        borderRadius: '12px',
+                        backgroundColor: selectedAnswerStructure === 'single' ? 'rgb(236, 242, 252)' : 'rgb(255, 255, 255)',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      <div style={{ fontSize: '16px', fontWeight: '600', color: 'rgb(26, 32, 44)', marginBottom: '8px' }}>
+                        Single Score
+                      </div>
+                      <div style={{ fontSize: '12px', color: 'rgb(74, 85, 104)', lineHeight: '1.5' }}>
+                        Provide a single score per question
+                      </div>
+                    </div>
+
+                    {/* Multi-Dimensional */}
+                    <div
+                      onClick={() => setSelectedAnswerStructure('multi')}
+                      style={{
+                        padding: '20px',
+                        border: selectedAnswerStructure === 'multi' ? '2px solid rgb(85, 81, 247)' : '2px solid rgb(220, 229, 242)',
+                        borderRadius: '12px',
+                        backgroundColor: selectedAnswerStructure === 'multi' ? 'rgb(236, 242, 252)' : 'rgb(255, 255, 255)',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      <div style={{ fontSize: '16px', fontWeight: '600', color: 'rgb(26, 32, 44)', marginBottom: '8px' }}>
+                        Multi-Dimensional
+                      </div>
+                      <div style={{ fontSize: '12px', color: 'rgb(74, 85, 104)', lineHeight: '1.5' }}>
+                        Score each question across multiple dimensions: Existence, Documentation, Enforcement, Coverage.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Modal Footer */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                gap: '12px',
+                padding: '20px 24px',
+                borderTop: '1px solid rgb(220, 229, 242)'
+              }}>
+                <button
+                  onClick={handleCloseModal}
                   style={{
-                    marginTop: '12px',
-                    padding: '16px',
-                    border: selectedGranularity === 'question' ? '2px solid rgb(85, 81, 247)' : '1px solid rgb(220, 229, 242)',
-                    borderRadius: '8px',
+                    fontFamily: '"Source Sans Pro", Helvetica, Arial, sans-serif',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    padding: '10px 20px',
+                    borderRadius: '6px',
+                    border: '1px solid rgb(169, 180, 188)',
                     cursor: 'pointer',
-                    backgroundColor: selectedGranularity === 'question' ? 'rgb(236, 242, 252)' : 'rgb(255, 255, 255)'
+                    backgroundColor: 'rgb(255, 255, 255)',
+                    color: 'rgb(74, 85, 104)',
+                    boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 2px 0px'
                   }}
                 >
-                  <div style={{ fontSize: '16px', fontWeight: '600', color: 'rgb(26, 32, 44)', marginBottom: '8px' }}>
-                    Question
-                  </div>
-                  <div style={{ fontSize: '13px', color: 'rgb(74, 85, 104)', lineHeight: '1.5', marginBottom: '8px' }}>
-                    The most detailed level, showing each individual implementation question.
-                  </div>
-                  <div style={{ fontSize: '12px', color: 'rgb(113, 118, 126)', fontStyle: 'italic' }}>
-                    View granular question-level results.
-                  </div>
-                </div>
+                  Cancel
+                </button>
+                <button
+                  onClick={handleStartAssessment}
+                  style={{
+                    fontFamily: '"Source Sans Pro", Helvetica, Arial, sans-serif',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    padding: '10px 20px',
+                    borderRadius: '6px',
+                    border: 'none',
+                    cursor: 'pointer',
+                    backgroundColor: 'rgb(85, 81, 247)',
+                    color: 'rgb(255, 255, 255)',
+                    boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 2px 0px'
+                  }}
+                >
+                  Start Assessment
+                </button>
               </div>
             </div>
-
-            {/* Modal Footer */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              gap: '12px',
-              padding: '20px 24px',
-              borderTop: '1px solid rgb(220, 229, 242)'
-            }}>
-              <button
-                onClick={handleCloseModal}
-                style={{
-                  fontFamily: '"Source Sans Pro", Helvetica, Arial, sans-serif',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  padding: '10px 20px',
-                  borderRadius: '6px',
-                  border: '1px solid rgb(169, 180, 188)',
-                  cursor: 'pointer',
-                  backgroundColor: 'rgb(255, 255, 255)',
-                  color: 'rgb(74, 85, 104)',
-                  boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 2px 0px'
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleStartAssessment}
-                style={{
-                  fontFamily: '"Source Sans Pro", Helvetica, Arial, sans-serif',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                  padding: '10px 20px',
-                  borderRadius: '6px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  backgroundColor: 'rgb(85, 81, 247)',
-                  color: 'rgb(255, 255, 255)',
-                  boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 2px 0px'
-                }}
-              >
-                Start Assessment
-              </button>
-            </div>
           </div>
-        </div>
-      )}
+        )}
       </>
     );
   }
@@ -739,14 +852,14 @@ const ComplianceReadiness = () => {
               </div>
               <div style={{ position: 'relative', width: '100px', height: '100px' }}>
                 <svg viewBox="0 0 120 120" style={{ transform: 'rotate(-90deg)', width: '100%', height: '100%' }}>
-                  <circle cx="60" cy="60" r="50" fill="none" stroke="rgb(237, 242, 247)" strokeWidth="12"/>
-                  <circle 
-                    cx="60" cy="60" r="50" 
-                    fill="none" 
-                    stroke="rgb(255, 153, 0)" 
-                    strokeWidth="12" 
-                    strokeDasharray="314" 
-                    strokeDashoffset="200" 
+                  <circle cx="60" cy="60" r="50" fill="none" stroke="rgb(237, 242, 247)" strokeWidth="12" />
+                  <circle
+                    cx="60" cy="60" r="50"
+                    fill="none"
+                    stroke="rgb(255, 153, 0)"
+                    strokeWidth="12"
+                    strokeDasharray="314"
+                    strokeDashoffset="200"
                     strokeLinecap="round"
                   />
                 </svg>
@@ -785,13 +898,13 @@ const ComplianceReadiness = () => {
                 </div>
                 <div style={{ position: 'relative', width: '100px', height: '100px', margin: '0 auto' }}>
                   <svg viewBox="0 0 120 120" style={{ transform: 'rotate(-90deg)', width: '100%', height: '100%' }}>
-                    <circle cx="60" cy="60" r="50" fill="none" stroke="rgb(237, 242, 247)" strokeWidth="12"/>
-                    <circle 
-                      cx="60" cy="60" r="50" 
-                      fill="none" 
-                      stroke="rgb(85, 81, 247)" 
-                      strokeWidth="12" 
-                      strokeDasharray="314" 
+                    <circle cx="60" cy="60" r="50" fill="none" stroke="rgb(237, 242, 247)" strokeWidth="12" />
+                    <circle
+                      cx="60" cy="60" r="50"
+                      fill="none"
+                      stroke="rgb(85, 81, 247)"
+                      strokeWidth="12"
+                      strokeDasharray="314"
                       strokeDashoffset="0"
                       strokeLinecap="round"
                     />
@@ -840,41 +953,41 @@ const ComplianceReadiness = () => {
             <div className="mt-[16px] flex justify-center items-center">
               <svg viewBox="0 0 600 600" className="w-full max-w-[500px] h-[500px]">
                 {/* Grid circles */}
-                <circle cx="300" cy="300" r="220" fill="none" stroke="rgb(220, 229, 242)" strokeWidth="1" opacity="0.3"/>
-                <circle cx="300" cy="300" r="176" fill="none" stroke="rgb(220, 229, 242)" strokeWidth="1" opacity="0.3"/>
-                <circle cx="300" cy="300" r="132" fill="none" stroke="rgb(220, 229, 242)" strokeWidth="1" opacity="0.3"/>
-                <circle cx="300" cy="300" r="88" fill="none" stroke="rgb(220, 229, 242)" strokeWidth="1" opacity="0.3"/>
-                <circle cx="300" cy="300" r="44" fill="none" stroke="rgb(220, 229, 242)" strokeWidth="1" opacity="0.3"/>
-                
+                <circle cx="300" cy="300" r="220" fill="none" stroke="rgb(220, 229, 242)" strokeWidth="1" opacity="0.3" />
+                <circle cx="300" cy="300" r="176" fill="none" stroke="rgb(220, 229, 242)" strokeWidth="1" opacity="0.3" />
+                <circle cx="300" cy="300" r="132" fill="none" stroke="rgb(220, 229, 242)" strokeWidth="1" opacity="0.3" />
+                <circle cx="300" cy="300" r="88" fill="none" stroke="rgb(220, 229, 242)" strokeWidth="1" opacity="0.3" />
+                <circle cx="300" cy="300" r="44" fill="none" stroke="rgb(220, 229, 242)" strokeWidth="1" opacity="0.3" />
+
                 {/* Axis lines (19 lines) */}
-                <line x1="300" y1="300" x2="300" y2="80" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                <line x1="300" y1="300" x2="372" y2="95" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                <line x1="300" y1="300" x2="431" y2="135" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                <line x1="300" y1="300" x2="469" y2="198" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                <line x1="300" y1="300" x2="483" y2="270" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                <line x1="300" y1="300" x2="469" y2="342" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                <line x1="300" y1="300" x2="431" y2="405" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                <line x1="300" y1="300" x2="372" y2="445" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                <line x1="300" y1="300" x2="300" y2="520" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                <line x1="300" y1="300" x2="228" y2="505" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                <line x1="300" y1="300" x2="169" y2="465" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                <line x1="300" y1="300" x2="131" y2="402" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                <line x1="300" y1="300" x2="117" y2="330" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                <line x1="300" y1="300" x2="131" y2="258" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                <line x1="300" y1="300" x2="169" y2="195" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                <line x1="300" y1="300" x2="228" y2="155" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                <line x1="300" y1="300" x2="300" y2="135" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                <line x1="300" y1="300" x2="355" y2="145" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                <line x1="300" y1="300" x2="403" y2="178" stroke="rgb(220, 229, 242)" strokeWidth="1"/>
-                
+                <line x1="300" y1="300" x2="300" y2="80" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                <line x1="300" y1="300" x2="372" y2="95" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                <line x1="300" y1="300" x2="431" y2="135" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                <line x1="300" y1="300" x2="469" y2="198" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                <line x1="300" y1="300" x2="483" y2="270" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                <line x1="300" y1="300" x2="469" y2="342" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                <line x1="300" y1="300" x2="431" y2="405" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                <line x1="300" y1="300" x2="372" y2="445" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                <line x1="300" y1="300" x2="300" y2="520" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                <line x1="300" y1="300" x2="228" y2="505" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                <line x1="300" y1="300" x2="169" y2="465" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                <line x1="300" y1="300" x2="131" y2="402" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                <line x1="300" y1="300" x2="117" y2="330" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                <line x1="300" y1="300" x2="131" y2="258" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                <line x1="300" y1="300" x2="169" y2="195" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                <line x1="300" y1="300" x2="228" y2="155" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                <line x1="300" y1="300" x2="300" y2="135" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                <line x1="300" y1="300" x2="355" y2="145" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                <line x1="300" y1="300" x2="403" y2="178" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+
                 {/* Current implementation polygon (blue) */}
-                <polygon 
-                  points="300,212 344,222 389,244 413,276 421,318 413,360 389,392 344,414 300,432 264,420 231,394 207,362 199,330 207,298 231,266 264,244 300,234 327,246 358,264" 
-                  fill="rgba(85, 81, 247, 0.15)" 
-                  stroke="rgb(85, 81, 247)" 
+                <polygon
+                  points="300,212 344,222 389,244 413,276 421,318 413,360 389,392 344,414 300,432 264,420 231,394 207,362 199,330 207,298 231,266 264,244 300,234 327,246 358,264"
+                  fill="rgba(85, 81, 247, 0.15)"
+                  stroke="rgb(85, 81, 247)"
                   strokeWidth="2.5"
                 />
-                
+
                 {/* Data points on current polygon */}
                 {[
                   [300, 212], [344, 222], [389, 244], [413, 276], [421, 318],
@@ -882,18 +995,18 @@ const ComplianceReadiness = () => {
                   [231, 394], [207, 362], [199, 330], [207, 298], [231, 266],
                   [264, 244], [300, 234], [327, 246], [358, 264]
                 ].map((point, i) => (
-                  <circle key={i} cx={point[0]} cy={point[1]} r="6" fill="rgb(85, 81, 247)" stroke="white" strokeWidth="2"/>
+                  <circle key={i} cx={point[0]} cy={point[1]} r="6" fill="rgb(85, 81, 247)" stroke="white" strokeWidth="2" />
                 ))}
-                
+
                 {/* Target polygon (green dashed) */}
-                <polygon 
-                  points="300,168 372,185 431,225 469,278 483,330 469,382 431,435 372,475 300,492 228,475 169,435 131,382 117,330 131,278 169,225 228,185 300,201 355,218 403,242" 
-                  fill="none" 
-                  stroke="rgb(13, 199, 131)" 
+                <polygon
+                  points="300,168 372,185 431,225 469,278 483,330 469,382 431,435 372,475 300,492 228,475 169,435 131,382 117,330 131,278 169,225 228,185 300,201 355,218 403,242"
+                  fill="none"
+                  stroke="rgb(13, 199, 131)"
                   strokeWidth="2"
                   strokeDasharray="8,4"
                 />
-                
+
                 {/* Labels */}
                 <text x="300" y="70" textAnchor="middle" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">GOVERN-1</text>
                 <text x="380" y="85" textAnchor="start" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">GOVERN-2</text>
@@ -1001,7 +1114,7 @@ const ComplianceReadiness = () => {
           <div style={{ fontSize: '20px', fontWeight: '600', color: 'rgb(26, 32, 44)', marginBottom: '16px' }}>
             Top Identified Gaps
           </div>
-          
+
           {[
             { id: 'GOVERN-1', name: 'Mapping AI Systems and Use Cases', current: 2, target: 3, gap: 33 },
             { id: 'GOVERN-2', name: 'Accountability for AI Risk Governance', current: 2, target: 3, gap: 33 },
@@ -1089,10 +1202,10 @@ const ComplianceReadiness = () => {
                 Scale:
               </div>
               <div style={{ fontSize: '10px', color: 'rgb(74, 85, 104)', lineHeight: '1.6' }}>
-                1 - Not Implemented<br/>
-                2 - Basic<br/>
-                3 - Partial<br/>
-                4 - Operational<br/>
+                1 - Not Implemented<br />
+                2 - Basic<br />
+                3 - Partial<br />
+                4 - Operational<br />
                 5 - Fully Implemented
               </div>
             </div>
@@ -1182,6 +1295,21 @@ const ComplianceReadiness = () => {
 
         {/* Main Content */}
         <div style={{ flex: 1, padding: '30px', overflowY: 'auto', backgroundColor: 'rgb(245, 247, 255)' }}>
+          {/* Progress Indicator */}
+          <div style={{ marginBottom: '20px', padding: '16px', backgroundColor: 'rgb(255, 255, 255)', borderRadius: '10px', boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 2px 0px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+              <span style={{ fontSize: '13px', fontWeight: '600', color: 'rgb(74, 85, 104)' }}>
+                Question {currentQuestionIndex + 1} of {totalQuestions}
+              </span>
+              <span style={{ fontSize: '13px', fontWeight: '600', color: 'rgb(85, 81, 247)' }}>
+                {Math.round(((currentQuestionIndex + 1) / totalQuestions) * 100)}% Complete
+              </span>
+            </div>
+            <div style={{ width: '100%', height: '6px', backgroundColor: 'rgb(237, 242, 247)', borderRadius: '3px', overflow: 'hidden' }}>
+              <div style={{ width: `${((currentQuestionIndex + 1) / totalQuestions) * 100}%`, height: '100%', backgroundColor: 'rgb(85, 81, 247)', transition: 'width 0.3s ease' }}></div>
+            </div>
+          </div>
+
           {/* Header Buttons */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
             <button
@@ -1254,7 +1382,7 @@ const ComplianceReadiness = () => {
               </div>
               <div style={{ textAlign: 'right' }}>
                 <div style={{ fontSize: '12px', color: 'rgb(74, 85, 104)', marginBottom: '4px' }}>Owner:</div>
-                <select 
+                <select
                   value={selectedOwner}
                   onChange={(e) => setSelectedOwner(e.target.value)}
                   style={{
@@ -1290,8 +1418,8 @@ const ComplianceReadiness = () => {
                 </div>
                 <div style={{ display: 'flex', gap: '12px' }}>
                   {[1, 2, 3, 4, 5].map(num => (
-                    <div 
-                      key={num} 
+                    <div
+                      key={num}
                       onClick={() => setCurrentRating(num)}
                       style={{
                         flex: 1,
@@ -1321,7 +1449,7 @@ const ComplianceReadiness = () => {
                 </div>
                 <div style={{ display: 'flex', gap: '12px' }}>
                   {[1, 2, 3, 4, 5].map(num => (
-                    <div 
+                    <div
                       key={num}
                       onClick={() => setTargetRating(num)}
                       style={{
@@ -1346,11 +1474,11 @@ const ComplianceReadiness = () => {
 
               {/* Inapplicable Checkbox */}
               <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', cursor: 'pointer' }}>
-                <input 
-                  type="checkbox" 
+                <input
+                  type="checkbox"
                   checked={isInapplicable}
                   onChange={(e) => setIsInapplicable(e.target.checked)}
-                  style={{ width: '16px', height: '16px', cursor: 'pointer' }} 
+                  style={{ width: '16px', height: '16px', cursor: 'pointer' }}
                 />
                 <span style={{ fontSize: '14px', color: 'rgb(74, 85, 104)' }}>Inapplicable</span>
               </label>
@@ -1377,24 +1505,42 @@ const ComplianceReadiness = () => {
                       resize: 'vertical'
                     }}
                   />
-                  <button 
-                    onClick={handleAddNote}
-                    style={{
-                      position: 'absolute',
-                      bottom: '12px',
-                      right: '12px',
-                      padding: '6px 12px',
-                      fontSize: '12px',
-                      fontWeight: '600',
-                      borderRadius: '6px',
-                      border: 'none',
-                      cursor: 'pointer',
-                      backgroundColor: 'rgb(85, 81, 247)',
-                      color: 'rgb(255, 255, 255)'
-                    }}
-                  >
-                    Add Note
-                  </button>
+                  <div style={{ position: 'absolute', bottom: '12px', left: '12px', right: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <button
+                      onClick={() => console.log('Attach file')}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        padding: '6px 12px',
+                        fontSize: '12px',
+                        fontWeight: '600',
+                        borderRadius: '6px',
+                        border: '1px solid rgb(220, 229, 242)',
+                        cursor: 'pointer',
+                        backgroundColor: 'rgb(255, 255, 255)',
+                        color: 'rgb(74, 85, 104)'
+                      }}
+                    >
+                      <Paperclip size={14} />
+                      Attach
+                    </button>
+                    <button
+                      onClick={handleAddNote}
+                      style={{
+                        padding: '6px 12px',
+                        fontSize: '12px',
+                        fontWeight: '600',
+                        borderRadius: '6px',
+                        border: 'none',
+                        cursor: 'pointer',
+                        backgroundColor: 'rgb(85, 81, 247)',
+                        color: 'rgb(255, 255, 255)'
+                      }}
+                    >
+                      Add Note
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1402,8 +1548,9 @@ const ComplianceReadiness = () => {
 
           {/* Navigation Buttons */}
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
-            <button 
+            <button
               onClick={handlePrevious}
+              disabled={currentQuestionIndex === 0}
               style={{
                 fontFamily: '"Source Sans Pro", Helvetica, Arial, sans-serif',
                 fontSize: '14px',
@@ -1411,15 +1558,16 @@ const ComplianceReadiness = () => {
                 padding: '8px 16px',
                 borderRadius: '6px',
                 border: '1px solid rgb(169, 180, 188)',
-                cursor: 'pointer',
-                backgroundColor: 'rgb(255, 255, 255)',
-                color: 'rgb(74, 85, 104)',
-                boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 2px 0px'
+                cursor: currentQuestionIndex === 0 ? 'not-allowed' : 'pointer',
+                backgroundColor: currentQuestionIndex === 0 ? 'rgb(237, 242, 247)' : 'rgb(255, 255, 255)',
+                color: currentQuestionIndex === 0 ? 'rgb(163, 173, 181)' : 'rgb(74, 85, 104)',
+                boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 2px 0px',
+                opacity: currentQuestionIndex === 0 ? 0.6 : 1
               }}
             >
               ← Previous
             </button>
-            <button 
+            <button
               onClick={handleNext}
               style={{
                 fontFamily: '"Source Sans Pro", Helvetica, Arial, sans-serif',
