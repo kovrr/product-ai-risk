@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   DataTable,
   StatusBadge,
@@ -13,11 +13,20 @@ import { mockAssets, getUserById, AIAsset } from '../../data';
 
 export const AssetsListView: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [riskFilter, setRiskFilter] = useState<string>('all');
   const [vendorSourceFilter, setVendorSourceFilter] = useState<string>('all');
   const [showDiscoveryModal, setShowDiscoveryModal] = useState(false);
+
+  // Handle URL parameters for filtering (e.g., ?risk_tier=critical)
+  useEffect(() => {
+    const riskTierParam = searchParams.get('risk_tier');
+    if (riskTierParam) {
+      setRiskFilter(riskTierParam);
+    }
+  }, [searchParams]);
 
   // Filter and search assets
   const filteredAssets = useMemo(() => {

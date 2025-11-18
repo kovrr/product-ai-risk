@@ -17,7 +17,8 @@ export const RiskDetailView: React.FC = () => {
   
   const linkedAssets = useMemo(() => {
     if (!risk) return [];
-    const assetIds = getRiskAssets(risk.id);
+    // Use affected_assets from risk data if available, otherwise fall back to getRiskAssets
+    const assetIds = risk.affected_assets || getRiskAssets(risk.id);
     return assetIds.map(id => getAssetById(id)).filter(Boolean);
   }, [risk]);
 
@@ -274,23 +275,38 @@ export const RiskDetailView: React.FC = () => {
                   </div>
                 </div>
 
-                {/* AI Asset / System / Component */}
+                {/* Affected Assets */}
                 <div>
-                  <div className="text-xs font-semibold text-text-base-secondary mb-1">AI Asset / System / Component</div>
+                  <div className="text-xs font-semibold text-text-base-secondary mb-2">
+                    Affected Assets ({linkedAssets.length})
+                  </div>
                   {linkedAssets.length > 0 ? (
-                    <div className="flex flex-wrap gap-2">
+                    <div className="space-y-2">
                       {linkedAssets.map(asset => asset && (
-                        <span
+                        <div
                           key={asset.id}
-                          className="px-3 py-1 bg-fill-base-secondary text-text-base-primary text-xs font-medium rounded-md border border-stroke-base-secondary cursor-pointer hover:bg-fill-base-tertiary"
+                          className="p-3 bg-fill-base-secondary rounded-md border border-stroke-base-secondary cursor-pointer hover:bg-fill-base-tertiary transition-colors"
                           onClick={() => navigate(`/assets/${asset.id}`)}
                         >
-                          {asset.name}
-                        </span>
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-sm font-semibold text-text-base-primary">{asset.name}</span>
+                            <span className={`text-xs px-2 py-0.5 rounded ${
+                              asset.risk_tier === 'critical' ? 'bg-red-100 text-red-700' :
+                              asset.risk_tier === 'high' ? 'bg-orange-100 text-orange-700' :
+                              asset.risk_tier === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                              'bg-gray-100 text-gray-700'
+                            }`}>
+                              Risk: {asset.risk_score}
+                            </span>
+                          </div>
+                          <div className="text-xs text-text-base-secondary">
+                            {asset.vendor_name} • {asset.status}
+                          </div>
+                        </div>
                       ))}
                     </div>
                   ) : (
-                    <div className="text-xs text-text-base-tertiary">No linked assets</div>
+                    <div className="text-xs text-text-base-tertiary italic">No assets linked to this risk</div>
                   )}
                 </div>
 

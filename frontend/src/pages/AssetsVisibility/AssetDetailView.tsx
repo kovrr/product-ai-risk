@@ -14,6 +14,7 @@ import {
   getAssetControls,
   getControlById,
 } from '../../data';
+import { getControlsForAsset, getRiskAreasForAsset } from '../../data/asset-control-mappings';
 import RiskScoreBreakdown from '../../components/RiskScoreBreakdown';
 
 export const AssetDetailView: React.FC = () => {
@@ -28,9 +29,21 @@ export const AssetDetailView: React.FC = () => {
     if (!asset) return [];
     return getAssetRisks(asset.id).map(id => getRiskById(id)).filter(Boolean);
   }, [asset]);
-  const linkedControls = useMemo(() => {
+  // Get NIST controls for this asset from mappings
+  const nistControlIds = useMemo(() => {
     if (!asset) return [];
-    return getAssetControls(asset.id).map(id => getControlById(id)).filter(Boolean);
+    return getControlsForAsset(asset.name);
+  }, [asset]);
+
+  const linkedControls = useMemo(() => {
+    if (!asset || nistControlIds.length === 0) return [];
+    // Map control IDs to full control objects
+    return nistControlIds.map(id => getControlById(id)).filter(Boolean);
+  }, [asset, nistControlIds]);
+
+  const riskAreas = useMemo(() => {
+    if (!asset) return [];
+    return getRiskAreasForAsset(asset.name);
   }, [asset]);
 
   if (!asset) {
@@ -157,23 +170,56 @@ export const AssetDetailView: React.FC = () => {
 
         {activeTab === 'controls' && (
           <div className="bg-fill-base-secondary rounded-[10px] p-[20px]">
-            <h3 className="text-[16px] font-[600] mb-[16px]">Applied Controls</h3>
+            <div className="flex items-center justify-between mb-[16px]">
+              <h3 className="text-[16px] font-[600]">Related Controls (NIST AI RMF)</h3>
+              <span className="text-[12px] text-text-base-tertiary">{linkedControls.length} controls</span>
+            </div>
+            
+            {riskAreas.length > 0 && (
+              <div className="mb-[16px] p-[12px] bg-fill-base-primary rounded-[8px]">
+                <div className="text-[12px] font-[600] text-text-base-secondary mb-[6px]">Risk Areas Covered:</div>
+                <div className="flex flex-wrap gap-[6px]">
+                  {riskAreas.map((area) => (
+                    <span key={area} className="text-[11px] px-[8px] py-[4px] bg-fill-brand-primary text-white rounded-[4px]">
+                      {area}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {linkedControls.length > 0 ? (
               <div className="space-y-[12px]">
                 {linkedControls.map((control) => control && (
                   <div
                     key={control.id}
-                    className="p-[16px] bg-fill-base-primary rounded-[8px] cursor-pointer hover:bg-fill-base-tertiary"
+                    className="p-[16px] bg-fill-base-primary rounded-[8px] cursor-pointer hover:bg-fill-base-tertiary transition-colors border border-transparent hover:border-fill-brand-primary"
                     onClick={() => navigate(`/ai-assurance-plan`)}
                   >
-                    <div className="font-[600]">{control.control_id} - {control.name}</div>
-                    <div className="text-[12px] text-text-base-secondary">{control.description}</div>
+                    <div className="flex items-start justify-between mb-[8px]">
+                      <div className="font-[600] text-[14px]">{control.control_id} - {control.name}</div>
+                      <span className="text-[11px] px-[8px] py-[2px] bg-fill-base-secondary text-text-base-secondary rounded-[4px] whitespace-nowrap ml-[8px]">
+                        {control.category}
+                      </span>
+                    </div>
+                    <div className="text-[12px] text-text-base-secondary mb-[8px]">{control.description}</div>
+                    <div className="flex items-center gap-[12px] text-[11px]">
+                      <span className="text-text-base-tertiary">Current: {control.current_maturity || 0}/5</span>
+                      <span className="text-text-base-tertiary">•</span>
+                      <span className="text-text-base-tertiary">Target: {control.target_maturity || 5}/5</span>
+                      {((control.current_maturity || 0) < (control.target_maturity || 5)) && (
+                        <>
+                          <span className="text-text-base-tertiary">•</span>
+                          <span className="text-fill-information-warning font-[600]">Gap: {(control.target_maturity || 5) - (control.current_maturity || 0)}</span>
+                        </>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
             ) : (
               <div className="text-center py-[32px] text-text-base-tertiary">
-                No controls applied
+                No related controls found for this asset
               </div>
             )}
           </div>

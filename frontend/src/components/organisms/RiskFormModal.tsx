@@ -51,6 +51,7 @@ export const RiskFormModal: React.FC<RiskFormModalProps> = ({
   useEffect(() => {
     if (risk && mode === 'edit') {
       setFormData(risk);
+      setSelectedAssets(risk.affected_assets || []);
     }
   }, [risk, mode]);
 
@@ -130,6 +131,7 @@ export const RiskFormModal: React.FC<RiskFormModalProps> = ({
     const now = new Date().toISOString();
     const riskData: Partial<RiskScenario> = {
       ...formData,
+      affected_assets: selectedAssets,
       updated_at: now,
       ...(mode === 'create' && {
         created_at: now,
@@ -260,6 +262,48 @@ export const RiskFormModal: React.FC<RiskFormModalProps> = ({
                     {errors.owner_id && <p className="text-red-500 text-xs mt-1">{errors.owner_id}</p>}
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Section 1.5: Affected Assets */}
+            <div className="pt-4 border-t border-stroke-base-secondary">
+              <h3 className="text-[16px] font-[600] text-text-base-primary mb-4">Affected Assets</h3>
+              <div>
+                <label className="block text-sm font-medium text-text-base-primary mb-2">
+                  Select AI assets affected by this risk
+                </label>
+                <div className="max-h-[200px] overflow-y-auto border border-neutral-300 rounded-lg p-3 space-y-2">
+                  {mockAssets.map(asset => (
+                    <label
+                      key={asset.id}
+                      className="flex items-center gap-3 p-2 hover:bg-fill-base-secondary rounded cursor-pointer"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedAssets.includes(asset.id)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedAssets([...selectedAssets, asset.id]);
+                          } else {
+                            setSelectedAssets(selectedAssets.filter(id => id !== asset.id));
+                          }
+                        }}
+                        className="w-4 h-4 text-primary border-neutral-300 rounded focus:ring-primary"
+                      />
+                      <div className="flex-1">
+                        <div className="text-sm font-medium text-text-base-primary">{asset.name}</div>
+                        <div className="text-xs text-text-base-secondary">
+                          {asset.vendor_name} • Risk Score: {asset.risk_score} • {asset.status}
+                        </div>
+                      </div>
+                    </label>
+                  ))}
+                </div>
+                {selectedAssets.length > 0 && (
+                  <p className="text-xs text-text-base-secondary mt-2">
+                    {selectedAssets.length} asset{selectedAssets.length !== 1 ? 's' : ''} selected
+                  </p>
+                )}
               </div>
             </div>
 

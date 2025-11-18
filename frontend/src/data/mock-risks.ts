@@ -62,6 +62,7 @@ export interface RiskScenario {
   planned_controls: number[];         // Control IDs
   mitigation_timeline: string;        // ISO date string
   residual_risk_level: string;
+  affected_assets?: number[];         // Asset IDs affected by this risk
 
   // Response metadata (ticketing, review, cost)
   ticket_url?: string;

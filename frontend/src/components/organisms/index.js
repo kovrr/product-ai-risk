@@ -12,3 +12,4 @@ export { AIRecommendations } from './AIRecommendations';
 export { FinancialOverview } from './FinancialOverview';
 export { LossDistributionChart } from './LossDistributionChart';
 export { ActivityTimeline } from './ActivityTimeline';
+export { ActionModal } from './ActionModal';

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TrendingUp, TrendingDown, Minus, AlertTriangle, Clock, CheckCircle } from 'lucide-react';
+import { TrendingUp, TrendingDown, Minus, AlertTriangle, Clock, CheckCircle, Target, BarChart3, Circle, Info } from 'lucide-react';
 import TabNavigation from '../components/organisms/TabNavigation';
 import PortfolioHealthCards from '../components/organisms/PortfolioHealthCards';
 import KovrrInsightsCards from '../components/organisms/KovrrInsightsCards';
@@ -9,6 +9,7 @@ import SankeyDiagram from '../components/visualizations/SankeyDiagram';
 import QuadrantChart from '../components/visualizations/QuadrantChart';
 import TreemapChart from '../components/visualizations/TreemapChart';
 import AIRiskUniverseMap from '../components/visualizations/AIRiskUniverseMap';
+import { ActionModal } from '../components/organisms/ActionModal';
 import {
   dotMatrixData,
   sankeyData,
@@ -27,6 +28,42 @@ import {
 const DashboardNew = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('brief');
+  const [selectedAction, setSelectedAction] = useState(null);
+  const [isActionModalOpen, setIsActionModalOpen] = useState(false);
+  const [completedActions, setCompletedActions] = useState([]);
+
+  // Get current user (in real app, this would come from auth context)
+  const currentUser = 'or@kovrr.com'; // Default user for demo
+
+  // Load action progress from localStorage or use initial data (per user)
+  const [actionProgress, setActionProgress] = useState(() => {
+    const storageKey = `actionProgress_${currentUser}`;
+    const versionKey = 'actionProgressVersion';
+    const currentVersion = '1.0'; // Increment this to reset all user data
+
+    // Check version - if mismatch, clear all old data
+    const savedVersion = localStorage.getItem(versionKey);
+    if (savedVersion !== currentVersion) {
+      // Clear all old action progress data
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('actionProgress_')) {
+          localStorage.removeItem(key);
+        }
+      });
+      localStorage.setItem(versionKey, currentVersion);
+    }
+
+    const saved = localStorage.getItem(storageKey);
+    if (saved) {
+      return JSON.parse(saved);
+    }
+    // Initialize from dashboard data
+    const initial = {};
+    cisoBriefData.topActions.forEach(action => {
+      initial[action.id] = action.completedSteps || [];
+    });
+    return initial;
+  });
 
   const tabs = [
     { id: 'brief', label: 'CISO Brief' },
@@ -34,6 +71,53 @@ const DashboardNew = () => {
     { id: 'portfolio', label: 'Portfolio Health' },
     { id: 'insights', label: 'Kovrr Insights' }
   ];
+
+  // Map action titles to types for the modal
+  const getActionType = (title) => {
+    if (title.includes('data retention')) return 'review-data-retention';
+    if (title.includes('Risk Assessment')) return 'risk-assessment';
+    if (title.includes('Policy')) return 'update-policy';
+    return 'review-data-retention';
+  };
+
+  const handleActionClick = (action) => {
+    const actionWithType = {
+      ...action,
+      type: getActionType(action.title),
+      completedSteps: actionProgress[action.id] || []
+    };
+    setSelectedAction(actionWithType);
+    setIsActionModalOpen(true);
+  };
+
+  const handleStepToggle = (actionId, stepId, isCompleted) => {
+    setActionProgress(prev => {
+      const current = prev[actionId] || [];
+      const updated = isCompleted
+        ? [...current, stepId]
+        : current.filter(id => id !== stepId);
+
+      const newProgress = { ...prev, [actionId]: updated };
+      const storageKey = `actionProgress_${currentUser}`;
+      localStorage.setItem(storageKey, JSON.stringify(newProgress));
+
+      // Update selectedAction if it's the same action being toggled
+      if (selectedAction && selectedAction.id === actionId) {
+        setSelectedAction({
+          ...selectedAction,
+          completedSteps: updated
+        });
+      }
+
+      return newProgress;
+    });
+  };
+
+  const handleActionComplete = (actionId, notes) => {
+    setCompletedActions([...completedActions, actionId]);
+    console.log(`Action ${actionId} completed with notes:`, notes);
+    // In a real app, this would save to backend
+  };
 
   return (
     <div className="space-y-[32px]">
@@ -92,63 +176,102 @@ const DashboardNew = () => {
                 {/* Top Actions */}
                 <div className="bg-white rounded-[12px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)]">
                   <div className="text-[14px] font-[700] text-[rgb(26,32,44)] mb-[16px] flex items-center gap-[8px]">
-                    🎯 TOP ACTIONS
+                    <Target size={16} className="text-[rgb(85,81,247)]" />
+                    <span>TOP ACTIONS</span>
                   </div>
                   <div className="space-y-[12px]">
-                    {cisoBriefData.topActions.map((action) => (
-                      <div
-                        key={action.id}
-                        className="p-[12px] rounded-[8px] border border-[rgb(220,229,242)] hover:border-[rgb(85,81,247)] hover:bg-[rgb(245,247,255)] cursor-pointer transition-all"
-                        onClick={() => navigate(action.link || '/ai-assurance-plan')}
-                      >
-                        <div className="flex items-start gap-[8px]">
-                          {action.status === 'overdue' && <AlertTriangle size={16} className="text-[rgb(255,35,35)] mt-[2px] flex-shrink-0" />}
-                          {action.status === 'due_soon' && <Clock size={16} className="text-[rgb(255,153,0)] mt-[2px] flex-shrink-0" />}
-                          {action.status === 'upcoming' && <CheckCircle size={16} className="text-[rgb(74,85,104)] mt-[2px] flex-shrink-0" />}
-                          <div className="flex-1 min-w-0">
-                            <div className="text-[13px] font-[600] text-[rgb(26,32,44)] mb-[4px]">
-                              {action.title}
-                            </div>
-                            <div className="flex items-center gap-[8px] text-[11px] text-[rgb(74,85,104)]">
-                              {action.status === 'overdue' && (
-                                <span className="text-[rgb(255,35,35)] font-[600]">Overdue {action.daysOverdue}d</span>
+                    {cisoBriefData.topActions.map((action) => {
+                      const isCompleted = completedActions.includes(action.id);
+                      const progress = actionProgress[action.id] || [];
+                      const totalSteps = 5; // All actions have 5 steps
+                      const progressPercent = (progress.length / totalSteps) * 100;
+
+                      return (
+                        <div
+                          key={action.id}
+                          className={`p-[12px] rounded-[8px] border cursor-pointer transition-all ${isCompleted
+                            ? 'border-green-500 bg-green-50 opacity-75'
+                            : 'border-[rgb(220,229,242)] hover:border-[rgb(85,81,247)] hover:bg-[rgb(245,247,255)]'
+                            }`}
+                          onClick={() => handleActionClick(action)}
+                        >
+                          <div className="flex items-start gap-[8px]">
+                            {action.status === 'overdue' && <AlertTriangle size={16} className="text-[rgb(255,35,35)] mt-[2px] flex-shrink-0" />}
+                            {action.status === 'due_soon' && <Clock size={16} className="text-[rgb(255,153,0)] mt-[2px] flex-shrink-0" />}
+                            {action.status === 'upcoming' && <CheckCircle size={16} className="text-[rgb(74,85,104)] mt-[2px] flex-shrink-0" />}
+                            <div className="flex-1 min-w-0">
+                              <div className="text-[13px] font-[600] text-[rgb(26,32,44)] mb-[4px]">
+                                {action.title}
+                              </div>
+                              <div className="flex items-center gap-[8px] text-[11px] text-[rgb(74,85,104)]">
+                                {action.status === 'overdue' && (
+                                  <span className="text-[rgb(255,35,35)] font-[600]">Overdue {action.daysOverdue}d</span>
+                                )}
+                                {action.status === 'due_soon' && (
+                                  <span className="text-[rgb(255,153,0)] font-[600]">Due {action.dueDate}</span>
+                                )}
+                                {action.status === 'upcoming' && (
+                                  <span>Due {action.dueDate}</span>
+                                )}
+                                <span>•</span>
+                                <span>{action.owner}</span>
+                              </div>
+                              {/* Progress indicator */}
+                              {progress.length > 0 && (
+                                <div className="mt-[8px]">
+                                  <div className="flex items-center justify-between text-[10px] text-[rgb(74,85,104)] mb-[4px]">
+                                    <span>{progress.length} of {totalSteps} steps</span>
+                                    <span>{Math.round(progressPercent)}%</span>
+                                  </div>
+                                  <div className="h-[4px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
+                                    <div
+                                      className="h-full bg-[rgb(85,81,247)] transition-all duration-300"
+                                      style={{ width: `${progressPercent}%` }}
+                                    />
+                                  </div>
+                                </div>
                               )}
-                              {action.status === 'due_soon' && (
-                                <span className="text-[rgb(255,153,0)] font-[600]">Due {action.dueDate}</span>
-                              )}
-                              {action.status === 'upcoming' && (
-                                <span>Due {action.dueDate}</span>
-                              )}
-                              <span>•</span>
-                              <span>{action.owner}</span>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
 
                 {/* This Week */}
                 <div className="bg-white rounded-[12px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)]">
                   <div className="text-[14px] font-[700] text-[rgb(26,32,44)] mb-[16px] flex items-center gap-[8px]">
-                    📈 THIS WEEK
+                    <TrendingUp size={16} className="text-[rgb(85,81,247)]" />
+                    <span>THIS WEEK</span>
                   </div>
                   <div className="space-y-[12px]">
                     <div className="flex justify-between items-center">
-                      <span className="text-[13px] text-[rgb(74,85,104)]">✅ Controls closed</span>
+                      <span className="text-[13px] text-[rgb(74,85,104)] flex items-center gap-[6px]">
+                        <CheckCircle size={14} className="text-[rgb(16,185,129)]" />
+                        Controls closed
+                      </span>
                       <span className="text-[16px] font-[700] text-[rgb(26,32,44)]">{cisoBriefData.thisWeek.controlsClosed}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-[13px] text-[rgb(74,85,104)]">✅ Risks mitigated</span>
+                      <span className="text-[13px] text-[rgb(74,85,104)] flex items-center gap-[6px]">
+                        <CheckCircle size={14} className="text-[rgb(16,185,129)]" />
+                        Risks mitigated
+                      </span>
                       <span className="text-[16px] font-[700] text-[rgb(26,32,44)]">{cisoBriefData.thisWeek.risksMitigated}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-[13px] text-[rgb(74,85,104)]">✅ Assets sanctioned</span>
+                      <span className="text-[13px] text-[rgb(74,85,104)] flex items-center gap-[6px]">
+                        <CheckCircle size={14} className="text-[rgb(16,185,129)]" />
+                        Assets sanctioned
+                      </span>
                       <span className="text-[16px] font-[700] text-[rgb(26,32,44)]">{cisoBriefData.thisWeek.assetsSanctioned}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-[13px] text-[rgb(74,85,104)]">🔄 Assessments started</span>
+                      <span className="text-[13px] text-[rgb(74,85,104)] flex items-center gap-[6px]">
+                        <BarChart3 size={14} className="text-[rgb(85,81,247)]" />
+                        Assessments started
+                      </span>
                       <span className="text-[16px] font-[700] text-[rgb(26,32,44)]">{cisoBriefData.thisWeek.assessmentsStarted}</span>
                     </div>
                   </div>
@@ -177,9 +300,16 @@ const DashboardNew = () => {
                     Score Breakdown
                   </div>
 
+                  {/* Governance Readiness */}
                   <div>
                     <div className="flex justify-between items-center mb-[6px]">
-                      <span className="text-[12px] text-[rgb(74,85,104)]">Compliance Maturity</span>
+                      <div className="flex items-center gap-[6px] group relative">
+                        <span className="text-[12px] text-[rgb(74,85,104)]">Governance Readiness</span>
+                        <Info size={12} className="text-[rgb(74,85,104)] cursor-help" />
+                        <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-[280px] bg-[rgb(26,32,44)] text-white text-[11px] p-[12px] rounded-[6px] shadow-lg z-10">
+                          Percentage of required AI governance controls that have been implemented and are actively maintained
+                        </div>
+                      </div>
                       <span className="text-[13px] font-[600] text-[rgb(26,32,44)]">68%</span>
                     </div>
                     <div className="h-[6px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
@@ -187,20 +317,33 @@ const DashboardNew = () => {
                     </div>
                   </div>
 
+                  {/* Risk Mitigation */}
                   <div>
                     <div className="flex justify-between items-center mb-[6px]">
-                      <span className="text-[12px] text-[rgb(74,85,104)]">Risk Coverage</span>
+                      <div className="flex items-center gap-[6px] group relative">
+                        <span className="text-[12px] text-[rgb(74,85,104)]">Risk Mitigation</span>
+                        <Info size={12} className="text-[rgb(74,85,104)] cursor-help" />
+                        <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-[280px] bg-[rgb(26,32,44)] text-white text-[11px] p-[12px] rounded-[6px] shadow-lg z-10">
+                          Percentage of identified AI risks that have active mitigation plans and assigned controls
+                        </div>
+                      </div>
                       <span className="text-[13px] font-[600] text-[rgb(26,32,44)]">82%</span>
                     </div>
                     <div className="h-[6px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
-                      {/* Success bar uses design-system success green */}
                       <div className="h-full bg-fill-information-success" style={{ width: '82%' }} />
                     </div>
                   </div>
 
+                  {/* Shadow AI Ratio */}
                   <div>
                     <div className="flex justify-between items-center mb-[6px]">
-                      <span className="text-[12px] text-[rgb(74,85,104)]">Shadow AI Ratio</span>
+                      <div className="flex items-center gap-[6px] group relative">
+                        <span className="text-[12px] text-[rgb(74,85,104)]">Shadow AI Ratio</span>
+                        <Info size={12} className="text-[rgb(74,85,104)] cursor-help" />
+                        <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-[280px] bg-[rgb(26,32,44)] text-white text-[11px] p-[12px] rounded-[6px] shadow-lg z-10">
+                          Percentage of AI assets operating without formal governance oversight or approval
+                        </div>
+                      </div>
                       <span className="text-[13px] font-[600] text-[rgb(255,35,35)]">33%</span>
                     </div>
                     <div className="h-[6px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
@@ -216,10 +359,11 @@ const DashboardNew = () => {
               {/* Critical Card */}
               <div
                 className="bg-white rounded-[12px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border-2 border-[rgb(220,229,242)] hover:border-[rgb(255,35,35)] cursor-pointer transition-all"
-                onClick={() => navigate('/ai-assurance-plan')}
+                onClick={() => navigate('/assets?risk_tier=critical')}
               >
-                <div className="text-[12px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px] mb-[12px]">
-                  🚨 CRITICAL
+                <div className="text-[12px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px] mb-[12px] flex items-center gap-[6px]">
+                  <Circle size={12} className="fill-[rgb(255,35,35)] text-[rgb(255,35,35)]" />
+                  CRITICAL
                 </div>
                 <div className="text-[48px] font-[700] text-[rgb(26,32,44)] leading-none mb-[8px]">
                   {cisoBriefData.metrics.critical.value}
@@ -234,10 +378,11 @@ const DashboardNew = () => {
               {/* High Risk Card */}
               <div
                 className="bg-white rounded-[12px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border-2 border-[rgb(220,229,242)] hover:border-[rgb(255,153,0)] cursor-pointer transition-all"
-                onClick={() => navigate('/assets?risk=high')}
+                onClick={() => navigate('/assets?risk_tier=high')}
               >
-                <div className="text-[12px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px] mb-[12px]">
-                  ⚠️ HIGH RISK
+                <div className="text-[12px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px] mb-[12px] flex items-center gap-[6px]">
+                  <AlertTriangle size={12} className="text-[rgb(255,153,0)]" />
+                  HIGH RISK
                 </div>
                 <div className="text-[48px] font-[700] text-[rgb(26,32,44)] leading-none mb-[8px]">
                   {cisoBriefData.metrics.highRisk.value}
@@ -254,8 +399,9 @@ const DashboardNew = () => {
                 className="bg-white rounded-[12px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border-2 border-[rgb(220,229,242)] hover:border-[rgb(85,81,247)] cursor-pointer transition-all"
                 onClick={() => navigate('/ai-assurance-plan')}
               >
-                <div className="text-[12px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px] mb-[12px]">
-                  🔄 IN PROGRESS
+                <div className="text-[12px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px] mb-[12px] flex items-center gap-[6px]">
+                  <Clock size={12} className="text-[rgb(85,81,247)]" />
+                  IN PROGRESS
                 </div>
                 <div className="text-[48px] font-[700] text-[rgb(26,32,44)] leading-none mb-[8px]">
                   {cisoBriefData.metrics.inProgress.value}
@@ -272,7 +418,8 @@ const DashboardNew = () => {
                 className="bg-white rounded-[12px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border-2 border-[rgb(220,229,242)] hover:border-fill-information-success cursor-pointer transition-all"
                 onClick={() => navigate('/compliance-readiness')}
               >
-                <div className="text-[12px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px] mb-[12px]">
+                <div className="text-[12px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px] mb-[12px] flex items-center gap-[6px]">
+                  <CheckCircle size={12} className="text-fill-information-success" />
                   COMPLIANT
                 </div>
                 <div className="text-[48px] font-[700] text-[rgb(26,32,44)] leading-none mb-[8px]">
@@ -388,6 +535,15 @@ const DashboardNew = () => {
           <KovrrInsightsCards insights={insightsData} />
         )}
       </div>
+
+      {/* Action Modal */}
+      <ActionModal
+        isOpen={isActionModalOpen}
+        onClose={() => setIsActionModalOpen(false)}
+        action={selectedAction}
+        onComplete={handleActionComplete}
+        onStepToggle={handleStepToggle}
+      />
     </div>
   );
 };

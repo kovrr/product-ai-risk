@@ -341,7 +341,8 @@ export const cisoBriefData = {
       status: 'overdue',
       daysOverdue: 5,
       owner: 'Shai',
-      priority: 'critical'
+      priority: 'critical',
+      completedSteps: [1] // Step 1 completed
     },
     {
       id: 2,
@@ -350,7 +351,8 @@ export const cisoBriefData = {
       dueDate: 'Monday',
       owner: 'Yakir',
       priority: 'high',
-      link: '/assets'
+      link: '/assets',
+      completedSteps: [1, 2] // Steps 1 and 2 completed
     },
     {
       id: 3,
@@ -359,7 +361,8 @@ export const cisoBriefData = {
       dueDate: 'Dec 1',
       owner: 'Naomi',
       priority: 'medium',
-      link: '/governance-monitoring'
+      link: '/governance-monitoring',
+      completedSteps: [1, 2] // Steps 1 and 2 completed
     }
   ],
   thisWeek: {
