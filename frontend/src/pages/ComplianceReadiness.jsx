@@ -172,72 +172,37 @@ const ComplianceReadiness = () => {
             </button>
           </div>
 
-          {/* Stats Cards Grid */}
+          {/* Stats Cards Grid - Dynamic from assessments data */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-[20px]">
-            {/* EU AI ACT Card */}
-            <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
-              <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">EU AI ACT</div>
-              <div className="flex items-baseline gap-[4px] mb-[12px]">
-                <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">85</span>
-                <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
-              </div>
-              <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
-                <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '85%' }}></div>
-              </div>
-              <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
-            </div>
+            {assessments.map((assessment) => {
+              // Extract short framework name for card title
+              const getShortFrameworkName = (framework) => {
+                if (framework.includes('EU AI ACT')) return 'EU AI ACT';
+                if (framework.includes('NIST')) return 'NIST AI RMF';
+                if (framework.includes('ISO')) return 'ISO 42001:2023';
+                if (framework.includes('Colorado')) return 'Colorado SB21-169';
+                if (framework.includes('New York')) return 'NYC Local Law 144';
+                return framework;
+              };
 
-            {/* NIST AI RMF Card */}
-            <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
-              <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">NIST AI RMF</div>
-              <div className="flex items-baseline gap-[4px] mb-[12px]">
-                <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">71</span>
-                <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
-              </div>
-              <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
-                <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '71%' }}></div>
-              </div>
-              <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
-            </div>
-
-            {/* ISO 42001:2023 Card */}
-            <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
-              <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">ISO 42001:2023</div>
-              <div className="flex items-baseline gap-[4px] mb-[12px]">
-                <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">79</span>
-                <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
-              </div>
-              <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
-                <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '79%' }}></div>
-              </div>
-              <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
-            </div>
-
-            {/* Colorado SB21-169 Card */}
-            <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
-              <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">Colorado SB21-169</div>
-              <div className="flex items-baseline gap-[4px] mb-[12px]">
-                <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">92</span>
-                <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
-              </div>
-              <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
-                <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '92%' }}></div>
-              </div>
-              <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
-            </div>
-
-            {/* NYC Local Law 144 Card */}
-            <div className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
-              <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">NYC Local Law 144</div>
-              <div className="flex items-baseline gap-[4px] mb-[12px]">
-                <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">98</span>
-                <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
-              </div>
-              <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
-                <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: '98%' }}></div>
-              </div>
-              <div className="text-[12px] text-[rgb(74,85,104)]">1 Assessment Completed</div>
-            </div>
+              return (
+                <div key={assessment.id} className="bg-white rounded-[15px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px]">
+                  <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[12px]">
+                    {getShortFrameworkName(assessment.framework)}
+                  </div>
+                  <div className="flex items-baseline gap-[4px] mb-[12px]">
+                    <span className="text-[32px] font-[700] text-[rgb(85,81,247)]">{assessment.scorePercentage}</span>
+                    <span className="text-[18px] font-[600] text-[rgb(85,81,247)]">%</span>
+                  </div>
+                  <div className="w-full h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden mb-[8px]">
+                    <div className="h-full bg-[rgb(85,81,247)] rounded-[3px]" style={{ width: `${assessment.scorePercentage}%` }}></div>
+                  </div>
+                  <div className="text-[12px] text-[rgb(74,85,104)]">
+                    {assessment.status === 'Completed' ? '1 Assessment Completed' : 'In Progress'}
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
           {/* Assessment Table */}
@@ -723,7 +688,7 @@ const ComplianceReadiness = () => {
             <h1 style={{ fontSize: '38px', fontWeight: '700', color: 'rgb(26, 32, 44)', margin: 0 }}>
               Control Assessment Results
             </h1>
-            <p style={{ fontSize: '14px', color: 'rgb(74, 85, 104)', marginTop: '4px' }}>Assessed On: 03 Nov 2025</p>
+            <p style={{ fontSize: '14px', color: 'rgb(74, 85, 104)', marginTop: '4px' }}>Assessed On: {selectedAssessment?.createdOn || 'N/A'}</p>
           </div>
           <button
             onClick={handleGoToQuestionnaire}
@@ -757,13 +722,13 @@ const ComplianceReadiness = () => {
           boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 2px 0px'
         }}>
           <div style={{ flex: 1 }}>
-            <strong>Framework:</strong> NIST AI RMF
+            <strong>Framework:</strong> {selectedAssessment?.framework || 'N/A'}
           </div>
           <div style={{ flex: 1 }}>
-            <strong>Granularity:</strong> Category
+            <strong>Granularity:</strong> {selectedAssessment?.granularity || 'N/A'}
           </div>
           <div style={{ flex: 1 }}>
-            <strong>Answer Structure:</strong> Single Score
+            <strong>Answer Structure:</strong> {selectedAssessment?.answerStructure || 'N/A'}
           </div>
           <div style={{ display: 'flex', gap: '8px' }}>
             <span style={{
@@ -872,7 +837,7 @@ const ComplianceReadiness = () => {
                   fontWeight: '700',
                   color: 'rgb(26, 32, 44)'
                 }}>
-                  1.74
+                  {selectedAssessment?.assessmentScore || '0.00'}
                 </div>
               </div>
               <div style={{ textAlign: 'center' }}>
@@ -930,12 +895,12 @@ const ComplianceReadiness = () => {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <div style={{ width: '60px', height: '6px', backgroundColor: 'rgb(13, 199, 131)', borderRadius: '3px' }}></div>
-                      <span style={{ fontSize: '13px', fontWeight: '600' }}>1.74</span>
+                      <span style={{ fontSize: '13px', fontWeight: '600' }}>{selectedAssessment?.assessmentScore || '0.00'}</span>
                     </div>
-                    <span style={{ fontSize: '11px', color: 'rgb(74, 85, 104)' }}>/ 2.05</span>
+                    <span style={{ fontSize: '11px', color: 'rgb(74, 85, 104)' }}>/ 5.00</span>
                   </div>
                   <div style={{ marginTop: '6px', color: 'rgb(13, 199, 131)', fontSize: '13px', fontWeight: '600' }}>
-                    15% gap ◆
+                    {selectedAssessment ? Math.round(100 - selectedAssessment.scorePercentage) : 0}% gap ◆
                   </div>
                 </div>
               </div>
@@ -1180,21 +1145,21 @@ const ComplianceReadiness = () => {
               Framework
             </div>
             <div style={{ padding: '12px', backgroundColor: 'rgb(236, 242, 252)', borderRadius: '6px', marginBottom: '16px' }}>
-              <div style={{ fontSize: '14px', fontWeight: '600', color: 'rgb(85, 81, 247)' }}>NIST AI RMF</div>
+              <div style={{ fontSize: '14px', fontWeight: '600', color: 'rgb(85, 81, 247)' }}>{selectedAssessment?.framework || 'N/A'}</div>
             </div>
 
             <div style={{ fontSize: '14px', fontWeight: '600', color: 'rgb(26, 32, 44)', marginBottom: '8px' }}>
               Granularity
             </div>
             <div style={{ padding: '8px', backgroundColor: 'rgb(236, 242, 252)', borderRadius: '6px', marginBottom: '16px' }}>
-              <div style={{ fontSize: '13px', color: 'rgb(85, 81, 247)' }}>Question</div>
+              <div style={{ fontSize: '13px', color: 'rgb(85, 81, 247)' }}>{selectedAssessment?.granularity || 'N/A'}</div>
             </div>
 
             <div style={{ fontSize: '14px', fontWeight: '600', color: 'rgb(26, 32, 44)', marginBottom: '8px' }}>
               Answer Structure
             </div>
             <div style={{ padding: '8px', backgroundColor: 'rgb(236, 242, 252)', borderRadius: '6px', marginBottom: '16px' }}>
-              <div style={{ fontSize: '13px', color: 'rgb(85, 81, 247)' }}>Single Score</div>
+              <div style={{ fontSize: '13px', color: 'rgb(85, 81, 247)' }}>{selectedAssessment?.answerStructure || 'N/A'}</div>
             </div>
 
             <div style={{ borderTop: '1px solid rgb(220, 229, 242)', paddingTop: '16px', marginTop: '16px' }}>
