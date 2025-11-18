@@ -13,6 +13,7 @@ import {
   getRiskById,
   getAssetControls,
   getControlById,
+  getControlByControlId,
 } from '../../data';
 import { getControlsForAsset, getRiskAreasForAsset } from '../../data/asset-control-mappings';
 import RiskScoreBreakdown from '../../components/RiskScoreBreakdown';
@@ -37,8 +38,8 @@ export const AssetDetailView: React.FC = () => {
 
   const linkedControls = useMemo(() => {
     if (!asset || nistControlIds.length === 0) return [];
-    // Map control IDs to full control objects
-    return nistControlIds.map(id => getControlById(id)).filter(Boolean);
+    // Map control IDs (strings like "GOVERN-1.1") to full control objects
+    return nistControlIds.map(controlId => getControlByControlId(controlId)).filter(Boolean);
   }, [asset, nistControlIds]);
 
   const riskAreas = useMemo(() => {

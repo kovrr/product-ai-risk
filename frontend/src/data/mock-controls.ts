@@ -129,6 +129,10 @@ export const getControlById = (id: number): Control | undefined => {
   return mockControls.find(control => control.id === id);
 };
 
+export const getControlByControlId = (controlId: string): Control | undefined => {
+  return mockControls.find(control => control.control_id === controlId);
+};
+
 export const getControlsByCategory = (category: string): Control[] => {
   return mockControls.filter(control => control.category === category);
 };

@@ -10,6 +10,12 @@ const Header = () => {
   const notificationRef = useRef(null);
 
   const handleLogout = async () => {
+    // Set logout flag to trigger action progress reset
+    localStorage.setItem('logoutTriggered', 'true');
+
+    // Dispatch custom event for same-page components
+    window.dispatchEvent(new Event('userLogout'));
+
     await logout();
     navigate('/login');
   };
@@ -69,7 +75,7 @@ const Header = () => {
               </div>
               <div className="max-h-[400px] overflow-y-auto">
                 {/* Notification 1: Critical Risk */}
-                <div 
+                <div
                   className="p-[16px] hover:bg-[rgb(245,247,255)] cursor-pointer border-b border-[rgb(220,229,242)] transition-colors"
                   onClick={() => navigate('/risk-register')}
                 >
@@ -84,7 +90,7 @@ const Header = () => {
                 </div>
 
                 {/* Notification 2: Shadow AI Detected */}
-                <div 
+                <div
                   className="p-[16px] hover:bg-[rgb(245,247,255)] cursor-pointer border-b border-[rgb(220,229,242)] transition-colors"
                   onClick={() => navigate('/assets')}
                 >
@@ -99,7 +105,7 @@ const Header = () => {
                 </div>
 
                 {/* Notification 3: Compliance Gap */}
-                <div 
+                <div
                   className="p-[16px] hover:bg-[rgb(245,247,255)] cursor-pointer transition-colors"
                   onClick={() => navigate('/compliance-readiness')}
                 >
@@ -141,7 +147,7 @@ const Header = () => {
               {user?.username || 'Or Amir'}
             </span>
           </div>
-          
+
           {/* Logout Button */}
           <button
             onClick={handleLogout}
