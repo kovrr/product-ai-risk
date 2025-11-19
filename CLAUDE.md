@@ -98,7 +98,7 @@ python manage.py createsuperuser       # Create admin user
 **Frontend (React):**
 ```bash
 cd frontend
-npm install                            # Install dependencies
+npm install --legacy-peer-deps         # Install dependencies (required for React 19 compatibility)
 npm run dev                            # Start dev server (Vite)
 npm run build                          # Production build
 npm run lint                           # Run ESLint
