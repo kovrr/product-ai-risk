@@ -1,7 +1,16 @@
 import axios from 'axios';
 
-// Use the current window origin for API calls (works for both localhost and public IP)
-const API_BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000/api`;
+// Detect environment at runtime
+const isDevelopment = window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1';
+
+// Development: direct connection to Django on port 8000
+// Production: use nginx proxy (no port needed)
+const API_BASE_URL = isDevelopment
+  ? 'http://localhost:8000/api'
+  : '/api';
+
+console.log(`API Base URL: ${API_BASE_URL} (${isDevelopment ? 'Development' : 'Production'} mode)`);
 
 const api = axios.create({
   baseURL: API_BASE_URL,
