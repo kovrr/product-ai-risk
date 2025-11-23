@@ -23,30 +23,14 @@ APP_DIR="/opt/aikovrr"
 BACKEND_PORT=8001
 FRONTEND_PORT=8000
 
-echo -e "${BLUE}Step 1: Update system packages${NC}"
-sudo apt-get update
-sudo apt-get upgrade -y
+echo -e "${BLUE}Step 1: Verify prerequisites${NC}"
+echo "Checking Node.js: $(node --version 2>/dev/null || echo 'NOT FOUND')"
+echo "Checking Python: $(python3 --version 2>/dev/null || echo 'NOT FOUND')"
+echo "Checking PostgreSQL: $(psql --version 2>/dev/null || echo 'NOT FOUND')"
+echo "Prerequisites check complete - skipping installation"
 
 echo ""
-echo -e "${BLUE}Step 2: Install required packages${NC}"
-sudo apt-get install -y \
-    python3 \
-    python3-pip \
-    python3-venv \
-    postgresql \
-    postgresql-contrib \
-    nginx \
-    git \
-    curl \
-    build-essential
-
-echo ""
-echo -e "${BLUE}Step 3: Install Node.js 20.x${NC}"
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-echo ""
-echo -e "${BLUE}Step 4: Configure PostgreSQL${NC}"
+echo -e "${BLUE}Step 2: Configure PostgreSQL${NC}"
 sudo systemctl start postgresql
 sudo systemctl enable postgresql
 
@@ -65,13 +49,17 @@ sudo -u postgres psql -d $DB_NAME -f $APP_DIR/database/aikovrr_data_v2_minimal.s
 echo ""
 echo -e "${BLUE}Step 6: Set up Python virtual environment${NC}"
 cd $APP_DIR/backend
-python3 -m venv venv
+# Use existing venv if it exists, otherwise create new one
+if [ ! -d "venv" ]; then
+    python3 -m venv venv
+fi
 source venv/bin/activate
 
 echo ""
 echo -e "${BLUE}Step 7: Install Python dependencies${NC}"
-pip install --upgrade pip
-pip install -r requirements.txt
+echo "Skipping pip upgrade and package installation - using existing packages"
+# pip install --upgrade pip
+# pip install -r requirements.txt
 
 echo ""
 echo -e "${BLUE}Step 8: Configure Django settings${NC}"
@@ -117,11 +105,13 @@ python manage.py collectstatic --noinput
 echo ""
 echo -e "${BLUE}Step 12: Install frontend dependencies${NC}"
 cd $APP_DIR/frontend
-npm install --legacy-peer-deps
+echo "Skipping npm install - using existing node_modules"
+# npm install --legacy-peer-deps
 
 echo ""
 echo -e "${BLUE}Step 13: Build frontend${NC}"
-npm run build
+echo "Skipping frontend build - using existing dist folder"
+# npm run build
 
 echo ""
 echo -e "${BLUE}Step 14: Stop existing services${NC}"
