@@ -172,6 +172,45 @@ const ComplianceReadiness = () => {
             </button>
           </div>
 
+          {/* Average Assessment Score Card */}
+          <div className="bg-gradient-to-br from-[rgb(85,81,247)] to-[rgb(97,94,251)] rounded-[15px] p-[24px] shadow-[rgba(0,0,0,0.1)_0px_4px_12px_0px]">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-[14px] font-[600] text-white/80 uppercase tracking-[0.5px] mb-[8px]">
+                  Average Assessment Score
+                </div>
+                <div className="flex items-baseline gap-[8px]">
+                  <span className="text-[48px] font-[700] text-white leading-none">
+                    {Math.round(assessments.reduce((sum, a) => sum + a.scorePercentage, 0) / assessments.length)}
+                  </span>
+                  <span className="text-[24px] font-[600] text-white/90">%</span>
+                </div>
+                <div className="text-[13px] text-white/80 mt-[8px]">
+                  Based on {assessments.length} completed assessments
+                </div>
+              </div>
+              <div className="w-[120px] h-[120px] relative">
+                <svg className="transform -rotate-90" width="120" height="120">
+                  <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="8" />
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="52"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="8"
+                    strokeDasharray={`${2 * Math.PI * 52}`}
+                    strokeDashoffset={`${2 * Math.PI * 52 * (1 - (assessments.reduce((sum, a) => sum + a.scorePercentage, 0) / assessments.length) / 100)}`}
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center text-[20px] font-[700] text-white">
+                  {Math.round(assessments.reduce((sum, a) => sum + a.scorePercentage, 0) / assessments.length)}%
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Stats Cards Grid - Dynamic from assessments data */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-[20px]">
             {assessments.map((assessment) => {
@@ -220,6 +259,9 @@ const ComplianceReadiness = () => {
                     Assessment Score
                   </th>
                   <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
+                    Completion %
+                  </th>
+                  <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
                     Framework
                   </th>
                   <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
@@ -229,7 +271,7 @@ const ComplianceReadiness = () => {
                     Answer Structure
                   </th>
                   <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
-                    Completion Status
+                    Status
                   </th>
                   <th className="text-[12px] font-[700] text-[rgb(74,85,104)] uppercase tracking-[0.5px] text-left px-[16px] py-[12px]">
                     Resume/Results
@@ -261,6 +303,19 @@ const ComplianceReadiness = () => {
                         <div className="flex-1 h-[8px] bg-[rgb(237,242,247)] rounded-[4px] overflow-hidden">
                           <div
                             className="h-full bg-[rgb(255,153,0)] rounded-[4px]"
+                            style={{ width: `${assessment.scorePercentage}%` }}
+                          />
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-[16px] py-[16px] border-b border-[rgb(220,229,242)]">
+                      <div className="flex items-center gap-[8px]">
+                        <span className="text-[18px] font-[700] text-[rgb(85,81,247)]">
+                          {assessment.scorePercentage}%
+                        </span>
+                        <div className="w-[60px] h-[6px] bg-[rgb(237,242,247)] rounded-[3px] overflow-hidden">
+                          <div
+                            className="h-full bg-[rgb(85,81,247)] rounded-[3px]"
                             style={{ width: `${assessment.scorePercentage}%` }}
                           />
                         </div>
@@ -690,24 +745,49 @@ const ComplianceReadiness = () => {
             </h1>
             <p style={{ fontSize: '14px', color: 'rgb(74, 85, 104)', marginTop: '4px' }}>Assessed On: {selectedAssessment?.createdOn || 'N/A'}</p>
           </div>
-          <button
-            onClick={handleGoToQuestionnaire}
-            style={{
-              fontFamily: '"Source Sans Pro", Helvetica, Arial, sans-serif',
-              fontSize: '14px',
-              fontWeight: '600',
-              padding: '8px 16px',
-              borderRadius: '6px',
-              border: 'none',
-              cursor: 'pointer',
-              backgroundColor: 'rgb(85, 81, 247)',
-              color: 'rgb(255, 255, 255)',
-              boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 2px 0px',
-              marginLeft: 'auto'
-            }}
-          >
-            Go to Questionnaire
-          </button>
+          <div style={{ display: 'flex', gap: '12px', marginLeft: 'auto' }}>
+            <button
+              onClick={() => alert('Integration Hub: Connect to automated evidence collection systems')}
+              style={{
+                fontFamily: '"Source Sans Pro", Helvetica, Arial, sans-serif',
+                fontSize: '14px',
+                fontWeight: '600',
+                padding: '8px 16px',
+                borderRadius: '6px',
+                border: '1px solid rgb(85, 81, 247)',
+                cursor: 'pointer',
+                backgroundColor: 'white',
+                color: 'rgb(85, 81, 247)',
+                boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 2px 0px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px'
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+              </svg>
+              Integration
+            </button>
+            <button
+              onClick={handleGoToQuestionnaire}
+              style={{
+                fontFamily: '"Source Sans Pro", Helvetica, Arial, sans-serif',
+                fontSize: '14px',
+                fontWeight: '600',
+                padding: '8px 16px',
+                borderRadius: '6px',
+                border: 'none',
+                cursor: 'pointer',
+                backgroundColor: 'rgb(85, 81, 247)',
+                color: 'rgb(255, 255, 255)',
+                boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 2px 0px'
+              }}
+            >
+              Go to Questionnaire
+            </button>
+          </div>
         </div>
 
         {/* Info Bar */}

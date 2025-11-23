@@ -13,6 +13,7 @@ import Step6Review from './components/Step6Review';
 const ManualAssetWizard = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
+  const [demoMode, setDemoMode] = useState(true); // Enable demo mode by default for easy navigation
   const [formData, setFormData] = useState({
     // Step 1: Basic Information
     assetName: '',
@@ -25,7 +26,7 @@ const ManualAssetWizard = () => {
     dateDeployed: '',
     businessUnit: '',
     primaryUseCase: '',
-    
+
     // Step 2: Risk Assessment (with smart defaults)
     criticality: 'moderate',
     audienceReach: 'low',
@@ -39,7 +40,7 @@ const ManualAssetWizard = () => {
     sustainability: 'unknown',
     resilience: 'moderate',
     humanOversight: 'human-in-loop',
-    
+
     // Step 3: Data & Privacy
     dataSources: [],
     dataTypes: [],
@@ -50,7 +51,7 @@ const ManualAssetWizard = () => {
     dataRetention: '30-90-days',
     privacyAssessment: 'not-required',
     gdprCompliance: 'not-applicable',
-    
+
     // Step 4: Compliance & Governance
     regulatoryClassification: [],
     applicableRegulations: [],
@@ -60,7 +61,7 @@ const ManualAssetWizard = () => {
     governanceControls: 'in-development',
     modelDocumentation: 'not-applicable',
     explainability: 'moderate',
-    
+
     // Step 5: Technical & Operational
     integrationPoints: [],
     authenticationMethod: [],
@@ -72,7 +73,7 @@ const ManualAssetWizard = () => {
     vendorSLA: '99.9',
     supportAvailability: 'business-hours',
     changeManagement: 'informal',
-    
+
     // Step 6: Review & Submit
     mitigatingControls: '',
     knownIssues: '',
@@ -93,7 +94,7 @@ const ManualAssetWizard = () => {
     const score = calculateRiskScore(formData);
     setRiskScore(score);
   }, [
-    formData.criticality, formData.audienceReach, formData.dataPrivacy, 
+    formData.criticality, formData.audienceReach, formData.dataPrivacy,
     formData.dataClassification, formData.ethicalRisk, formData.complexity,
     formData.cybersecurity, formData.financialImpact, formData.nonFinancialImpact,
     formData.sustainability, formData.resilience, formData.humanOversight
@@ -128,7 +129,8 @@ const ManualAssetWizard = () => {
   };
 
   const handleNext = () => {
-    if (validateStep(currentStep)) {
+    // In demo mode, skip validation to allow free navigation
+    if (demoMode || validateStep(currentStep)) {
       setCurrentStep(prev => Math.min(prev + 1, 6));
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -166,10 +168,10 @@ const ManualAssetWizard = () => {
         status: requiresExecutiveApproval(riskScore) ? 'pending-executive-approval' : 'pending-review',
         submittedAt: new Date().toISOString()
       };
-      
+
       console.log('Submitting asset:', payload);
       await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API call
-      
+
       alert('Asset submitted successfully!');
       navigate('/assets');
     } catch (error) {

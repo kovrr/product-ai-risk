@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Line, Bar, Doughnut } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -29,11 +29,16 @@ const FinancialQuantification = () => {
   const [currentView, setCurrentView] = useState('table'); // 'table', 'form', 'loading', 'results'
   const [currentTab, setCurrentTab] = useState('overview');
 
-  // Mock assessments data
+  // Reset to table view when component mounts (when clicking sidebar)
+  useEffect(() => {
+    setCurrentView('table');
+  }, []);
+
+  // Mock assessments data - model-based names
   const mockAssessments = [
-    { id: 1, name: 'Q4 2025 Assessment', date: '2025-11-10', model: 'GPT-4', industry: 'Technology', aal: 9100000, status: 'Completed' },
-    { id: 2, name: 'Q3 2025 Assessment', date: '2025-08-15', model: 'Claude 3', industry: 'Financial Services', aal: 12300000, status: 'Completed' },
-    { id: 3, name: 'Q2 2025 Assessment', date: '2025-05-20', model: 'GPT-4o', industry: 'Healthcare', aal: 8700000, status: 'Completed' },
+    { id: 1, name: 'GPT-4 Technology Risk', date: '2025-11-10', model: 'GPT-4', industry: 'Technology', aal: 9100000, status: 'Completed' },
+    { id: 2, name: 'Claude 3 Financial Services', date: '2025-08-15', model: 'Claude 3', industry: 'Financial Services', aal: 12300000, status: 'Completed' },
+    { id: 3, name: 'GPT-4o Healthcare Exposure', date: '2025-05-20', model: 'GPT-4o', industry: 'Healthcare', aal: 8700000, status: 'Completed' },
   ];
   const [formData, setFormData] = useState({
     industry: 'technology',
@@ -177,10 +182,33 @@ const FinancialQuantification = () => {
   if (currentView === 'form') {
     return (
       <div style={{ fontFamily: '"Source Sans Pro", sans-serif', maxWidth: '1440px', margin: '0 auto', padding: '30px' }}>
-        <h1 style={{ fontSize: '38px', fontWeight: '700', color: 'rgb(26, 32, 44)', margin: '0 0 8px 0' }}>
-          Gen AI Exposure
-        </h1>
-        <p style={{ fontSize: '16px', color: 'rgb(74, 85, 104)', margin: '0 0 24px 0' }}>Entity Exposure Assessment</p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+          <button
+            onClick={() => setCurrentView('table')}
+            style={{
+              fontFamily: '"Source Sans Pro", sans-serif',
+              fontSize: '14px',
+              fontWeight: '600',
+              padding: '8px 16px',
+              borderRadius: '6px',
+              border: '1px solid rgb(220, 229, 242)',
+              cursor: 'pointer',
+              backgroundColor: 'white',
+              color: 'rgb(74, 85, 104)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}
+          >
+            ← Back
+          </button>
+          <div>
+            <h1 style={{ fontSize: '38px', fontWeight: '700', color: 'rgb(26, 32, 44)', margin: '0 0 8px 0' }}>
+              Gen AI Exposure
+            </h1>
+            <p style={{ fontSize: '16px', color: 'rgb(74, 85, 104)', margin: 0 }}>Entity Exposure Assessment</p>
+          </div>
+        </div>
 
         <form onSubmit={handleSubmit}>
           {/* Company Information */}
@@ -379,13 +407,33 @@ const FinancialQuantification = () => {
 
   return (
     <div style={{ fontFamily: '"Source Sans Pro", sans-serif', maxWidth: '1440px', margin: '0 auto', padding: '30px' }}>
-      {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-        <div>
-          <h1 style={{ fontSize: '38px', fontWeight: '700', color: 'rgb(26, 32, 44)', margin: '0 0 8px 0' }}>
-            Gen AI Exposure
-          </h1>
-          <p style={{ fontSize: '16px', color: 'rgb(74, 85, 104)', margin: 0 }}>AI Risk Assessment - Overview</p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <button
+            onClick={() => setCurrentView('table')}
+            style={{
+              fontFamily: '"Source Sans Pro", sans-serif',
+              fontSize: '14px',
+              fontWeight: '600',
+              padding: '8px 16px',
+              borderRadius: '6px',
+              border: '1px solid rgb(220, 229, 242)',
+              cursor: 'pointer',
+              backgroundColor: 'white',
+              color: 'rgb(74, 85, 104)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}
+          >
+            ← Back
+          </button>
+          <div>
+            <h1 style={{ fontSize: '38px', fontWeight: '700', color: 'rgb(26, 32, 44)', margin: '0 0 8px 0' }}>
+              Gen AI Exposure
+            </h1>
+            <p style={{ fontSize: '16px', color: 'rgb(74, 85, 104)', margin: 0 }}>AI Risk Assessment - Overview</p>
+          </div>
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
           <button style={{ fontSize: '14px', fontWeight: '600', padding: '8px 16px', borderRadius: '6px', border: '1px solid rgb(85, 81, 247)', cursor: 'pointer', background: 'white', color: 'rgb(85, 81, 247)' }}>

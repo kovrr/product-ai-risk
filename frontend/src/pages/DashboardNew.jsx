@@ -174,8 +174,8 @@ const DashboardNew = () => {
         {/* CISO Brief Tab */}
         {activeTab === 'brief' && (
           <div className="space-y-[16px]">
-            {/* Main Content Grid - 4 Columns: Map, Actions, This Week, Portfolio */}
-            <div className="grid grid-cols-[500px_280px_240px_1fr] gap-[16px]">
+            {/* Main Content Grid - 3 Columns: Map, Actions, Portfolio */}
+            <div className="grid grid-cols-[612px_288px_1fr] gap-[16px]">
               {/* Left: AI Risk Universe Map - Reduced height */}
               <div className="bg-white rounded-[12px] p-[16px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)] flex flex-col">
                 <div className="mb-[12px] pb-[8px] border-b-2 border-[rgb(220,229,242)]">
@@ -286,46 +286,9 @@ const DashboardNew = () => {
                 </button>
               </div>
 
-              {/* This Week - Compact */}
-              <div className="bg-white rounded-[12px] p-[14px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)]">
-                <div className="text-[13px] font-[700] text-[rgb(26,32,44)] mb-[12px] flex items-center gap-[6px]">
-                  <TrendingUp size={14} className="text-[rgb(85,81,247)]" />
-                  <span>THIS WEEK</span>
-                </div>
-                <div className="space-y-[10px]">
-                  <div className="flex justify-between items-center">
-                    <span className="text-[12px] text-[rgb(74,85,104)] flex items-center gap-[4px]">
-                      <CheckCircle size={12} className="text-[rgb(16,185,129)]" />
-                      Controls closed
-                    </span>
-                    <span className="text-[14px] font-[700] text-[rgb(26,32,44)]">{cisoBriefData.thisWeek.controlsClosed}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-[12px] text-[rgb(74,85,104)] flex items-center gap-[4px]">
-                      <CheckCircle size={12} className="text-[rgb(16,185,129)]" />
-                      Risks mitigated
-                    </span>
-                    <span className="text-[14px] font-[700] text-[rgb(26,32,44)]">{cisoBriefData.thisWeek.risksMitigated}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-[12px] text-[rgb(74,85,104)] flex items-center gap-[4px]">
-                      <CheckCircle size={12} className="text-[rgb(16,185,129)]" />
-                      Assets sanctioned
-                    </span>
-                    <span className="text-[14px] font-[700] text-[rgb(26,32,44)]">{cisoBriefData.thisWeek.assetsSanctioned}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-[12px] text-[rgb(74,85,104)] flex items-center gap-[4px]">
-                      <BarChart3 size={12} className="text-[rgb(85,81,247)]" />
-                      Assessments started
-                    </span>
-                    <span className="text-[14px] font-[700] text-[rgb(26,32,44)]">{cisoBriefData.thisWeek.assessmentsStarted}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right: Portfolio Health - Compact */}
+              {/* Right: Portfolio Health with This Week Target - Merged */}
               <div className="bg-white rounded-[12px] p-[16px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)] flex flex-col">
+                {/* Portfolio Health Score */}
                 <div className="bg-gradient-to-br from-[rgb(85,81,247)] to-[rgb(97,94,251)] rounded-[10px] p-[14px] text-white mb-[12px]">
                   <div className="text-[10px] font-[600] uppercase tracking-[0.5px] opacity-80 mb-[4px]">
                     Portfolio Health Score
@@ -340,8 +303,8 @@ const DashboardNew = () => {
                   </div>
                 </div>
 
-                {/* Breakdown - Compact */}
-                <div className="space-y-[8px] flex-1">
+                {/* Score Breakdown - Right after Portfolio Health Score */}
+                <div className="space-y-[8px] mb-[12px] pb-[12px] border-b border-[rgb(220,229,242)]">
                   <div className="text-[12px] font-[700] text-[rgb(26,32,44)] mb-[6px]">
                     Score Breakdown
                   </div>
@@ -397,7 +360,45 @@ const DashboardNew = () => {
                     </div>
                   </div>
                 </div>
+
+                {/* This Week Target Section - Now at the bottom */}
+                <div className="space-y-[8px] flex-1">
+                  <div className="text-[13px] font-[700] text-[rgb(26,32,44)] mb-[10px] flex items-center gap-[6px]">
+                    <Target size={14} className="text-[rgb(85,81,247)]" />
+                    <span>THIS WEEK TARGET</span>
+                  </div>
+                  <div className="space-y-[8px]">
+                    <div>
+                      <div className="flex justify-between items-center mb-[4px]">
+                        <span className="text-[11px] text-[rgb(74,85,104)]">Controls Closed (Actual/Target)</span>
+                        <span className="text-[12px] font-[700] text-[rgb(26,32,44)]">{cisoBriefData.thisWeek.controlsClosed}/5</span>
+                      </div>
+                      <div className="h-[4px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
+                        <div className="h-full bg-fill-information-success transition-all" style={{ width: `${(cisoBriefData.thisWeek.controlsClosed / 5) * 100}%` }} />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between items-center mb-[4px]">
+                        <span className="text-[11px] text-[rgb(74,85,104)]">Risks Mitigated (Actual/Target)</span>
+                        <span className="text-[12px] font-[700] text-[rgb(26,32,44)]">{cisoBriefData.thisWeek.risksMitigated}/8</span>
+                      </div>
+                      <div className="h-[4px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
+                        <div className="h-full bg-fill-information-success transition-all" style={{ width: `${(cisoBriefData.thisWeek.risksMitigated / 8) * 100}%` }} />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between items-center mb-[4px]">
+                        <span className="text-[11px] text-[rgb(74,85,104)]">Assets Sanctioned (Actual/Target)</span>
+                        <span className="text-[12px] font-[700] text-[rgb(26,32,44)]">{cisoBriefData.thisWeek.assetsSanctioned}/4</span>
+                      </div>
+                      <div className="h-[4px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
+                        <div className="h-full bg-[rgb(85,81,247)] transition-all" style={{ width: `${(cisoBriefData.thisWeek.assetsSanctioned / 4) * 100}%` }} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
+
             </div>
 
             {/* Bottom: 4 Metric Cards */}

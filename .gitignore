@@ -64,3 +64,5 @@ htmlcov/
 # Misc
 *.bak
 *.tmp
+product/CUSTOMER_FEEDBACK_MATRIX.md
+product/PROSPECT_QA_RESPONSES.md

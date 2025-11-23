@@ -69,7 +69,7 @@ export const AssetsListView: React.FC = () => {
       key: 'name',
       label: 'Asset Name',
       sortable: true,
-      width: '200px',
+      width: '260px',
       render: (_, asset) => (
         <div className="flex items-center gap-[8px]">
           <div className="flex flex-col">
@@ -78,8 +78,12 @@ export const AssetsListView: React.FC = () => {
                 {asset.name}
               </span>
               {asset.vendor_source === 'third_party' && (
-                <span className="inline-flex items-center px-[4px] py-[1px] bg-fill-brand-primary/10 text-fill-brand-primary text-[9px] font-[600] rounded-[3px] uppercase border border-fill-brand-primary/20 whitespace-nowrap">
-                  3RD
+                <span className="inline-flex items-center gap-[4px] px-[8px] py-[3px] bg-fill-brand-primary text-text-base-invert text-[11px] font-[700] rounded-[6px] uppercase shadow-sm whitespace-nowrap">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                  </svg>
+                  3RD PARTY
                 </span>
               )}
             </div>
@@ -94,6 +98,7 @@ export const AssetsListView: React.FC = () => {
       key: 'vendor_name',
       label: 'Vendor',
       sortable: true,
+      width: '120px',
       render: (value) => (
         <span className="text-[14px] text-text-base-primary">{value}</span>
       ),
@@ -107,6 +112,7 @@ export const AssetsListView: React.FC = () => {
     {
       key: 'owner_id',
       label: 'Owner',
+      width: '100px',
       render: (_, asset) => {
         const owner = getUserById(asset.owner_id);
         return owner ? (
@@ -119,6 +125,7 @@ export const AssetsListView: React.FC = () => {
     {
       key: 'technical_owner_id',
       label: 'Technical Owner',
+      width: '100px',
       render: (_, asset) => {
         const owner = getUserById(asset.technical_owner_id);
         return owner ? (
@@ -132,22 +139,13 @@ export const AssetsListView: React.FC = () => {
       key: 'risk_tier',
       label: 'Risk Tier',
       sortable: true,
-      render: (_, asset) => (
-        <RiskScoreBadge tier={asset.risk_tier} size="sm" />
-      ),
-    },
-    {
-      key: 'risk_score',
-      label: 'Risk Score',
-      sortable: true,
-      width: '180px',
-      render: (_, asset) => (
-        <RiskProgressBar
-          score={asset.risk_score}
-          tier={asset.risk_tier}
-          showScore={true}
-        />
-      ),
+      render: (_, asset) => {
+        return asset.risk_tier ? (
+          <RiskScoreBadge tier={asset.risk_tier} size="sm" />
+        ) : (
+          <span className="text-text-base-tertiary text-[12px]">-</span>
+        );
+      },
     },
     {
       key: 'regulatory_applicability',
@@ -195,6 +193,7 @@ export const AssetsListView: React.FC = () => {
     {
       key: 'actions',
       label: 'Actions',
+      width: '80px',
       render: (_, asset) => (
         <button
           onClick={() => navigate(`/assets/${asset.id}`)}
@@ -367,7 +366,7 @@ export const AssetsListView: React.FC = () => {
             <p className="text-neutral-600 mb-8">Choose how you'd like to discover and add AI assets to your inventory</p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              {/* Manual Discovery */}
+              {/* Manual Asset Addition */}
               <div 
                 className="border-2 border-neutral-200 rounded-xl p-6 hover:border-primary hover:shadow-lg transition-all cursor-pointer group"
                 onClick={() => {
@@ -378,7 +377,7 @@ export const AssetsListView: React.FC = () => {
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
                   📝
                 </div>
-                <h3 className="text-xl font-semibold text-neutral-800 mb-2">Manual Discovery</h3>
+                <h3 className="text-xl font-semibold text-neutral-800 mb-2">Manual Asset Addition</h3>
                 <p className="text-sm text-neutral-600 mb-4">
                   Fill out a questionnaire to manually add AI assets. Similar to Dave's assessment process.
                 </p>
@@ -398,7 +397,7 @@ export const AssetsListView: React.FC = () => {
                 </ul>
                 <div className="mt-6">
                   <button className="btn btn-primary w-full">
-                    Start Manual Discovery →
+                    Start Manual Asset Addition →
                   </button>
                 </div>
               </div>

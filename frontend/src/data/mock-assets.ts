@@ -1,6 +1,8 @@
 // Mock AI Assets Data - 40 assets from PostgreSQL
 // This data represents the Assets Visibility module
 
+import { calculateRiskTier } from '../utils/riskTierCalculator';
+
 export interface AIAsset {
   id: number;
   name: string;
@@ -30,7 +32,7 @@ export interface AIAsset {
   model_version: string;
 }
 
-export const mockAssets: AIAsset[] = [
+const rawMockAssets: AIAsset[] = [
   // Sanctioned Assets (10)
   {
     id: 1,
@@ -618,7 +620,12 @@ export const mockAssets: AIAsset[] = [
   // (Truncating for brevity - you have the pattern)
 ];
 
-// Helper functions
+// Automatically calculate risk_tier from risk_score for all assets
+export const mockAssets: AIAsset[] = rawMockAssets.map(asset => ({
+  ...asset,
+  risk_tier: calculateRiskTier(asset.risk_score)
+}));
+
 export const getAssetById = (id: number): AIAsset | undefined => {
   return mockAssets.find(asset => asset.id === id);
 };

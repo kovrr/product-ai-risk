@@ -325,8 +325,8 @@ const RiskRegister = () => {
           <button
             onClick={() => setActiveTab('table')}
             className={`flex-1 px-[24px] py-[16px] text-center text-[15px] border-b-[3px] transition-all duration-200 ${activeTab === 'table'
-                ? 'font-[600] text-[rgb(85,81,247)] border-b-[rgb(85,81,247)] bg-white'
-                : 'font-[500] text-[rgb(113,118,126)] border-b-transparent bg-transparent hover:bg-[rgb(245,247,255)]'
+              ? 'font-[600] text-[rgb(85,81,247)] border-b-[rgb(85,81,247)] bg-white'
+              : 'font-[500] text-[rgb(113,118,126)] border-b-transparent bg-transparent hover:bg-[rgb(245,247,255)]'
               }`}
           >
             Risk Register Table
@@ -334,8 +334,8 @@ const RiskRegister = () => {
           <button
             onClick={() => setActiveTab('visualization')}
             className={`flex-1 px-[24px] py-[16px] text-center text-[15px] border-b-[3px] transition-all duration-200 ${activeTab === 'visualization'
-                ? 'font-[600] text-[rgb(85,81,247)] border-b-[rgb(85,81,247)] bg-white'
-                : 'font-[500] text-[rgb(113,118,126)] border-b-transparent bg-transparent hover:bg-[rgb(245,247,255)]'
+              ? 'font-[600] text-[rgb(85,81,247)] border-b-[rgb(85,81,247)] bg-white'
+              : 'font-[500] text-[rgb(113,118,126)] border-b-transparent bg-transparent hover:bg-[rgb(245,247,255)]'
               }`}
           >
             Risk Register Visualization
@@ -343,11 +343,11 @@ const RiskRegister = () => {
           <button
             onClick={() => setActiveTab('insights')}
             className={`flex-1 px-[24px] py-[16px] text-center text-[15px] border-b-[3px] transition-all duration-200 ${activeTab === 'insights'
-                ? 'font-[600] text-[rgb(85,81,247)] border-b-[rgb(85,81,247)] bg-white'
-                : 'font-[500] text-[rgb(113,118,126)] border-b-transparent bg-transparent hover:bg-[rgb(245,247,255)]'
+              ? 'font-[600] text-[rgb(85,81,247)] border-b-[rgb(85,81,247)] bg-white'
+              : 'font-[500] text-[rgb(113,118,126)] border-b-transparent bg-transparent hover:bg-[rgb(245,247,255)]'
               }`}
           >
-            Kovrr Insights
+            Quantification
           </button>
         </div>
       </div>
@@ -481,7 +481,7 @@ const RiskRegister = () => {
         </div>
       )}
 
-      {/* Kovrr Insights Tab */}
+      {/* Quantification Tab */}
       {activeTab === 'insights' && (
         <div className="bg-white rounded-[15px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] p-[30px]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-[30px]">
@@ -530,8 +530,8 @@ const RiskRegister = () => {
                     <div
                       key={index}
                       className={`px-[12px] py-[12px] rounded-[8px] ${message.type === 'user'
-                          ? 'bg-[rgb(236,242,252)] text-[rgb(48,48,69)] ml-[40px]'
-                          : 'bg-[rgb(245,247,255)] text-[rgb(48,48,69)] mr-[40px]'
+                        ? 'bg-[rgb(236,242,252)] text-[rgb(48,48,69)] ml-[40px]'
+                        : 'bg-[rgb(245,247,255)] text-[rgb(48,48,69)] mr-[40px]'
                         }`}
                       style={{ whiteSpace: 'pre-line' }}
                     >
@@ -579,8 +579,8 @@ const RiskRegister = () => {
                         <div className="flex items-start justify-between mb-[12px]">
                           <div className="flex items-center gap-[8px]">
                             <span className={`px-[8px] py-[4px] rounded-[6px] text-[12px] font-[600] ${rec.priority === 'high'
-                                ? 'bg-[rgba(255,35,35,0.1)] text-[rgb(255,35,35)]'
-                                : 'bg-[rgba(255,153,0,0.1)] text-[rgb(255,153,0)]'
+                              ? 'bg-[rgba(255,35,35,0.1)] text-[rgb(255,35,35)]'
+                              : 'bg-[rgba(255,153,0,0.1)] text-[rgb(255,153,0)]'
                               }`}>
                               {rec.priority.toUpperCase()}
                             </span>

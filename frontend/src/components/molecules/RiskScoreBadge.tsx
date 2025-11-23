@@ -15,23 +15,23 @@ export interface RiskScoreBadgeProps {
 const tierConfig = {
   low: {
     label: 'Low',
-    color: 'bg-fill-success text-white',
-    dotColor: 'bg-fill-success',
+    color: 'bg-[rgb(13,199,131)] text-white',
+    dotColor: 'bg-[rgb(13,199,131)]',
   },
   medium: {
     label: 'Medium',
-    color: 'bg-fill-info text-white',
-    dotColor: 'bg-fill-info',
+    color: 'bg-[rgb(251,188,9)] text-white',
+    dotColor: 'bg-[rgb(251,188,9)]',
   },
   high: {
     label: 'High',
-    color: 'bg-fill-warning text-white',
-    dotColor: 'bg-fill-warning',
+    color: 'bg-[rgb(255,153,0)] text-white',
+    dotColor: 'bg-[rgb(255,153,0)]',
   },
   critical: {
     label: 'Critical',
-    color: 'bg-fill-error text-white',
-    dotColor: 'bg-fill-error',
+    color: 'bg-[rgb(255,35,35)] text-white',
+    dotColor: 'bg-[rgb(255,35,35)]',
   },
 };
 
