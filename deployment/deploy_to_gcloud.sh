@@ -110,16 +110,11 @@ echo "Skipping npm install - using existing node_modules"
 
 echo ""
 echo -e "${BLUE}Step 13: Build frontend${NC}"
-echo "Skipping frontend build - using existing dist folder"
-# npm run build
+echo "Building frontend with latest changes..."
+npm run build
 
 echo ""
-echo -e "${BLUE}Step 14: Stop existing services${NC}"
-sudo systemctl stop aikovrr-backend || true
-sudo systemctl stop nginx || true
-
-echo ""
-echo -e "${BLUE}Step 15: Configure Nginx${NC}"
+echo -e "${BLUE}Step 14: Configure Nginx${NC}"
 sudo tee /etc/nginx/sites-available/aikovrr > /dev/null <<EOF
 server {
     listen 8000;
@@ -199,12 +194,13 @@ source venv/bin/activate
 pip install gunicorn
 
 echo ""
-echo -e "${BLUE}Step 18: Start services with new configuration${NC}"
+echo -e "${BLUE}Step 18: Restart services with new configuration${NC}"
 sudo systemctl daemon-reload
 sudo systemctl enable aikovrr-backend
-sudo systemctl start aikovrr-backend
+sudo systemctl restart aikovrr-backend
 sudo systemctl enable nginx
-sudo systemctl start nginx
+sudo systemctl restart nginx
+echo "Services restarted successfully"
 
 echo ""
 echo -e "${BLUE}Step 19: Firewall managed by GCP, skipping ufw configuration${NC}"
