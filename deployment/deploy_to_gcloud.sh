@@ -70,6 +70,11 @@ echo -e "${BLUE}Step 9: Run Django migrations${NC}"
 python manage.py migrate
 
 echo ""
+echo -e "${BLUE}Step 9.5: Import news articles data${NC}"
+sudo -u postgres psql -d $DB_NAME -f $APP_DIR/database/news_articles_data.sql
+echo "✅ Imported 20 news articles from trusted sources"
+
+echo ""
 echo -e "${BLUE}Step 10: Set user passwords${NC}"
 python manage.py shell <<EOF
 from core.models import AppUser
