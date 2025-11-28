@@ -57,7 +57,7 @@ source venv/bin/activate
 
 echo ""
 echo -e "${BLUE}Step 7: Install Python dependencies${NC}"
-echo "Skipping pip upgrade and package installation - using existing packages"
+echo "Skipping pip packages - using existing packages"
 # pip install --upgrade pip
 # pip install -r requirements.txt
 
@@ -97,6 +97,10 @@ for username, password in users_passwords:
     except AppUser.DoesNotExist:
         print(f'⚠️  User {username} not found in database - skipping')
 EOF
+
+echo ""
+echo -e "${BLUE}Step 10.5: News articles${NC}"
+echo "✅ News articles are managed manually - no automatic fetching"
 
 echo ""
 echo -e "${BLUE}Step 11: Collect static files${NC}"

@@ -33,7 +33,6 @@ const Sidebar = () => {
     { path: '/compliance-readiness', icon: ClipboardCheck, label: 'Compliance Readiness', disabled: false },
     { path: '/ai-assurance-plan', icon: Shield, label: 'AI Assurance Plan', disabled: false },
     { path: '/financial-quantification', icon: DollarSign, label: 'Gen AI Exposure', disabled: false },
-    { path: '/governance-monitoring', icon: Activity, label: 'Governance & Monitoring', disabled: true },
     { path: '/integration-hub', icon: Link2, label: 'Integration Hub', disabled: false },
   ];
 

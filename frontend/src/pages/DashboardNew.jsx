@@ -10,6 +10,7 @@ import QuadrantChart from '../components/visualizations/QuadrantChart';
 import TreemapChart from '../components/visualizations/TreemapChart';
 import AIRiskUniverseMap from '../components/visualizations/AIRiskUniverseMap';
 import { ActionModal } from '../components/organisms/ActionModal';
+import ComplianceNewsFeed from '../components/ComplianceNewsFeed';
 import {
   dotMatrixData,
   sankeyData,
@@ -173,9 +174,9 @@ const DashboardNew = () => {
       <div className="tab-content">
         {/* CISO Brief Tab */}
         {activeTab === 'brief' && (
-          <div className="space-y-[16px]">
-            {/* Main Content Grid - 3 Columns: Map, Actions, Portfolio */}
-            <div className="grid grid-cols-[612px_288px_1fr] gap-[16px]">
+          <div className="h-[calc(100vh-180px)] flex flex-col gap-[16px]">
+            {/* Row 1: Map, Actions, Portfolio, News Feed */}
+            <div className="grid grid-cols-[612px_288px_1fr_1fr] gap-[16px] flex-1 min-h-0">
               {/* Left: AI Risk Universe Map - Reduced height */}
               <div className="bg-white rounded-[12px] p-[16px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)] flex flex-col">
                 <div className="mb-[12px] pb-[8px] border-b-2 border-[rgb(220,229,242)]">
@@ -287,7 +288,7 @@ const DashboardNew = () => {
               </div>
 
               {/* Right: Portfolio Health with This Week Target - Merged */}
-              <div className="bg-white rounded-[12px] p-[16px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)] flex flex-col">
+              <div className="bg-white rounded-[12px] p-[16px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)] flex flex-col overflow-auto">
                 {/* Portfolio Health Score */}
                 <div className="bg-gradient-to-br from-[rgb(85,81,247)] to-[rgb(97,94,251)] rounded-[10px] p-[14px] text-white mb-[12px]">
                   <div className="text-[10px] font-[600] uppercase tracking-[0.5px] opacity-80 mb-[4px]">
@@ -399,9 +400,14 @@ const DashboardNew = () => {
                 </div>
               </div>
 
+              {/* Compliance News Feed */}
+              <div className="bg-white rounded-[12px] p-[16px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)] overflow-auto">
+                <ComplianceNewsFeed />
+              </div>
+
             </div>
 
-            {/* Bottom: 4 Metric Cards */}
+            {/* Row 2: 4 Metric Cards */}
             <div className="grid grid-cols-4 gap-[20px]">
               {/* Critical Card */}
               <div

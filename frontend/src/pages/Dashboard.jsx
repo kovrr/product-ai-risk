@@ -7,6 +7,7 @@ import { Badge } from '../components/atoms/badge';
 import { mockAssets, getHighRiskAssets, getShadowAIAssets } from '../data';
 import { StatusBadge, RiskScoreBadge, UserAvatar } from '../components/molecules';
 import { getUserById } from '../data';
+import ComplianceNewsFeed from '../components/ComplianceNewsFeed';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -145,99 +146,146 @@ const Dashboard = () => {
         </Button>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[24px] mb-[32px]">
+      {/* Stats Grid - Compact 50% Size */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[12px] mb-[20px]">
         {statCards.map((stat) => (
           <Card
             key={stat.title}
-            className="cursor-pointer hover:shadow-lg transition-shadow"
+            className="cursor-pointer hover:shadow-lg transition-shadow p-[12px]"
             onClick={stat.onClick}
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-text-base-secondary font-[600]">{stat.title}</p>
-                <p className="text-3xl font-[700] text-text-base-primary mt-2">{stat.value}</p>
+                <p className="text-[11px] text-text-base-secondary font-[600]">{stat.title}</p>
+                <p className="text-[20px] font-[700] text-text-base-primary mt-1">{stat.value}</p>
                 {stat.subtitle && (
-                  <p className="text-xs text-text-base-tertiary mt-1">{stat.subtitle}</p>
+                  <p className="text-[10px] text-text-base-tertiary mt-0.5">{stat.subtitle}</p>
                 )}
               </div>
-              <div className={`p-3 rounded-lg ${stat.bgColor}`}>
-                <stat.icon className={stat.color} size={24} />
+              <div className={`p-2 rounded-lg ${stat.bgColor}`}>
+                <stat.icon className={stat.color} size={16} />
               </div>
             </div>
           </Card>
         ))}
       </div>
 
-      {/* Top Actions Widget */}
-      <Card className="mb-[32px]">
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <span className="text-[20px]">🎯</span>
-            <CardTitle>TOP ACTIONS</CardTitle>
+      {/* Main Content Grid: Left (Portfolio + News) | Right (Top Actions) */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-[24px] mb-[24px]">
+        {/* Left Column: Portfolio Health Score + News Feed */}
+        <div className="lg:col-span-1 space-y-[24px]">
+          {/* Portfolio Health Score */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <span className="text-[20px]">📊</span>
+                <CardTitle>PORTFOLIO HEALTH</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center py-[20px]">
+                <div className="text-[48px] font-[700] text-fill-information-success mb-[8px]">
+                  87%
+                </div>
+                <p className="text-[14px] text-text-base-secondary mb-[16px]">
+                  Overall Compliance Score
+                </p>
+                <div className="space-y-[8px]">
+                  <div className="flex items-center justify-between text-[12px]">
+                    <span className="text-text-base-tertiary">Risk Coverage</span>
+                    <span className="font-[600] text-text-base-primary">92%</span>
+                  </div>
+                  <div className="flex items-center justify-between text-[12px]">
+                    <span className="text-text-base-tertiary">Control Maturity</span>
+                    <span className="font-[600] text-text-base-primary">84%</span>
+                  </div>
+                  <div className="flex items-center justify-between text-[12px]">
+                    <span className="text-text-base-tertiary">Policy Adherence</span>
+                    <span className="font-[600] text-text-base-primary">89%</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Compliance News Feed */}
+          <div className="h-[500px]">
+            <ComplianceNewsFeed />
           </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-[12px]">
-            {/* Action 1: Review ChatGPT data retention */}
-            <div
-              className="flex items-start gap-3 p-[16px] bg-fill-base-1 rounded-[10px] cursor-pointer hover:bg-fill-base-2 transition-colors border-l-[3px] border-fill-information-error"
-              onClick={() => navigate('/assets')}
-            >
-              <AlertTriangle size={20} className="text-fill-information-error mt-[2px] flex-shrink-0" />
-              <div className="flex-1 min-w-0">
-                <p className="text-[14px] font-[600] text-text-base-primary mb-[4px]">
-                  Review ChatGPT data retention
-                </p>
-                <div className="flex items-center gap-2 text-[12px]">
-                  <span className="text-fill-information-error font-[600]">Overdue 5d</span>
-                  <span className="text-text-base-tertiary">•</span>
-                  <span className="text-text-base-tertiary">Shai</span>
+        </div>
+
+        {/* Right Column: Top Actions */}
+        <div className="lg:col-span-2">
+          <Card className="h-full">
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <span className="text-[20px]">🎯</span>
+                <CardTitle>TOP ACTIONS</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-[12px]">
+                {/* Action 1: Review ChatGPT data retention */}
+                <div
+                  className="flex items-start gap-3 p-[16px] bg-fill-base-1 rounded-[10px] cursor-pointer hover:bg-fill-base-2 transition-colors border-l-[3px] border-fill-information-error"
+                  onClick={() => navigate('/assets')}
+                >
+                  <AlertTriangle size={20} className="text-fill-information-error mt-[2px] flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[15px] font-[600] text-text-base-primary mb-[6px]">
+                      Review ChatGPT data retention
+                    </p>
+                    <div className="flex items-center gap-2 text-[13px]">
+                      <span className="text-fill-information-error font-[600]">Overdue 5d</span>
+                      <span className="text-text-base-tertiary">•</span>
+                      <span className="text-text-base-tertiary">Shai</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action 2: Complete GitHub Copilot Risk Assessment */}
+                <div
+                  className="flex items-start gap-3 p-[16px] bg-fill-base-1 rounded-[10px] cursor-pointer hover:bg-fill-base-2 transition-colors border-l-[3px] border-fill-information-warning"
+                  onClick={() => navigate('/assets')}
+                >
+                  <AlertCircle size={20} className="text-fill-information-warning mt-[2px] flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[15px] font-[600] text-text-base-primary mb-[6px]">
+                      Complete GitHub Copilot Risk Assessment
+                    </p>
+                    <div className="flex items-center gap-2 text-[13px]">
+                      <span className="text-fill-information-warning font-[600]">Due Monday</span>
+                      <span className="text-text-base-tertiary">•</span>
+                      <span className="text-text-base-tertiary">Yakir</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action 3: Update AI usage policy */}
+                <div
+                  className="flex items-start gap-3 p-[16px] bg-fill-base-1 rounded-[10px] cursor-pointer hover:bg-fill-base-2 transition-colors border-l-[3px] border-text-base-tertiary"
+                  onClick={() => navigate('/governance')}
+                >
+                  <FileText size={20} className="text-text-base-tertiary mt-[2px] flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[15px] font-[600] text-text-base-primary mb-[6px]">
+                      Update AI usage policy
+                    </p>
+                    <div className="flex items-center gap-2 text-[13px]">
+                      <span className="text-text-base-secondary">Due Dec 1</span>
+                      <span className="text-text-base-tertiary">•</span>
+                      <span className="text-text-base-tertiary">Naomi</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
 
-            {/* Action 2: Complete GitHub Copilot Risk Assessment */}
-            <div
-              className="flex items-start gap-3 p-[16px] bg-fill-base-1 rounded-[10px] cursor-pointer hover:bg-fill-base-2 transition-colors border-l-[3px] border-fill-information-warning"
-              onClick={() => navigate('/assets')}
-            >
-              <AlertCircle size={20} className="text-fill-information-warning mt-[2px] flex-shrink-0" />
-              <div className="flex-1 min-w-0">
-                <p className="text-[14px] font-[600] text-text-base-primary mb-[4px]">
-                  Complete GitHub Copilot Risk Assessment
-                </p>
-                <div className="flex items-center gap-2 text-[12px]">
-                  <span className="text-fill-information-warning font-[600]">Due Monday</span>
-                  <span className="text-text-base-tertiary">•</span>
-                  <span className="text-text-base-tertiary">Yakir</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Action 3: Update AI usage policy */}
-            <div
-              className="flex items-start gap-3 p-[16px] bg-fill-base-1 rounded-[10px] cursor-pointer hover:bg-fill-base-2 transition-colors border-l-[3px] border-text-base-tertiary"
-              onClick={() => navigate('/governance')}
-            >
-              <FileText size={20} className="text-text-base-tertiary mt-[2px] flex-shrink-0" />
-              <div className="flex-1 min-w-0">
-                <p className="text-[14px] font-[600] text-text-base-primary mb-[4px]">
-                  Update AI usage policy
-                </p>
-                <div className="flex items-center gap-2 text-[12px]">
-                  <span className="text-text-base-secondary">Due Dec 1</span>
-                  <span className="text-text-base-tertiary">•</span>
-                  <span className="text-text-base-tertiary">Naomi</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Asset Widgets */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-[24px]">
+      {/* Bottom Section: Recent Assets + High-Risk Assets (Narrower) */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-[24px] max-w-[66.666%]">
         {/* Recent Assets */}
         <Card>
           <CardHeader>
@@ -259,18 +307,18 @@ const Dashboard = () => {
                 return (
                   <div
                     key={asset.id}
-                    className="flex items-center gap-3 p-3 bg-fill-base-1 rounded-[10px] cursor-pointer hover:bg-fill-base-2 transition-colors"
+                    className="flex items-center gap-3 p-[14px] bg-fill-base-1 rounded-[10px] cursor-pointer hover:bg-fill-base-2 transition-colors"
                     onClick={() => navigate(`/assets/${asset.id}`)}
                   >
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <p className="text-sm font-[600] text-text-base-primary truncate">
+                        <p className="text-[14px] font-[600] text-text-base-primary truncate">
                           {asset.name}
                         </p>
                         <StatusBadge status={asset.status} size="sm" />
                       </div>
                       <div className="flex items-center gap-2">
-                        <p className="text-xs text-text-base-tertiary">{asset.vendor_name}</p>
+                        <p className="text-[12px] text-text-base-tertiary">{asset.vendor_name}</p>
                         {owner && (
                           <>
                             <span className="text-text-base-tertiary">•</span>
@@ -308,22 +356,22 @@ const Dashboard = () => {
                 return (
                   <div
                     key={asset.id}
-                    className="flex items-center gap-3 p-3 bg-fill-base-1 rounded-[10px] cursor-pointer hover:bg-fill-base-2 transition-colors"
+                    className="flex items-center gap-3 p-[14px] bg-fill-base-1 rounded-[10px] cursor-pointer hover:bg-fill-base-2 transition-colors"
                     onClick={() => navigate(`/assets/${asset.id}`)}
                   >
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <p className="text-sm font-[600] text-text-base-primary truncate">
+                        <p className="text-[14px] font-[600] text-text-base-primary truncate">
                           {asset.name}
                         </p>
                         <StatusBadge status={asset.status} size="sm" />
                       </div>
                       <div className="flex items-center gap-2">
-                        <p className="text-xs text-text-base-tertiary">
+                        <p className="text-[12px] text-text-base-tertiary">
                           Score: {asset.risk_score.toFixed(0)}/100
                         </p>
                         <span className="text-text-base-tertiary">•</span>
-                        <p className="text-xs text-text-base-tertiary">{asset.vendor_name}</p>
+                        <p className="text-[12px] text-text-base-tertiary">{asset.vendor_name}</p>
                       </div>
                     </div>
                     <RiskScoreBadge tier={asset.risk_tier} size="sm" showScore score={asset.risk_score} />

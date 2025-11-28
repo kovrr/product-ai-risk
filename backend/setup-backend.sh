@@ -19,7 +19,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
 # Check for Python 3.9
-echo -e "${YELLOW}[1/6]${NC} Checking Python version..."
+echo -e "${YELLOW}[1/7]${NC} Checking Python version..."
 if ! command -v python3.9 &> /dev/null; then
     echo -e "${RED}Error: Python 3.9 is not installed.${NC}"
     echo "Please install Python 3.9:"
@@ -32,7 +32,7 @@ echo -e "${GREEN}✓${NC} Found $PYTHON_VERSION"
 
 # Create virtual environment
 echo ""
-echo -e "${YELLOW}[2/6]${NC} Setting up virtual environment..."
+echo -e "${YELLOW}[2/7]${NC} Setting up virtual environment..."
 if [ -d "venv" ]; then
     echo -e "${YELLOW}⚠${NC}  Virtual environment already exists"
     read -p "Do you want to recreate it? (y/N): " -n 1 -r
@@ -55,7 +55,7 @@ source venv/bin/activate
 
 # Upgrade pip
 echo ""
-echo -e "${YELLOW}[3/6]${NC} Installing dependencies..."
+echo -e "${YELLOW}[3/7]${NC} Installing dependencies..."
 echo "Upgrading pip..."
 pip install --upgrade pip -q
 
@@ -66,7 +66,7 @@ echo -e "${GREEN}✓${NC} Dependencies installed"
 
 # Check for .env file
 echo ""
-echo -e "${YELLOW}[4/6]${NC} Checking environment configuration..."
+echo -e "${YELLOW}[4/7]${NC} Checking environment configuration..."
 if [ ! -f "../.env" ]; then
     echo -e "${YELLOW}⚠${NC}  .env file not found, copying from .env.example..."
     if [ -f "../.env.example" ]; then
@@ -82,7 +82,7 @@ fi
 
 # Run Django migrations
 echo ""
-echo -e "${YELLOW}[5/6]${NC} Running Django setup..."
+echo -e "${YELLOW}[5/7]${NC} Running Django setup..."
 echo "Running database migrations..."
 python manage.py migrate --no-input 2>&1 | grep -E "(Applying|Operations|OK)" || echo "Migrations completed"
 
@@ -95,7 +95,7 @@ echo -e "${GREEN}✓${NC} Migrations applied successfully"
 
 # Set demo user passwords
 echo ""
-echo -e "${YELLOW}[6/6]${NC} Setting demo user passwords..."
+echo -e "${YELLOW}[6/7]${NC} Setting demo user passwords..."
 python << 'PYTHON_EOF'
 import os
 import sys
@@ -149,6 +149,12 @@ else
     echo -e "${RED}Error: Failed to set demo user passwords${NC}"
     exit 1
 fi
+
+# Fetch initial news articles
+echo ""
+echo -e "${YELLOW}[7/7]${NC} Fetching initial news articles..."
+python manage.py fetch_news 2>&1 | grep -E "(✓|Fetching|Added)" || echo "News fetch completed"
+echo -e "${GREEN}✓${NC} News feed initialized"
 
 # Run Django check
 echo ""
