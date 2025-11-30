@@ -347,7 +347,7 @@ const RiskRegister = () => {
               : 'font-[500] text-[rgb(113,118,126)] border-b-transparent bg-transparent hover:bg-[rgb(245,247,255)]'
               }`}
           >
-            Quantification
+            Insights
           </button>
         </div>
       </div>

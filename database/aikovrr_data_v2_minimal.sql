@@ -172,6 +172,35 @@ INSERT INTO visibility_ai_asset (
  'production', 'saas', '["prod"]', 'medium', 58.00, 68.00, 58.00,
  false, '[]', '[]', '[]', 'Perplexity', '1.0');
 
+-- Insert 4 Blocked Chinese AI Assets
+INSERT INTO visibility_ai_asset (
+    id, tenant_id, name, asset_type, owner_id, technical_owner_id, owning_org_unit,
+    vendor_source, vendor_name, status, use_case, description, intended_users,
+    lifecycle_stage, deployment_platform, environment,
+    risk_tier, risk_score, inherent_risk_score, residual_risk_score,
+    personal_data_used, sensitive_categories, regulatory_applicability, control_coverage,
+    model_provider, model_version
+) VALUES
+(16, 1, 'Baidu ERNIE Bot', 'app', 1, 1, 'Engineering', 'third_party', 'Baidu', 'blocked',
+ 'AI assistant', 'BLOCKED: Data sovereignty and national security concerns', '["employees"]',
+ 'blocked', 'saas', '["prod"]', 'critical', 92.00, 98.00, 92.00,
+ true, '["special_category"]', '["gdpr", "ccpa"]', '[]', 'Baidu', 'ERNIE 4.0'),
+
+(17, 1, 'Alibaba Tongyi Qianwen', 'app', 9, 10, 'Engineering', 'third_party', 'Alibaba Cloud', 'blocked',
+ 'Large language model', 'BLOCKED: Corporate policy prohibits Chinese AI tools', '["employees"]',
+ 'blocked', 'saas', '["prod"]', 'critical', 90.00, 96.00, 90.00,
+ true, '["financial", "special_category"]', '["gdpr"]', '[]', 'Alibaba', 'Qianwen 2.0'),
+
+(18, 1, 'Tencent Hunyuan', 'app', 4, 11, 'Marketing', 'third_party', 'Tencent', 'blocked',
+ 'Content generation', 'BLOCKED: Compliance and data residency requirements not met', '["employees"]',
+ 'blocked', 'saas', '["prod"]', 'high', 88.00, 94.00, 88.00,
+ true, '[]', '["gdpr", "ccpa"]', '[]', 'Tencent', 'Hunyuan 1.0'),
+
+(19, 1, 'ByteDance Doubao', 'app', 6, 12, 'Sales', 'third_party', 'ByteDance', 'blocked',
+ 'AI chatbot', 'BLOCKED: Security review failed - data exfiltration risk', '["employees"]',
+ 'blocked', 'saas', '["prod"]', 'high', 86.00, 92.00, 86.00,
+ true, '["special_category"]', '["gdpr"]', '[]', 'ByteDance', 'Doubao 1.0');
+
 -- Link Assets to Risks (asset_risk_link)
 INSERT INTO asset_risk_link (asset_id, risk_id) VALUES
 (1, 2),  -- GitHub Copilot → Code vulnerability

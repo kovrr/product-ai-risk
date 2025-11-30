@@ -174,52 +174,52 @@ const DashboardNew = () => {
       <div className="tab-content">
         {/* CISO Brief Tab */}
         {activeTab === 'brief' && (
-          <div className="h-[calc(100vh-180px)] flex flex-col gap-[16px]">
-            {/* Row 1: Map, Actions, Portfolio, News Feed */}
-            <div className="grid grid-cols-[612px_288px_1fr_1fr] gap-[16px] flex-1 min-h-0">
+          <div className="h-[calc(100vh-180px)] grid grid-rows-[2fr_auto] gap-[10px] xl:gap-[16px]">
+            {/* Row 1: Map, Actions, Portfolio, News Feed - Responsive - Takes 2fr of space */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-[minmax(400px,2fr)_minmax(200px,1fr)_minmax(200px,1.5fr)_minmax(200px,1.5fr)] 2xl:grid-cols-[minmax(500px,2fr)_minmax(250px,1fr)_minmax(250px,1.5fr)_minmax(250px,1.5fr)] gap-[10px] xl:gap-[14px] 2xl:gap-[16px] min-h-0">
               {/* Left: AI Risk Universe Map - Reduced height */}
-              <div className="bg-white rounded-[12px] p-[16px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)] flex flex-col">
-                <div className="mb-[12px] pb-[8px] border-b-2 border-[rgb(220,229,242)]">
-                  <div className="text-[14px] font-[700] text-[rgb(26,32,44)] mb-[4px]">
+              <div className="bg-white rounded-[12px] p-[10px] xl:p-[14px] 2xl:p-[16px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)] flex flex-col">
+                <div className="mb-[8px] xl:mb-[10px] 2xl:mb-[12px] pb-[6px] xl:pb-[7px] 2xl:pb-[8px] border-b-2 border-[rgb(220,229,242)]">
+                  <div className="text-[11px] xl:text-[12px] 2xl:text-[14px] font-[700] text-[rgb(26,32,44)] mb-[3px] xl:mb-[4px]">
                     AI Risk Universe Map
                   </div>
-                  <div className="text-[11px] text-[rgb(74,85,104)]">
+                  <div className="text-[9px] xl:text-[10px] 2xl:text-[11px] text-[rgb(74,85,104)]">
                     Click any asset to view details • Size = Business Impact
                   </div>
                 </div>
-                <div className="flex-1" style={{ minHeight: '280px', maxHeight: '280px' }}>
+                <div className="flex-1 xl:min-h-[200px] xl:max-h-[200px] 2xl:min-h-[280px] 2xl:max-h-[280px]">
                   <AIRiskUniverseMap data={aiRiskUniverseData} />
                 </div>
                 {/* Legend - Below the chart */}
-                <div className="flex items-center justify-center gap-[20px] mt-[16px] pt-[12px] border-t border-[rgb(220,229,242)]">
+                <div className="flex items-center justify-center gap-[10px] xl:gap-[14px] 2xl:gap-[20px] mt-[8px] xl:mt-[12px] 2xl:mt-[16px] pt-[6px] xl:pt-[10px] 2xl:pt-[12px] border-t border-[rgb(220,229,242)]">
                   <div className="flex items-center gap-[6px]">
-                    <div className="w-[12px] h-[12px] rounded-full bg-[rgb(255,35,35)]" />
-                    <span className="text-[11px] text-[rgb(74,85,104)]">Critical</span>
+                    <div className="w-[10px] h-[10px] xl:w-[11px] xl:h-[11px] 2xl:w-[12px] 2xl:h-[12px] rounded-full bg-[rgb(255,35,35)]" />
+                    <span className="text-[9px] xl:text-[10px] 2xl:text-[11px] text-[rgb(74,85,104)]">Critical</span>
                   </div>
                   <div className="flex items-center gap-[6px]">
-                    <div className="w-[12px] h-[12px] rounded-full bg-[rgb(255,153,0)]" />
-                    <span className="text-[11px] text-[rgb(74,85,104)]">High</span>
+                    <div className="w-[10px] h-[10px] xl:w-[11px] xl:h-[11px] 2xl:w-[12px] 2xl:h-[12px] rounded-full bg-[rgb(255,153,0)]" />
+                    <span className="text-[9px] xl:text-[10px] 2xl:text-[11px] text-[rgb(74,85,104)]">High</span>
                   </div>
                   <div className="flex items-center gap-[6px]">
-                    <div className="w-[12px] h-[12px] rounded-full bg-[rgb(251,188,9)]" />
-                    <span className="text-[11px] text-[rgb(74,85,104)]">Medium</span>
+                    <div className="w-[10px] h-[10px] xl:w-[11px] xl:h-[11px] 2xl:w-[12px] 2xl:h-[12px] rounded-full bg-[rgb(251,188,9)]" />
+                    <span className="text-[9px] xl:text-[10px] 2xl:text-[11px] text-[rgb(74,85,104)]">Medium</span>
                   </div>
                   <div className="flex items-center gap-[6px]">
-                    <div className="w-[12px] h-[12px] rounded-full bg-fill-information-success" />
-                    <span className="text-[11px] text-[rgb(74,85,104)]">Low</span>
+                    <div className="w-[10px] h-[10px] xl:w-[11px] xl:h-[11px] 2xl:w-[12px] 2xl:h-[12px] rounded-full bg-fill-information-success" />
+                    <span className="text-[9px] xl:text-[10px] 2xl:text-[11px] text-[rgb(74,85,104)]">Low</span>
                   </div>
-                  <div className="w-[1px] h-[16px] bg-[rgb(220,229,242)]" />
-                  <span className="text-[11px] text-[rgb(74,85,104)]">Size = Business Impact</span>
+                  <div className="w-[1px] h-[12px] xl:h-[14px] 2xl:h-[16px] bg-[rgb(220,229,242)]" />
+                  <span className="text-[9px] xl:text-[10px] 2xl:text-[11px] text-[rgb(74,85,104)]">Size = Business Impact</span>
                 </div>
               </div>
 
               {/* Top Actions - Compact */}
-              <div className="bg-white rounded-[12px] p-[14px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)]">
-                <div className="text-[13px] font-[700] text-[rgb(26,32,44)] mb-[12px] flex items-center gap-[6px]">
-                  <Target size={14} className="text-[rgb(85,81,247)]" />
+              <div className="bg-white rounded-[12px] p-[10px] xl:p-[12px] 2xl:p-[14px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border border-[rgb(220,229,242)]">
+                <div className="text-[11px] xl:text-[12px] 2xl:text-[13px] font-[700] text-[rgb(26,32,44)] mb-[8px] xl:mb-[10px] 2xl:mb-[12px] flex items-center gap-[4px] xl:gap-[5px] 2xl:gap-[6px]">
+                  <Target className="w-[12px] h-[12px] xl:w-[13px] xl:h-[13px] 2xl:w-[14px] 2xl:h-[14px] text-[rgb(85,81,247)]" />
                   <span>TOP ACTIONS</span>
                 </div>
-                <div className="space-y-[10px]">
+                <div className="space-y-[6px] xl:space-y-[8px] 2xl:space-y-[10px]">
                   {cisoBriefData.topActions.map((action) => {
                     const isCompleted = completedActions.includes(action.id);
                     const progress = actionProgress[action.id] || [];
@@ -229,21 +229,21 @@ const DashboardNew = () => {
                     return (
                       <div
                         key={action.id}
-                        className={`p-[12px] rounded-[8px] border cursor-pointer transition-all ${isCompleted
+                        className={`p-[8px] xl:p-[10px] 2xl:p-[12px] rounded-[8px] border cursor-pointer transition-all ${isCompleted
                           ? 'border-green-500 bg-green-50 opacity-75'
                           : 'border-[rgb(220,229,242)] hover:border-[rgb(85,81,247)] hover:bg-[rgb(245,247,255)]'
                           }`}
                         onClick={() => handleActionClick(action)}
                       >
-                        <div className="flex items-start gap-[8px]">
-                          {action.status === 'overdue' && <AlertTriangle size={16} className="text-[rgb(255,35,35)] mt-[2px] flex-shrink-0" />}
-                          {action.status === 'due_soon' && <Clock size={16} className="text-[rgb(255,153,0)] mt-[2px] flex-shrink-0" />}
-                          {action.status === 'upcoming' && <CheckCircle size={16} className="text-[rgb(74,85,104)] mt-[2px] flex-shrink-0" />}
+                        <div className="flex items-start gap-[6px] xl:gap-[7px] 2xl:gap-[8px]">
+                          {action.status === 'overdue' && <AlertTriangle className="w-[13px] h-[13px] xl:w-[14px] xl:h-[14px] 2xl:w-[16px] 2xl:h-[16px] text-[rgb(255,35,35)] mt-[2px] flex-shrink-0" />}
+                          {action.status === 'due_soon' && <Clock className="w-[13px] h-[13px] xl:w-[14px] xl:h-[14px] 2xl:w-[16px] 2xl:h-[16px] text-[rgb(255,153,0)] mt-[2px] flex-shrink-0" />}
+                          {action.status === 'upcoming' && <CheckCircle className="w-[13px] h-[13px] xl:w-[14px] xl:h-[14px] 2xl:w-[16px] 2xl:h-[16px] text-[rgb(74,85,104)] mt-[2px] flex-shrink-0" />}
                           <div className="flex-1 min-w-0">
-                            <div className="text-[14px] font-[600] text-[rgb(26,32,44)] mb-[4px]">
+                            <div className="text-[11px] xl:text-[12px] 2xl:text-[14px] font-[600] text-[rgb(26,32,44)] mb-[3px] xl:mb-[4px]">
                               {action.title}
                             </div>
-                            <div className="flex items-center gap-[8px] text-[12px] text-[rgb(74,85,104)]">
+                            <div className="flex items-center gap-[6px] xl:gap-[7px] 2xl:gap-[8px] text-[10px] xl:text-[11px] 2xl:text-[12px] text-[rgb(74,85,104)]">
                               {action.status === 'overdue' && (
                                 <span className="text-[rgb(255,35,35)] font-[600]">Overdue {action.daysOverdue}d</span>
                               )}
@@ -258,12 +258,12 @@ const DashboardNew = () => {
                             </div>
                             {/* Progress indicator */}
                             {progress.length > 0 && (
-                              <div className="mt-[8px]">
-                                <div className="flex items-center justify-between text-[11px] text-[rgb(74,85,104)] mb-[4px]">
+                              <div className="mt-[6px] xl:mt-[7px] 2xl:mt-[8px]">
+                                <div className="flex items-center justify-between text-[9px] xl:text-[10px] 2xl:text-[11px] text-[rgb(74,85,104)] mb-[3px] xl:mb-[4px]">
                                   <span>{progress.length} of {totalSteps} steps</span>
                                   <span>{Math.round(progressPercent)}%</span>
                                 </div>
-                                <div className="h-[4px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
+                                <div className="h-[3px] xl:h-[4px] bg-[rgb(237,242,247)] rounded-full overflow-hidden">
                                   <div
                                     className="h-full bg-[rgb(85,81,247)] transition-all duration-300"
                                     style={{ width: `${progressPercent}%` }}
@@ -407,81 +407,108 @@ const DashboardNew = () => {
 
             </div>
 
-            {/* Row 2: 4 Metric Cards */}
-            <div className="grid grid-cols-4 gap-[20px]">
+            {/* Row 2: 4 Metric Cards - Responsive - Compact to fit viewport */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-[8px] xl:gap-[12px] 2xl:gap-[16px]">
               {/* Critical Card */}
               <div
-                className="bg-white rounded-[12px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border-2 border-[rgb(220,229,242)] hover:border-[rgb(255,35,35)] cursor-pointer transition-all"
+                className="bg-white rounded-[12px] p-[10px] xl:p-[14px] 2xl:p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border-2 border-[rgb(220,229,242)] hover:border-[rgb(255,35,35)] cursor-pointer transition-all"
                 onClick={() => navigate('/assets?risk_tier=critical')}
               >
-                <div className="text-[12px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px] mb-[12px] flex items-center gap-[6px]">
-                  <Circle size={12} className="fill-[rgb(255,35,35)] text-[rgb(255,35,35)]" />
-                  CRITICAL
-                </div>
-                <div className="text-[48px] font-[700] text-[rgb(26,32,44)] leading-none mb-[8px]">
-                  {cisoBriefData.metrics.critical.value}
-                </div>
-                <div className="text-[13px] text-[rgb(74,85,104)] mb-[8px]">Need Attention</div>
-                <div className="flex items-center gap-[4px] text-[12px] font-[600] text-[rgb(255,35,35)]">
-                  <TrendingUp size={14} />
-                  <span>{cisoBriefData.metrics.critical.trend} this week</span>
+                {/* Low res: 2 columns (rows 1-2 | rows 3-4), High res: 1 column (all stacked) */}
+                <div className="flex 2xl:block gap-[8px] xl:gap-[10px] 2xl:gap-0">
+                  {/* Left column (low res) / Top section (high res): Icon+Label + Number */}
+                  <div className="flex-shrink-0">
+                    <div className="text-[9px] xl:text-[10px] 2xl:text-[11px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px] mb-[3px] xl:mb-[4px] 2xl:mb-[8px] flex items-center gap-[4px] xl:gap-[5px] 2xl:gap-[6px]">
+                      <Circle className="w-[10px] h-[10px] xl:w-[11px] xl:h-[11px] 2xl:w-[12px] 2xl:h-[12px] fill-[rgb(255,35,35)] text-[rgb(255,35,35)]" />
+                      <span>CRITICAL</span>
+                    </div>
+                    <div className="text-[24px] xl:text-[28px] 2xl:text-[48px] font-[700] text-[rgb(26,32,44)] leading-none">
+                      {cisoBriefData.metrics.critical.value}
+                    </div>
+                  </div>
+                  {/* Right column (low res) / Bottom section (high res): Description + Trend */}
+                  <div className="flex-1 flex flex-col justify-center 2xl:justify-start 2xl:mt-[6px] gap-[2px] 2xl:gap-0">
+                    <div className="text-[9px] xl:text-[10px] 2xl:text-[12px] text-[rgb(74,85,104)] 2xl:mb-[6px]">Need Attention</div>
+                    <div className="flex items-center gap-[2px] text-[9px] xl:text-[10px] 2xl:text-[12px] font-[600] text-[rgb(255,35,35)]">
+                      <TrendingUp className="w-[8px] h-[8px] xl:w-[9px] xl:h-[9px] 2xl:w-[12px] 2xl:h-[12px]" />
+                      <span className="whitespace-nowrap">{cisoBriefData.metrics.critical.trend} this week</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
               {/* High Risk Card */}
               <div
-                className="bg-white rounded-[12px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border-2 border-[rgb(220,229,242)] hover:border-[rgb(255,153,0)] cursor-pointer transition-all"
+                className="bg-white rounded-[12px] p-[10px] xl:p-[14px] 2xl:p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border-2 border-[rgb(220,229,242)] hover:border-[rgb(255,153,0)] cursor-pointer transition-all"
                 onClick={() => navigate('/assets?risk_tier=high')}
               >
-                <div className="text-[12px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px] mb-[12px] flex items-center gap-[6px]">
-                  <AlertTriangle size={12} className="text-[rgb(255,153,0)]" />
-                  HIGH RISK
-                </div>
-                <div className="text-[48px] font-[700] text-[rgb(26,32,44)] leading-none mb-[8px]">
-                  {cisoBriefData.metrics.highRisk.value}
-                </div>
-                <div className="text-[13px] text-[rgb(74,85,104)] mb-[8px]">Assets</div>
-                <div className="flex items-center gap-[4px] text-[12px] font-[600] text-text-information-success">
-                  <TrendingDown size={14} />
-                  <span>{cisoBriefData.metrics.highRisk.trend} this week</span>
+                <div className="flex 2xl:block gap-[8px] xl:gap-[10px] 2xl:gap-0">
+                  <div className="flex-shrink-0">
+                    <div className="text-[9px] xl:text-[10px] 2xl:text-[11px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px] mb-[3px] xl:mb-[4px] 2xl:mb-[8px] flex items-center gap-[4px] xl:gap-[5px] 2xl:gap-[6px]">
+                      <AlertTriangle className="w-[10px] h-[10px] xl:w-[11px] xl:h-[11px] 2xl:w-[12px] 2xl:h-[12px] text-[rgb(255,153,0)]" />
+                      <span>HIGH RISK</span>
+                    </div>
+                    <div className="text-[24px] xl:text-[28px] 2xl:text-[48px] font-[700] text-[rgb(26,32,44)] leading-none">
+                      {cisoBriefData.metrics.highRisk.value}
+                    </div>
+                  </div>
+                  <div className="flex-1 flex flex-col justify-center 2xl:justify-start 2xl:mt-[6px] gap-[2px] 2xl:gap-0">
+                    <div className="text-[9px] xl:text-[10px] 2xl:text-[12px] text-[rgb(74,85,104)] 2xl:mb-[6px]">Assets</div>
+                    <div className="flex items-center gap-[2px] text-[9px] xl:text-[10px] 2xl:text-[12px] font-[600] text-text-information-success">
+                      <TrendingDown className="w-[8px] h-[8px] xl:w-[9px] xl:h-[9px] 2xl:w-[12px] 2xl:h-[12px]" />
+                      <span className="whitespace-nowrap">{cisoBriefData.metrics.highRisk.trend} this week</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
               {/* In Progress Card */}
               <div
-                className="bg-white rounded-[12px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border-2 border-[rgb(220,229,242)] hover:border-[rgb(85,81,247)] cursor-pointer transition-all"
+                className="bg-white rounded-[12px] p-[10px] xl:p-[14px] 2xl:p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border-2 border-[rgb(220,229,242)] hover:border-[rgb(85,81,247)] cursor-pointer transition-all"
                 onClick={() => navigate('/ai-assurance-plan')}
               >
-                <div className="text-[12px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px] mb-[12px] flex items-center gap-[6px]">
-                  <Clock size={12} className="text-[rgb(85,81,247)]" />
-                  IN PROGRESS
-                </div>
-                <div className="text-[48px] font-[700] text-[rgb(26,32,44)] leading-none mb-[8px]">
-                  {cisoBriefData.metrics.inProgress.value}
-                </div>
-                <div className="text-[13px] text-[rgb(74,85,104)] mb-[8px]">Active</div>
-                <div className="flex items-center gap-[4px] text-[12px] font-[600] text-[rgb(74,85,104)]">
-                  <Minus size={14} />
-                  <span>Due this month</span>
+                <div className="flex 2xl:block gap-[8px] xl:gap-[10px] 2xl:gap-0">
+                  <div className="flex-shrink-0">
+                    <div className="text-[9px] xl:text-[10px] 2xl:text-[11px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px] mb-[3px] xl:mb-[4px] 2xl:mb-[8px] flex items-center gap-[4px] xl:gap-[5px] 2xl:gap-[6px]">
+                      <Clock className="w-[10px] h-[10px] xl:w-[11px] xl:h-[11px] 2xl:w-[12px] 2xl:h-[12px] text-[rgb(85,81,247)]" />
+                      <span>IN PROGRESS</span>
+                    </div>
+                    <div className="text-[24px] xl:text-[28px] 2xl:text-[48px] font-[700] text-[rgb(26,32,44)] leading-none">
+                      {cisoBriefData.metrics.inProgress.value}
+                    </div>
+                  </div>
+                  <div className="flex-1 flex flex-col justify-center 2xl:justify-start 2xl:mt-[6px] gap-[2px] 2xl:gap-0">
+                    <div className="text-[9px] xl:text-[10px] 2xl:text-[12px] text-[rgb(74,85,104)] 2xl:mb-[6px]">Active</div>
+                    <div className="flex items-center gap-[2px] text-[9px] xl:text-[10px] 2xl:text-[12px] font-[600] text-[rgb(74,85,104)]">
+                      <Minus className="w-[8px] h-[8px] xl:w-[9px] xl:h-[9px] 2xl:w-[12px] 2xl:h-[12px]" />
+                      <span className="whitespace-nowrap">Due this month</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
               {/* Compliant Card */}
               <div
-                className="bg-white rounded-[12px] p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border-2 border-[rgb(220,229,242)] hover:border-fill-information-success cursor-pointer transition-all"
+                className="bg-white rounded-[12px] p-[10px] xl:p-[14px] 2xl:p-[20px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] border-2 border-[rgb(220,229,242)] hover:border-fill-information-success cursor-pointer transition-all"
                 onClick={() => navigate('/compliance-readiness')}
               >
-                <div className="text-[12px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px] mb-[12px] flex items-center gap-[6px]">
-                  <CheckCircle size={12} className="text-fill-information-success" />
-                  COMPLIANT
-                </div>
-                <div className="text-[48px] font-[700] text-[rgb(26,32,44)] leading-none mb-[8px]">
-                  {cisoBriefData.metrics.maturity.value}%
-                </div>
-                <div className="text-[13px] text-[rgb(74,85,104)] mb-[8px]">Maturity</div>
-                <div className="flex items-center gap-[4px] text-[12px] font-[600] text-text-information-success">
-                  <TrendingUp size={14} />
-                  <span>{cisoBriefData.metrics.maturity.trend} this qtr</span>
+                <div className="flex 2xl:block gap-[8px] xl:gap-[10px] 2xl:gap-0">
+                  <div className="flex-shrink-0">
+                    <div className="text-[9px] xl:text-[10px] 2xl:text-[11px] font-[600] text-[rgb(74,85,104)] uppercase tracking-[0.5px] mb-[3px] xl:mb-[4px] 2xl:mb-[8px] flex items-center gap-[4px] xl:gap-[5px] 2xl:gap-[6px]">
+                      <CheckCircle className="w-[10px] h-[10px] xl:w-[11px] xl:h-[11px] 2xl:w-[12px] 2xl:h-[12px] text-fill-information-success" />
+                      <span>COMPLIANT</span>
+                    </div>
+                    <div className="text-[24px] xl:text-[28px] 2xl:text-[48px] font-[700] text-[rgb(26,32,44)] leading-none">
+                      {cisoBriefData.metrics.maturity.value}%
+                    </div>
+                  </div>
+                  <div className="flex-1 flex flex-col justify-center 2xl:justify-start 2xl:mt-[6px] gap-[2px] 2xl:gap-0">
+                    <div className="text-[9px] xl:text-[10px] 2xl:text-[12px] text-[rgb(74,85,104)] 2xl:mb-[6px]">Maturity</div>
+                    <div className="flex items-center gap-[2px] text-[9px] xl:text-[10px] 2xl:text-[12px] font-[600] text-text-information-success">
+                      <TrendingUp className="w-[8px] h-[8px] xl:w-[9px] xl:h-[9px] 2xl:w-[12px] 2xl:h-[12px]" />
+                      <span className="whitespace-nowrap">{cisoBriefData.metrics.maturity.trend} this qtr</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

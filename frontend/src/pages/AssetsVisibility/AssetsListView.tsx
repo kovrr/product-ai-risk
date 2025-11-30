@@ -58,7 +58,7 @@ export const AssetsListView: React.FC = () => {
       sanctioned: mockAssets.filter((a) => a.status === 'sanctioned').length,
       shadow: mockAssets.filter((a) => a.status === 'shadow').length,
       underReview: mockAssets.filter((a) => a.status === 'under_review').length,
-      highRisk: mockAssets.filter((a) => a.risk_tier === 'high' || a.risk_tier === 'critical').length,
+      blocked: mockAssets.filter((a) => a.status === 'blocked').length,
       thirdParty: mockAssets.filter((a) => a.vendor_source === 'third_party').length,
     };
   }, []);
@@ -258,10 +258,10 @@ export const AssetsListView: React.FC = () => {
             <div className="text-[12px] text-[rgb(74,85,104)] font-[400]">Pending Review</div>
           </div>
           <div className="bg-[rgb(245,247,255)] rounded-[12px] p-[20px]">
-            <div className="text-[26px] font-[700] text-[rgb(255,35,35)] mb-[4px]">
-              {stats.highRisk}
+            <div className="text-[26px] font-[700] text-[rgb(139,0,0)] mb-[4px]">
+              {stats.blocked}
             </div>
-            <div className="text-[12px] text-[rgb(74,85,104)] font-[400]">High Risk</div>
+            <div className="text-[12px] text-[rgb(74,85,104)] font-[400]">Blocked</div>
           </div>
           <div className="bg-[rgb(245,247,255)] rounded-[12px] p-[20px]">
             <div className="text-[26px] font-[700] text-[rgb(85,81,247)] mb-[4px]">

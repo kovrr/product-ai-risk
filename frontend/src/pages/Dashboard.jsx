@@ -82,14 +82,14 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-[32px]">
-      {/* Page Header */}
-      <div className="mb-[32px]">
-        <h1 className="text-[38px] font-[700] text-text-base-primary tracking-[-0.5px] mb-[8px]">Dashboard Overview</h1>
-        <p className="text-[16px] text-text-base-secondary">Real-time insights into your AI risk posture</p>
+      {/* Page Header - Responsive */}
+      <div className="mb-[24px] md:mb-[32px]">
+        <h1 className="text-[28px] md:text-[38px] font-[700] text-text-base-primary tracking-[-0.5px] mb-[8px]">Dashboard Overview</h1>
+        <p className="text-[14px] md:text-[16px] text-text-base-secondary">Real-time insights into your AI risk posture</p>
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex flex-wrap gap-[12px] mb-[32px]">
+      {/* Action Buttons - Responsive */}
+      <div className="flex flex-wrap gap-[8px] md:gap-[12px] mb-[24px] md:mb-[32px]">
         <Button
           onClick={() => navigate('/compliance-readiness')}
           variant="default"
@@ -146,8 +146,8 @@ const Dashboard = () => {
         </Button>
       </div>
 
-      {/* Stats Grid - Compact 50% Size */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[12px] mb-[20px]">
+      {/* Stats Grid - Responsive */}
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-[8px] md:gap-[12px] mb-[16px] md:mb-[20px]">
         {statCards.map((stat) => (
           <Card
             key={stat.title}
@@ -170,10 +170,10 @@ const Dashboard = () => {
         ))}
       </div>
 
-      {/* Main Content Grid: Left (Portfolio + News) | Right (Top Actions) */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-[24px] mb-[24px]">
+      {/* Main Content Grid: Responsive - Stack on mobile, side-by-side on desktop */}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-[16px] md:gap-[24px] mb-[16px] md:mb-[24px]">
         {/* Left Column: Portfolio Health Score + News Feed */}
-        <div className="lg:col-span-1 space-y-[24px]">
+        <div className="xl:col-span-1 space-y-[16px] md:space-y-[24px]">
           {/* Portfolio Health Score */}
           <Card>
             <CardHeader>
@@ -208,14 +208,14 @@ const Dashboard = () => {
             </CardContent>
           </Card>
 
-          {/* Compliance News Feed */}
-          <div className="h-[500px]">
+          {/* Compliance News Feed - Responsive height */}
+          <div className="h-[400px] md:h-[500px]">
             <ComplianceNewsFeed />
           </div>
         </div>
 
         {/* Right Column: Top Actions */}
-        <div className="lg:col-span-2">
+        <div className="xl:col-span-2">
           <Card className="h-full">
             <CardHeader>
               <div className="flex items-center gap-2">
@@ -284,8 +284,8 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Bottom Section: Recent Assets + High-Risk Assets (Narrower) */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-[24px] max-w-[66.666%]">
+      {/* Bottom Section: Recent Assets + High-Risk Assets - Responsive */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-[16px] md:gap-[24px] max-w-full xl:max-w-[66.666%]">
         {/* Recent Assets */}
         <Card>
           <CardHeader>

@@ -372,9 +372,9 @@ export const cisoBriefData = {
     assessmentsStarted: 3
   },
   metrics: {
-    critical: { value: 3, trend: '+1', trendDirection: 'up' },
+    critical: { value: 7, trend: '+2', trendDirection: 'up' },
     highRisk: { value: 7, trend: '-2', trendDirection: 'down' },
-    inProgress: { value: 5, trend: '0', trendDirection: 'neutral' },
-    maturity: { value: 78, trend: '+5%', trendDirection: 'up' }
+    inProgress: { value: 8, trend: '0', trendDirection: 'neutral' },
+    maturity: { value: 85, trend: '+5%', trendDirection: 'up' }
   }
 };
