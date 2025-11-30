@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from './atoms/card';
 import { Badge } from './atoms/badge';
 import { FileText, AlertCircle, CheckCircle, TrendingUp, ExternalLink } from 'lucide-react';
+import api from '../services/api';
 
 const ComplianceNewsFeed = () => {
   const scrollRef = useRef(null);
@@ -14,13 +15,8 @@ const ComplianceNewsFeed = () => {
     const fetchNews = async () => {
       try {
         console.log('Fetching news from API...');
-        const response = await fetch('http://localhost:8000/api/news/articles/');
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
+        const response = await api.get('/news/articles/');
+        const data = response.data;
         console.log('API Response:', data);
 
         // Handle paginated response

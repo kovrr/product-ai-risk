@@ -57,9 +57,10 @@ source venv/bin/activate
 
 echo ""
 echo -e "${BLUE}Step 7: Install Python dependencies${NC}"
-echo "Skipping pip packages - using existing packages"
+echo "⚠️  Skipping network-dependent installations (Playwright will be installed manually)"
+echo "Note: Run 'python manage.py fetch_all_news' manually after network is configured"
 # pip install --upgrade pip
-# pip install -r requirements.txt
+# pip install playwright beautifulsoup4 --retries 5 --timeout 60
 
 echo ""
 echo -e "${BLUE}Step 8: Configure Django settings${NC}"
@@ -71,8 +72,18 @@ python manage.py migrate
 
 echo ""
 echo -e "${BLUE}Step 9.5: Import news articles data${NC}"
-sudo -u postgres psql -d $DB_NAME -f $APP_DIR/database/news_articles_data.sql
-echo "✅ Imported 20 news articles from trusted sources"
+# Import into the aikovrr schema (not public schema)
+sudo -u postgres psql -d $DB_NAME <<EOSQL
+-- Set search path to aikovrr schema
+SET search_path TO aikovrr, public;
+
+-- Import news articles
+\i $APP_DIR/database/news_articles_data.sql
+
+-- Verify import
+SELECT COUNT(*) as article_count FROM news_newsarticle;
+EOSQL
+echo "✅ Imported news articles into aikovrr schema"
 
 echo ""
 echo -e "${BLUE}Step 10: Set user passwords${NC}"

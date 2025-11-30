@@ -79,19 +79,28 @@ sudo systemctl status postgresql
 
 ### 2. Verify Database
 ```bash
-# Check news table exists
-sudo -u postgres psql -d aikovrr -c "\d news_newsarticle"
-
-# Check article count
-sudo -u postgres psql -d aikovrr -c "SELECT COUNT(*) FROM news_newsarticle WHERE is_active=true;"
+# IMPORTANT: Check articles are in the correct schema (aikovrr, not public)
+sudo -u postgres psql -d aikovrr -c "SELECT COUNT(*) FROM aikovrr.news_newsarticle WHERE is_active=true;"
 # Should return: 20
 
+# Verify no articles in wrong schema
+sudo -u postgres psql -d aikovrr -c "SELECT COUNT(*) FROM public.news_newsarticle;" 2>/dev/null || echo "Table not in public (correct)"
+# Should error or return 0
+
 # Check sources
-sudo -u postgres psql -d aikovrr -c "SELECT source, COUNT(*) FROM news_newsarticle GROUP BY source;"
+sudo -u postgres psql -d aikovrr -c "SELECT source, COUNT(*) FROM aikovrr.news_newsarticle GROUP BY source;"
 # Should show: IAPP (4), CISO Series (6), GRC World Forums (5), Compliance Week (5)
+
+# Verify Django can see the articles
+cd /opt/aikovrr/backend
+source venv/bin/activate
+python manage.py shell -c "from news.models import NewsArticle; print(f'Django sees {NewsArticle.objects.count()} articles')"
+# Should output: Django sees 20 articles
 ```
-- [ ] Table exists
-- [ ] 20 articles present
+- [ ] Table exists in aikovrr schema
+- [ ] 20 articles present in aikovrr schema
+- [ ] No articles in public schema (wrong location)
+- [ ] Django ORM can query articles
 - [ ] All 4 sources represented
 
 ### 3. Test Backend API

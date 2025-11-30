@@ -155,6 +155,14 @@ AUTH_USER_MODEL = 'core.AppUser'
 CORS_ALLOW_ALL_ORIGINS = True  # For development only
 CORS_ALLOW_CREDENTIALS = True
 
+# Session and Cookie settings for production
+SESSION_COOKIE_SAMESITE = 'None'  # Allow cross-origin cookies
+SESSION_COOKIE_SECURE = True  # Require HTTPS
+SESSION_COOKIE_HTTPONLY = True  # Prevent JavaScript access
+CSRF_COOKIE_SAMESITE = 'None'  # Allow cross-origin CSRF token
+CSRF_COOKIE_SECURE = True  # Require HTTPS
+CSRF_TRUSTED_ORIGINS = ['https://risk-ai.kovrr.com', 'https://136.113.138.156:8000']
+
 # REST Framework settings
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
