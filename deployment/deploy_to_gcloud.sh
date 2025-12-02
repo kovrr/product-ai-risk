@@ -37,7 +37,7 @@ sudo systemctl enable postgresql
 # Set postgres user password
 sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD '$DB_PASSWORD';"
 
-# Create database
+# Create database (drop existing to get fresh data from local)
 sudo -u postgres psql -c "DROP DATABASE IF EXISTS $DB_NAME;"
 sudo -u postgres psql -c "CREATE DATABASE $DB_NAME;"
 
@@ -57,10 +57,29 @@ source venv/bin/activate
 
 echo ""
 echo -e "${BLUE}Step 7: Install Python dependencies${NC}"
-echo "⚠️  Skipping network-dependent installations (Playwright will be installed manually)"
-echo "Note: Run 'python manage.py fetch_all_news' manually after network is configured"
-# pip install --upgrade pip
-# pip install playwright beautifulsoup4 --retries 5 --timeout 60
+# Check if packages are already installed
+if ! python -c "import playwright" 2>/dev/null; then
+    echo "Installing Python packages..."
+    pip install --upgrade pip
+    pip install playwright beautifulsoup4 requests --retries 5 --timeout 60
+else
+    echo "✅ Python packages already installed, skipping"
+fi
+
+echo ""
+echo -e "${BLUE}Step 7.5: Install Playwright browsers for Linux${NC}"
+# Check if Playwright browsers are already installed
+if [ ! -d ~/.cache/ms-playwright/chromium-* ]; then
+    echo "Installing Playwright browsers..."
+    # Remove any Mac-based browsers that may have been copied
+    rm -rf ~/.cache/ms-playwright
+    # Install Linux browsers
+    playwright install chromium
+    playwright install-deps chromium
+    echo "✅ Playwright browsers installed for Linux"
+else
+    echo "✅ Playwright browsers already installed, skipping"
+fi
 
 echo ""
 echo -e "${BLUE}Step 8: Configure Django settings${NC}"
@@ -115,8 +134,11 @@ for username, password in users_passwords:
 EOF
 
 echo ""
-echo -e "${BLUE}Step 10.5: News articles${NC}"
-echo "✅ News articles are managed manually - no automatic fetching"
+echo -e "${BLUE}Step 10.5: Fetch news articles${NC}"
+echo "Running news crawlers to fetch latest AI governance news..."
+python manage.py fetch_iapp_news --max-articles 10 || echo "⚠️  IAPP crawler failed (may need internet access)"
+python manage.py fetch_compliance_week_news --max-articles 10 || echo "⚠️  Compliance Week crawler failed (may need internet access)"
+echo "✅ News crawlers executed"
 
 echo ""
 echo -e "${BLUE}Step 11: Collect static files${NC}"

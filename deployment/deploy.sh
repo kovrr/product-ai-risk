@@ -16,7 +16,16 @@ PROJECT_DIR="/Users/liransorani/CascadeProjects/aikovrr"
 
 cd $PROJECT_DIR
 
-echo "📦 Step 1/3: Creating deployment package..."
+echo "📰 Step 0/4: Exporting latest news articles from local database..."
+cd database
+python3.9 export_latest_news.py
+if [ $? -ne 0 ]; then
+    echo "⚠️  Warning: Failed to export news articles, using existing file"
+fi
+cd $PROJECT_DIR
+echo ""
+
+echo "📦 Step 1/4: Creating deployment package..."
 tar -czf aikovrr-deploy.tar.gz \
   --exclude='venv' \
   --exclude='__pycache__' \
@@ -32,7 +41,7 @@ tar -czf aikovrr-deploy.tar.gz \
 echo "✅ Package created: aikovrr-deploy.tar.gz"
 echo ""
 
-echo "📤 Step 2/3: Uploading to VM..."
+echo "📤 Step 2/4: Uploading to VM..."
 gcloud compute scp aikovrr-deploy.tar.gz $VM_NAME:/tmp/ \
   --zone $ZONE \
   --tunnel-through-iap
@@ -40,7 +49,7 @@ gcloud compute scp aikovrr-deploy.tar.gz $VM_NAME:/tmp/ \
 echo "✅ Upload complete"
 echo ""
 
-echo "🚀 Step 3/3: Running deployment script on VM..."
+echo "🚀 Step 3/4: Running deployment script on VM..."
 gcloud compute ssh $VM_NAME --zone $ZONE --tunnel-through-iap --command "
   sudo mkdir -p /opt/aikovrr && \
   sudo tar -xzf /tmp/aikovrr-deploy.tar.gz -C /opt/aikovrr && \

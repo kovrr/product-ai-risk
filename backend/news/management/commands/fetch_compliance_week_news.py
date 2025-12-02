@@ -57,21 +57,34 @@ class Command(BaseCommand):
             page = context.new_page()
             
             try:
-                # Navigate to AI news category page
-                self.stdout.write("📍 Navigating to Compliance Week AI category...")
-                page.goto('https://www.complianceweek.com/news/ai', timeout=30000)
+                # Navigate to main news page (AI category may not exist)
+                self.stdout.write("📍 Navigating to Compliance Week news page...")
+                page.goto('https://www.complianceweek.com/news', timeout=30000)
                 page.wait_for_load_state('domcontentloaded', timeout=30000)
                 page.wait_for_timeout(3000)
                 
                 html = page.content()
                 soup = BeautifulSoup(html, 'html.parser')
                 
-                # Find article links (ending in .article)
+                # Find article links - try multiple patterns
                 all_links = soup.find_all('a', href=True)
-                article_links = [
-                    l for l in all_links
-                    if '.article' in l.get('href', '')
-                ]
+                article_links = []
+                
+                for link in all_links:
+                    href = link.get('href', '')
+                    # Match various article URL patterns
+                    if any(pattern in href for pattern in ['/article/', '.article', '/news/', '/compliance-news/']):
+                        article_links.append(link)
+                
+                # Remove duplicates
+                seen_urls = set()
+                unique_links = []
+                for link in article_links:
+                    url = link.get('href', '')
+                    if url not in seen_urls:
+                        seen_urls.add(url)
+                        unique_links.append(link)
+                article_links = unique_links
                 
                 self.stdout.write(f"✅ Found {len(article_links)} potential articles")
                 

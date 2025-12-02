@@ -114,8 +114,8 @@ export const AssetDetailView: React.FC = () => {
       {/* Content */}
       <div className="flex-1 overflow-auto px-[32px] py-[24px]">
         {activeTab === 'overview' && (
-          <div className="grid grid-cols-2 gap-[24px]">
-            <div className="bg-fill-base-secondary rounded-[10px] p-[20px]">
+          <div className="flex gap-[24px] max-w-[1200px]">
+            <div className="bg-fill-base-secondary rounded-[10px] p-[20px] flex-1 min-w-0">
               <h3 className="text-[16px] font-[600] mb-[16px]">Core Identity</h3>
               <div className="space-y-[12px]">
                 <div>
@@ -128,7 +128,7 @@ export const AssetDetailView: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-fill-base-secondary rounded-[10px] p-[20px]">
+            <div className="bg-fill-base-secondary rounded-[10px] p-[20px] flex-1 min-w-0">
               <h3 className="text-[16px] font-[600] mb-[16px]">Ownership</h3>
               <div className="space-y-[12px]">
                 <div>
@@ -145,19 +145,19 @@ export const AssetDetailView: React.FC = () => {
         )}
 
         {activeTab === 'risk' && (
-          <div className="space-y-[24px]">
+          <div className="space-y-[24px] max-w-[1200px]">
             <div className="bg-fill-base-secondary rounded-[10px] p-[20px]">
               <h3 className="text-[16px] font-[600] mb-[16px]">Risk Assessment Summary</h3>
-              <div className="grid grid-cols-3 gap-[16px]">
-                <div>
+              <div className="flex gap-[24px]">
+                <div className="flex-1">
                   <div className="text-[12px] text-text-base-secondary">Risk Tier</div>
                   <RiskScoreBadge tier={asset.risk_tier} size="md" />
                 </div>
-                <div>
+                <div className="flex-1">
                   <div className="text-[12px] text-text-base-secondary">Risk Score</div>
                   <div className="text-[20px] font-[700]">{asset.risk_score.toFixed(0)}</div>
                 </div>
-                <div>
+                <div className="flex-1">
                   <div className="text-[12px] text-text-base-secondary">Personal Data</div>
                   <div className="text-[14px]">{asset.personal_data_used ? '✓ Yes' : '✗ No'}</div>
                 </div>
@@ -170,7 +170,7 @@ export const AssetDetailView: React.FC = () => {
         )}
 
         {activeTab === 'controls' && (
-          <div className="bg-fill-base-secondary rounded-[10px] p-[20px]">
+          <div className="bg-fill-base-secondary rounded-[10px] p-[20px] max-w-[1200px]">
             <div className="flex items-center justify-between mb-[16px]">
               <h3 className="text-[16px] font-[600]">Related Controls (NIST AI RMF)</h3>
               <span className="text-[12px] text-text-base-tertiary">{linkedControls.length} controls</span>
@@ -227,7 +227,7 @@ export const AssetDetailView: React.FC = () => {
         )}
 
         {activeTab === 'risks' && (
-          <div className="bg-fill-base-secondary rounded-[10px] p-[20px]">
+          <div className="bg-fill-base-secondary rounded-[10px] p-[20px] max-w-[1200px]">
             <h3 className="text-[16px] font-[600] mb-[16px]">Linked Risks</h3>
             {linkedRisks.length > 0 ? (
               <div className="space-y-[12px]">
