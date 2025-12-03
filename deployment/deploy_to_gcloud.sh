@@ -42,9 +42,27 @@ sudo -u postgres psql -c "DROP DATABASE IF EXISTS $DB_NAME;"
 sudo -u postgres psql -c "CREATE DATABASE $DB_NAME;"
 
 echo ""
-echo -e "${BLUE}Step 5: Import database schema and data${NC}"
-sudo -u postgres psql -d $DB_NAME -f $APP_DIR/database/aikovrr_schema_v2.sql
-sudo -u postgres psql -d $DB_NAME -f $APP_DIR/database/aikovrr_data_v2_minimal.sql
+echo -e "${BLUE}Step 5: Import database from local dump${NC}"
+# Check if local database dump exists
+USING_LOCAL_DUMP=false
+if [ -f "$APP_DIR/database/local_db_dump.sql" ]; then
+    echo "✅ Found local database dump - restoring all data..."
+    sudo -u postgres psql -d $DB_NAME -f $APP_DIR/database/local_db_dump.sql
+    echo "✅ Restored complete database from local"
+    USING_LOCAL_DUMP=true
+    
+    # Verify article count
+    ARTICLE_COUNT=$(sudo -u postgres psql -d $DB_NAME -t -c "SELECT COUNT(*) FROM aikovrr.news_newsarticle;")
+    echo "📰 Server now has $ARTICLE_COUNT articles"
+    
+    # Verify user count
+    USER_COUNT=$(sudo -u postgres psql -d $DB_NAME -t -c "SELECT COUNT(*) FROM aikovrr.core_user;")
+    echo "👥 Server now has $USER_COUNT users (with original passwords from local)"
+else
+    echo "⚠️  Local dump not found - using schema and minimal data"
+    sudo -u postgres psql -d $DB_NAME -f $APP_DIR/database/aikovrr_schema_v2.sql
+    sudo -u postgres psql -d $DB_NAME -f $APP_DIR/database/aikovrr_data_v2_minimal.sql
+fi
 
 echo ""
 echo -e "${BLUE}Step 6: Set up Python virtual environment${NC}"
@@ -88,49 +106,50 @@ echo -e "${BLUE}Step 8: Configure Django settings${NC}"
 echo ""
 echo -e "${BLUE}Step 9: Run Django migrations${NC}"
 python manage.py migrate
+echo "✅ Migrations complete (database already has all data from local dump)"
 
 echo ""
-echo -e "${BLUE}Step 9.5: Import news articles data${NC}"
-# Import into the aikovrr schema (not public schema)
-sudo -u postgres psql -d $DB_NAME <<EOSQL
--- Set search path to aikovrr schema
-SET search_path TO aikovrr, public;
-
--- Import news articles
-\i $APP_DIR/database/news_articles_data.sql
-
--- Verify import
-SELECT COUNT(*) as article_count FROM news_newsarticle;
-EOSQL
-echo "✅ Imported news articles into aikovrr schema"
-
-echo ""
-echo -e "${BLUE}Step 10: Set user passwords${NC}"
+echo -e "${BLUE}Step 10: Ensure all users from USER_CREDENTIALS.md exist${NC}"
+echo "Creating/updating users with correct credentials..."
 python manage.py shell <<EOF
 from core.models import AppUser
 from django.contrib.auth.hashers import make_password
 
 # All authorized users from USER_CREDENTIALS.md
-users_passwords = [
-    ('admin', 'admin123'),
-    ('or', 'bTerAOX4xB'),
-    ('shai', 'ZxItIMACEI'),
-    ('yakir', 'qANLqq5fGZ'),
-    ('naomi', 'AYAhgbGart'),
-    ('huw', 'Sw4JTYmdZS'),
-    ('alona', 'CSLVroXeJZ'),
-    ('hannah', 'S2OeiSR0eX'),
-    ('shalom', 'KCigje4XUE'),
+users_data = [
+    ('admin', 'admin@aikovrr.com', 'admin123', 'Admin', 'User', 'admin'),
+    ('or', 'or@kovrr.com', 'bTerAOX4xB', 'Or', '', 'analyst'),
+    ('shai', 'shai@kovrr.com', 'ZxItIMACEI', 'Shai', '', 'analyst'),
+    ('yakir', 'yakir@kovrr.com', 'qANLqq5fGZ', 'Yakir', '', 'analyst'),
+    ('naomi', 'naomi@kovrr.com', 'AYAhgbGart', 'Naomi', '', 'analyst'),
+    ('huw', 'huw@kovrr.com', 'Sw4JTYmdZS', 'Huw', '', 'analyst'),
+    ('alona', 'alona@kovrr.com', 'CSLVroXeJZ', 'Alona', '', 'analyst'),
+    ('hannah', 'hannah@kovrr.com', 'S2OeiSR0eX', 'Hannah', '', 'analyst'),
+    ('shalom', 'shalom@kovrr.com', 'KCigje4XUE', 'Shalom', '', 'analyst'),
 ]
 
-for username, password in users_passwords:
-    try:
-        user = AppUser.objects.get(username=username)
-        user.password = make_password(password)
-        user.save()
-        print(f'✅ Set password for {username}')
-    except AppUser.DoesNotExist:
-        print(f'⚠️  User {username} not found in database - skipping')
+for username, email, password, first_name, last_name, role in users_data:
+    user, created = AppUser.objects.get_or_create(
+        username=username,
+        defaults={
+            'email': email,
+            'first_name': first_name,
+            'last_name': last_name,
+            'role': role,
+            'is_active': True,
+        }
+    )
+    # Always update password to ensure it matches USER_CREDENTIALS.md
+    user.password = make_password(password)
+    user.email = email  # Update email in case it changed
+    user.save()
+    
+    if created:
+        print(f'✅ Created user: {username} ({email})')
+    else:
+        print(f'✅ Updated user: {username} ({email})')
+
+print(f'\\n📊 Total users in system: {AppUser.objects.count()}')
 EOF
 
 echo ""

@@ -1,5 +1,5 @@
 -- News Articles Data
--- Generated: 2025-12-01 10:34:28
+-- Generated: 2025-12-02 15:38:53
 -- Total articles: 5
 -- This file contains the latest 20 articles from local database
 -- Duplicates (same URL) will be skipped during import
