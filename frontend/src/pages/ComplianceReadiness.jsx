@@ -997,81 +997,132 @@ const ComplianceReadiness = () => {
             </div>
             <div className="mt-[16px] flex justify-center items-center">
               <svg viewBox="0 0 600 600" className="w-full max-w-[500px] h-[500px]">
-                {/* Grid circles */}
-                <circle cx="300" cy="300" r="220" fill="none" stroke="rgb(220, 229, 242)" strokeWidth="1" opacity="0.3" />
-                <circle cx="300" cy="300" r="176" fill="none" stroke="rgb(220, 229, 242)" strokeWidth="1" opacity="0.3" />
-                <circle cx="300" cy="300" r="132" fill="none" stroke="rgb(220, 229, 242)" strokeWidth="1" opacity="0.3" />
-                <circle cx="300" cy="300" r="88" fill="none" stroke="rgb(220, 229, 242)" strokeWidth="1" opacity="0.3" />
-                <circle cx="300" cy="300" r="44" fill="none" stroke="rgb(220, 229, 242)" strokeWidth="1" opacity="0.3" />
+                {(() => {
+                  const cx = 300;
+                  const cy = 300;
+                  const maxRadius = 220;
+                  const labelRadius = 260; // Further out to prevent overlap
+                  const numAxes = 19;
+                  const angleStep = (2 * Math.PI) / numAxes;
 
-                {/* Axis lines (19 lines) */}
-                <line x1="300" y1="300" x2="300" y2="80" stroke="rgb(220, 229, 242)" strokeWidth="1" />
-                <line x1="300" y1="300" x2="372" y2="95" stroke="rgb(220, 229, 242)" strokeWidth="1" />
-                <line x1="300" y1="300" x2="431" y2="135" stroke="rgb(220, 229, 242)" strokeWidth="1" />
-                <line x1="300" y1="300" x2="469" y2="198" stroke="rgb(220, 229, 242)" strokeWidth="1" />
-                <line x1="300" y1="300" x2="483" y2="270" stroke="rgb(220, 229, 242)" strokeWidth="1" />
-                <line x1="300" y1="300" x2="469" y2="342" stroke="rgb(220, 229, 242)" strokeWidth="1" />
-                <line x1="300" y1="300" x2="431" y2="405" stroke="rgb(220, 229, 242)" strokeWidth="1" />
-                <line x1="300" y1="300" x2="372" y2="445" stroke="rgb(220, 229, 242)" strokeWidth="1" />
-                <line x1="300" y1="300" x2="300" y2="520" stroke="rgb(220, 229, 242)" strokeWidth="1" />
-                <line x1="300" y1="300" x2="228" y2="505" stroke="rgb(220, 229, 242)" strokeWidth="1" />
-                <line x1="300" y1="300" x2="169" y2="465" stroke="rgb(220, 229, 242)" strokeWidth="1" />
-                <line x1="300" y1="300" x2="131" y2="402" stroke="rgb(220, 229, 242)" strokeWidth="1" />
-                <line x1="300" y1="300" x2="117" y2="330" stroke="rgb(220, 229, 242)" strokeWidth="1" />
-                <line x1="300" y1="300" x2="131" y2="258" stroke="rgb(220, 229, 242)" strokeWidth="1" />
-                <line x1="300" y1="300" x2="169" y2="195" stroke="rgb(220, 229, 242)" strokeWidth="1" />
-                <line x1="300" y1="300" x2="228" y2="155" stroke="rgb(220, 229, 242)" strokeWidth="1" />
-                <line x1="300" y1="300" x2="300" y2="135" stroke="rgb(220, 229, 242)" strokeWidth="1" />
-                <line x1="300" y1="300" x2="355" y2="145" stroke="rgb(220, 229, 242)" strokeWidth="1" />
-                <line x1="300" y1="300" x2="403" y2="178" stroke="rgb(220, 229, 242)" strokeWidth="1" />
+                  const labels = [
+                    'GOVERN-1', 'GOVERN-2', 'GOVERN-3', 'GOVERN-4', 'GOVERN-5', 'GOVERN-6',
+                    'MANAGE-1', 'MANAGE-2', 'MANAGE-3', 'MANAGE-4',
+                    'MAP-1', 'MAP-2', 'MAP-3', 'MAP-4', 'MAP-5',
+                    'MEASURE-1', 'MEASURE-2', 'MEASURE-3', 'MEASURE-4'
+                  ];
 
-                {/* Current implementation polygon (blue) */}
-                <polygon
-                  points="300,212 344,222 389,244 413,276 421,318 413,360 389,392 344,414 300,432 264,420 231,394 207,362 199,330 207,298 231,266 264,244 300,234 327,246 358,264"
-                  fill="rgba(85, 81, 247, 0.15)"
-                  stroke="rgb(85, 81, 247)"
-                  strokeWidth="2.5"
-                />
+                  // Sample data for current (normalized 0-1, will be scaled to radius)
+                  const currentData = [0.4, 0.4, 0.4, 0.6, 0.4, 0.4, 0.6, 0.2, 0.2, 0.2, 0.6, 0.4, 0.4, 0.4, 0.4, 0.2, 0.6, 0.2, 0.4];
+                  const targetData = [0.6, 0.6, 0.6, 0.8, 0.6, 0.6, 0.8, 0.4, 0.4, 0.4, 0.8, 0.6, 0.6, 0.6, 0.6, 0.4, 0.8, 0.4, 0.6];
 
-                {/* Data points on current polygon */}
-                {[
-                  [300, 212], [344, 222], [389, 244], [413, 276], [421, 318],
-                  [413, 360], [389, 392], [344, 414], [300, 432], [264, 420],
-                  [231, 394], [207, 362], [199, 330], [207, 298], [231, 266],
-                  [264, 244], [300, 234], [327, 246], [358, 264]
-                ].map((point, i) => (
-                  <circle key={i} cx={point[0]} cy={point[1]} r="6" fill="rgb(85, 81, 247)" stroke="white" strokeWidth="2" />
-                ))}
+                  // Calculate polygon points
+                  const currentPoints = currentData.map((value, i) => {
+                    const angle = i * angleStep - Math.PI / 2; // Start from top
+                    const r = value * maxRadius;
+                    return [cx + r * Math.cos(angle), cy + r * Math.sin(angle)];
+                  });
 
-                {/* Target polygon (green dashed) */}
-                <polygon
-                  points="300,168 372,185 431,225 469,278 483,330 469,382 431,435 372,475 300,492 228,475 169,435 131,382 117,330 131,278 169,225 228,185 300,201 355,218 403,242"
-                  fill="none"
-                  stroke="rgb(13, 199, 131)"
-                  strokeWidth="2"
-                  strokeDasharray="8,4"
-                />
+                  const targetPoints = targetData.map((value, i) => {
+                    const angle = i * angleStep - Math.PI / 2;
+                    const r = value * maxRadius;
+                    return [cx + r * Math.cos(angle), cy + r * Math.sin(angle)];
+                  });
 
-                {/* Labels */}
-                <text x="300" y="70" textAnchor="middle" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">GOVERN-1</text>
-                <text x="380" y="85" textAnchor="start" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">GOVERN-2</text>
-                <text x="445" y="125" textAnchor="start" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">GOVERN-3</text>
-                <text x="485" y="188" textAnchor="start" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">GOVERN-4</text>
-                <text x="500" y="265" textAnchor="start" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">GOVERN-5</text>
-                <text x="485" y="352" textAnchor="start" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">GOVERN-6</text>
-                <text x="445" y="420" textAnchor="start" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">MANAGE-1</text>
-                <text x="380" y="460" textAnchor="start" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">MANAGE-2</text>
-                <text x="300" y="540" textAnchor="middle" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">MANAGE-3</text>
-                <text x="220" y="520" textAnchor="end" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">MANAGE-4</text>
-                <text x="155" y="480" textAnchor="end" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">MAP-1</text>
-                <text x="115" y="415" textAnchor="end" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">MAP-2</text>
-                <text x="100" y="340" textAnchor="end" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">MAP-3</text>
-                <text x="115" y="270" textAnchor="end" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">MAP-4</text>
-                <text x="155" y="185" textAnchor="end" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">MAP-5</text>
-                <text x="220" y="145" textAnchor="end" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">MEASURE-1</text>
-                <text x="300" y="125" textAnchor="middle" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">MEASURE-2</text>
-                <text x="363" y="135" textAnchor="start" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">MEASURE-3</text>
-                <text x="415" y="168" textAnchor="start" fontSize="11" fontWeight="600" fill="rgb(48, 48, 69)" fontFamily="Source Sans Pro">MEASURE-4</text>
+                  return (
+                    <>
+                      {/* Grid circles */}
+                      {[0.2, 0.4, 0.6, 0.8, 1.0].map((scale, i) => (
+                        <circle
+                          key={`circle-${i}`}
+                          cx={cx}
+                          cy={cy}
+                          r={maxRadius * scale}
+                          fill="none"
+                          stroke="rgb(220, 229, 242)"
+                          strokeWidth="1"
+                          opacity="0.3"
+                        />
+                      ))}
+
+                      {/* Axis lines - evenly spaced */}
+                      {labels.map((_, i) => {
+                        const angle = i * angleStep - Math.PI / 2;
+                        const x2 = cx + maxRadius * Math.cos(angle);
+                        const y2 = cy + maxRadius * Math.sin(angle);
+                        return (
+                          <line
+                            key={`axis-${i}`}
+                            x1={cx}
+                            y1={cy}
+                            x2={x2}
+                            y2={y2}
+                            stroke="rgb(220, 229, 242)"
+                            strokeWidth="1"
+                          />
+                        );
+                      })}
+
+                      {/* Current implementation polygon (blue) */}
+                      <polygon
+                        points={currentPoints.map(p => `${p[0]},${p[1]}`).join(' ')}
+                        fill="rgba(85, 81, 247, 0.15)"
+                        stroke="rgb(85, 81, 247)"
+                        strokeWidth="2.5"
+                      />
+
+                      {/* Data points on current polygon */}
+                      {currentPoints.map((point, i) => (
+                        <circle
+                          key={`current-${i}`}
+                          cx={point[0]}
+                          cy={point[1]}
+                          r="5"
+                          fill="rgb(85, 81, 247)"
+                          stroke="white"
+                          strokeWidth="2"
+                        />
+                      ))}
+
+                      {/* Target polygon (green dashed) */}
+                      <polygon
+                        points={targetPoints.map(p => `${p[0]},${p[1]}`).join(' ')}
+                        fill="none"
+                        stroke="rgb(13, 199, 131)"
+                        strokeWidth="2"
+                        strokeDasharray="8,4"
+                      />
+
+                      {/* Labels - positioned further out with smart anchoring */}
+                      {labels.map((label, i) => {
+                        const angle = i * angleStep - Math.PI / 2;
+                        const x = cx + labelRadius * Math.cos(angle);
+                        const y = cy + labelRadius * Math.sin(angle);
+
+                        // Smart text anchor based on position
+                        let anchor = 'middle';
+                        if (Math.abs(Math.cos(angle)) > 0.3) {
+                          anchor = Math.cos(angle) > 0 ? 'start' : 'end';
+                        }
+
+                        return (
+                          <text
+                            key={`label-${i}`}
+                            x={x}
+                            y={y + 4} // Slight vertical adjustment for better centering
+                            textAnchor={anchor}
+                            fontSize="10"
+                            fontWeight="600"
+                            fill="rgb(48, 48, 69)"
+                            fontFamily="Source Sans Pro"
+                          >
+                            {label}
+                          </text>
+                        );
+                      })}
+                    </>
+                  );
+                })()}
               </svg>
             </div>
             <div className="flex gap-[24px] justify-center mt-[16px]">

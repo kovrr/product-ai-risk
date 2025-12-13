@@ -549,15 +549,10 @@ export const RiskDetailView: React.FC = () => {
             {activeTab === 'notes' && (
               <div className="bg-fill-base-primary border border-stroke-base-secondary rounded-[10px] p-4 space-y-4">
                 <h3 className="text-sm font-semibold text-text-base-primary">Notes</h3>
-                <div className="flex gap-3 items-start">
-                  <div className="w-8 h-8 rounded-full bg-stroke-base-secondary flex items-center justify-center text-xs font-semibold text-text-base-primary">
-                    {owner?.name ? owner.name.charAt(0).toUpperCase() : 'U'}
-                  </div>
-                  <textarea
-                    className="flex-1 min-h-[80px] px-3 py-2 border border-stroke-base-secondary rounded-md text-sm text-text-base-primary bg-fill-base-primary focus:outline-none focus:border-fill-brand-primary focus:ring-2 focus:ring-fill-brand-primary/10"
-                    placeholder="Add a note..."
-                  />
-                </div>
+                <textarea
+                  className="w-full min-h-[80px] px-3 py-2 border border-stroke-base-secondary rounded-md text-sm text-text-base-primary bg-fill-base-primary focus:outline-none focus:border-fill-brand-primary focus:ring-2 focus:ring-fill-brand-primary/10"
+                  placeholder="Add a note..."
+                />
                 <div className="flex justify-end">
                   <button className="px-4 py-2 rounded-md bg-fill-brand-primary text-text-base-invert text-sm font-semibold shadow-sm">
                     Save
