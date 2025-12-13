@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict obOqacom5cIT7wVYqUEh79Opl3KjoDIMH6RuZMTehAMB4suhLj2JlMIcdqHXwTQ
+\restrict SvJPd7NxvGYxRNmkFMMvLeXKz4wa3fkXeynDpvnO8rHF89eIgN1W7Iru2aJ1edH
 
 -- Dumped from database version 15.14 (Homebrew)
 -- Dumped by pg_dump version 15.14 (Homebrew)
@@ -1639,6 +1639,8 @@ COPY aikovrr.auth_app_user (id, username, email, password_hash, first_name, last
 2	or	or@kovrr.com	pbkdf2_sha256$600000$placeholder	Or	Amir	analyst	t	f	\N	2025-11-05 08:17:36.575702	2025-11-05 08:17:36.575702
 3	huw	huw@kovrr.com	pbkdf2_sha256$600000$OXvute9xykxXy3RXSo68ZG$bCjHZBW/tCzzquLMUHPcuBlhwaf3AcRLqV/IuaobcxA=			analyst	t	f	\N	2025-12-02 14:09:57.036745	2025-12-02 14:09:57.036922
 1	admin	admin@aikovrr.com	pbkdf2_sha256$600000$cgbbTdHGP1dQIHeiTZYSiL$5oElwhyrHX9GUWuCPzeM3kWFApR12oQiJZNxChbVU78=	Admin	User	admin	t	t	2025-12-02 15:32:16.526076	2025-11-05 08:17:36.575702	2025-11-05 06:51:10.655832
+5	ohad	ohadh@kovrr.com	pbkdf2_sha256$870000$QTtZfp9OElWVyVq0$wZyjk1fWuvpBrJSuGIIeLPmHOQAd6H/53FaK/BLTUFc=	Ohad	H	analyst	t	f	\N	2025-12-08 14:26:48.068405	2025-12-08 14:26:48.068405
+4	tomers	tomers@kovrr.com	pbkdf2_sha256$600000$VnA0ckf2Yml4dHgXlDfuFS$xeA7HD+4Ho+Dg9sYJ3Rd0XRkmPLrfi4D+0zTBaOAPAM=	Tomer	S	analyst	t	f	2025-12-08 12:28:45.013694	2025-12-08 14:26:48.065296	2025-12-08 14:26:48.065296
 \.
 
 
@@ -1912,7 +1914,7 @@ or3pgo0mze88m9xdyz9lct0oicq6ytbp	.eJxVjMEOwiAQRP-FsyHQpbR49N5vIMuySNVAUtqT8d9tkx
 hyd7y0q3ighum9n416sayqngbjhaqs6n	.eJxVjMEOwiAQRP-FsyHQpbR49N5vIMuySNVAUtqT8d9tkx70OPPezFt43Nbst8aLn6O4Ci0uv11AenI5QHxguVdJtazLHOShyJM2OdXIr9vp_h1kbHlfcyLqIWJiFzR2ONhgwaBLoBMF6KPhwMZ2Ku5RORicHtVogZwFNpTE5wsbgjjF:1vHwTX:pVT6fWS6EgQ8ICbeVeN8bDrgxaOeZyZtWUyfZLTAqhM	2025-11-23 05:52:23.126947+02
 fexrl42ioknct5ousnmog81cx2qfm21b	.eJxVjMEOwiAQRP-FsyHQpbR49N5vIMuySNVAUtqT8d9tkx70OPPezFt43Nbst8aLn6O4Ci0uv11AenI5QHxguVdJtazLHOShyJM2OdXIr9vp_h1kbHlfcyLqIWJiFzR2ONhgwaBLoBMF6KPhwMZ2Ku5RORicHtVogZwFNpTE5wsbgjjF:1vI6mU:VZnmBrklp6J4ggE71zcxlzYCJ_AR3ujAER4Rmptvw4w	2025-11-23 16:52:38.233971+02
 ghi66i5ylod5j7n7a02balnqfh7j9ncr	.eJxVjMEOwiAQRP-FsyHQpbR49N5vIMuySNVAUtqT8d9tkx70OPPezFt43Nbst8aLn6O4Ci0uv11AenI5QHxguVdJtazLHOShyJM2OdXIr9vp_h1kbHlfcyLqIWJiFzR2ONhgwaBLoBMF6KPhwMZ2Ku5RORicHtVogZwFNpTE5wsbgjjF:1vPgKM:uhtJSctXI61DytQ9CeeMvd3xs8RYKnIM7VzAqqCZwYw	2025-12-14 14:14:54.310076+02
-16zhebx2s34t4tk63z35w6snerouu8h4	.eJxVjMEOwiAQRP-FsyHQpbR49N5vIMuySNVAUtqT8d9tkx70OPPezFt43Nbst8aLn6O4Ci0uv11AenI5QHxguVdJtazLHOShyJM2OdXIr9vp_h1kbHlfcyLqIWJiFzR2ONhgwaBLoBMF6KPhwMZ2Ku5RORicHtVogZwFNpTE5wsbgjjF:1vQSMS:parDafqgLyqAcUuNU9bhsbFH2kLnbxC5QuzTZWf5n38	2025-12-16 17:32:16.528443+02
+zxk6b7t8j5fj581aksr1ruv884grndak	.eJxVjDkOwjAUBe_iGlneF0r6nMH6Xj4OIFuKkwpxdxIpBbRvZt6bBNjWGrZRljBnciWKXH63COlZ2gHyA9q909TbusyRHgo96aBTz-V1O92_gwqj7jUXHi06x41Vyek9VAy487KYxDAn6230ShUhTEHBOKLK0oLXGpjExMnnC9dJN7M:1vSaM9:EUfpk5crFzxWqyA7lpauoaR0PYVaho0rqI3ynArfbCg	2025-12-22 14:28:45.017761+02
 \.
 
 
@@ -2165,7 +2167,7 @@ SELECT pg_catalog.setval('aikovrr.asset_risk_link_id_seq', 67, true);
 -- Name: auth_app_user_id_seq; Type: SEQUENCE SET; Schema: aikovrr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('aikovrr.auth_app_user_id_seq', 3, true);
+SELECT pg_catalog.setval('aikovrr.auth_app_user_id_seq', 5, true);
 
 
 --
@@ -3389,5 +3391,5 @@ ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA aikovrr GRANT ALL ON TABLES
 -- PostgreSQL database dump complete
 --
 
-\unrestrict obOqacom5cIT7wVYqUEh79Opl3KjoDIMH6RuZMTehAMB4suhLj2JlMIcdqHXwTQ
+\unrestrict SvJPd7NxvGYxRNmkFMMvLeXKz4wa3fkXeynDpvnO8rHF89eIgN1W7Iru2aJ1edH
 

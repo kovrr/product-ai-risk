@@ -135,10 +135,10 @@ export const RiskDetailView: React.FC = () => {
               </div>
             </div>
 
-            {/* Qualitative Metrics */}
+            {/* Quantitative Metrics */}
             {risk.expected_annual_loss && (
               <div className="bg-white rounded-[15px] shadow-[rgba(0,0,0,0.05)_0px_1px_2px_0px] p-[20px]">
-                <h3 className="text-[20px] font-[600] text-text-base-primary mb-5">Qualitative Metrics</h3>
+                <h3 className="text-[20px] font-[600] text-text-base-primary mb-5">Quantitative Metrics</h3>
                 <div className="grid grid-cols-2 gap-8">
                   <div className="bg-fill-base-secondary rounded-[10px] p-4">
                     <div className="text-[14px] font-[600] text-text-base-secondary mb-1">Annual Events Likelihood</div>

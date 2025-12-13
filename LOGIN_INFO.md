@@ -20,6 +20,8 @@
 | shai | password123 | shai@kovrr.com | Analyst |
 | liran | password123 | liran@kovrr.com | Analyst |
 | yakir | password123 | yakir@kovrr.com | Analyst |
+| tomers | 0ThElsqISU | tomers@kovrr.com | Analyst |
+| ohad | MbpeoVGoFg | ohadh@kovrr.com | Analyst |
 
 ---
 

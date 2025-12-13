@@ -126,6 +126,8 @@ users_data = [
     ('alona', 'alona@kovrr.com', 'CSLVroXeJZ', 'Alona', '', 'analyst'),
     ('hannah', 'hannah@kovrr.com', 'S2OeiSR0eX', 'Hannah', '', 'analyst'),
     ('shalom', 'shalom@kovrr.com', 'KCigje4XUE', 'Shalom', '', 'analyst'),
+    ('tomers', 'tomers@kovrr.com', '0ThElsqISU', 'Tomer', 'S', 'analyst'),
+    ('ohad', 'ohadh@kovrr.com', 'MbpeoVGoFg', 'Ohad', 'H', 'analyst'),
 ]
 
 for username, email, password, first_name, last_name, role in users_data:

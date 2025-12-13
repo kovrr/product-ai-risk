@@ -46,6 +46,16 @@
 - **Email**: `shalom@kovrr.com`
 - **Password**: `KCigje4XUE`
 
+### Tomer S
+- **Username**: `tomers`
+- **Email**: `tomers@kovrr.com`
+- **Password**: `0ThElsqISU`
+
+### Ohad H
+- **Username**: `ohad`
+- **Email**: `ohadh@kovrr.com`
+- **Password**: `MbpeoVGoFg`
+
 ### Admin (Original)
 - **Username**: `admin`
 - **Email**: `admin@aikovrr.com`
@@ -62,4 +72,4 @@
 
 ---
 
-**Updated**: November 10, 2025
+**Updated**: December 8, 2025 - Added tomers and ohad users
